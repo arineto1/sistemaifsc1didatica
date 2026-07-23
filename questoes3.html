@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Teoria e Prática de Currículo - Padrão FAURGS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-2 sm:mb-0">
+                <div class="bg-indigo-600 text-white p-2.5 rounded-xl shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 tracking-tight">Simulado FAURGS</h1>
+                    <p class="text-xs text-slate-500 font-medium">Teoria e Prática de Currículo</p>
+                </div>
+            </div>
+            <div class="text-xs font-semibold px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-100">
+                10 Questões Completas com Gabarito Comentado
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-10 mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 tracking-tight">Caderno de Questões: Teoria e Prática de Currículo</h2>
+            <p class="text-slate-600 leading-relaxed text-sm sm:text-base mb-6">
+                Responda abaixo às questões elaboradas no rigoroso estilo da banca FAURGS. Após concluir todas as respostas, clique no botão ao final da página para computar sua pontuação e visualizar instantaneamente o gabarito detalhado com as resoluções comentadas.
+            </p>
+            <div class="flex flex-wrap gap-2 text-xs font-medium text-slate-500">
+                <span class="bg-slate-100 px-3 py-1 rounded-lg">Total: 10 Questões</span>
+                <span class="bg-slate-100 px-3 py-1 rounded-lg">Múltipla Escolha (A-E)</span>
+                <span class="bg-slate-100 px-3 py-1 rounded-lg">Correção Automática</span>
+            </div>
+        </section>
+
+        <form id="quiz-form" class="space-y-8">
+
+            <!-- Questão 1 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="1">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 1</span>
+                    <span class="text-xs text-slate-400 font-medium">Fundamentação Pedagógica</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    Considere a formulação teórica a respeito do currículo baseado em competências, modelo que se consolidou nas discussões pedagógicas e nas reformas curriculares contemporâneas. No que concerne a essa perspectiva de organização curricular, assinale a alternativa <strong>INCORRETA</strong>.
+                </p>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q1" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> O currículo estruturado por competências trabalha com tarefas de caráter complexo e desafios que mobilizam conhecimentos de modo cooperativo e situado.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q1" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> Essa abordagem pedagógica atua com uma metodologia ativa e questionadora, apresentando aos estudantes problemas da realidade para que busquem soluções.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q1" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> O modelo atende às necessidades sociais emergentes, conferindo acentuada relevância à pesquisa coletiva, ao trabalho em grupo e à contextualização dos conteúdos.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q1" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> O referencial das competências enaltece as práticas de descoberta e a construção epistemológica individual, privilegiando a fragmentação dos saberes docentes e discentes em uma área de conhecimento estritamente disciplinar e isolada.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q1" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> A organização do trabalho pedagógico pressupõe o desenvolvimento de temáticas dinâmicas do cotidiano social, exigindo dos educandos investigação e aprofundamento conceitual.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Questão 2 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="2">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 2</span>
+                    <span class="text-xs text-slate-400 font-medium">Políticas de Inclusão e Integração</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    No âmbito das políticas públicas de educação e das teorias de organização curricular voltadas à diversidade, os vocábulos "integração" e "inclusão", fundamentados em posicionamentos teórico-metodológicos divergentes, são utilizados para expressar situações distintas. De acordo com essa diferenciação conceptual, assinale a alternativa que apresenta uma característica correspondente ao modelo de <strong>integração</strong>.
+                </p>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q2" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> Exige a reestruturação profunda do sistema de ensino comum, eliminando de forma definitiva a necessidade de serviços especializados ou de salas de atendimento exclusivo.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q2" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> Pressupõe que a escola deve modificar as suas estruturas, o seu projeto pedagógico e o seu currículo para acolher, de forma indistinta, a totalidade dos educandos.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q2" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> Prevê a individualização dos programas escolares, a aplicação de currículos adaptados e a utilização de avaliações especiais como caminhos para a inserção do educando.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q2" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> Propõe que as dificuldades de aprendizagem sejam tratadas como resultantes diretas das barreiras sociais e institucionais, e não como limitações inerentes ao sujeito.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q2" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> Ocorre de forma restrita na educação infantil, vedando a transição do educando entre as classes do ensino especial e as do sistema regular de ensino.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Questão 3 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="3">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 3</span>
+                    <span class="text-xs text-slate-400 font-medium">Dimensões do Currículo</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    A literatura curricular analisa o currículo escolar não como um elemento neutro de transmissão do conhecimento social, mas sim como um território em que se manifestam tensões, relações de poder e diferentes dimensões de atuação no cotidiano da escola. Associe as dimensões curriculares apresentadas na primeira coluna com as respectivas definições operacionais descritas na segunda coluna:
+                </p>
+                <div class="bg-slate-50 p-4 rounded-xl mb-6 text-sm text-slate-700 border border-slate-200/60 space-y-2">
+                    <p><strong>1. Currículo Prescrito</strong></p>
+                    <p><strong>2. Currículo Real</strong></p>
+                    <p><strong>3. Currículo Oculto</strong></p>
+                    <div class="border-t border-slate-200 pt-3 mt-3 space-y-1">
+                        <p>( ) Consiste na dimensão que efetivamente se concretiza no espaço da sala de aula, dinamizada diariamente por docentes e discentes como resultado do projeto pedagógico e dos planos de ensino.</p>
+                        <p>( ) Compreende as influências não explícitas que afetam a aprendizagem dos alunos e o trabalho dos professores, manifestando-se por meio de práticas, atitudes, gestos, comportamentos, rituais e percepções sociais.</p>
+                        <p>( ) Refere-se à proposta estabelecida formalmente pelos órgãos governamentais e sistemas educativos, consubstanciada em documentos oficiais, diretrizes, leis e programas formais de estudo.</p>
+                    </div>
+                </div>
+                <p class="text-slate-700 font-medium text-sm mb-4">A sequência correta de preenchimento dos parênteses, de cima para baixo, é:</p>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q3" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> 2 – 3 – 1.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q3" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> 1 – 2 – 3.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q3" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> 3 – 1 – 2.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q3" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> 2 – 1 – 3.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q3" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> 3 – 2 – 1.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Questão 4 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="4">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 4</span>
+                    <span class="text-xs text-slate-400 font-medium">J. Gimeno Sacristán</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    Nas análises elaboradas por J. Gimeno Sacristán (2000), o currículo é compreendido como um percurso formativo cuja realização concreta se constitui a partir de uma atividade social complexa. A respeito do pensamento desse autor sobre a estruturação e a prática do currículo, analise as seguintes afirmativas:
+                </p>
+                <div class="bg-slate-50 p-4 rounded-xl mb-6 text-sm text-slate-700 border border-slate-200/60 space-y-2">
+                    <p><strong>I.</strong> A proposição de um currículo como percurso formativo na educação formal exige que a comunidade escolar reflita de modo sistemático sobre que objetivos se pretende atingir, o que ensinar, por que ensinar e quem possui acesso às formas legítimas de conhecimento.</p>
+                    <p><strong>II.</strong> A prática pedagógica curricular deve ser entendida como uma ação estritamente técnica e neutra do professor na sala de aula, de modo a isolar o processo de ensino das influências das forças sociais e da visão de mundo dos sujeitos.</p>
+                    <p><strong>III.</strong> O currículo configura-se como uma atividade socialmente mediada por um jogo de forças, pelo grau de consciência de seus atores, pelo contexto em que a prática ocorre e pelas possibilidades e necessidades de seus protagonistas.</p>
+                </div>
+                <p class="text-slate-700 font-medium text-sm mb-4">Estão corretas as afirmativas:</p>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q4" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> Apenas I.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q4" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> Apenas II.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q4" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> Apenas I e II.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q4" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> Apenas I e III.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q4" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> I, II e III.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Questão 5 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="5">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 5</span>
+                    <span class="text-xs text-slate-400 font-medium">Tomás Tadeu da Silva</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    A sistematização do campo curricular consolidou-se, na perspectiva do teórico Tomás Tadeu da Silva, a partir do estudo e da caracterização das teorias curriculares, as quais se dividem em três grandes categorias conceituais: teorias tradicionais, teorias críticas e teorias pós-críticas. Assinale a alternativa que correlaciona de maneira correta a teoria do currículo aos seus respectivos conceitos-chave.
+                </p>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q5" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> Teorias Críticas — Eficiência, mensuração de resultados, objetivos operacionais, memorização de conteúdos e instrução técnica.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q5" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> Teorias Tradicionais — Ideologia, poder, reprodução social, emancipação, hegemonia, classe social e resistência.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q5" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> Teorias Pós-Críticas — Diferença, identidade, gênero, raça, sexualidade, multiculturalismo e representação.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q5" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> Teorias Críticas — Neutralidade metodológica, seriação psicopedagógica de conteúdos, testagem padronizada e controle comportamental.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q5" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> Teorias Pós-Críticas — Planejamento racionalizado de metas de aprendizagem, meritocracia acadêmica, eficácia e organização taylorista.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Questão 6 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 6</span>
+                    <span class="text-xs text-slate-400 font-medium">BNCC e Competências</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    A homologação da Base Nacional Comum Curricular (BNCC) estabeleceu parâmetros normativos para a organização dos currículos da Educação Básica no território brasileiro, estruturando-os com base no desenvolvimento de competências. De acordo com o texto da BNCC, assinale a alternativa que apresenta a definição oficial adotada para o termo <strong>competência</strong>.
+                </p>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q6" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> O conjunto de aptidões psicomotoras e de dons intelectuais inatos que habilitam o estudante a progredir na hierarquia social de forma meritocrática.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q6" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> O acúmulo linear de conteúdos abstratos e taxonomias conceituais que capacitam o educando a obter resultados satisfatórios em exames padronizados de larga escala.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q6" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> A mobilização de conhecimentos (conceitos e procedimentos), habilidades (práticas, cognitivas e socioemocionais), atitudes e valores para resolver demandas complexas da vida cotidiana, do pleno exercício da cidadania e do mundo do trabalho.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q6" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> A capacidade de adaptação passiva do comportamento individual às exigências imediatas do mercado fabril, mediante o condicionamento de respostas operantes.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q6" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> O desenvolvimento espontâneo e assistemático das potencialidades afetivas da infância, dissociado de intencionalidade pedagógica ou de intervenção docente.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Questão 7 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="7">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 7</span>
+                    <span class="text-xs text-slate-400 font-medium">Teorias Críticas</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    As teorias críticas de currículo defendem que a seleção dos conteúdos formativos e a distribuição dos tempos escolares não constituem escolhas meramente neutras ou científicas, mas sim processos profundamente associados às dinâmicas do poder social. Com base nas contribuições das teorias críticas para o campo do currículo, analise as seguintes afirmativas:
+                </p>
+                <div class="bg-slate-50 p-4 rounded-xl mb-6 text-sm text-slate-700 border border-slate-200/60 space-y-2">
+                    <p><strong>I.</strong> A organização curricular sob a perspectiva crítica deve ter por princípio a produção de um tempo escolar acolhedor e flexível, que se aproxime da dimensão complexa das temporalidades humanas reais.</p>
+                    <p><strong>II.</strong> O currículo deve atuar como um instrumento de resgate das lutas históricas dos movimentos sociais que possuem por fundamento uma identidade cultural e que reivindicam o reconhecimento de sua história e diferença.</p>
+                    <p><strong>III.</strong> Os conteúdos escolares propostos pelas correntes críticas devem focar na reprodução do conhecimento oficial e na preservação da hegemonia cultural, visando à coesão técnica e econômica do sistema produtivo.</p>
+                </div>
+                <p class="text-slate-700 font-medium text-sm mb-4">Estão corretas as afirmativas:</p>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q7" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> Apenas I.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q7" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> Apenas II.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q7" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> Apenas I e II.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q7" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> Apenas II e III.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q7" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> I, II e III.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Questão 8 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="8">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 8</span>
+                    <span class="text-xs text-slate-400 font-medium">Miguel Arroyo</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    O pesquisador e docente Miguel Arroyo analisa detidamente os processos de seleção curricular nas redes de ensino básico, evidenciando as relações existentes entre a organização do conhecimento e a exclusão dos sujeitos das classes populares. De acordo com a teorização desenvolvida por Arroyo no campo do currículo, assinale a alternativa correta.
+                </p>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q8" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> O currículo constitui uma seleção epistemologicamente objetiva e desinteressada que reúne de forma harmoniosa os saberes que toda a sociedade considera válidos, independentemente de raça, classe ou gênero.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q8" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> A escola pública deve adotar propostas curriculares genéricas e abstratas, evitando a consideração do território ou da cultura local, como forma de garantir a isonomia científica do processo pedagógico.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q8" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> As ações pedagógicas que valorizam a realidade cotidiana dos educandos e as suas vivências concretas constituem formas dinâmicas de estudo que promovem a apropriação do conhecimento e favorecem uma aprendizagem significativa.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q8" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> A exclusão escolar dos sujeitos do campo e das periferias decorre da incapacidade desses sujeitos de compreenderem os saberes de caráter universal, o que justifica a criação de currículos simplificados para as minorias sociais.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q8" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> O currículo deve pautar-se pela centralidade da instrução verbalista e expositiva, de modo a asseverar que o patrimônio cultural acadêmico seja transmitido sem interferências externas da comunidade.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Questão 9 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="9">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 9</span>
+                    <span class="text-xs text-slate-400 font-medium">Avaliação e Planejamento</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    A dinâmica do planejamento e da avaliação pedagógica constitui aspecto indissociável da prática e da teoria curricular. Na construção de práticas curriculares integradoras e coerentes com as necessidades institucionais de aprendizagem, a avaliação assume um papel processual específico. Considere o enunciado abaixo sobre a natureza da avaliação educacional e assinale a alternativa que preenche correta e respectivamente as lacunas do trecho:
+                </p>
+                <div class="bg-slate-50 p-4 rounded-xl mb-6 text-sm text-slate-700 border border-slate-200/60 text-center font-medium">
+                    <em>"As avaliações devem sempre se basear nas ___________ específicas de cada momento e ____________."</em>
+                </div>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q9" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> dinâmicas – generalizações.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q9" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> observações – contexto.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q9" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> impressões – cultura organizacional.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q9" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> diretrizes – planejamento curricular.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q9" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> mensurações – seriação escolar.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Questão 10 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8 transition-all hover:shadow-md" data-question="10">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Questão 10</span>
+                    <span class="text-xs text-slate-400 font-medium">Educação Infantil (DCNEI)</span>
+                </div>
+                <p class="text-slate-800 font-medium text-base sm:text-lg mb-6 leading-relaxed">
+                    De acordo com as Diretrizes Curriculares Nacionais para a Educação Infantil (Resolução CNE/CEB nº 5/2009), o currículo assume características próprias e peculiares para o atendimento do desenvolvimento integral de crianças de zero a cinco anos de idade. À luz do referido ordenamento legal, assinale a alternativa que apresenta a definição correta de currículo para essa etapa da Educação Básica.
+                </p>
+                <div class="space-y-3">
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q10" value="A" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(A)</strong> É concebido como a listagem sequencial de conteúdos acadêmicos e atividades preparatórias voltadas ao treinamento cognitivo e à memorização passiva de dados para a alfabetização precoce.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q10" value="B" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(B)</strong> É o conjunto de planejamentos administrativos elaborados pela coordenação pedagógica da escola com a finalidade de padronizar as condutas dos docentes e dos assistentes de atendimento infantil.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q10" value="C" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(C)</strong> Representa o conjunto de práticas que buscam articular as experiências e os saberes das crianças com os conhecimentos que fazem parte do patrimônio cultural, artístico, ambiental, científico e tecnológico, de modo a promover o desenvolvimento integral de crianças de 0 a 5 anos de idade.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q10" value="D" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(D)</strong> Configura-se como um plano de ensino estruturado estritamente em áreas disciplinares tradicionais, voltado à aferição de notas e à reprovação dos alunos que apresentarem desvios de conduta.</span>
+                    </label>
+                    <label class="flex items-start p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <input type="radio" name="q10" value="E" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                        <span class="ml-3 text-sm text-slate-700 leading-normal"><strong>(E)</strong> É definido como o conjunto de manuais pedagógicos e livros didáticos adquiridos pelos sistemas de ensino para padronizar as brincadeiras e os tempos de repouso diários das crianças de creche.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Botão de Envio -->
+            <div class="pt-4 pb-12 flex justify-center">
+                <button type="button" id="submit-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 text-base flex items-center space-x-2 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    <span>Finalizar Simulado e Ver Gabarito Comentado</span>
+                </button>
+            </div>
+        </form>
+
+        <section id="results-section" class="hidden space-y-8 mt-12 pt-8 border-t-2 border-slate-200">
+            <!-- Painel de Pontuação -->
+            <div id="score-card" class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-8 rounded-2xl shadow-xl text-center">
+                <h3 class="text-xs uppercase tracking-widest text-indigo-300 font-bold mb-2">Resultado Final do Simulado</h3>
+                <div class="text-4xl sm:text-5xl font-extrabold mb-3" id="score-text">0 / 10</div>
+                <p id="score-feedback" class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto"></p>
+            </div>
+
+            <!-- Tabela de Gabarito Resumido -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8">
+                <h3 class="text-lg font-bold text-slate-900 mb-4">Gabarito Oficial</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                            <tr>
+                                <th class="p-3 rounded-l-xl">Questão</th>
+                                <th class="p-3">Alternativa Correta</th>
+                                <th class="p-3">Sua Resposta</th>
+                                <th class="p-3 rounded-r-xl">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100" id="summary-table-body">
+                            <!-- Inserido dinamicamente via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Resoluções Comentadas -->
+            <div class="space-y-6">
+                <h3 class="text-2xl font-bold text-slate-900 tracking-tight pt-4">Resoluções Comentadas Detalhadas</h3>
+
+                <!-- Resolução Q1 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-1">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 1</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">D</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> A pedagogia fundamentada na estruturação de um currículo por competências tem como premissa a superação do modelo tradicional de transmissão linear e abstrata de conteúdos compartimentados. As alternativas A, B, C e E apresentam asserções perfeitamente alinhadas com as concepções críticas e construtivistas de competência, tais como a mobilização contextualizada e cooperativa do saber para a solução de problemas complexos, a utilização de metodologias ativas que aproximam a escola da realidade e a necessidade de investigação científica a partir de questões dinâmicas do cotidiano.</p>
+                        <p>A alternativa <strong>D</strong> está incorreta porque a pedagogia por competências atua em oposição à fragmentação do conhecimento em gavetas disciplinares estanques. Longe de privilegiar o isolamento e a descoberta puramente individual de saberes técnicos descontextualizados, ela propõe a transdisciplinaridade e a cooperação mútua na resolução de desafios complexos.</p>
+                    </div>
+                </div>
+
+                <!-- Resolução Q2 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-2">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 2</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">C</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> A distinção conceptual entre "integração" e "inclusão" é uma marca dos debates teóricos sobre o currículo e a diversidade na escola contemporânea. O modelo de <strong>integração</strong> corresponde a uma fase histórica e conceitual em que se busca inserir o sujeito com deficiência no sistema escolar comum, cabendo a este sujeito realizar os esforços adaptativos necessários para se ajustar à escola regular.</p>
+                        <p>Consequentemente, as práticas curriculares da integração apoiam-se na individualização extrema dos programas, na elaboração de currículos adaptados e na formulação de avaliações especiais voltadas exclusivamente para esses estudantes, conforme assinalado na alternativa <strong>C</strong>. As alternativas A, B e D descrevem princípios do paradigma de inclusão, o qual exige que a própria escola modifique as suas estruturas, o seu currículo comum e o seu ambiente para acolher a diversidade de forma irrestrita.</p>
+                    </div>
+                </div>
+
+                <!-- Resolução Q3 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-3">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 3</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">A</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> A associação proposta exige a identificação precisa das três dimensões sociopedagógicas do currículo escolar:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Currículo Real (2):</strong> É o currículo que acontece dentro da sala de aula com professores e alunos a cada dia em decorrência de um projeto pedagógico e dos planos de ensino.</li>
+                            <li><strong>Currículo Oculto (3):</strong> Compreende as influências que afetam a aprendizagem dos alunos e o trabalho dos professores de forma não explícita (atitudes, gestos, relações de poder, valores implícitos).</li>
+                            <li><strong>Currículo Prescrito (1):</strong> Refere-se à proposta estabelecida formalmente pelos órgãos governamentais e sistemas educativos (leis, diretrizes, programas oficiais).</li>
+                        </ul>
+                        <p>Portanto, a sequência correta resulta, de forma unívoca, em <strong>2 – 3 – 1</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Resolução Q4 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 4</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">D</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> O pensamento curricular de J. Gimeno Sacristán propõe uma profunda reflexão sobre a prática e o percurso formativo escolar:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>I (Correta):</strong> Sacristán (2000) argumenta expressamente que a construção curricular formal e pedagógica nos convoca a refletir sobre quais objetivos pretendemos atingir, o que e por que ensinar, bem como quem possui acesso legítimo ao conhecimento.</li>
+                            <li><strong>II (Incorreta):</strong> O autor rejeita de forma peremptória qualquer visão puramente técnica, neutra ou mecânica da prática pedagógica. A ação do professor não é isolada ou neutra, mas sim uma atividade eminentemente social.</li>
+                            <li><strong>III (Correta):</strong> A prática curricular é definida exatamente como uma ação social mediada por um complexo jogo de forças, pela consciência dos sujeitos implicados e pelo contexto sociocultural.</li>
+                        </ul>
+                        <p>Estão corretas apenas as afirmativas <strong>I e III</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Resolução Q5 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 5</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">C</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> Na clássica teorização de Tomás Tadeu da Silva em "Documentos de Identidade", as teorias do currículo classificam-se em:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Teorias Tradicionais:</strong> Foco na eficiência técnica, organização e objetivos operacionais (Bobbit, Tyler).</li>
+                            <li><strong>Teorias Críticas:</strong> Foco no desvelamento das relações de dominação, ideologia, poder, classe social e emancipação (Freire, Apple).</li>
+                            <li><strong>Teorias Pós-Críticas:</strong> Foco na diferença, identidade, gênero, raça, sexualidade, multiculturalismo e representação (Foucault, Hall, Tomás Tadeu).</li>
+                        </ul>
+                        <p>Logo, a alternativa <strong>C</strong> correlaciona perfeitamente a teoria pós-crítica aos seus conceitos-chave centrais.</p>
+                    </div>
+                </div>
+
+                <!-- Resolução Q6 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 6</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">C</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> A Base Nacional Comum Curricular (BNCC) define formalmente a competência em suas disposições gerais como a <em>"mobilização de conhecimentos (conceitos e procedimentos), habilidades (práticas, cognitivas e socioemocionais), atitudes e valores para resolver demandas complexas da vida cotidiana, do pleno exercício da cidadania e do mundo do trabalho"</em>.</p>
+                        <p>Essa formulação legal evidencia que a aquisição de saberes teóricos e operacionais deve estar intrinsecamente vinculada ao compromisso ético e cidadão, rejeitando concepções puramente utilitaristas ou lineares da educação básica.</p>
+                    </div>
+                </div>
+
+                <!-- Resolução Q7 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-7">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 7</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">C</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> Analisando as afirmativas sob o prisma das teorias críticas de currículo:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>I (Correta):</strong> O pensamento crítico questiona a rigidez fabril do tempo escolar, propondo a organização de tempos pedagógicos acolhedores, flexíveis e sintonizados com a complexidade humana.</li>
+                            <li><strong>II (Correta):</strong> Defende o resgate das narrativas e lutas históricas dos movimentos sociais (negros, indígenas, camponeses, mulheres), conferindo reconhecimento às suas subjetividades e diferenças.</li>
+                            <li><strong>III (Incorreta):</strong> A reprodução do conhecimento oficial e a preservação da hegemonia constituem exatamente o alvo das denúncias do pensamento crítico, que atua em prol da emancipação.</li>
+                        </ul>
+                        <p>Portanto, estão corretas apenas as afirmativas <strong>I e II</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Resolução Q8 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-8">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 8</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">C</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> Miguel Arroyo aborda as dimensões cotidianas e territoriais da prática educativa sob uma perspectiva crítico-emancipatória. O autor aponta que a centralização de um currículo uniforme atua como elemento de exclusão ao desconsiderar as vivências das populações periféricas e do campo.</p>
+                        <p>Por isso, defende que as ações pedagógicas fundamentadas na realidade cotidiana e na valorização das vivências concretas dos educandos promovem a apropriação significativa do conhecimento (alternativa <strong>C</strong>). As demais alternativas reproduzem visões tradicionais e excludentes.</p>
+                    </div>
+                </div>
+
+                <!-- Resolução Q9 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-9">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 9</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">B</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> A dinâmica avaliativa no campo da teoria do currículo afasta-se de modelos quantitativos e classificatórios baseados em estereótipos. A banca FAURGS preza pela coerência metodológica e contextualizada do processo formativo.</p>
+                        <p>De acordo com os fundamentos pedagógicos modernos, a avaliação deve assentar-se na identificação contínua de especificidades, completando-se o trecho correta e respectivamente com os termos <strong>observações</strong> e <strong>contexto</strong> ("As avaliações devem sempre se basear nas <em>observações</em> específicas de cada momento e <em>contexto</em>"), alternativa <strong>B</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Resolução Q10 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 sm:p-8" id="res-10">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Resolução — Questão 10</span>
+                        <span class="text-xs font-bold text-slate-700">Gabarito: <span class="text-indigo-600">C</span></span>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-3 leading-relaxed">
+                        <p><strong>Análise Detalhada:</strong> As Diretrizes Curriculares Nacionais para a Educação Infantil (DCNEI - Resolução CNE/CEB nº 5/2009) definem o currículo em seu Artigo 3º como um <em>"conjunto de práticas que buscam articular as experiências e os saberes das crianças com os conhecimentos que fazem parte do patrimônio cultural, artístico, ambiental, científico e tecnológico, de modo a promover o desenvolvimento integral de crianças de 0 a 5 anos de idade"</em> (alternativa <strong>C</strong>).</p>
+                        <p>Essa formulação coloca as interações e a brincadeira no centro do fazer pedagógico, afastando as instituições infantis da mera memorização ou alfabetização precoce tecnicista.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Gabarito oficial do simulado
+        const gabarito = {
+            q1: 'D',
+            q2: 'C',
+            q3: 'A',
+            q4: 'D',
+            q5: 'C',
+            q6: 'C',
+            q7: 'C',
+            q8: 'C',
+            q9: 'B',
+            q10: 'C'
+        };
+
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            let acertos = 0;
+            let total = Object.keys(gabarito).length;
+            let summaryHTML = '';
+
+            for (let q in gabarito) {
+                const radios = document.getElementsByName(q);
+                let respostaUsuario = null;
+                for (let r of radios) {
+                    if (r.checked) {
+                        respostaUsuario = r.value;
+                        break;
+                    }
+                }
+
+                const questaoCard = document.querySelector(`[data-question="${q.replace('q', '')}"]`);
+                
+                // Limpar estilos anteriores de marcação nas alternativas
+                const labels = questaoCard.querySelectorAll('label');
+                labels.forEach(label => {
+                    label.classList.remove('bg-emerald-50', 'border-emerald-300', 'bg-rose-50', 'border-rose-300');
+                });
+
+                let statusBadge = '';
+                if (respostaUsuario === gabarito[q]) {
+                    acertos++;
+                    statusBadge = '<span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold">Correto</span>';
+                    
+                    // Destacar a alternativa correta escolhida
+                    for (let r of radios) {
+                        if (r.value === respostaUsuario) {
+                            r.closest('label').classList.add('bg-emerald-50', 'border-emerald-300');
+                        }
+                    }
+                } else if (respostaUsuario !== null) {
+                    statusBadge = '<span class="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold">Incorreto</span>';
+                    
+                    // Destacar erro do usuário e correta
+                    for (let r of radios) {
+                        if (r.value === respostaUsuario) {
+                            r.closest('label').classList.add('bg-rose-50', 'border-rose-300');
+                        }
+                        if (r.value === gabarito[q]) {
+                            r.closest('label').classList.add('bg-emerald-50', 'border-emerald-300');
+                        }
+                    }
+                } else {
+                    statusBadge = '<span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold">Não Respondida</span>';
+                    for (let r of radios) {
+                        if (r.value === gabarito[q]) {
+                            r.closest('label').classList.add('bg-emerald-50', 'border-emerald-300');
+                        }
+                    }
+                }
+
+                summaryHTML += `
+                    <tr>
+                        <td class="p-3 font-semibold text-slate-800">Questão ${q.replace('q', '')}</td>
+                        <td class="p-3 text-indigo-600 font-bold">${gabarito[q]}</td>
+                        <td class="p-3 font-medium">${respostaUsuario ? respostaUsuario : '—'}</td>
+                        <td class="p-3">${statusBadge}</td>
+                    </tr>
+                `;
+            }
+
+            // Atualizar placar
+            document.getElementById('score-text').innerText = `${acertos} / ${total}`;
+            const percentual = (acertos / total) * 100;
+            let feedbackMsg = '';
+            if (percentual === 100) {
+                feedbackMsg = 'Excelente desempenho! Domínio completo das teorias e práticas curriculares exigidas pela banca FAURGS.';
+            } else if (percentual >= 70) {
+                feedbackMsg = 'Ótimo resultado! Você possui uma sólida base conceitual, revise apenas os pontos específicos com incorreções.';
+            } else if (percentual >= 40) {
+                feedbackMsg = 'Bom esforço! Recomendamos uma leitura atenta das resoluções comentadas abaixo para consolidar os conceitos curriculares.';
+            } else {
+                feedbackMsg = 'Aproveite as resoluções comentadas abaixo para revisar detalhadamente os autores e normativas abordadas.';
+            }
+            document.getElementById('score-feedback').innerText = feedbackMsg;
+
+            // Inserir tabela de resumo
+            document.getElementById('summary-table-body').innerHTML = summaryHTML;
+
+            // Exibir seção de resultados
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.classList.remove('hidden');
+
+            // Rolar suavemente até o topo dos resultados
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

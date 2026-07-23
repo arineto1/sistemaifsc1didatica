@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Memorização - Concurso IFSC (FAURGS)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b; /* Dark charcoal text for comfortable long reading */
+        }
+        /* Custom highlight classes for study points */
+        .hl-yellow {
+            background-color: #fef08a;
+            color: #713f12;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .hl-green {
+            background-color: #dcfce7;
+            color: #14532d;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .hl-red {
+            background-color: #fee2e2;
+            color: #7f1d1d;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .hl-blue {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        /* Printable & responsive styles */
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        td, th {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen text-slate-800 antialiased pb-16">
+
+    <!-- Top Sticky Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 py-3.5 px-4 md:px-8">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-md text-xs tracking-wide uppercase border border-emerald-300">
+                    IFSC / FAURGS
+                </span>
+                <h1 class="text-base md:text-lg font-bold text-slate-900 tracking-tight">
+                    Ficha de Memorização: Legislação & Pedagogia
+                </h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="#audio-section" class="text-xs font-semibold text-slate-600 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-headphones text-emerald-600"></i> Áudio
+                </a>
+                <a href="#discursiva" class="text-xs font-semibold text-slate-600 hover:text-emerald-700 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-pen-nib text-emerald-600"></i> Discursiva
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-10">
+
+        <!-- AUDIO PLAYER SECTION -->
+        <section id="audio-section" class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-sm">
+                        <i class="fa-solid fa-volume-high text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">Audioaula de Fixação</h2>
+                        <p class="text-xs text-slate-500">Ouça o resumo narrado enquanto acompanha a leitura técnica</p>
+                    </div>
+                </div>
+
+                <!-- MP3 Filename Settings / Input Box -->
+                <div class="flex items-center bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-700 space-x-2">
+                    <label for="audio-filename" class="font-medium text-slate-500 flex items-center gap-1">
+                        <i class="fa-solid fa-file-audio text-slate-400"></i> Arquivo:
+                    </label>
+                    <input type="text" id="audio-filename" value="audio1.mp3" 
+                           class="bg-transparent font-mono text-emerald-800 font-semibold focus:outline-none w-36 sm:w-48"
+                           title="Nome do arquivo MP3 na mesma pasta da página">
+                    <button id="btn-load-audio" class="text-slate-500 hover:text-emerald-700 transition-colors" title="Carregar Novo Arquivo">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Audio HTML5 Element & Custom Controls -->
+            <audio id="audio-element" preload="metadata" src="audio1.mp3"></audio>
+
+            <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+                <div class="flex items-center justify-between gap-4">
+                    <!-- Play/Pause Button -->
+                    <button id="btn-play-pause" class="w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center shadow-md transition-all active:scale-95">
+                        <i id="play-icon" class="fa-solid fa-play text-lg ml-0.5"></i>
+                    </button>
+
+                    <!-- Time & Progress Bar -->
+                    <div class="flex-1 space-y-1">
+                        <div class="flex justify-between text-xs font-mono text-slate-500">
+                            <span id="current-time">00:00</span>
+                            <span id="total-duration">00:00</span>
+                        </div>
+                        <input type="range" id="seek-bar" value="0" min="0" step="0.1" 
+                               class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600">
+                    </div>
+
+                    <!-- Speed Toggle Buttons -->
+                    <div class="flex items-center space-x-1 border-l border-slate-200 pl-3">
+                        <span class="text-xs text-slate-400 mr-1 hidden sm:inline"><i class="fa-solid fa-[#gauge]"></i> Vel:</span>
+                        <button class="speed-btn px-2 py-1 text-xs font-semibold rounded bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 transition-colors" data-speed="1.0">1.0x</button>
+                        <button class="speed-btn px-2 py-1 text-xs font-semibold rounded bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 transition-colors" data-speed="1.25">1.25x</button>
+                        <button class="speed-btn px-2 py-1 text-xs font-semibold rounded bg-emerald-600 text-white font-bold" data-speed="1.5">1.5x</button>
+                        <button class="speed-btn px-2 py-1 text-xs font-semibold rounded bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 transition-colors" data-speed="2.0">2.0x</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 1: TENDÊNCIAS PEDAGÓGICAS E SOCIOLOGIA DA EDUCAÇÃO -->
+        <section class="space-y-4">
+            <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 text-sm flex items-center justify-center font-bold">1</span>
+                    Concepções de Educação e Sociedade: Tendências Pedagógicas
+                </h2>
+                <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2.5 py-1 rounded-full border border-slate-200">Libâneo & Saviani</span>
+            </div>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Correlaciona a tipologia das tendências pedagógicas de <strong class="text-slate-900">José Carlos Libâneo</strong> com a classificação de <strong class="text-slate-900">Dermeval Saviani</strong> referente às teorias da educação e marginalidade social.
+            </p>
+
+            <!-- Responsively styled Table without horizontal scroll -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <table class="w-full text-left border-collapse text-xs md:text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 border-b border-slate-200 text-slate-800 font-bold">
+                            <th class="p-2.5 md:p-3 w-[18%]">Tendência</th>
+                            <th class="p-2.5 md:p-3 w-[16%]">Saviani</th>
+                            <th class="p-2.5 md:p-3 w-[26%]">Papel da Escola</th>
+                            <th class="p-2.5 md:p-3 w-[18%]">Marginalizado</th>
+                            <th class="p-2.5 md:p-3 w-[22%]">Informática / EPT</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 bg-white">
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 md:p-3 font-bold text-slate-900">Tradicional</td>
+                            <td class="p-2.5 md:p-3"><span class="hl-red">Não-Crítica</span></td>
+                            <td class="p-2.5 md:p-3">Transmitir conteúdos universais e verdades acumuladas.</td>
+                            <td class="p-2.5 md:p-3">O <span class="hl-yellow">ignorante</span> (precisa de instrução moral/intelectual).</td>
+                            <td class="p-2.5 md:p-3">Computador como quadro digital passivo, focado em memorização.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 md:p-3 font-bold text-slate-900">Renovada / Nova</td>
+                            <td class="p-2.5 md:p-3"><span class="hl-red">Não-Crítica</span></td>
+                            <td class="p-2.5 md:p-3">Adaptação ativa do aluno ao meio ("aprender a aprender").</td>
+                            <td class="p-2.5 md:p-3">O <span class="hl-yellow">rejeitado</span> (não adaptado socialmente).</td>
+                            <td class="p-2.5 md:p-3">Ambientes de autodescoberta e programação infantil (ex: Papert/LOGO).</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 md:p-3 font-bold text-slate-900">Tecnicista</td>
+                            <td class="p-2.5 md:p-3"><span class="hl-red">Não-Crítica</span></td>
+                            <td class="p-2.5 md:p-3">Formação de mão de obra eficiente ("aprender a fazer"). Divisão do trabalho.</td>
+                            <td class="p-2.5 md:p-3">O <span class="hl-yellow">incompetente</span> ou ineficiente.</td>
+                            <td class="p-2.5 md:p-3"><span class="hl-yellow">Instrução programada</span>, behaviorismo, adestramento de software.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 md:p-3 font-bold text-slate-900">Reprodutivista</td>
+                            <td class="p-2.5 md:p-3"><span class="hl-blue">Crítico-Reprod.</span></td>
+                            <td class="p-2.5 md:p-3">Reproduzir a dominação de classe e a ideologia capitalista dominante.</td>
+                            <td class="p-2.5 md:p-3">O <span class="hl-yellow">dominado</span> sem capital cultural.</td>
+                            <td class="p-2.5 md:p-3">Divisão digital como forma de exclusão e violência de classe.</td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/50 transition-colors">
+                            <td class="p-2.5 md:p-3 font-bold text-emerald-900">Histórico-Crítica</td>
+                            <td class="p-2.5 md:p-3"><span class="hl-green">Crítica / Transform.</span></td>
+                            <td class="p-2.5 md:p-3">Transmissão dos conteúdos científicos para a <span class="hl-green">emancipação e práxis</span>.</td>
+                            <td class="p-2.5 md:p-3">O <span class="hl-green">explorado</span> na divisão do trabalho.</td>
+                            <td class="p-2.5 md:p-3">Informática como <span class="hl-green">ciência e cultura</span> (lógica, algoritmos) e não só ferramenta.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Termos Críticos de Sociologia da Educação -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+                <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-bookmark text-amber-600"></i> Matrizes Filosóficas e Sociologia da Educação (Memorização)
+                </h3>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs md:text-sm">
+                    <li class="bg-white p-3 rounded-lg border border-slate-200 space-y-1">
+                        <div class="font-bold text-slate-900 flex items-center justify-between">
+                            <span>Violência Simbólica & Capital Cultural</span>
+                            <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Pierre Bourdieu</span>
+                        </div>
+                        <p class="text-slate-600">A escola cobra um <mark class="hl-yellow">capital cultural prévio</mark> (como literacia digital) que ela própria não distribui de forma igualitária, legitimando a exclusão de classe.</p>
+                    </li>
+                    <li class="bg-white p-3 rounded-lg border border-slate-200 space-y-1">
+                        <div class="font-bold text-slate-900 flex items-center justify-between">
+                            <span>Aparelho Ideológico do Estado (AIE)</span>
+                            <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Louis Althusser</span>
+                        </div>
+                        <p class="text-slate-600">A escola atua na <mark class="hl-yellow">reprodução ideológica</mark> do capitalismo, segmentando o ensino para formar executores manuais e dirigentes intelectuais.</p>
+                    </li>
+                    <li class="bg-white p-3 rounded-lg border border-slate-200 space-y-1">
+                        <div class="font-bold text-slate-900 flex items-center justify-between">
+                            <span>Socialização Metódica & Fato Social</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">Émile Durkheim</span>
+                        </div>
+                        <p class="text-slate-600">Educação como conservação moral e adaptação às normas sociais. Visão <mark class="hl-blue">funcionalista</mark> e de coesão, em oposição à luta de classes marxista.</p>
+                    </li>
+                    <li class="bg-white p-3 rounded-lg border border-slate-200 space-y-1">
+                        <div class="font-bold text-slate-900 flex items-center justify-between">
+                            <span>Pedagogia do Especialista vs. Cultivo</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">Max Weber</span>
+                        </div>
+                        <p class="text-slate-600">Análise da burocratização e racionalização. A EPT moderna é impulsionada pela busca do <mark class="hl-yellow">perito/especialista técnico</mark> necessário ao Estado racionalizado.</p>
+                    </li>
+                    <li class="bg-white p-3 rounded-lg border border-slate-200 space-y-1">
+                        <div class="font-bold text-slate-900 flex items-center justify-between">
+                            <span>Educação Bancária vs. Libertadora</span>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">Paulo Freire</span>
+                        </div>
+                        <p class="text-slate-600">Crítica ao depósito passivo de dados (bancária). Defesa da <mark class="hl-green">Educação Problematizadora</mark>, conscientização política, diálogo e emancipação do oprimido.</p>
+                    </li>
+                    <li class="bg-white p-3 rounded-lg border border-slate-200 space-y-1">
+                        <div class="font-bold text-slate-900 flex items-center justify-between">
+                            <span>Pragmatismo & Aprender Fazendo</span>
+                            <span class="text-xs bg-slate-100 text-slate-800 px-2 py-0.5 rounded">John Dewey</span>
+                        </div>
+                        <p class="text-slate-600">Base da Escola Nova. O conhecimento nasce da experiência prática reflexiva. O foco deixa de ser o mestre e passa a ser a <mark class="hl-yellow">atividade do educando</mark>.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: LINHA DO TEMPO DA LEGISLAÇÃO E EPT -->
+        <section class="space-y-4">
+            <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 text-sm flex items-center justify-center font-bold">2</span>
+                    Evolução da Educação Profissional e Tecnológica (EPT) & Legislação
+                </h2>
+                <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2.5 py-1 rounded-full border border-slate-200">Marcos Legais & Cotas</span>
+            </div>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+                A história da EPT no Brasil é marcada pela <mark class="hl-yellow">dualidade educacional</mark> (ensino propedêutico para a elite x ensino técnico para a classe trabalhadora).
+            </p>
+
+            <!-- Visual Timeline Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs md:text-sm">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm relative pl-4 border-l-4 border-l-slate-400 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-slate-900 text-sm">1909 — Nilo Peçanha</span>
+                        <span class="text-xs bg-slate-100 font-mono px-2 py-0.5 rounded font-semibold text-slate-700">Decreto nº 7.566</span>
+                    </div>
+                    <p class="text-slate-700">Criação das Escolas de Aprendizes e Artífices. Modelo <mark class="hl-red">assistencialista e moralizador</mark> voltado exclusivamente aos "desprovidos da fortuna". Ensino empírico.</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm relative pl-4 border-l-4 border-l-purple-500 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-slate-900 text-sm">1932 — Manifesto dos Pioneiros</span>
+                        <span class="text-xs bg-purple-50 font-mono px-2 py-0.5 rounded font-semibold text-purple-800">Escola Nova</span>
+                    </div>
+                    <p class="text-slate-700">Defesa da escola pública, laica, gratuita e obrigatória. Defendia a <mark class="hl-yellow">unificação do sistema escolar</mark> contra a divisão aristocrática do ensino.</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm relative pl-4 border-l-4 border-l-amber-500 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-slate-900 text-sm">1942–1946 — Reforma Capanema</span>
+                        <span class="text-xs bg-amber-50 font-mono px-2 py-0.5 rounded font-semibold text-amber-800">Leis Orgânicas</span>
+                    </div>
+                    <p class="text-slate-700">Consolida a dualidade com ramos paralelos no 2º Grau. O ensino técnico não dava equivalência para <mark class="hl-red">ingresso direto no Ensino Superior</mark>.</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm relative pl-4 border-l-4 border-l-rose-500 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-slate-900 text-sm">1971 — Ditadura Militar</span>
+                        <span class="text-xs bg-rose-50 font-mono px-2 py-0.5 rounded font-semibold text-rose-800">Lei nº 5.692/71</span>
+                    </div>
+                    <p class="text-slate-700"><mark class="hl-red">Profissionalização compulsória</mark> no 2º Grau para conter a pressão de demanda por vagas nas universidades. Fracasso operacional e esvaziamento teórico.</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm relative pl-4 border-l-4 border-l-blue-500 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-slate-900 text-sm">1996–1997 — LDB & Dec. 2.208</span>
+                        <span class="text-xs bg-blue-50 font-mono px-2 py-0.5 rounded font-semibold text-blue-800">LDB 9.394 / Dec 2.208</span>
+                    </div>
+                    <p class="text-slate-700"><mark class="hl-red">Separação compulsória</mark> entre ensino médio e técnico no Gov. FHC. A LDB (Arts. 39-42) define a EPT, mas o Dec. 2.208 proibiu a integração curricular direta.</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm relative pl-4 border-l-4 border-l-emerald-500 space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-slate-900 text-sm">2004 — Governo Lula</span>
+                        <span class="text-xs bg-emerald-50 font-mono px-2 py-0.5 rounded font-semibold text-emerald-800">Decreto nº 5.154/04</span>
+                    </div>
+                    <p class="text-slate-700">Revoga o Dec. 2.208. Autoriza a integração curricular e institui o <mark class="hl-green">Ensino Médio Integrado (EMI)</mark>, tendo o trabalho como princípio educativo.</p>
+                </div>
+
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm relative pl-4 border-l-4 border-l-emerald-700 space-y-1 md:col-span-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-emerald-950 text-sm">2008 & 2014 — Criação dos IFs (Lei 11.892/08) & PNE (Lei 13.005/14)</span>
+                        <span class="text-xs bg-emerald-100 font-mono px-2 py-0.5 rounded font-semibold text-emerald-900">Lei 11.892/08 & PNE Meta 11</span>
+                    </div>
+                    <p class="text-slate-700">Cria a Rede Federal e os Institutos Federais com foco na <mark class="hl-green">formação omnilateral</mark> e metas estritas de vagas:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 text-xs">
+                        <div class="bg-emerald-50 p-2 rounded border border-emerald-200 font-medium text-emerald-900">
+                            <strong>Mínimo 50% das vagas:</strong> Destinadas prioritariamente aos cursos de <mark class="hl-green">Educação Profissional Técnica de Nível Médio (EMI)</mark>.
+                        </div>
+                        <div class="bg-emerald-50 p-2 rounded border border-emerald-200 font-medium text-emerald-900">
+                            <strong>Mínimo 20% das vagas:</strong> Destinadas aos cursos de <mark class="hl-green">Licenciatura e Formação Pedagógica</mark> (Meta do PNE para formar professores).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: TEÓRICOS DO DESENVOLVIMENTO E DA APRENDIZAGEM -->
+        <section class="space-y-4">
+            <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 text-sm flex items-center justify-center font-bold">3</span>
+                    Teóricos do Desenvolvimento, Aprendizagem e Informática na Educação
+                </h2>
+                <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2.5 py-1 rounded-full border border-slate-200">Psicologia & Computação</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
+                
+                <!-- Jean Piaget -->
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <h3 class="font-bold text-slate-900 text-base">Jean Piaget</h3>
+                        <span class="text-xs font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Epistemologia Genética</span>
+                    </div>
+                    <p class="text-slate-700"><mark class="hl-yellow">Desenvolvimento precede a aprendizagem</mark>. Processo adaptativo em estágios evolutivos:</p>
+                    <ul class="list-disc list-inside space-y-1 text-slate-600 text-xs">
+                        <li><strong>Assimilação e Acomodação:</strong> O erro (ex: bug de código) gera um <em>conflito cognitivo</em> que força a reestruturação mental.</li>
+                        <li><strong>Imitação:</strong> Não é mera cópia mecânica, mas sim uma <mark class="hl-yellow">reconstrução individual ativa</mark>.</li>
+                    </ul>
+                </div>
+
+                <!-- Lev Vygotsky -->
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <h3 class="font-bold text-slate-900 text-base">Lev Vygotsky</h3>
+                        <span class="text-xs font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Sócio-Histórica</span>
+                    </div>
+                    <p class="text-slate-700"><mark class="hl-green">Aprendizagem impulsiona o desenvolvimento</mark>. Foco nas trocas sociais e na mediação:</p>
+                    <ul class="list-disc list-inside space-y-1 text-slate-600 text-xs">
+                        <li><strong>Mediação Semiótica:</strong> Instrumentos e signos (ex: linguagens de programação e IDEs atuam como mediadores do raciocínio lógico).</li>
+                        <li><strong>ZDP (Zona de Desenvolvimento Proximal):</strong> Distância entre o nível real e o potencial. Desenvolvimento das <mark class="hl-green">funções psíquicas superiores</mark>.</li>
+                    </ul>
+                </div>
+
+                <!-- Seymour Papert & Construcionismo -->
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <h3 class="font-bold text-slate-900 text-base">Seymour Papert</h3>
+                        <span class="text-xs font-semibold text-purple-800 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">Construcionismo (LOGO)</span>
+                    </div>
+                    <p class="text-slate-700">Aprofunda Piaget na era digital: o computador como <mark class="hl-yellow">"objeto-para-pensar"</mark>:</p>
+                    <ul class="list-disc list-inside space-y-1 text-slate-600 text-xs">
+                        <li>O aluno constrói seu próprio conhecimento ao <mark class="hl-yellow">ensinar o computador a pensar</mark> (programando artefatos, não apenas consumindo software).</li>
+                        <li>O erro (bug) deixa de ser punição e passa a ser matéria-prima para a depuração mental (<em>debugging</em>).</li>
+                    </ul>
+                </div>
+
+                <!-- Jeannette Wing & Pensamento Computacional na EPT -->
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <h3 class="font-bold text-slate-900 text-base">Jeannette Wing</h3>
+                        <span class="text-xs font-semibold text-blue-800 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">Pensamento Computacional</span>
+                    </div>
+                    <p class="text-slate-700">Resolução de problemas como competência humana universal e emancipatória na EPT:</p>
+                    <ul class="list-disc list-inside space-y-1 text-slate-600 text-xs">
+                        <li><strong>Pilares Críticos:</strong> Abstração, Decomposição, Reconhecimento de Padrões e Algoritmos.</li>
+                        <li>Sua aplicação na EPT contrapõe-se ao adestramento instrumental: promove a <mark class="hl-blue">compreensão científica da realidade digital</mark>.</li>
+                    </ul>
+                </div>
+
+                <!-- David Ausubel -->
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <h3 class="font-bold text-slate-900 text-base">David Ausubel</h3>
+                        <span class="text-xs font-semibold text-blue-800 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">Aprendizagem Significativa</span>
+                    </div>
+                    <p class="text-slate-700">Ancoragem do novo conhecimento em estruturas prévias chamadas <mark class="hl-blue">Subsunçores</mark>:</p>
+                    <ul class="list-disc list-inside space-y-1 text-slate-600 text-xs">
+                        <li><strong>Subordinação Derivativa:</strong> O novo conceito é apenas um exemplo que confirma o subsunçor.</li>
+                        <li><strong>Subordinação Correlativa:</strong> O novo conceito amplia, modifica ou qualifica o subsunçor prévio.</li>
+                        <li><strong>Superordenação:</strong> Reconciliação integrativa (abstração do conceito geral de "Algoritmo").</li>
+                    </ul>
+                </div>
+
+                <!-- Barbara Rogoff & Henri Wallon -->
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-3">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-1.5 mb-1.5">
+                            <h3 class="font-bold text-slate-900">Barbara Rogoff</h3>
+                            <span class="text-xs bg-slate-100 px-2 py-0.5 rounded">Participação Guiada</span>
+                        </div>
+                        <p class="text-slate-600 text-xs">Aprendizagem como participação variável em práticas socioculturais. Aplicação direta em <mark class="hl-yellow">aprendizagem cooperativa</mark> e programação em pares (<em>pair programming</em>).</p>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-1.5 mb-1.5">
+                            <h3 class="font-bold text-slate-900">Henri Wallon</h3>
+                            <span class="text-xs bg-slate-100 px-2 py-0.5 rounded">Psicogênese Integral</span>
+                        </div>
+                        <p class="text-slate-600 text-xs">Integração entre <mark class="hl-yellow">Afeto, Cognição e Motricidade</mark>. Desenvolvimento não linear, marcado por crises/conflitos (ex: Período do Personalismo).</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: ESTRATÉGIA DE PROVA DA BANCA FAURGS -->
+        <section class="space-y-4">
+            <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 text-sm flex items-center justify-center font-bold">4</span>
+                    Estratégia de Prova da Banca FAURGS (Pegadinhas Mapeadas)
+                </h2>
+                <span class="text-xs bg-rose-100 text-rose-800 font-bold px-2.5 py-1 rounded-full border border-rose-200">Atenção Máxima</span>
+            </div>
+
+            <!-- Traps & Pitfalls List -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
+                
+                <div class="bg-rose-50/60 border border-rose-200 rounded-xl p-4 space-y-2">
+                    <h3 class="font-bold text-rose-900 flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation text-rose-600"></i> Pegadinha 1: A Falsa Emancipação das Competências
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed">
+                        A banca costuma apresentar o <span class="hl-red">"Currículo por Competências"</span> como ferramenta moderna e libertadora.
+                    </p>
+                    <p class="text-slate-800 font-medium bg-white p-2.5 rounded-lg border border-rose-200">
+                        <strong class="text-emerald-700">Ponto de Acerto:</strong> Sob a Pedagogia Histórico-Crítica (Saviani), o discurso neoliberal das competências fragmenta o ensino, esvazia os conteúdos científicos profundos e reduz a formação a uma mera adaptação do trabalhador às oscilações do mercado.
+                    </p>
+                </div>
+
+                <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-4 space-y-2">
+                    <h3 class="font-bold text-amber-900 flex items-center gap-2">
+                        <i class="fa-solid fa-font-awesome text-amber-600"></i> Pegadinha 2: Troca Direta de Termos entre Teóricos
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed">
+                        A FAURGS altera conceitos entre autores (ex: atribuir "funções psíquicas superiores" a Piaget) ou afirma que a imitação em Piaget é mera cópia mecânica.
+                    </p>
+                    <p class="text-slate-800 font-medium bg-white p-2.5 rounded-lg border border-amber-200">
+                        <strong class="text-emerald-700">Ponto de Acerto:</strong> Lembre-se que em Piaget a imitação é <mark class="hl-yellow">reconstrução ativa interna</mark>, e "Mediação Semiótica / ZDP" pertencem exclusivamente a Vygotsky.
+                    </p>
+                </div>
+
+                <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-4 space-y-2">
+                    <h3 class="font-bold text-amber-900 flex items-center gap-2">
+                        <i class="fa-solid fa-shuffle text-amber-600"></i> Pegadinha 3: Politecnia vs. Polivalência Flexível
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed">
+                        A FAURGS tenta confundir <mark class="hl-green">Politecnia/Omnilateralidade</mark> (domínio dos fundamentos científicos de toda a produção) com <mark class="hl-red">Polivalência Toyotista</mark> (treinamento para desempenhar múltiplas tarefas operacionais flexíveis).
+                    </p>
+                    <p class="text-slate-800 font-medium bg-white p-2.5 rounded-lg border border-amber-200">
+                        <strong class="text-emerald-700">Ponto de Acerto:</strong> Politecnia = emancipação intelectual e unitária. Polivalência = exigência de flexibilização do mercado produtivo capitalista.
+                    </p>
+                </div>
+
+                <div class="bg-rose-50/60 border border-rose-200 rounded-xl p-4 space-y-2">
+                    <h3 class="font-bold text-rose-900 flex items-center gap-2">
+                        <i class="fa-solid fa-percent text-rose-600"></i> Pegadinha 4: Inversão das Cotas Obrigatórias dos IFs
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed">
+                        A banca inverte ou altera os percentuais legais estipulados no Art. 7º da Lei nº 11.892/2008.
+                    </p>
+                    <p class="text-slate-800 font-medium bg-white p-2.5 rounded-lg border border-rose-200">
+                        <strong class="text-emerald-700">Ponto de Acerto:</strong> Memorize: Mínimo de <mark class="hl-green">50% para Ensino Médio Técnico (EMI)</mark> e Mínimo de <mark class="hl-green">20% para Licenciaturas</mark>. Não caia na troca de porcentagens!
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Cutoff Criteria Card -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm space-y-3">
+                <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-emerald-600"></i> Critérios Estritos de Aprovação e Acertos Mínimos (Edital EBTT)
+                </h3>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs">
+                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-lg">
+                        <span class="block text-slate-500 mb-1">L. Portuguesa</span>
+                        <strong class="text-slate-900 text-sm font-mono font-bold">≥ 2 acertos</strong>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-lg">
+                        <span class="block text-slate-500 mb-1">Legislação EPT</span>
+                        <strong class="text-slate-900 text-sm font-mono font-bold">≥ 1 acerto</strong>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-lg">
+                        <span class="block text-slate-500 mb-1">Pedagógicos</span>
+                        <strong class="text-slate-900 text-sm font-mono font-bold">≥ 1 acerto</strong>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg">
+                        <span class="block text-emerald-800 mb-1">Específicos</span>
+                        <strong class="text-emerald-950 text-sm font-mono font-bold">≥ 15 acertos</strong>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1 bg-slate-900 text-white p-2.5 rounded-lg">
+                        <span class="block text-slate-300 mb-1">Nota Mínima</span>
+                        <strong class="text-emerald-400 text-sm font-mono font-bold">≥ 55,00 pts</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: ESQUELETO ESTRUTURADO PARA A DISCURSIVA -->
+        <section id="discursiva" class="space-y-4">
+            <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 text-sm flex items-center justify-center font-bold">5</span>
+                    Modelo Estruturado de Resposta para a Questão Discursiva
+                </h2>
+                <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full border border-emerald-300">Exatamente 13 Linhas</span>
+            </div>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+                A etapa discursiva exige uma questão pedagógica (obrigatoriamente entre <mark class="hl-yellow">10 e 15 linhas</mark>). Utilize este modelo pré-estruturado de 13 linhas com termos-chave da banca:
+            </p>
+
+            <div class="bg-slate-50 border border-slate-300 rounded-xl p-4 sm:p-5 relative shadow-inner">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-xs font-mono text-slate-500"><i class="fa-solid fa-align-left mr-1"></i> Linhas 01 a 13 (Modelo IFSC)</span>
+                    <button id="btn-copy-discursiva" class="text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 px-3 py-1 rounded-md border border-slate-300 shadow-sm transition-colors flex items-center gap-1.5">
+                        <i class="fa-regular fa-copy"></i> Copiar Texto
+                    </button>
+                </div>
+
+                <!-- Line-by-line model text -->
+                <div id="discursiva-text" class="font-sans text-xs sm:text-sm text-slate-800 space-y-1.5 leading-snug">
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">01</span><p class="flex-1">O ensino de Informática no Instituto Federal de Santa Catarina assenta-se na superação da</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">02</span><p class="flex-1"><mark class="hl-yellow">dualidade educacional histórica</mark> do ensino técnico, superando o modelo tecnicista focado no mero</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">03</span><p class="flex-1">adestramento de operadores de sistemas computacionais. Sob a égide da <mark class="hl-green">Pedagogia Histórico-</mark></p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">04</span><p class="flex-1"><mark class="hl-green">Crítica</mark> e do <mark class="hl-green">Ensino Médio Integrado</mark>, a tecnologia é compreendida como um produto histórico</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">05</span><p class="flex-1">e social do trabalho humano, articulando-se às relações de Ciência, Tecnologia e Sociedade.</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">06</span><p class="flex-1">Desse modo, as metodologias de ensino adotadas pelo docente EBTT afastam-se da instrução</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">07</span><p class="flex-1">programada de aprendizagem passiva e promovem a <mark class="hl-green">mediação pedagógica ativa</mark> de resolução de</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">08</span><p class="flex-1">problemas reais de software. O computador atua, assim, como um <mark class="hl-blue">instrumento semiótico</mark> de</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">09</span><p class="flex-1">desenvolvimento das <mark class="hl-blue">funções psíquicas superiores</mark> do estudante. Ao garantir a apropriação dos</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">10</span><p class="flex-1">fundamentos científicos e dos algoritmos de forma crítica, o planeamento didático promove a</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">11</span><p class="flex-1">democratização do acesso à cultura digital e evita que a escola atue como aparelho de reprodução</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">12</span><p class="flex-1">das desigualdades. Esse processo pedagógico integrado consolida a <mark class="hl-green">formação omnilateral</mark> e garante</p></div>
+                    <div class="flex items-start gap-2"><span class="font-mono text-slate-400 select-none w-6 text-right">13</span><p class="flex-1">a permanência, o êxito escolar e a real emancipação dos futuros profissionais da instituição.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACTION BUTTON TO QUESTOES.HTML -->
+        <div class="pt-6 pb-10 flex flex-col items-center justify-center space-y-4 text-center border-t border-slate-200">
+            <h3 class="text-base font-bold text-slate-900">Pronto para testar a fixação do conteúdo?</h3>
+            <p class="text-xs text-slate-500 max-w-md">Pratique com questões objetivas no estilo da Banca FAURGS para fixar a teoria em acertos na prova.</p>
+            
+            <a href="questoes1.html" 
+               class="inline-flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 text-base">
+                <span>Ir para Banco de Questões</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Custom Interactive Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Audio Player Controls
+            const audio = document.getElementById('audio-element');
+            const playPauseBtn = document.getElementById('btn-play-pause');
+            const playIcon = document.getElementById('play-icon');
+            const seekBar = document.getElementById('seek-bar');
+            const currentTimeEl = document.getElementById('current-time');
+            const totalDurationEl = document.getElementById('total-duration');
+            const audioFilenameInput = document.getElementById('audio-filename');
+            const btnLoadAudio = document.getElementById('btn-load-audio');
+            const speedBtns = document.querySelectorAll('.speed-btn');
+
+            // Format seconds to mm:ss
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return "00:00";
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+
+            // Toggle Play/Pause
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play().then(() => {
+                        playIcon.classList.remove('fa-play', 'ml-0.5');
+                        playIcon.classList.add('fa-pause');
+                    }).catch(err => {
+                        console.warn("Não foi possível reproduzir o áudio:", err);
+                        // Visual message box instead of alert
+                        showToast("Arquivo de áudio não encontrado na mesma pasta. Verifique o nome do arquivo MP3.");
+                    });
+                } else {
+                    audio.pause();
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play', 'ml-0.5');
+                }
+            });
+
+            // Update duration metadata
+            audio.addEventListener('loadedmetadata', () => {
+                totalDurationEl.textContent = formatTime(audio.duration);
+                seekBar.max = audio.duration;
+            });
+
+            // Update playback progress
+            audio.addEventListener('timeupdate', () => {
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+                seekBar.value = audio.currentTime;
+            });
+
+            // Seek audio position
+            seekBar.addEventListener('input', () => {
+                audio.currentTime = seekBar.value;
+            });
+
+            // Change Speed
+            speedBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    speedBtns.forEach(b => {
+                        b.classList.remove('bg-emerald-600', 'text-white', 'font-bold');
+                        b.classList.add('bg-slate-100', 'text-slate-700');
+                    });
+                    btn.classList.remove('bg-slate-100', 'text-slate-700');
+                    btn.classList.add('bg-emerald-600', 'text-white', 'font-bold');
+                    
+                    const speed = parseFloat(btn.getAttribute('data-speed'));
+                    audio.playbackRate = speed;
+                });
+            });
+
+            // Reload MP3 File dynamically
+            btnLoadAudio.addEventListener('click', () => {
+                const newFilename = audioFilenameInput.value.trim();
+                if (newFilename) {
+                    audio.src = newFilename;
+                    audio.load();
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play', 'ml-0.5');
+                    showToast(`Arquivo alterado para: ${newFilename}`);
+                }
+            });
+
+            // Copy Discursiva Text
+            const copyBtn = document.getElementById('btn-copy-discursiva');
+            copyBtn.addEventListener('click', () => {
+                const textParagraphs = document.querySelectorAll('#discursiva-text p');
+                let fullText = '';
+                textParagraphs.forEach(p => {
+                    fullText += p.innerText + '\n';
+                });
+
+                // Fallback copy implementation
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = fullText.trim();
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempTextArea);
+
+                showToast("Texto da Discursiva copiado com sucesso!");
+            });
+
+            // Toast notification helper
+            function showToast(message) {
+                let toast = document.getElementById('custom-toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'custom-toast';
+                    toast.className = 'fixed bottom-4 right-4 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-2xl transition-all duration-300 z-50 flex items-center gap-2';
+                    document.body.appendChild(toast);
+                }
+                toast.innerHTML = `<i class="fa-solid fa-circle-info text-emerald-400"></i> ${message}`;
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                }, 3500);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organização do Trabalho Docente - IFSC / FAURGS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #1e293b; /* Slate 800 - Leitura suave sem cansar a visão */
+            background-color: #ffffff;
+        }
+        /* Estilos personalizados de Marca-Texto (Grifos Otimizados) */
+        .grifo {
+            background-color: #fef08a; /* Yellow 200 */
+            color: #0f172a; /* Slate 900 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            border: 1px solid #fde047;
+        }
+        .grifo-alerta {
+            background-color: #fecaca; /* Red 200 */
+            color: #7f1d1d; /* Red 900 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 700;
+            border: 1px solid #fca5a5;
+        }
+        .grifo-sucesso {
+            background-color: #dcfce7; /* Green 100 */
+            color: #14532d; /* Green 900 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            border: 1px solid #86efac;
+        }
+        .grifo-info {
+            background-color: #e0f2fe; /* Sky 100 */
+            color: #0369a1; /* Sky 700 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            border: 1px solid #bae6fd;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen text-slate-800 antialiased selection:bg-yellow-200 selection:text-slate-900">
+
+    <header class="w-full bg-white border-b border-slate-200 sticky top-0 z-50 backdrop-blur-md bg-white/95 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-slate-100 text-slate-800 font-extrabold text-lg border border-slate-200">
+                    IFSC
+                </span>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Organização do Trabalho Docente</h1>
+                    <p class="text-xs text-slate-500 font-medium">Guia Exaustivo de Memorização • Banca FAURGS (EBTT)</p>
+                </div>
+            </div>
+            
+            <a href="questões.html" class="w-full sm:w-auto text-center px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-semibold rounded-lg transition-colors shadow-sm">
+                Ir para Questões &rarr;
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 sm:px-6 space-y-10">
+
+        <!-- PLAYER DE ÁUDIO MP3 -->
+        <section class="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                    </svg>
+                    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Reprodutor de Áudio da Aula</h2>
+                </div>
+                
+                <!-- Entrada para Nome do Arquivo MP3 -->
+                <div class="flex items-center gap-2 text-xs">
+                    <label for="audioFileName" class="text-slate-600 font-medium whitespace-nowrap">Arquivo MP3:</label>
+                    <input type="text" id="audioFileName" value="audio2.mp3" 
+                           class="bg-white border border-slate-300 text-slate-800 px-2.5 py-1 rounded text-xs focus:ring-2 focus:ring-slate-400 focus:outline-none w-48 font-mono" 
+                           placeholder="nome_do_arquivo.mp3">
+                    <button onclick="updateAudioSource()" class="px-2.5 py-1 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded font-medium text-xs transition-colors">
+                        Carregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Player -->
+            <audio id="mainAudioPlayer" controls class="w-full rounded-lg bg-white border border-slate-200">
+                <source id="audioSource" src="audio2.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            <p class="text-[11px] text-slate-500 mt-2 italic">
+                💡 Dica: Mantenha o arquivo MP3 na mesma pasta desta página HTML para reprodução local direta.
+            </p>
+        </section>
+
+        <!-- BLOCO 01: ESTRUTURA DA PROVA E CARREIRA EBTT -->
+        <section class="space-y-4">
+            <div class="border-b border-slate-200 pb-2">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Bloco 01</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">1. Estrutura da Prova e Regras da Carreira EBTT (IFSC / FAURGS)</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Regras da Prova Objetiva -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-900"></span>
+                        Distribuição da Prova Objetiva e Mínimos
+                    </h3>
+                    <ul class="space-y-2 text-sm text-slate-700">
+                        <li class="leading-relaxed">
+                            • <strong>Prova Objetiva:</strong> <span class="grifo">50 questões</span> de múltipla escolha (peso 2,0 cada; <span class="grifo">total 100 pontos</span>).
+                        </li>
+                        <li class="p-3 bg-red-50 border border-red-100 rounded-lg text-red-950 text-xs space-y-1.5">
+                            <strong class="block text-red-900 font-bold uppercase tracking-wider text-[11px]">⚠️ Mínimos Eliminatórios Absolutos (Abaixo = Eliminação)</strong>
+                            <p>• Língua Portuguesa: <span class="grifo-alerta">Mínimo de 2 acertos</span></p>
+                            <p>• Legislação e Contexto da EPCT: <span class="grifo-alerta">Mínimo de 1 acerto</span></p>
+                            <p>• Conhecimentos Pedagógicos: <span class="grifo-alerta">Mínimo de 1 acerto</span></p>
+                            <p>• Conhecimentos Específicos: <span class="grifo-alerta">Mínimo de 15 acertos</span></p>
+                            <p>• Pontuação Global Mínima: <span class="grifo-alerta">55,0 pontos</span> no total da prova objetiva.</p>
+                        </li>
+                        <li class="leading-relaxed">
+                            • <strong>Prova Discursiva:</strong> 1 questão pedagógica comum (10 a 15 linhas) respondida no mesmo dia. <span class="grifo">Nota mínima: 55,0 pontos</span>.
+                        </li>
+                        <li class="leading-relaxed">
+                            • <strong>Prova Didática:</strong> Aula simulada de até 50 minutos (sorteio de ponto com 24h de antecedência). <span class="grifo">Nota mínima: 70,0 pontos</span>.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Carreira EBTT & Instrumentos IFSC -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-900"></span>
+                        Carreira EBTT e Rotina de Gestão Docente
+                    </h3>
+                    <ul class="space-y-2.5 text-sm text-slate-700">
+                        <li class="leading-relaxed">
+                            • <strong>Regime de Trabalho:</strong> 40 horas semanais com <span class="grifo">Dedicação Exclusiva (DE)</span> (Lei 12.772/2012).
+                        </li>
+                        <li class="leading-relaxed">
+                            • <strong>Divisão Institucional da Carga Horária:</strong> <span class="grifo">Mínimo de 20 horas</span> destinadas prioritariamente ao Ensino (preparação, regência, atendimento e avaliação).
+                        </li>
+                        <li class="leading-relaxed">
+                            • <strong>Indissociabilidade do Tripé:</strong> O restante da carga horária é dividido entre Pesquisa Aplicada, Extensão Tecnológica e Gestão Institucional.
+                        </li>
+                        <li class="leading-relaxed">
+                            • <strong>Instrumentos de Planejamento Docente no IFSC:</strong>
+                            <p class="text-xs text-slate-600 mt-1">
+                                - <span class="grifo-info">PIT (Plano Individual de Trabalho):</span> Documento semestral prévio de pactuação das atividades.<br>
+                                - <span class="grifo-info">RIT (Relatório Individual de Trabalho):</span> Prestação de contas e comprovação posterior das ações executadas.
+                            </p>
+                        </li>
+                        <li class="leading-relaxed">
+                            • <strong>Eixo de Verticalização:</strong> O docente do IFSC atua simultaneamente no Ensino Médio Integrado, PROEJA, Graduação Tecnológica/Bacharelado e Pós-Graduação.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOCO 02: EIXOS TEÓRICOS CENTRAIS DA ORGANIZAÇÃO DO TRABALHO DOCENTE -->
+        <section class="space-y-6">
+            <div class="border-b border-slate-200 pb-2">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Bloco 02</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">2. Eixos Teóricos Fundamentais (Referencial Completo FAURGS)</h2>
+            </div>
+
+            <!-- A. Celso Vasconcellos -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm space-y-4">
+                <div class="border-l-4 border-slate-900 pl-3">
+                    <h3 class="text-lg font-bold text-slate-900">A. Celso Vasconcellos: Planejamento Dialético e o PPP</h3>
+                    <p class="text-xs text-slate-600">O planejamento é uma <span class="grifo">mediação teórico-metodológica</span> para que a ação docente seja consciente, intencional, crítica e transformadora.</p>
+                </div>
+
+                <!-- Níveis de Abrangência do Planejamento -->
+                <div>
+                    <h4 class="text-sm font-bold text-slate-900 mb-2">Níveis de Abrangência do Planejamento Escolar:</h4>
+                    <div class="grid sm:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <span class="font-bold text-slate-900 block mb-1">1. Planejamento da Escola</span>
+                            Consolida-se no <span class="grifo">Projeto Político-Pedagógico (PPP)</span> como identidade da instituição.
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <span class="font-bold text-slate-900 block mb-1">2. Planejamento Curricular</span>
+                            Espinha dorsal da seleção, organização e articulação das experiências de aprendizagem oferecidas.
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <span class="font-bold text-slate-900 block mb-1">3. Projeto de Ensino</span>
+                            Subdividido em <span class="grifo">Plano de Curso</span> (disciplina/módulo) e <span class="grifo">Plano de Aula</span> (unidade de trabalho diária).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dimensões Relacionais & Equações Dialéticas -->
+                <div class="space-y-3">
+                    <h4 class="text-sm font-bold text-slate-900">Dimensões Relacionais do Planejamento Dialético:</h4>
+                    <p class="text-xs text-slate-700 leading-relaxed">
+                        O planejamento nasce do choque e da tensão dialética entre o que a realidade escolar <strong>é hoje</strong> e a utopia do que ela <strong>deseja se tornar</strong>.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs font-mono">
+                        <span class="px-3 py-1.5 bg-slate-100 border border-slate-300 rounded text-slate-800">
+                            Tensão Dialética = <strong>Realidade (Ser) ↔ Finalidade (Dever-Ser)</strong>
+                        </span>
+                        <span class="px-3 py-1.5 bg-slate-100 border border-slate-300 rounded text-slate-800">
+                            Mediação Didática = <strong>Plano de Ação Prático</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Tabela 1: Sem Rolagem Horizontal -->
+                <div class="pt-2">
+                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tabela de Mapeamento: Dimensões Dialéticas de Vasconcellos</h4>
+                    <div class="w-full border border-slate-200 rounded-lg overflow-hidden">
+                        <table class="w-full table-fixed text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-900 text-xs font-bold">
+                                    <th class="p-2 sm:p-3 w-1/4 border-r border-slate-200">Dimensão</th>
+                                    <th class="p-2 sm:p-3 w-1/4 border-r border-slate-200">Atividade Reflexiva</th>
+                                    <th class="p-2 sm:p-3 w-2/4">Caracterização Metodológica para Prova</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-xs sm:text-sm divide-y divide-slate-200 bg-white">
+                                <tr>
+                                    <td class="p-2 sm:p-3 font-semibold text-slate-900 border-r border-slate-200 break-words">Realidade</td>
+                                    <td class="p-2 sm:p-3 border-r border-slate-200 break-words"><span class="grifo">Cognoscitiva</span></td>
+                                    <td class="p-2 sm:p-3 text-slate-700 break-words">Diagnóstico científico e crítico da situação real, identificando necessidades, contradições e limites do contexto escolar.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 sm:p-3 font-semibold text-slate-900 border-r border-slate-200 break-words">Finalidade</td>
+                                    <td class="p-2 sm:p-3 border-r border-slate-200 break-words"><span class="grifo">Teleológica</span></td>
+                                    <td class="p-2 sm:p-3 text-slate-700 break-words">Horizonte utópico, intencionalidade política e ideológica. Define o modelo de sociedade, sujeito e educação desejados.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 sm:p-3 font-semibold text-slate-900 border-r border-slate-200 break-words">Plano de Ação</td>
+                                    <td class="p-2 sm:p-3 border-r border-slate-200 break-words"><span class="grifo">Projetivo-Mediadora</span></td>
+                                    <td class="p-2 sm:p-3 text-slate-700 break-words">Operacionalização das propostas para encurtar a distância entre a realidade diagnosticada e a finalidade pretendida.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. Ilma Passos Veiga -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm space-y-4">
+                <div class="border-l-4 border-slate-900 pl-3">
+                    <h3 class="text-lg font-bold text-slate-900">B. Ilma Passos Alencastro Veiga: O PPP Emancipatório e Democrático</h3>
+                    <p class="text-xs text-slate-600">O Projeto Político-Pedagógico não é mero documento burocrático, mas uma <span class="grifo">construção coletiva de autonomia e democratização</span>.</p>
+                </div>
+
+                <!-- Princípios Norteadores da Escola Pública segundo Veiga -->
+                <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                    <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">Os 5 Princípios Fundamentais do PPP (Veiga):</h4>
+                    <div class="grid sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <strong class="text-slate-900 block mb-0.5">1. Igualdade de Condições</strong>
+                            Garantia de acesso e <span class="grifo">permanência com êxito</span> para todos os estudantes, combatendo a seletividade socioeconômica.
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <strong class="text-slate-900 block mb-0.5">2. Qualidade para Todos</strong>
+                            Qualidade formal (conteúdos bem estruturados) indissociável da <span class="grifo">qualidade política</span> (formação para a cidadania).
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <strong class="text-slate-900 block mb-0.5">3. Gestão Democrática</strong>
+                            Participação direta de docentes, estudantes, técnicos e comunidade no planejamento, decisão e avaliação da escola.
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                            <strong class="text-slate-900 block mb-0.5">4. Liberdade e Autonomia</strong>
+                            Autonomia pedagógica, administrativa e financeira da instituição no contexto do seu território.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estrutura do PPP -->
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
+                    <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Três Partes Integrantes da Estrutura do PPP:</h4>
+                    <ul class="text-xs text-slate-700 space-y-1">
+                        <li>• <strong>Marco Referencial:</strong> Subdividido em <span class="grifo-info">Situacional</span> (visão do contexto), <span class="grifo-info">Filosófico</span> (concepção de mundo e homem) e <span class="grifo-info">Operacional</span> (diretrizes de ação).</li>
+                        <li>• <strong>Diagnóstico:</strong> Análise minuciosa dos dados de aprendizagem, evasão, infraestrutura e perfil socioeconômico.</li>
+                        <li>• <strong>Programação/Plano de Ação:</strong> Definição de metas, responsáveis, recursos e cronograma de implementação.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- C. Roberto Sidnei Macedo -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm space-y-4">
+                <div class="border-l-4 border-slate-900 pl-3">
+                    <h3 class="text-lg font-bold text-slate-900">C. Roberto Sidnei Macedo: Abordagens Curriculares</h3>
+                    <p class="text-xs text-slate-600">Tipologia para análise e estruturação de propostas curriculares na educação contemporânea.</p>
+                </div>
+
+                <!-- Tabela 2: Sem Rolagem Horizontal -->
+                <div class="w-full border border-slate-200 rounded-lg overflow-hidden">
+                    <table class="w-full table-fixed text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-900 text-xs font-bold">
+                                <th class="p-2 sm:p-3 w-1/4 border-r border-slate-200">Abordagem</th>
+                                <th class="p-2 sm:p-3 w-1/3 border-r border-slate-200">Fundamentação Epistemológica</th>
+                                <th class="p-2 sm:p-3 w-5/12">Característica Prática para Prova</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs sm:text-sm divide-y divide-slate-200 bg-white">
+                            <tr>
+                                <td class="p-2 sm:p-3 font-semibold text-slate-900 border-r border-slate-200 break-words">Competências</td>
+                                <td class="p-2 sm:p-3 border-r border-slate-200 text-slate-700 break-words">Pedagogia construcionista e pragmática</td>
+                                <td class="p-2 sm:p-3 text-slate-700 break-words">Foco em situações complexas e mobilização de <span class="grifo">"saberes em uso"</span> para resolver problemas do mundo do trabalho.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 sm:p-3 font-semibold text-slate-900 border-r border-slate-200 break-words">Projetos de Trabalho</td>
+                                <td class="p-2 sm:p-3 border-r border-slate-200 text-slate-700 break-words">Globalização e relacionalidade</td>
+                                <td class="p-2 sm:p-3 text-slate-700 break-words">Saberes articulados de forma não linear, conectando conteúdos acadêmicos aos problemas reais da comunidade.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 sm:p-3 font-semibold text-slate-900 border-r border-slate-200 break-words">Temas Geradores</td>
+                                <td class="p-2 sm:p-3 border-r border-slate-200 text-slate-700 break-words">Pedagogia Libertadora (Paulo Freire)</td>
+                                <td class="p-2 sm:p-3 text-slate-700 break-words">Conteúdos emergentes da investigação da realidade dos educandos, unindo rigor acadêmico e consciência política.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 sm:p-3 font-semibold text-slate-900 border-r border-slate-200 break-words">Ciclos de Formação</td>
+                                <td class="p-2 sm:p-3 border-r border-slate-200 text-slate-700 break-words">Psicologia Histórico-Cultural</td>
+                                <td class="p-2 sm:p-3 text-slate-700 break-words">Organização temporal respeitando os ritmos biológicos, socioemocionais e cognitivos de cada etapa de vida.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- D. Avaliação: Jussara Hoffmann, Luckesi, Libâneo e Zabala -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm space-y-4">
+                <div class="border-l-4 border-slate-900 pl-3">
+                    <h3 class="text-lg font-bold text-slate-900">D. Avaliação da Aprendizagem: Hoffmann, Luckesi, Libâneo e Zabala</h3>
+                    <p class="text-xs text-slate-600">Superação da avaliação como instrumento punitivo e burocrático de nota.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-700">
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
+                        <strong class="text-slate-900 font-bold block text-sm">Jussara Hoffmann: Avaliação Mediadora</strong>
+                        <p class="leading-relaxed">
+                            • A avaliação é um processo contínuo e interativo. Opõe-se totalmente à lógica classificatória, seletiva e punitiva.
+                        </p>
+                        <p class="leading-relaxed">
+                            • Leitura do aprender em avaliação mediadora: precisa ser <span class="grifo">positiva</span>, <span class="grifo">prospectiva</span> (olhar para o futuro) e <span class="grifo">multidimensional</span>.
+                        </p>
+                        <p class="leading-relaxed">
+                            • <strong>Premissa Pedagógica:</strong> Todos os alunos são capazes de aprender, desde que existam mediações pedagógicas diferenciadas e adequadas.
+                        </p>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
+                        <strong class="text-slate-900 font-bold block text-sm">Luckesi & Libâneo: As 3 Funções da Avaliação</strong>
+                        <ul class="space-y-1.5 text-xs">
+                            <li>• <strong>Diagnóstica (Inicial):</strong> Identifica conhecimentos prévios e necessidades específicas antes da instrução.</li>
+                            <li>• <strong>Formativa (Processual):</strong> Acompanha o desenvolvimento, orienta o aluno e <span class="grifo">reorienta a prática do professor</span> em tempo real.</li>
+                            <li>• <strong>Somativa (Classificatória):</strong> Apura os resultados finais de aprendizagem ao término de uma etapa ou módulo.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Antoni Zabala - Tipos de Conteúdo -->
+                <div class="p-4 bg-white border border-slate-200 rounded-lg space-y-2">
+                    <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">A Tipologia dos Conteúdos segundo Antoni Zabala:</h4>
+                    <div class="grid sm:grid-cols-3 gap-3 text-xs">
+                        <div class="p-2.5 bg-slate-50 rounded border border-slate-200">
+                            <strong class="text-slate-900 block">1. Conceituais</strong>
+                            Saber dizer (conceitos, fatos, dados, princípios teóricos).
+                        </div>
+                        <div class="p-2.5 bg-slate-50 rounded border border-slate-200">
+                            <strong class="text-slate-900 block">2. Procedimentais</strong>
+                            Saber fazer (técnicas, métodos, algoritmos, normas de execução).
+                        </div>
+                        <div class="p-2.5 bg-slate-50 rounded border border-slate-200">
+                            <strong class="text-slate-900 block">3. Atitudinais</strong>
+                            Saber ser/estar (valores, atitudes éticas, cooperação, normas).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E. Didática e Saberes Docentes (Maurice Tardif) -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm space-y-3">
+                <div class="border-l-4 border-slate-900 pl-3">
+                    <h3 class="text-lg font-bold text-slate-900">E. Saberes Docentes (Maurice Tardif) e Didática</h3>
+                    <p class="text-xs text-slate-600">O saber docente é plural, heterogêneo e oriundo de múltiplas fontes sociais e acadêmicas.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-4 gap-3 text-xs">
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                        <strong class="text-slate-900 block mb-1">Saberes Disciplinares</strong>
+                        Saberes das áreas específicas do conhecimento (ex: Engenharia, Ciência da Computação, Linguística).
+                    </div>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                        <strong class="text-slate-900 block mb-1">Saberes Curriculares</strong>
+                        Saberes ligados aos programas, objetivos e conteúdos organizados pela instituição de ensino.
+                    </div>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                        <strong class="text-slate-900 block mb-1">Saberes Pedagógicos</strong>
+                        Saberes das ciências da educação e das teorias do ensino e da aprendizagem (Didática).
+                    </div>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                        <strong class="text-slate-900 block mb-1">Saberes Experienciais</strong>
+                        Saberes construídos na prática cotidiana do trabalho em sala de aula e no ambiente escolar.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOCO 03: ARMADILHAS DE PROVA DA FAURGS -->
+        <section class="space-y-4">
+            <div class="border-b border-slate-200 pb-2">
+                <span class="text-xs font-bold text-red-600 uppercase tracking-widest">Bloco 03 • Alerta Vermelho</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">3. Mapeamento de Armadilhas Recorrentes da FAURGS</h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Trap 1 -->
+                <div class="bg-red-50/60 border border-red-200 rounded-xl p-5 shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-wider">Peguinha #01 • Coerção na Avaliação Mediadora</span>
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 text-[11px] font-bold rounded">Incorreção Típica</span>
+                    </div>
+                    <p class="text-xs text-slate-700">
+                        <strong>A Armadilha:</strong> Usar linguajar moderno para introduzir a obrigatoriedade coercitiva e utilitária da aprendizagem.
+                    </p>
+                    <div class="p-3 bg-white border border-red-200 rounded-lg text-xs space-y-1">
+                        <span class="text-red-600 font-bold block">❌ Item Errado (Padrão FAURGS):</span>
+                        <p class="italic text-slate-800 font-mono text-[11px]">
+                            "São necessárias e desejáveis práticas avaliativas que tornem a aprendizagem obrigatória, visando garantir que todos aprendam sempre para alguma finalidade."
+                        </p>
+                    </div>
+                    <p class="text-xs text-slate-800 font-medium">
+                        <span class="grifo-sucesso">Regra de Memorização:</span> Jussara Hoffmann <strong>rejeita veementemente</strong> o viés utilitarista coercitivo ("aprender obrigatório para algo") ou práticas de controle disciplinar sobre os alunos.
+                    </p>
+                </div>
+
+                <!-- Trap 2 -->
+                <div class="bg-red-50/60 border border-red-200 rounded-xl p-5 shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-wider">Peguinha #02 • Cláusulas Restritivas no PPP</span>
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 text-[11px] font-bold rounded">Incorreção Típica</span>
+                    </div>
+                    <p class="text-xs text-slate-700">
+                        <strong>A Armadilha:</strong> Definir perfeitamente o PPP como projeto identitário e inserir exceções sutis no final da frase.
+                    </p>
+                    <div class="p-3 bg-white border border-red-200 rounded-lg text-xs space-y-1">
+                        <span class="text-red-600 font-bold block">❌ Item Errado (Padrão FAURGS):</span>
+                        <p class="italic text-slate-800 font-mono text-[11px]">
+                            "...documento de identidade da escola que abrange os princípios pedagógicos, exceto a forma de gestão institucional e as diretrizes de avaliação escolar."
+                        </p>
+                    </div>
+                    <p class="text-xs text-slate-800 font-medium">
+                        <span class="grifo-sucesso">Regra de Memorização:</span> O PPP é <strong>global e holístico</strong>. Gestão escolar, avaliação e organização curricular <strong>fazem parte obrigatoriamente</strong> do PPP (Veiga/Vasconcellos).
+                    </p>
+                </div>
+
+                <!-- Trap 3 -->
+                <div class="bg-red-50/60 border border-red-200 rounded-xl p-5 shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-wider">Peguinha #03 • Projetos de Ensino como Receita Pronta</span>
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 text-[11px] font-bold rounded">Incorreção Típica</span>
+                    </div>
+                    <p class="text-xs text-slate-700">
+                        <strong>A Armadilha:</strong> Descrever o projeto de ensino como um roteiro cartesiano inflexível centrado unicamente na entrega de um produto final.
+                    </p>
+                    <p class="text-xs text-slate-800 font-medium">
+                        <span class="grifo-sucesso">Regra de Memorização:</span> Para a banca, a marca registrada dos projetos é a <span class="grifo">flexibilidade, incerteza construtiva e abertura dialógica</span>. A jornada de aprendizagem importa mais que o produto final.
+                    </p>
+                </div>
+
+                <!-- Trap 4 -->
+                <div class="bg-red-50/60 border border-red-200 rounded-xl p-5 shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-wider">Peguinha #04 • Medir vs. Avaliar</span>
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 text-[11px] font-bold rounded">Incorreção Típica</span>
+                    </div>
+                    <p class="text-xs text-slate-700">
+                        <strong>A Armadilha:</strong> Tratar os conceitos de "medir/testar" e "avaliar" como equivalentes ou sinônimos em avaliações somativas.
+                    </p>
+                    <p class="text-xs text-slate-800 font-medium">
+                        <span class="grifo-sucesso">Regra de Memorização:</span> <strong>Medir</strong> é atribuição de notas de forma estática; <strong>Avaliar</strong> é um ato qualitativo, dinâmico e direcionado ao diagnóstico e transformação (Luckesi).
+                    </p>
+                </div>
+
+                <!-- Trap 5 -->
+                <div class="bg-red-50/60 border border-red-200 rounded-xl p-5 shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-wider">Peguinha #05 • O "PPP-Gaveta" (Burocratização)</span>
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 text-[11px] font-bold rounded">Incorreção Típica</span>
+                    </div>
+                    <p class="text-xs text-slate-700">
+                        <strong>A Armadilha:</strong> Considerar o PPP como uma tarefa burocrática exclusiva da equipe diretiva ou da supervisão pedagógica.
+                    </p>
+                    <p class="text-xs text-slate-800 font-medium">
+                        <span class="grifo-sucesso">Regra de Memorização:</span> O PPP elaborado por especialistas sem a participação comunitária/docente é considerado <span class="grifo-alerta">ilegítimo e ineficaz</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOCO 04: INTEGRAÇÃO PRÁTICA NA INFORMÁTICA (IFSC) -->
+        <section class="space-y-4">
+            <div class="border-b border-slate-200 pb-2">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Bloco 04</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">4. Aplicação Prática: O Trabalho Docente em Informática no IFSC</h2>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm space-y-4">
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-1">
+                        <h3 class="text-sm font-bold text-slate-900">Abordagem CTS (Ciência, Tecnologia e Sociedade)</h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            O ensino de computação e desenvolvimento de software <span class="grifo">não pode ser meramente instrumental/tecnicista</span>. Deve abordar ética, soberania tecnológica, impactos sociais da Inteligência Artificial e privacidade de dados.
+                        </p>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-1">
+                        <h3 class="text-sm font-bold text-slate-900">Pedagogia Histórico-Crítica (PHC) e Omnilateralidade</h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            O conhecimento tecnológico é tratado como <span class="grifo">patrimônio histórico-cultural acumulado pela humanidade</span>. O objetivo é a formação humana integral (omnilateral), unindo ciência, cultura e trabalho.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-amber-50/50 border border-amber-200 rounded-lg space-y-2">
+                    <h3 class="text-sm font-bold text-amber-950 flex items-center gap-2">
+                        <span>💡</span> Ressignificação Pedagógica do Erro no Ensino de Programação
+                    </h3>
+                    <p class="text-xs text-slate-800 leading-relaxed">
+                        Na didática da Informática, a avaliação mediadora de Jussara Hoffmann deve <span class="grifo">transformar o "bug" (erro de código/lógica) em motor de aprendizagem</span>. O erro deixa de ser falha punível com perda de nota e passa a ser hipótese de raciocínio a ser investigada pelo estudante.
+                    </p>
+                </div>
+
+                <!-- Adaptação por Nível de Ensino (Verticalização) -->
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 mb-2">Articulação Prática na Verticalização da Carreira:</h3>
+                    <div class="grid sm:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3 border border-slate-200 rounded-lg bg-white">
+                            <strong class="text-slate-900 block mb-1">PROEJA (EJA + Técnico)</strong>
+                            Acolhimento da bagagem de vida do estudante trabalhador, utilizando metodologias ativas que combatem a evasão escolar.
+                        </div>
+                        <div class="p-3 border border-slate-200 rounded-lg bg-white">
+                            <strong class="text-slate-900 block mb-1">Ensino Médio Integrado (EMI)</strong>
+                            Integração entre disciplinas da Formação Geral Básica (Matemática, Física, História) e componentes técnicos da Informática através de projetos interdisciplinares.
+                        </div>
+                        <div class="p-3 border border-slate-200 rounded-lg bg-white">
+                            <strong class="text-slate-900 block mb-1">Ensino Superior / Pós-Graduação</strong>
+                            Desenvolvimento de projetos de extensão tecnológica e pesquisa aplicada para resolver desafios concretos do setor produtivo regional.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTÃO FINAL DE NAVEGAÇÃO -->
+        <div class="pt-6 pb-12 text-center border-t border-slate-200 space-y-3">
+            <p class="text-xs text-slate-500 font-medium">Revisão teórica concluída. Teste sua retenção de conteúdo:</p>
+            <a href="questoes2.html" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold text-base rounded-xl transition-all shadow-md hover:shadow-lg transform active:scale-95">
+                <span>Ir para Banco de Questões (questões.html)</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- SCRIPT DE GERENCIAMENTO DE ÁUDIO -->
+    <script>
+        function updateAudioSource() {
+            const fileNameInput = document.getElementById('audioFileName').value.trim();
+            const audioPlayer = document.getElementById('mainAudioPlayer');
+            const audioSource = document.getElementById('audioSource');
+
+            if (fileNameInput !== "") {
+                audioSource.src = fileNameInput;
+                audioPlayer.load();
+                console.log("Fonte de áudio atualizada para:", fileNameInput);
+            }
+        }
+    </script>
+</body>
+</html>

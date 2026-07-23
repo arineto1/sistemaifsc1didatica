@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo IFSC FAURGS - Teoria e Prática de Currículo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b; /* Slate 800 - Leitura suave e sem cansar a visão */
+            background-color: #f8fafc; /* Slate 50 - Fundo claro e neutro */
+        }
+        
+        /* Grifos estilizados com contraste ideal e sem cansar a visão */
+        mark.grifo-amarelo {
+            background-color: #fef08a; /* Yellow 200 */
+            color: #854d0e; /* Yellow 900 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        mark.grifo-verde {
+            background-color: #dcfce7; /* Green 100 */
+            color: #166534; /* Green 800 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        mark.grifo-vermelho {
+            background-color: #fee2e2; /* Red 100 */
+            color: #991b1b; /* Red 800 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        /* Tabelas fluidas com quebra de texto automatica para eliminar scroll horizontal */
+        .table-responsive-no-scroll {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        .table-responsive-no-scroll th,
+        .table-responsive-no-scroll td {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen pb-16">
+
+    <!-- Top Navigation / Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded text-xs tracking-wide uppercase border border-emerald-200">Concurso IFSC</span>
+                <span class="bg-blue-100 text-blue-800 font-bold px-2.5 py-1 rounded text-xs tracking-wide uppercase border border-blue-200">Banca FAURGS</span>
+            </div>
+            <h1 class="text-sm sm:text-base font-bold text-slate-700 text-center sm:text-right">Professor EBTT: Informática</h1>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-6 space-y-8">
+
+        <!-- Banner Titulo da Ficha -->
+        <section class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 text-center sm:text-left">
+            <div class="flex items-center justify-center sm:justify-start gap-2 text-emerald-600 font-semibold mb-2 text-sm uppercase tracking-wider">
+                <i class="fa-solid fa-book-open"></i> Ficha de Memorização Rápida
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">Teoria e Prática de Currículo</h1>
+            <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                Conteúdo <mark class="grifo-amarelo">100% focado</mark> no padrão de cobrança da banca <mark class="grifo-amarelo">FAURGS</mark> para o IFSC. Estruturado para leitura rápida, retenção de termos-chave e mapeamento de pegadinhas de prova.
+            </p>
+        </section>
+
+        <!-- Reprodutor de Áudio MP3 -->
+        <section class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg font-bold">
+                        <i class="fa-solid fa-headphones"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-800">Estudo em Áudio (MP3)</h2>
+                        <p class="text-xs text-slate-500">Ouça a aula enquanto faz a leitura do resumo</p>
+                    </div>
+                </div>
+                <!-- Input configuravel de nome do arquivo de audio -->
+                <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 flex items-center gap-2 text-xs">
+                    <i class="fa-solid fa-file-audio text-slate-400"></i>
+                    <span class="text-slate-500 font-medium">Arquivo:</span>
+                    <input type="text" id="audioSourceInput" value="audio3.mp3" class="bg-white border border-slate-300 rounded px-2 py-1 text-slate-700 focus:outline-none focus:ring-1 focus:ring-emerald-500 w-48 font-mono text-xs" title="Digite o nome do arquivo MP3">
+                    <button onclick="atualizarAudio()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-2 py-1 rounded font-medium transition">Carregar</button>
+                </div>
+            </div>
+
+            <!-- HTML5 Player -->
+            <div class="bg-slate-100 p-3 rounded-xl border border-slate-200">
+                <audio id="mainAudioPlayer" controls class="w-full">
+                    <source id="audioSource" src="audio3.mp3" type="audio/mpeg">
+                    Seu navegador não suporta a reprodução de áudio HTML5.
+                </audio>
+            </div>
+            <p class="text-xs text-slate-400 mt-2 italic flex items-center gap-1">
+                <i class="fa-solid fa-circle-info"></i> Para ouvir, certifique-se de que o arquivo MP3 esteja na mesma pasta desta página.
+            </p>
+        </section>
+
+        <!-- SEÇÃO 1: Estrutura Estratégica -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                <span class="bg-slate-100 text-slate-700 font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm">1</span>
+                <h2 class="text-lg font-bold text-slate-800">Estrutura Estratégica do Concurso IFSC (Carreira EBTT)</h2>
+            </div>
+            
+            <p class="text-sm text-slate-600 leading-relaxed">
+                A prova escrita unificada possui caráter <mark class="grifo-vermelho">eliminatório e classificatório</mark>, com tempo total de <mark class="grifo-amarelo">4 horas e 30 minutos</mark> de duração para a resolução conjunta das provas objetiva e discursiva.
+            </p>
+
+            <!-- Tabela 1: Estrutura da Prova (Sem scroll horizontal) -->
+            <div class="w-full my-4">
+                <table class="table-responsive-no-scroll border border-slate-200 rounded-lg text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 font-semibold text-left border-b border-slate-200">
+                            <th class="p-2 sm:p-3 w-4/12">Componente</th>
+                            <th class="p-2 sm:p-3 w-2/12 text-center">Questões</th>
+                            <th class="p-2 sm:p-3 w-3/12 text-center">Mínimo Exigido</th>
+                            <th class="p-2 sm:p-3 w-3/12">Foco / Relevância</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-700">
+                        <tr>
+                            <td class="p-2 sm:p-3 font-medium">Língua Portuguesa</td>
+                            <td class="p-2 sm:p-3 text-center">5</td>
+                            <td class="p-2 sm:p-3 text-center"><mark class="grifo-amarelo">2 acertos</mark></td>
+                            <td class="p-2 sm:p-3 text-slate-500">Eliminatória</td>
+                        </tr>
+                        <tr class="bg-slate-50/50">
+                            <td class="p-2 sm:p-3 font-medium">Legislação e Contexto EPT</td>
+                            <td class="p-2 sm:p-3 text-center">5</td>
+                            <td class="p-2 sm:p-3 text-center"><mark class="grifo-amarelo">1 acerto</mark></td>
+                            <td class="p-2 sm:p-3 text-slate-500">Eliminatória</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-medium">Conhecimentos Pedagógicos</td>
+                            <td class="p-2 sm:p-3 text-center">10</td>
+                            <td class="p-2 sm:p-3 text-center"><mark class="grifo-amarelo">1 acerto</mark></td>
+                            <td class="p-2 sm:p-3 font-semibold text-emerald-700">Decisiva para Discursiva</td>
+                        </tr>
+                        <tr class="bg-slate-50/50">
+                            <td class="p-2 sm:p-3 font-medium">Conhecimentos Específicos</td>
+                            <td class="p-2 sm:p-3 text-center">30</td>
+                            <td class="p-2 sm:p-3 text-center"><mark class="grifo-amarelo">15 acertos</mark></td>
+                            <td class="p-2 sm:p-3 font-semibold text-emerald-700">Maior peso relativo</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-medium">Prova Discursiva (Geral)</td>
+                            <td class="p-2 sm:p-3 text-center">1 (10-15 linhas)</td>
+                            <td class="p-2 sm:p-3 text-center"><mark class="grifo-verde">55,00 pontos</mark></td>
+                            <td class="p-2 sm:p-3 font-bold text-slate-800">Conhecimento Pedagógico</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs sm:text-sm text-amber-900 flex items-start gap-3">
+                <i class="fa-solid fa-triangle-exclamation text-amber-600 text-base mt-0.5"></i>
+                <div>
+                    <strong class="font-bold">Atenção à Prova Discursiva:</strong> A questão discursiva recai sobre <mark class="grifo-amarelo">Conhecimentos Pedagógicos</mark> e exige resposta dissertativa concisa (10 a 15 linhas), avaliando rigor conceitual, clareza teórica e fundamentação epistemológica.
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: Dimensões do Currículo -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                <span class="bg-slate-100 text-slate-700 font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm">2</span>
+                <h2 class="text-lg font-bold text-slate-800">Dimensões do Currículo (Modos de Manifestação)</h2>
+            </div>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+                O currículo ultrapassa o senso comum de simples "grade horária" ou "lista de disciplinas". Configura-se como <mark class="grifo-amarelo">seleção intencional de conhecimentos</mark> inserida em disputas ideológicas, culturais e de poder.
+            </p>
+
+            <!-- Tabela 2: Dimensões do Currículo (Sem scroll horizontal) -->
+            <div class="w-full my-4">
+                <table class="table-responsive-no-scroll border border-slate-200 rounded-lg text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 font-semibold text-left border-b border-slate-200">
+                            <th class="p-2 sm:p-3 w-3/12">Dimensão</th>
+                            <th class="p-2 sm:p-3 w-3/12">Caráter</th>
+                            <th class="p-2 sm:p-3 w-3/12">Definição Operacional</th>
+                            <th class="p-2 sm:p-3 w-3/12">Exemplos Práticos</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-700">
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold text-slate-900">Formal</td>
+                            <td class="p-2 sm:p-3"><mark class="grifo-verde">Prescrito / Oficial</mark></td>
+                            <td class="p-2 sm:p-3">Normativo, documental, estruturado antes do ato educativo.</td>
+                            <td class="p-2 sm:p-3 text-slate-600">Diretrizes, BNCC, PDI, PPP, PPC do curso.</td>
+                        </tr>
+                        <tr class="bg-slate-50/50">
+                            <td class="p-2 sm:p-3 font-bold text-slate-900">Real</td>
+                            <td class="p-2 sm:p-3"><mark class="grifo-amarelo">Em Ação / Vivenciado</mark></td>
+                            <td class="p-2 sm:p-3">O currículo que de fato acontece na sala de aula; transposição didática e adaptações.</td>
+                            <td class="p-2 sm:p-3 text-slate-600">Aulas efetivamente ministradas, metodologias aplicadas.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold text-slate-900">Oculto</td>
+                            <td class="p-2 sm:p-3"><mark class="grifo-vermelho">Implícito / Não-Oficial</mark></td>
+                            <td class="p-2 sm:p-3">Assistemático, não-escrito; ensina atitudes, valores, comportamentos e rituais sociais.</td>
+                            <td class="p-2 sm:p-3 text-slate-600">Relações de hierarquia, pontualidade rigorosa, disposição espacial das carteiras.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: Matriz Epistemológica -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                <span class="bg-slate-100 text-slate-700 font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm">3</span>
+                <h2 class="text-lg font-bold text-slate-800">Matriz Epistemológica das Teorias do Currículo</h2>
+            </div>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Classificação clássica baseada em Tomaz Tadeu da Silva. É a ferramenta mais cobrada pela FAURGS para testar o domínio do candidato sobre os objetivos de cada abordagem teórica.
+            </p>
+
+            <!-- Tabela 3: Teorias do Currículo (Sem scroll horizontal) -->
+            <div class="w-full my-4">
+                <table class="table-responsive-no-scroll border border-slate-200 rounded-lg text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 font-semibold text-left border-b border-slate-200">
+                            <th class="p-2 sm:p-3 w-3/12">Paradigma</th>
+                            <th class="p-2 sm:p-3 w-3/12">Palavras-Chave de Prova</th>
+                            <th class="p-2 sm:p-3 w-3/12">Questionamento Central</th>
+                            <th class="p-2 sm:p-3 w-3/12">Objetivo Social / Fim</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-700">
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold text-slate-900">Tradicional</td>
+                            <td class="p-2 sm:p-3">
+                                <mark class="grifo-amarelo">Eficiência</mark>, organização, taylorismo, planejamento, memorização, neutralidade, adaptação.
+                            </td>
+                            <td class="p-2 sm:p-3 italic text-slate-600">
+                                "Como ensinar de forma mais eficiente?"
+                            </td>
+                            <td class="p-2 sm:p-3">
+                                Adaptar o estudante ao sistema produtivo e à fábrica.
+                            </td>
+                        </tr>
+                        <tr class="bg-slate-50/50">
+                            <td class="p-2 sm:p-3 font-bold text-slate-900">Crítica</td>
+                            <td class="p-2 sm:p-3">
+                                <mark class="grifo-verde">Ideologia</mark>, poder, hegemonia, classe social, reprodução, emancipação, práxis, resistência.
+                            </td>
+                            <td class="p-2 sm:p-3 italic text-slate-600">
+                                "Por que este conhecimento e não outro? A quem serve?"
+                            </td>
+                            <td class="p-2 sm:p-3">
+                                Libertação e emancipação contra as desigualdades de classe.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold text-slate-900">Pós-Crítica</td>
+                            <td class="p-2 sm:p-3">
+                                <mark class="grifo-amarelo">Identidade</mark>, alteridade, diferença, representação, multiculturalismo, discurso, gênero, raça.
+                            </td>
+                            <td class="p-2 sm:p-3 italic text-slate-600">
+                                "Quem somos nós? Como o discurso nos subjetiva?"
+                            </td>
+                            <td class="p-2 sm:p-3">
+                                Desconstruir binarismos e validar as diferenças singulares.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: PHC e Currículo Integrado na EPT -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                <span class="bg-slate-100 text-slate-700 font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm">4</span>
+                <h2 class="text-lg font-bold text-slate-800">Conexão PHC e Currículo Integrado na EPT (O Core do IFSC)</h2>
+            </div>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+                O Projeto Pedagógico Institucional (PPI) do IFSC assume formalmente a <mark class="grifo-verde">Pedagogia Histórico-Crítica (PHC)</mark> de Dermeval Saviani como base norteadora do processo educativo.
+            </p>
+
+            <!-- Bloco A: PHC -->
+            <div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-emerald-600"></i> A. Pedagogia Histórico-Crítica (Saviani)
+                </h3>
+                <ul class="space-y-2 text-xs sm:text-sm text-slate-700 list-disc list-inside">
+                    <li>
+                        <strong class="text-slate-900">Função Social da Escola:</strong> Garantir o acesso democrático ao <mark class="grifo-amarelo">saber sistematizado, elaborado e erudito (ciência)</mark>, opondo-se ativamente à limitação do ensino a meros saberes cotidianos ou espontâneos fragmentados.
+                    </li>
+                    <li>
+                        <strong class="text-slate-900">Movimento Dialético do Conhecimento:</strong> Inicia-se na visão caótica inicial (<mark class="grifo-amarelo">Sincrese</mark>), passa pela mediação teórica e instrumental (<mark class="grifo-amarelo">Análise/Instrumentalização</mark>) e consolida-se na compreensão prática transformada (<mark class="grifo-verde">Síntese</mark>).
+                    </li>
+                    <li>
+                        <strong class="text-slate-900">Papel dos Sujeitos:</strong> O professor representa o ponto de chegada provisório (Síntese); o aluno inicia na visão ingênua (Sincrese). O ensino promove a elevação do senso comum ao conhecimento filosófico/científico.
+                    </li>
+                </ul>
+
+                <!-- Sub-bloco: Os 5 Passos da Prática Pedagógica na PHC -->
+                <div class="mt-4 bg-white p-3.5 rounded-lg border border-emerald-200 space-y-2">
+                    <span class="text-xs font-bold text-emerald-800 uppercase tracking-wider block border-b border-emerald-100 pb-1">
+                        <i class="fa-solid fa-list-ol text-emerald-600"></i> Os 5 Passos do Método Pedagógico Histórico-Crítico (Saviani)
+                    </span>
+                    <ol class="space-y-1.5 text-xs text-slate-700 list-decimal list-inside font-normal">
+                        <li><strong class="text-slate-900">1. Prática Social Inicial:</strong> Ponto de partida comum entre professor e alunos, embora em níveis de compreensão diferentes (ponto de partida do conhecimento empírico).</li>
+                        <li><strong class="text-slate-900">2. Problematização:</strong> Identificação das questões e problemas da prática social que necessitam do conhecimento científico para serem superados.</li>
+                        <li><strong class="text-slate-900">3. Instrumentalização:</strong> Apropriação dos instrumentos teóricos, práticos e científicos acumulados pela humanidade para solucionar os problemas.</li>
+                        <li><strong class="text-slate-900">4. Catarse:</strong> Incorporação efetiva dos instrumentos teóricos; o aluno alcança uma nova estrutura mental e compreensão qualitativamente superior da realidade.</li>
+                        <li><strong class="text-slate-900">5. Prática Social Final:</strong> Ponto de chegada onde o aluno retorna à realidade social com capacidade de atuação consciente, crítica e transformadora.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Bloco B: Trabalho como Principio Educativo -->
+            <div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-briefcase text-emerald-600"></i> B. Trabalho como Princípio Educativo & Politecnia
+                </h3>
+                <ul class="space-y-2 text-xs sm:text-sm text-slate-700 list-disc list-inside">
+                    <li>
+                        <strong class="text-slate-900">Dimensão Ontológica:</strong> Trabalho como atividade vital de criação, autoprodução e transformação da natureza humana (emancipatório).
+                    </li>
+                    <li>
+                        <strong class="text-slate-900">Dimensão Histórica (Capitalista):</strong> Trabalho sob a lógica de alienação e exploração, impondo a divisão rígida entre trabalho manual (execução) e intelectual (concepção).
+                    </li>
+                    <li>
+                        <strong class="text-slate-900">Objetivo na EPT:</strong> Superar a histórica <mark class="grifo-vermelho">dualidade educacional brasileira</mark> (formação propedêutica/acadêmica para elites versus treinamento instrumental/manual para trabalhadores).
+                    </li>
+                </ul>
+
+                <!-- Diferença Politecnia x Polivalência -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs mt-3">
+                    <div class="bg-white p-3 rounded-lg border border-amber-200">
+                        <strong class="text-amber-800 font-bold block mb-1">Polivalência (Treinamento Mercadológico)</strong>
+                        <p class="text-slate-600">Conceito do capital: capacidade de executar tarefas operacionais variadas e superficiais conforme a conveniência do mercado de trabalho.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-emerald-200">
+                        <strong class="text-emerald-800 font-bold block mb-1">Politecnia (Formação Emancipatória)</strong>
+                        <p class="text-slate-600">Conceito da EPT Crítica (Frigotto, Saviani): domínio dos fundamentos científicos, tecnológicos e históricos de todas as formas de produção moderna.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloco C: Antitese de Prova -->
+            <div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-scale-unbalanced text-emerald-600"></i> C. Antítese Pedagógica de Prova (O Confronto)
+                </h3>
+
+                <!-- Comparacao em grid limpo -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                    <div class="bg-white p-3.5 rounded-lg border border-red-200 space-y-1.5">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-wider block border-b border-red-100 pb-1">
+                            <i class="fa-solid fa-xmark"></i> Pedagogia das Competências
+                        </span>
+                        <p class="text-xs text-slate-600">
+                            Pragmática, utilitarista e pautada na lógica gerencial de mercado.
+                        </p>
+                        <p class="text-xs text-slate-700">
+                            Foca no <mark class="grifo-vermelho">"aprender a aprender"</mark>, na adaptabilidade passiva e na individualização das incertezas.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-lg border border-emerald-200 space-y-1.5">
+                        <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block border-b border-emerald-100 pb-1">
+                            <i class="fa-solid fa-check"></i> Currículo Integrado
+                        </span>
+                        <p class="text-xs text-slate-600">
+                            Baseado na <mark class="grifo-verde">Omnilateralidade</mark> (formação humana integral).
+                        </p>
+                        <p class="text-xs text-slate-700">
+                            Unifica ciência, cultura, trabalho e tecnologia como totalidade concreta e emancipatória.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: Transposição Didática, Níveis de Planejamento e Autores -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                <span class="bg-slate-100 text-slate-700 font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm">5</span>
+                <h2 class="text-lg font-bold text-slate-800">Transposição Didática, Níveis de Planejamento e Teóricos Clássicos</h2>
+            </div>
+
+            <!-- Transposição Didática -->
+            <div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-diagram-project text-emerald-600"></i> Transposição Didática (Yves Chevallard)
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Processo pelo qual o conhecimento científico/acadêmico sofre transformações para se tornar um saber ensinável e compreensível para os alunos.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs mt-2">
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">1. Saber Sabido (Sábio)</span>
+                        <p class="text-slate-600">Conhecimento científico puro produzido pelas comunidades acadêmicas e pesquisadores.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">2. Saber a Ensinar</span>
+                        <p class="text-slate-600">Conhecimento selecionado e organizado pelos documentos curriculares e livros didáticos.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">3. Saber Ensinado</span>
+                        <p class="text-slate-600">Conhecimento efetivamente trabalhado e transformado pelo professor em sala de aula.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Níveis de Concretização Curricular / Planejamento -->
+            <div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-emerald-600"></i> Níveis do Planejamento Educacional e Curricular
+                </h3>
+                <div class="w-full my-2">
+                    <table class="table-responsive-no-scroll border border-slate-200 rounded-lg text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-semibold text-left border-b border-slate-200">
+                                <th class="p-2 sm:p-3 w-3/12">Nível</th>
+                                <th class="p-2 sm:p-3 w-3/12">Âmbito</th>
+                                <th class="p-2 sm:p-3 w-6/12">Documentos / Instrumentos Representativos</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-700">
+                            <tr>
+                                <td class="p-2 sm:p-3 font-bold text-slate-900">Macro (Nacional)</td>
+                                <td class="p-2 sm:p-3">Políticas Públicas / Sistema</td>
+                                <td class="p-2 sm:p-3 text-slate-600">LDB, DCNETP, BNCC, PNE. Define metas e diretrizes gerais do Estado.</td>
+                            </tr>
+                            <tr class="bg-slate-50/50">
+                                <td class="p-2 sm:p-3 font-bold text-slate-900">Meso (Institucional)</td>
+                                <td class="p-2 sm:p-3">Escola / Campus IFSC</td>
+                                <td class="p-2 sm:p-3 text-slate-600">PDI (Plano de Desenvolvimento Institucional), PPP (Projeto Político-Pedagógico), PPC de Curso.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 sm:p-3 font-bold text-slate-900">Micro (Docente)</td>
+                                <td class="p-2 sm:p-3">Sala de Aula / Disciplina</td>
+                                <td class="p-2 sm:p-3 text-slate-600">Plano de Ensino (Plano de Curso), Plano de Aula, Projetos Integradores.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Principais Autores das Teorias do Currículo -->
+            <div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-users-gear text-emerald-600"></i> Mapeamento Rápido de Teóricos de Currículo (FAURGS)
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block border-b border-slate-100 pb-1 mb-1">
+                            <i class="fa-solid fa-book text-slate-500"></i> Michael Apple
+                        </span>
+                        <p class="text-slate-600">Análise de como o currículo oficial transmite a <mark class="grifo-amarelo">ideologia e hegemonia</mark> das classes dominantes. Conceito de "Conhecimento Oficial".</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block border-b border-slate-100 pb-1 mb-1">
+                            <i class="fa-solid fa-book text-slate-500"></i> Henry Giroux
+                        </span>
+                        <p class="text-slate-600">Teoria da Resistência. Defende os professores como <mark class="grifo-verde">intelectuais transformadores</mark> e a escola como espaço de contestação política.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block border-b border-slate-100 pb-1 mb-1">
+                            <i class="fa-solid fa-book text-slate-500"></i> Bourdieu & Passeron
+                        </span>
+                        <p class="text-slate-600">Teoria do Capital Cultural e Violência Simbólica. A escola e o currículo reproduzem as desigualdades de origem social (<mark class="grifo-vermelho">Reprodução Cultural</mark>).</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block border-b border-slate-100 pb-1 mb-1">
+                            <i class="fa-solid fa-book text-slate-500"></i> Sacristán (Gimeno)
+                        </span>
+                        <p class="text-slate-600">Compreensão do currículo como <mark class="grifo-amarelo">práxis e processo dinâmico</mark> construído socialmente em múltiplas fases (prescrito, apresentado, modelado, em ação, realizado, avaliado).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 6: Avaliação Pedagógica e Pesquisa como Princípio -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                <span class="bg-slate-100 text-slate-700 font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm">6</span>
+                <h2 class="text-lg font-bold text-slate-800">Avaliação da Aprendizagem e Pesquisa como Princípio Pedagógico</h2>
+            </div>
+
+            <!-- Modalidades de Avaliação -->
+            <div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-check text-emerald-600"></i> Tipologia de Avaliação no Planejamento Curricular
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">Diagnostica (Início)</span>
+                        <p class="text-slate-600">Verifica os conhecimentos prévios e o nível real do aluno. Sem caráter classificatório ou punitivo.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">Formativa (Processual)</span>
+                        <p class="text-slate-600"><mark class="grifo-verde">Acompanhamento regulador</mark> contínuo da aprendizagem. Permite ao docente reorientar a prática pedagógica.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">Somativa (Final)</span>
+                        <p class="text-slate-600">Classificatória, mede resultados acumulados ao término de um período para atribuição de notas/conceitos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pesquisa como Principio Pedagogico -->
+            <div class="bg-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-2">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass text-emerald-600"></i> Pesquisa como Princípio Pedagógico
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    Na EPT e nos Institutos Federais (IFSC), a pesquisa não é atividade exclusiva da pós-graduação, mas uma <mark class="grifo-amarelo">estratégia metodológica de ensino</mark> na formação técnica e profissional. Supera o ensino meramente transmissivo e estimula o estudante a produzir conhecimento de forma autônoma, crítica e ligada aos problemas da sociedade.
+                </p>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 7: Engenharia Reversa e Pegadinhas FAURGS -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                <span class="bg-slate-100 text-slate-700 font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm">7</span>
+                <h2 class="text-lg font-bold text-slate-800">Engenharia Reversa & Glossário de Sobrevivência FAURGS</h2>
+            </div>
+
+            <!-- Card Pegadinha Competencias -->
+            <div class="p-4 rounded-xl border border-slate-200 space-y-2 bg-amber-50/50">
+                <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
+                    <i class="fa-solid fa-bug text-amber-600"></i> Pegadinha: Pedagogia das Competências
+                </div>
+                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    A FAURGS costuma criar alternativas incorretas afirmando que a Pedagogia das Competências "enaltece os saberes docentes/discentes ao privilegiar a descoberta individual em uma disciplina isolada".
+                </p>
+                <p class="text-xs sm:text-sm text-slate-700 font-medium">
+                    <mark class="grifo-amarelo">Correção conceitual:</mark> A abordagem por competências atua voltada para a resolução prática e flexível de problemas imediatos de mercado, opondo-se ao aprofundamento abstrato ou científico disciplinar.
+                </p>
+            </div>
+
+            <!-- Card Triade de Celso Vasconcellos -->
+            <div class="p-4 rounded-xl border border-slate-200 space-y-3 bg-slate-50">
+                <div class="flex items-center gap-2 text-slate-800 font-bold text-sm">
+                    <i class="fa-solid fa-sitemap text-blue-600"></i> Tríade do Planejamento Pedagógico (Celso Vasconcellos)
+                </div>
+                <p class="text-xs text-slate-600">
+                    A banca frequentemente inverte ou troca a associação entre a etapa e a dimensão reflexiva correspondente:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">1. Realidade</span>
+                        <p class="text-slate-600">Dimensão <mark class="grifo-amarelo">Cognoscitiva</mark></p>
+                        <p class="text-slate-500 text-[11px] mt-1">Diagnosticar o contexto real para conhecer a situação.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">2. Finalidade</span>
+                        <p class="text-slate-600">Dimensão <mark class="grifo-amarelo">Teleológica</mark></p>
+                        <p class="text-slate-500 text-[11px] mt-1">Definir os fins, valores e propósitos ético-políticos.</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">3. Plano de Ação</span>
+                        <p class="text-slate-600">Dimensão <mark class="grifo-amarelo">Projetivo-Mediadora</mark></p>
+                        <p class="text-slate-500 text-[11px] mt-1">Elaborar a transição prática entre a realidade e o fim.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Erros Eliminadores -->
+            <div class="p-4 rounded-xl border border-red-200 bg-red-50/30 space-y-3">
+                <div class="flex items-center gap-2 text-red-800 font-bold text-sm">
+                    <i class="fa-solid fa-ban text-red-600"></i> Vocabulário e Conceitos Eliminadores (Marque FALSO imediatamente)
+                </div>
+                <ul class="space-y-2 text-xs sm:text-sm text-slate-700">
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
+                        <span>Classificar o <strong class="text-slate-900">Currículo Formal</strong> como documento "imutável" ou "estático". (Ele é dinâmico e sujeito a reconstrução).</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
+                        <span>Afirmar que o <strong class="text-slate-900">Currículo Oculto</strong> se expressa por "diretrizes normativas explicitamente pactuadas". (Ele é implícito e não-oficial).</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
+                        <span>Tratar o <strong class="text-slate-900">registro pedagógico na PHC</strong> como atividade "secundária para o tempo livre". (O registro práxis é essencial e central).</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
+                        <span>Igualar <strong class="text-slate-900">Politecnia</strong> a <strong class="text-slate-900">Polivalência</strong>. (Polivalência é termo do mercado flexível; Politecnia é formação científica integral).</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Glossário Express para Prova -->
+            <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/30 space-y-2">
+                <div class="flex items-center gap-2 text-emerald-800 font-bold text-sm">
+                    <i class="fa-solid fa-key text-emerald-600"></i> Glossário Express de Memorização Rápida
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700 mt-2">
+                    <div class="bg-white p-2.5 rounded border border-slate-200">
+                        <strong class="text-slate-900">Práxis:</strong> Ação-reflexão-ação transformadora sobre a realidade.
+                    </div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">
+                        <strong class="text-slate-900">Omnilateralidade:</strong> Formação humana em todas as suas dimensões (física, intelectual, estética, política).
+                    </div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">
+                        <strong class="text-slate-900">Sincrese &rarr; Síntese:</strong> Movimento do conhecimento do caótico empírico para o concreto elaborado.
+                    </div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">
+                        <strong class="text-slate-900">Multiculturalismo Crítico:</strong> Luta contra discriminações e questionamento de relações de poder na construção curricular.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botao de Acesso a Questões (Navegação Externa) -->
+        <section class="py-6 text-center">
+            <a href="questoes3.html" class="inline-flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 text-base sm:text-lg w-full sm:w-auto">
+                <span>Ir para Banco de Questões FAURGS</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <p class="text-xs text-slate-400 mt-3">
+                Redireciona para a página <code class="bg-slate-200 text-slate-700 px-1 py-0.5 rounded">questoes.html</code>
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Script Simples para troca dinamica de audio -->
+    <script>
+        function atualizarAudio() {
+            const inputVal = document.getElementById('audioSourceInput').value.trim();
+            const player = document.getElementById('mainAudioPlayer');
+            const source = document.getElementById('audioSource');
+
+            if (inputVal !== "") {
+                source.src = inputVal;
+                player.load();
+                console.log("Fonte de áudio atualizada para: " + inputVal);
+            }
+        }
+    </script>
+</body>
+</html>

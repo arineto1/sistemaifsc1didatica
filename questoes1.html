@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS: História, Filosofia e Sociologia da Educação</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --primary-color: #0284c7;
+            --primary-hover: #0369a1;
+            --border-color: #e2e8f0;
+            --success-color: #16a34a;
+            --error-color: #dc2626;
+            --success-bg: #dcfce7;
+            --error-bg: #fee2e2;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .question-card {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .question-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            margin-bottom: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            font-size: 1rem;
+        }
+
+        .option-label:hover {
+            background-color: #f1f5f9;
+            border-color: var(--primary-color);
+        }
+
+        .option-label input {
+            margin-top: 4px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .submit-container {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        #results-section {
+            display: none;
+            margin-top: 50px;
+            border-top: 3px solid var(--primary-color);
+            padding-top: 30px;
+        }
+
+        .score-banner {
+            background: #e0f2fe;
+            border: 1px solid #bae6fd;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #0369a1;
+            margin-bottom: 30px;
+        }
+
+        .resolution-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .resolution-card.correct {
+            border-left: 5px solid var(--success-color);
+        }
+
+        .resolution-card.incorrect {
+            border-left: 5px solid var(--error-color);
+        }
+
+        .resolution-header {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge.correct {
+            background-color: var(--success-bg);
+            color: var(--success-color);
+        }
+
+        .badge.incorrect {
+            background-color: var(--error-bg);
+            color: var(--error-color);
+        }
+
+        .resolution-text {
+            margin-top: 15px;
+            color: #334155;
+            font-size: 0.98rem;
+            white-space: pre-line;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Simulado FAURGS: História, Filosofia e Sociologia da Educação</h1>
+            <p>Responda às questões abaixo e confira sua pontuação e resoluções detalhadas ao final da mesma página.</p>
+        </header>
+
+        <form id="quiz-form">
+            <div id="questions-container"></div>
+
+            <div class="submit-container">
+                <button type="button" class="btn-submit" onclick="submitQuiz()">Finalizar Simulado e Ver Gabarito</button>
+            </div>
+        </form>
+
+        <div id="results-section">
+            <div class="score-banner" id="score-banner"></div>
+            <div id="resolutions-container"></div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                id: 1,
+                statement: "Questão 01<br>A Lei de Diretrizes e Bases da Educação Nacional (LDB nº 9.394/1996) consolida as discussões históricas sobre o direito social à educação no Brasil e estabelece a estrutura de organização do ensino público e privado. No que tange à organização estrutural dos níveis escolares no território nacional, a composição que corresponde estritamente à Educação Básica é formada por:",
+                options: [
+                    { key: "A", text: "Educação Infantil, Ensino Fundamental e Ensino Médio." },
+                    { key: "B", text: "Educação Infantil, Ensino Fundamental, Ensino Médio e Ensino Superior." },
+                    { key: "C", text: "Educação Infantil, Ensino Fundamental, Ensino Médio e Educação de Jovens e Adultos." },
+                    { key: "D", text: "Educação Especial, Educação Infantil, Ensino Fundamental e Ensino Médio." },
+                    { key: "E", text: "Educação Profissional e Tecnológica, Educação Infantil, Ensino Fundamental e Ensino Médio." }
+                ],
+                correct: "A",
+                resolution: "A alternativa correta é a (A).\n\nA questão avalia a capacidade de identificar a estrutura de níveis e etapas do ensino brasileiro com base no texto literal da Lei de Diretrizes e Bases da Educação Nacional (LDB - Lei nº 9.394/1996). De acordo com o Artigo 21 da LDB, a educação escolar compõe-se de dois níveis: Educação Básica e Educação Superior.\n\nA Educação Básica, por sua vez, apresenta um percurso formativo composto por três etapas sequenciais obrigatórias e gratuitas em sua totalidade: a Educação Infantil, o Ensino Fundamental e o Ensino Médio.\n\nA análise histórica dessa divisão revela um esforço do legislador para unificar o ensino nacional, superando a dualidade que historicamente apartava a formação propedêutica voltada às elites da formação instrumental destinada às classes populares.\n\nAs demais alternativas estão incorretas porque incluem a Educação Superior (que constitui nível autônomo, não integrante da Educação Básica), a Educação Especial, a Educação de Jovens e Adultos (EJA) ou a Educação Profissional e Tecnológica (que são classificadas legalmente como modalidades de educação, destinadas a perpassar transversalmente as etapas da Educação Básica)."
+            },
+            {
+                id: 2,
+                statement: "Questão 02<br>Considerando o pensamento de José Carlos Libâneo (1992) sobre a classificação das tendências pedagógicas presentes na prática escolar brasileira, relacione a segunda coluna de acordo com a primeira, associando os dois grupos de tendências às correntes pedagógicas correspondentes:<br><br>(1) De cunho liberal<br>(2) De cunho progressista<br><br>( ) Pedagogia tradicional<br>( ) Pedagogia libertadora<br>( ) Pedagogia renovada e tecnicista<br>( ) Pedagogia crítico-social dos conteúdos<br><br>A sequência correta de preenchimento dos parênteses da segunda coluna, de cima para baixo, é:",
+                options: [
+                    { key: "A", text: "1 – 1 – 2 – 2." },
+                    { key: "B", text: "2 – 1 – 2 – 1." },
+                    { key: "C", text: "1 – 2 – 1 – 2." },
+                    { key: "D", text: "1 – 2 – 2 – 1." },
+                    { key: "E", text: "2 – 1 – 1 – 2." }
+                ],
+                correct: "C",
+                resolution: "A alternativa correta é a (C).\n\nA questão exige a correta classificação das tendências pedagógicas segundo o quadro conceitual proposto por José Carlos Libâneo (1992). O autor divide a prática pedagógica brasileira em dois grandes grupos teóricos, fundamentados na posição política adotada em relação aos condicionantes da estrutura social: as tendências liberais e as tendências progressistas.\n\nAs tendências liberais caracterizam-se pela premissa de que o papel do ensino é preparar os indivíduos para desempenharem papéis sociais predefinidos, ajustando-se às exigências do sistema produtivo capitalista e dependendo do esforço individual para o sucesso ou fracasso escolar. Integram essa matriz a Pedagogia Tradicional (focada na memorização e no saber enciclopédico) e a Pedagogia Tecnicista (voltada para a eficiência operacional e o behaviorismo).\n\nAs tendências progressistas partem de uma leitura crítica da sociedade de classes, enxergando a escola como um instrumento político de conscientização e mobilização social. Integram esse grupo a Pedagogia Libertadora (de caráter autogestionário e dialógico) e a Pedagogia Crítico-Social dos Conteúdos (que prioriza a apropriação dos conteúdos científicos universais como ferramenta de luta de classes).\n\nPortanto, a associação resulta na ordem: Pedagogia Tradicional (1) – Pedagogia Libertadora (2) – Pedagogia Renovada e Tecnicista (1) – Pedagogia Crítico-Social dos Conteúdos (2), gerando a sequência 1 – 2 – 1 – 2."
+            },
+            {
+                id: 3,
+                statement: "Questão 03<br>Considere o fragmento de texto a seguir, extraído da obra de Paulo Freire:<br><br><i>\"O que temos de fazer, na verdade, é propor ao povo, através de certas contradições básicas, sua situação existencial, concreta, presente, como problema que, por sua vez, o desafia e, assim, lhe exige resposta, não só no nível intelectual, mas no nível da ação\"</i> (FREIRE, 2005).<br><br>Esse trecho da obra freiriana indica, especificamente:",
+                options: [
+                    { key: "A", text: "uma das mais importantes tarefas do trabalho educativo, que é a análise da realidade a partir dos referenciais teóricos preexistentes." },
+                    { key: "B", text: "a indissociabilidade entre reflexão teórica e ação transformadora, definindo a práxis pedagógica como motor da conscientização." },
+                    { key: "C", text: "a necessidade de sobrepor o saber acadêmico ao saber popular para que o educando alcance o estágio superior de emancipação." },
+                    { key: "D", text: "que o ato educativo deve restringir-se ao domínio intelectual, sendo a ação política desnecessária para a superação da opressão." },
+                    { key: "E", text: "a invalidação do conhecimento acumulado pela humanidade em prol do ativismo prático imediato e espontâneo." }
+                ],
+                correct: "B",
+                resolution: "A alternativa correta é a (B).\n\nO excerto citado expressa o núcleo epistemológico da filosofia educacional de Paulo Freire, que reside no conceito de práxis. A práxis pedagógica não se confunde com o ativismo cego (prática sem reflexão teórica) e nem com o verbalismo estéril (teoria descolada da realidade empírica); ela é definida pela indissociabilidade entre a reflexão teórica rigorosa e a ação concreta transformadora exercida sobre as condições de opressão.\n\nA problematização da realidade existencial dos sujeitos funciona como o motor desse processo, instigando o educando a se perceber como sujeito histórico ativo, capaz de agir sobre o mundo e não apenas de se adaptar a ele.\n\nA alternativa A está incorreta porque reduz o trabalho pedagógico à mera aplicação de referenciais teóricos preexistentes à realidade dos educandos. A alternativa C está errada ao afirmar que o saber acadêmico é o único canal para a conscientização. A alternativa D distorce o pensamento de Freire ao julgar o saber intelectual dispensável. A alternativa E erra ao propor que Freire descarta o conhecimento acumulado em favor do saber popular."
+            },
+            {
+                id: 4,
+                statement: "Questão 04<br>Paulo Freire, ao discutir a constituição do sujeito democrático e crítico, destaca que a construção da autonomia do educando é um dos eixos éticos e políticos centrais do ato de ensinar. Sob essa perspectiva filosófica, o conceito de Autonomia está alicerçado nos seguintes princípios:",
+                options: [
+                    { key: "A", text: "centralização de pensamento, subordinação, consciência de si e cidadania." },
+                    { key: "B", text: "apego, obediência moral, reciprocidade e ética." },
+                    { key: "C", text: "reciprocidade, apego, sujeição e obediência moral." },
+                    { key: "D", text: "liberdade de pensamento, consciência moral, descentração e reciprocidade." },
+                    { key: "E", text: "egocentrismo, consciência de si, apego e subordinação intelectual." }
+                ],
+                correct: "D",
+                resolution: "A alternativa correta é a (D).\n\nA filosofia da educação de Paulo Freire confere centralidade ao desenvolvimento da autonomia, compreendendo-a como a capacidade do educando de assumir-se como sujeito pensante, autônomo e responsável pelo próprio aprendizado, em oposição à subordinação intelectual imposta pela chamada \"educação bancária\".\n\nA construção desse estado de autonomia pressupõe uma prática dialógica fundada em quatro princípios epistemológicos e éticos: a liberdade de pensamento (direito de divergir e questionar), a consciência moral (percepção da ética nas relações humanas), a descentração (capacidade de se colocar no lugar do outro) e a reciprocidade (reconhecimento do outro como igual no processo de aprendizagem).\n\nEsses fatores atuam em conjunto para romper o monólogo do educador e promover o amadurecimento cognitivo e social do educando, transformando a prática pedagógica em um ato coletivo de libertação.\n\nAs demais alternativas reúnem termos como subordinação intelectual, sujeição, egocentrismo e obediência cega, que são diametralmente opostos ao ideal libertador e crítico defendido pela pedagogia freiriana."
+            },
+            {
+                id: 5,
+                statement: "Questão 05<br>A história da educação brasileira foi profundamente marcada pela atuação jesuítica entre os séculos XVI e XVIII, cuja hegemonia pedagógica foi rompida no contexto das reformas de Estado portuguesas promovidas pelo Marquês de Pombal. Considere as seguintes afirmações sobre esse período histórico da educação nacional:<br><br>I - A expulsão dos jesuítas em 1759, capitaneada pelo Marquês de Pombal, deu-se sob forte influência do Iluminismo europeu, que questionava o poder econômico e político da Igreja na colônia.<br>II - O modelo de ensino pombalino que se seguiu à expulsão caracterizou-se pela instituição de aulas régias isoladas de caráter fragmentado, financiadas por meio do subsídio literário.<br>III - A reforma pombalina promoveu a imediata modernização do ensino colonial, dotando o país de um sistema unificado, gratuito e de amplo acesso para toda a população de trabalhadores livres.<br><br>Quais estão corretas?",
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas II." },
+                    { key: "C", text: "Apenas I e II." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: "A alternativa correta é a (C).\n\nA transição entre o predomínio jesuítico e as reformas pombalinas representa um dos marcos históricos mais complexos da educação nacional.\n\n• A afirmação I está correta, visto que o Marquês de Pombal, influenciado pelas ideias do Iluminismo europeu e pelo projeto de fortalecimento do absolutismo real português, identificava a Companhia de Jesus como um \"Estado dentro do Estado\", cuja influência econômica e ideológica representava um entrave à modernização e à centralização da metrópole.\n• A afirmação II está correta porque a expulsão dos jesuítas em 1759 provocou a desestruturação do sistema escolar consolidado. Para preencher o vácuo pedagógico, Pombal instituiu as \"aulas régias\" – disciplinas isoladas ministradas por professores nomeados e pagos pelo Estado por meio do \"subsídio literário\" (um tributo que incidia sobre o comércio de carne e aguardente). Esse modelo revelou-se fragmentado e desorganizado, sem unidade curricular.\n• A afirmação III está incorreta porque, longe de promover uma democratização ou um sistema unificado, as reformas pombalinas resultaram em um severo declínio na qualidade e na oferta de ensino na colônia, aprofundando o caráter excludente e elitista da educação brasileira e deixando a maior parte da população de trabalhadores livres sem qualquer acesso à instrução formal."
+            },
+            {
+                id: 6,
+                statement: "Questão 06<br>Considere as afirmações abaixo referentes às finalidades da Educação Básica de acordo com a LDB nº 9.394, de 1996:<br><br>I - Desenvolver o educando.<br>II - Assegurar-lhe a formação comum indispensável para o exercício da cidadania.<br>III - Fornecer-lhe meios para progredir no trabalho e em estudos posteriores.<br>IV - Incentivar o trabalho de pesquisa e a investigação científica, visando ao desenvolvimento da ciência e da tecnologia.<br><br>Quais estão corretas?",
+                options: [
+                    { key: "A", text: "Apenas I, II e III." },
+                    { key: "B", text: "Apenas I e IV." },
+                    { key: "C", text: "Apenas II e III." },
+                    { key: "D", text: "Apenas II, III e IV." },
+                    { key: "E", text: "Apenas I." }
+                ],
+                correct: "A",
+                resolution: "A alternativa correta é a (A).\n\nA questão exige o conhecimento do Artigo 22 da Lei de Diretrizes e Bases da Educação Nacional (LDB nº 9.394/1996), que estipula as finalidades norteadoras da Educação Básica no Brasil. O texto legal expressa textualmente: \"A educação básica tem por finalidades desenvolver o educando, assegurar-lhe a formação comum indispensável para o exercício da cidadania e fornecer-lhe meios para progredir no trabalho e em estudos posteriores\". As afirmações I, II e III replicam essa determinação legal.\n\nA afirmação IV está incorreta porque a pesquisa científica e o fomento à investigação acadêmica constituem, nos termos do Artigo 43, inciso III da LDB, finalidades específicas da Educação Superior, e não da Educação Básica. O legislador reservou à escola básica o desenvolvimento das capacidades gerais de aprendizagem e autonomia intelectual, deixando a produção científica stricto sensu para a etapa de nível superior."
+            },
+            {
+                id: 7,
+                statement: "Questão 07<br>Qual dos pensamentos pedagógicos abaixo se refere à Educação de Jovens e Adultos e evidencia a necessidade de uma prática de formação para a cidadania política e autonomia a esses grupos etários?",
+                options: [
+                    { key: "A", text: "Freiriano." },
+                    { key: "B", text: "Durkheimiano." },
+                    { key: "C", text: "Foucaultiano." },
+                    { key: "D", text: "Malaguzziano." },
+                    { key: "E", text: "Froebeliano." }
+                ],
+                correct: "A",
+                resolution: "A alternativa correta é a (A).\n\nNo panorama histórico-cultural brasileiro, a Educação de Jovens e Adultos (EJA) consolidou-se como um campo de disputas em que o pensamento freiriano produziu os maiores impactos conceituais e práticos.\n\nPaulo Freire combateu veementemente a infantilização metodológica dos adultos trabalhadores submetidos aos processos de alfabetização, propondo uma pedagogia contextualizada que partisse dos \"temas geradores\" extraídos da própria experiência de vida e do vocabulário comum desses estudantes.\n\nEsse método filosófico e pedagógico concebe a aquisição da leitura e da escrita não como um exercício técnico de decodificação mecânica de sílabas, mas como um ato de \"leitura do mundo\" que possibilita ao educando perceber sua própria dignidade e desenvolver a autonomia intelectual necessária para a intervenção e a transformação política da realidade social.\n\nAs demais abordagens teóricas listadas (Durkheimiano, Foucaultiano, Malaguzziano e Froebeliano) não possuem como eixo a educação popular libertadora de jovens e adultos com foco no desenvolvimento da cidadania política de base popular."
+            },
+            {
+                id: 8,
+                statement: "Questão 08<br>As chamadas teorias crítico-reprodutivistas da educação emergiram na segunda metade do século XX como uma crítica contundente ao otimismo pedagógico das teorias não-críticas. A respeito dessas correntes teóricas e dos pensamentos de seus formuladores, considere as seguintes afirmações:<br><br>I - Pierre Bourdieu e Jean-Claude Passeron sustentam que a escola atua como um espaço de reprodução das desigualdades de classe ao converter o capital cultural herdado pelas famílias dominantes em critério de mérito escolar.<br>II - Na perspectiva reprodutivista, a escola é entendida como um aparelho que dissimula a reprodução social sob uma aparência de neutralidade técnica e meritocrática.<br>III - Ao evidenciarem o caráter reprodutor da escola, as teorias crítico-reprodutivistas oferecem uma proposta pedagógica alternativa detalhada para ser imediatamente aplicada no espaço da sala de aula com o fim de superar a marginalidade social.<br><br>Quais estão corretas?",
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas II." },
+                    { key: "C", text: "Apenas I e II." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: "A alternativa correta é a (C).\n\nA questão analisa o núcleo conceitual das teorias crítico-reprodutivistas desenvolvidas a partir da década de 1960 por autores de matriz materialista e sociológica.\n\n• A afirmação I está correta, uma vez que Pierre Bourdieu e Jean-Claude Passeron demonstraram que o sistema de ensino formal exige dos alunos saberes, códigos linguísticos e repertórios estéticos específicos que são partilhados exclusivamente pelas famílias das classes de maior poder socioeconômico. A escola valoriza esse \"capital cultural\" herdado e o interpreta como \"dom\" ou \"mérito individual\", reproduzindo as desigualdades sociais sob a máscara do sucesso meritocrático.\n• A afirmação II está correta, pois as teorias reprodutivistas enxergam a escola como um aparelho ideológico que reproduz a dominação de classe ao ocultar sua própria cumplicidade com os interesses econômicos hegemônicos, legitimando a marginalização sob uma aparência de justiça e igualdade burocrática.\n• A afirmação III está incorreta. Uma das principais críticas direcionadas a essas formulações teóricas é justamente o seu caráter eminentemente explicativo e diagnóstica, sem apresentar uma proposta didática ou metodológica que permitisse aos professores atuar de forma transformadora no cotidiano da sala de aula. O reprodutivismo foi acusado de nutrir um pessimismo pedagógico que considerava impossível qualquer resistência no interior da escola capitalista."
+            },
+            {
+                id: 9,
+                statement: "Questão 09<br>A sociologia clássica debruçou-se sobre os fundamentos da educação escolar, estabelecendo modelos conceituais para compreender a relação entre escola e sociedade. Considere as seguintes afirmações sobre as concepções sociológicas clássicas aplicadas à educação:<br><br>I - Sob a ótica de Émile Durkheim, a educação é definida como um fato social caracterizado pela exterioridade e pela coatividade, constituindo-se na socialização metódica das novas gerações para garantir a coesão moral da sociedade.<br>II - Max Weber compreende que a expansão das organizações escolares burocráticas modernas está vinculada ao processo de racionalização do mundo ocidental, privilegiando a formação do homem especialista em detrimento do homem cultivado.<br>III - Karl Marx postula que a educação escolar burguesa é um instrumento neutro e harmonizador que atua acima das divisões de classe da sociedade capitalista, servindo como a principal via de superação das desigualdades socioeconômicas.<br><br>Quais estão corretas?",
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas II." },
+                    { key: "C", text: "Apenas I e II." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: "A alternativa correta é a (C).\n\nA questão exige o domínio das matrizes teóricas clássicas da Sociologia da Educação.\n\n• A afirmação I expressa de maneira precisa o pensamento de Émile Durkheim, que concebe a educação como um fato social legítimo. Para o autor, a educação consiste na socialização metódica das novas gerações com o propósito de incutir o senso moral coletivo necessário para manter a coesão social e a solidariedade orgânica em uma sociedade altamente diferenciada.\n• A afirmação II caracteriza com fidelidade a interpretação weberiana do fenômeno educacional. Max Weber analisou o avanço da racionalização e da dominação legal-racional, apontando que a expansão escolar moderna vincula-se à proliferação de burocracias públicas e privadas. Esse processo promove a progressiva substituição da pedagogia voltada ao \"homem cultivado\" (formação humanística geral voltada para o status) pela pedagogia do \"homem especialista\" (formação técnica e credencialista destinada ao desempenho de funções burocráticas).\n• A afirmação III está incorreta. Karl Marx não concebe a educação escolar na sociedade capitalista como um instrumento neutro ou harmonizador que equaliza oportunidades. Sob a ótica marxista, o sistema de ensino burguês está estreitamente conectado à infraestrutura econômica e atua de maneira a assegurar a reprodução da divisão social do trabalho e a legitimar a expropriação da mais-valia."
+            },
+            {
+                id: 10,
+                statement: "Questão 10<br>Numere a segunda coluna de acordo com a primeira, associando as três dimensões da Didática Fundamental proposta por Vera Maria Candau (2012) às suas características correspondentes:<br><br>(1) Dimensão técnica<br>(2) Dimensão humana<br>(3) Dimensão política<br><br>( ) A relação interpessoal é o centro do processo, e o componente afetivo está presente.<br>( ) Refere-se ao processo de ensino-aprendizagem sob uma perspectiva operacional e instrumental, englobando o planejamento, as técnicas de ensino e a avaliação.<br>( ) Compreende a prática docente como uma ação social e histórica, orientada à transformação ou à conservação das relações sociais vigentes.<br><br>A sequência correta de preenchimento dos parênteses da segunda coluna, de cima para baixo, é:",
+                options: [
+                    { key: "A", text: "2 – 1 – 3." },
+                    { key: "B", text: "1 – 2 – 3." },
+                    { key: "C", text: "3 – 1 – 2." },
+                    { key: "D", text: "2 – 3 – 1." },
+                    { key: "E", text: "1 – 3 – 2." }
+                ],
+                correct: "A",
+                resolution: "A alternativa correta é a (A).\n\nA questão avalia a correta assimilação das três dimensões da Didática Fundamental estruturadas pela pedagoga Vera Maria Candau (2012). A autora postula que o fazer didático não pode ser reduzido a um receituário de técnicas neutras de ensino, devendo ser compreendido como uma prática multidimensional em que as dimensões técnica, humana e política se interpenetram de forma indissociável.\n\n• A Dimensão humana centra-se nas relações interpessoais e subjetivas do ato educativo. Prioriza o componente afetivo e a acolhida dialógica entre professores e alunos.\n• A Dimensão técnica compreende o processo pedagógico sob uma ótica instrumental e operacional. Envolve os procedimentos formais indispensáveis para que a aprendizagem se concretize, como a definição de objetivos, a seleção de conteúdos curriculares científicos, os métodos de ensino e as técnicas de avaliação formativa.\n• A Dimensão política assume que toda prática pedagógica se dá em um cenário social concreto. Ela reconhece que a ação educativa não é neutra e está necessariamente articulada a um projeto social e histórico, atuando como força de transformação ou de conservação das condições materiais de produção.\n\nPortanto, a correspondência correta resulta na sequência 2 – 1 – 3, o que valida a alternativa (A)."
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('questions-container');
+            let html = '';
+
+            quizData.forEach((q) => {
+                html += `
+                    <div class="question-card" id="q-card-${q.id}">
+                        <div class="question-title">${q.statement}</div>
+                        <ul class="options-list">
+                `;
+
+                q.options.forEach(opt => {
+                    html += `
+                        <li class="option-item">
+                            <label class="option-label">
+                                <input type="radio" name="question_${q.id}" value="${opt.key}">
+                                <span><strong>(${opt.key})</strong> ${opt.text}</span>
+                            </label>
+                        </li>
+                    `;
+                });
+
+                html += `
+                        </ul>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            let resultsHTML = '';
+            let allAnswered = true;
+
+            quizData.forEach((q) => {
+                const selected = document.querySelector(`input[name="question_${q.id}"]:checked`);
+                if (!selected) {
+                    allAnswered = false;
+                }
+            });
+
+            if (!allAnswered) {
+                if (!confirm("Existem questões sem resposta. Deseja finalizar mesmo assim?")) {
+                    return;
+                }
+            }
+
+            quizData.forEach((q) => {
+                const selected = document.querySelector(`input[name="question_${q.id}"]:checked`);
+                const userChoice = selected ? selected.value : null;
+                const isCorrect = userChoice === q.correct;
+
+                if (isCorrect) {
+                    score++;
+                }
+
+                resultsHTML += `
+                    <div class="resolution-card ${isCorrect ? 'correct' : 'incorrect'}">
+                        <div class="resolution-header">
+                            <span>Questão ${q.id}</span>
+                            <span class="badge ${isCorrect ? 'correct' : 'incorrect'}">
+                                ${isCorrect ? 'Acertou ✓' : 'Errou ✗'} (Gabarito: ${q.correct})
+                            </span>
+                        </div>
+                        <div style="font-size: 0.95rem; color: #475569; margin-bottom: 10px;">
+                            Sua resposta: <strong>${userChoice ? '(' + userChoice + ')' : 'Não respondida'}</strong>
+                        </div>
+                        <div class="resolution-text"><strong>Resolução Comentada:</strong><br>${q.resolution.replace(/\n/g, '<br>')}</div>
+                    </div>
+                `;
+            });
+
+            const scoreBanner = document.getElementById('score-banner');
+            scoreBanner.innerHTML = `Você acertou ${score} de ${quizData.length} questões (${Math.round((score/quizData.length)*100)}%)!`;
+
+            document.getElementById('resolutions-container').innerHTML = resultsHTML;
+            document.getElementById('results-section').style.display = 'block';
+            document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onload = renderQuiz;
+    </script>
+</body>
+</html>

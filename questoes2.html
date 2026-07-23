@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo - Organização do Trabalho Docente (FAURGS)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#fcfbfa',
+                        cardbg: '#ffffff',
+                        primary: '#1e3a8a',
+                        secondary: '#475569',
+                        accent: '#2563eb'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f6f3;
+            color: #1f2937;
+            line-height: 1.7;
+        }
+        .option-label {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-label:hover {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-[#f7f6f3] text-gray-800 antialiased selection:bg-blue-200">
+
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                <span class="bg-blue-600 text-white text-xs px-2.5 py-1 rounded-md uppercase tracking-wider">FAURGS</span>
+                Simulado: Organização do Trabalho Docente
+            </h1>
+            <div id="top-timer" class="text-sm font-medium text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+                Questões: 10
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- Intro Card -->
+        <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 mb-8">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Simulado Comentado & Quiz</h2>
+            <p class="text-slate-600 mb-4">
+                Responda às questões abaixo no estilo da banca <strong>FAURGS</strong>. Ao finalizar, clique no botão de envio para visualizar sua pontuação total, o gabarito oficial e as resoluções detalhadas mantidas na mesma página.
+            </p>
+            <div class="flex flex-wrap gap-4 text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100">Foco: Pedagogia & Legislação</span>
+                <span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-100">Leitura Confortável</span>
+                <span class="bg-amber-50 text-amber-700 px-3 py-1 rounded-full border border-amber-100">Gabarito Integrado</span>
+            </div>
+        </div>
+
+        <!-- Quiz Form -->
+        <form id="quiz-form" class="space-y-8">
+            
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="1" data-correct="A">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 01</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    Considerando as formulações de Celso Vasconcellos acerca do planejamento escolar e das dimensões que caracterizam a sua elaboração, associe a primeira coluna, que apresenta as dimensões do planejamento, à segunda coluna, que descreve o tipo de atividade reflexiva correspondente.<br><br>
+                    (1) Realidade<br>
+                    (2) Finalidade<br>
+                    (3) Plano de ação mediadora<br><br>
+                    ( ) Atividade projetivo-mediadora, que consiste na estruturação das ações concretas que viabilizarão a transição do estado diagnosticado para as metas desejadas.<br>
+                    ( ) Atividade cognoscitiva, que demanda o diagnóstico crítico da realidade da escola e das vivências dos educandos.<br>
+                    ( ) Atividade teleológica, que corresponde à definição de propósitos, valores e utopias pedagógicas a serem perseguidos.<br><br>
+                    A sequência correta de preenchimento dos parênteses da segunda coluna, de cima para baixo, é:
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q1" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> 3 – 1 – 2.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q1" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> 3 – 2 – 1.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q1" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> 1 – 3 – 2.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q1" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> 2 – 1 – 3.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q1" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> 1 – 2 – 3.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="2" data-correct="C">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 02</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    De acordo com os pressupostos defendidos por Jussara Hoffmann acerca da avaliação numa perspectiva reconstrutiva, é essencial conceber a multidimensionalidade do termo aprender. Assinale a alternativa que está em <strong>DESACORDO</strong> com as orientações teóricas da referida autora:
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q2" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> A avaliação não tem por objetivo definir se os alunos aprendem ou não aprendem, pois a resposta teórica de partida está dada: todos aprendem sempre e aprendem de modo mais qualificado à medida que recebem melhores oportunidades.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q2" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> Não há parâmetros absolutos de julgamento que deem conta de toda a diversidade que caracteriza o contexto educacional e do ato essencialmente criativo e singular das aprendizagens.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q2" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> Devem ser promovidas práticas avaliativas que transformem a aprendizagem em um processo necessário e obrigatório, reduzindo-a ao dever de aprender sempre e compulsoriamente em função de cobranças externas ou pressões burocráticas.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q2" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> A leitura e a interpretação sobre o processo de aprender, sob o prisma da avaliação mediadora, precisam ser sempre de caráter positivo, prospectivo e multidimensional.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q2" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> É um imperativo pedagógico ensinar e mediar o prazer de ler no ambiente escolar, percebendo-o e valorizando-o em sua dimensão estética e na constituição livre do pensamento.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="3" data-correct="C">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 03</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    Com base nas concepções de José Carlos Libâneo acerca do planejamento escolar e da organização do trabalho docente, analise as afirmações abaixo:<br><br>
+                    I - O planejamento escolar é compreendido como um processo de racionalização, organização e coordenação da ação docente, devendo articular de forma orgânica a atividade prática escolar e a problemática social concreta na qual a escola está inserida.<br>
+                    II - O plano de ensino consiste na especificação detalhada de cada encontro diário em sala de aula, determinando de forma estrita e invariável o cronograma a ser cumprido pelo docente e os recursos didáticos específicos aplicados a cada hora-aula.<br>
+                    III - O planejamento do trabalho docente atua simultaneamente como um guia de orientação para a prática escolar e como um momento de pesquisa e reflexão crítica que se encontra intimamente associado ao processo avaliativo.<br><br>
+                    Quais estão corretas?
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q3" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> Apenas I.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q3" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> Apenas II.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q3" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> Apenas I e III.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q3" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> Apenas II e III.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q3" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> I, II e III.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="4" data-correct="C">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 04</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    Ilma Passos Alencastro Veiga postula que o projeto pedagógico se constitui como a própria organização do trabalho pedagógico escolar. A respeito dos princípios norteadores e das características dessa construção coletiva descritos pela autora, analise as afirmações a seguir:<br><br>
+                    I - A elaboração e vivência do Projeto Político-Pedagógico devem apoiar-se de forma concomitante em cinco princípios estruturantes: igualdade de condições para acesso e permanência; qualidade de ensino; gestão democrática; liberdade ou autonomia; e valorização do magistério.<br>
+                    II - A busca por uma nova organização escolar democrática exige a descentralização em prol da autonomia, o que implica em conceber o projeto a partir das diferenças existentes entre os seus sujeitos, refutando o mero cumprimento burocrático de tarefas.<br>
+                    III - A gestão democrática, como eixo condutor do projeto, pressupõe a eliminação de polos de poder e das relações de conflito existentes no interior do espaço escolar, gerando um consenso técnico que dispensa a participação direta dos alunos e das famílias.<br><br>
+                    Quais estão corretas?
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q4" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> Apenas I.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q4" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> Apenas III.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q4" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> Apenas I e II.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q4" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> Apenas II e III.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q4" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> I, II e III.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="5" data-correct="C">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 05</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    A organização do trabalho docente exige o planejamento rigoroso das ações pedagógicas a serem vivenciadas na sala de aula e no ambiente escolar amplo. De acordo com os pressupostos teóricos defendidos por Celso Vasconcellos, planejar consiste essencialmente em:
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q5" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> Elaborar um único plano de ensino geral que seja aplicável de modo unificado e indiferenciado a todas as turmas e contextos escolares.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q5" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> Selecionar um livro didático específico adotado pela instituição e seguir rigidamente a sua ordem de conteúdos do início ao fim do ano letivo.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q5" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> Definir um percurso significativo do conteúdo de ensino a ser trabalhado, articulando os objetivos e os meios mediadores às reais possibilidades cognitivas dos discentes.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q5" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> Reunir e arquivar de forma mecânica um agrupamento formal de planos de aula e tarefas burocráticas a serem encaminhadas para os órgãos administrativos do sistema de ensino.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q5" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> Garantir o esgotamento quantitativo de todo o conteúdo de informação disponível na internet a respeito da disciplina, priorizando a abrangência conteudística.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="6" data-correct="C">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 06</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    Com base no pensamento de José Carlos Libâneo acerca das tendências pedagógicas que marcam a prática escolar e a organização do trabalho docente na educação brasileira, associe a primeira coluna, que apresenta os grupos de tendências, à segunda coluna, que elenca as respectivas correntes pedagógicas:<br><br>
+                    (1) De cunho liberal<br>
+                    (2) De cunho progressista<br><br>
+                    ( ) Pedagogia tradicional.<br>
+                    ( ) Pedagogia libertadora.<br>
+                    ( ) Pedagogia renovada e tecnicista.<br>
+                    ( ) Pedagogia crítico-social dos conteúdos.<br><br>
+                    A sequência correta de preenchimento dos parênteses da segunda coluna, de cima para baixo, é:
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q6" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> 1 – 1 – 2 – 2.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q6" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> 2 – 1 – 2 – 1.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q6" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> 1 – 2 – 1 – 2.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q6" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> 1 – 2 – 2 – 1.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q6" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> 2 – 1 – 1 – 2.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="7" data-correct="D">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 07</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    A organização do trabalho pedagógico compreende a reflexão teórica e prática sobre os modelos curriculares adotados pelas instituições de ensino. No que concerne à perspectiva de um currículo estruturado por competências, assinale a alternativa <strong>INCORRETA</strong>:
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q7" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> Trabalha com tarefas complexas e desafios que mobilizam os conhecimentos de modo essencialmente cooperativo e contextualizado.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q7" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> Atua por meio de uma pedagogia ativa, reflexiva e questionadora, priorizando a apresentação de problemas reais do cotidiano a serem analisados e solucionados.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q7" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> Responde às necessidades sociais e de desenvolvimento emergentes, conferindo relevância metodológica ao trabalho cooperativo em grupo e à pesquisa escolar.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q7" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> Enaltece os saberes de professores e alunos sob uma ótica estritamente tecnicista, privilegiando a descoberta individual e isolada em uma área fragmentada de especialização.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q7" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> Opera com temáticas cotidianas, demandando dos sujeitos envolvidos no processo educativo o aprofundamento de conceitos e a atitude investigativa.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="8" data-correct="C">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 08</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    A organização da rotina escolar, compreendendo a gestão do tempo, do espaço e das interações cotidianas, constitui elemento central do trabalho pedagógico e do processo de ensino-aprendizagem. Diante disso, analise as seguintes afirmações sobre os desdobramentos pedagógicos da rotina escolar:<br><br>
+                    I - A rotina na escola, ao estruturar as coordenadas temporais e espaciais do cotidiano educativo, deve conciliar de modo dinâmico a previsibilidade e a flexibilidade, garantindo a organização da instituição sem engessar ou desconsiderar as demandas emergentes.<br>
+                    II - A intencionalidade pedagógica na organização das atividades cotidianas atua como elemento mediador das relações interpessoais na escola, influenciando os processos cognitivos de aprendizagem e de socialização discente.<br>
+                    III - A eficácia e a justiça do processo pedagógico encontram-se condicionadas à homogeneização estrita e à padronização uniforme das atividades diárias, assegurando que o tempo escolar idêntico para todos resulte em equidade de resultados.<br><br>
+                    Quais estão corretas?
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q8" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> Apenas I.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q8" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> Apenas II.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q8" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> Apenas I e II.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q8" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> Apenas II e III.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q8" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> I, II e III.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="9" data-correct="C">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 09</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    O acompanhamento e a avaliação do trabalho pedagógico constituem dimensões indissociáveis da organização do ensino. No que se refere ao papel desempenhado pelo coordenador pedagógico na estruturação do trabalho docente e no cotidiano escolar, analise as afirmações a seguir:<br><br>
+                    I - O coordenador pedagógico atua de forma direta no acompanhamento reflexivo do planejamento de ensino elaborado pelos docentes e na análise crítica dos resultados de aprendizagem evidenciados no processo escolar.<br>
+                    II - A ação profissional da coordenação pedagógica circunscreve-se à organização burocrática e administrativa de documentos acadêmicos da instituição, devendo abster-se de intervenções de ordem metodológica para resguardar a autonomia docente.<br>
+                    III - A atuação do coordenador pedagógico fundamenta-se na escuta ativa, mediação dialógica e fomento à prática colaborativa, visando construir coerência didática e fortalecer o trabalho coletivo alinhado ao projeto pedagógico da escola.<br><br>
+                    Quais estão corretas?
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q9" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> Apenas I.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q9" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> Apenas II.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q9" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> Apenas I e III.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q9" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> Apenas II e III.</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q9" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> I, II e III.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 question-card" data-question="10" data-correct="B">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase tracking-wider">Questão 10</span>
+                    <span class="text-xs text-slate-400">FAURGS - Adaptada</span>
+                </div>
+                <p class="text-slate-800 font-medium mb-6 text-base sm:text-lg">
+                    A organização pedagógico-didática do ensino e do trabalho docente requer a fundamentação em teorias de desenvolvimento e de aprendizagem que subsidiem as escolhas metodológicas. Assinale a alternativa que identifica corretamente o referencial teórico que compreende a aprendizagem como um processo de participação variável dos sujeitos nas atividades socioculturais e elege a participação orientada ou guiada como conceito central da sua formulação:
+                </p>
+                <div class="space-y-3">
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q10" value="A" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(A)</strong> Henri Wallon</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q10" value="B" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(B)</strong> Barbara Rogoff</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q10" value="C" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(C)</strong> Jean Piaget</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q10" value="D" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(D)</strong> Hannah Arendt</span>
+                    </label>
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-lg border border-gray-200 cursor-pointer bg-slate-50/50">
+                        <input type="radio" name="q10" value="E" class="mt-1 text-blue-600 focus:ring-blue-500">
+                        <span class="text-slate-700 text-sm sm:text-base"><strong>(E)</strong> Rachel de Queiroz</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Submit Button Section -->
+            <div class="text-center pt-4 pb-12">
+                <button type="button" id="submit-quiz" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-md transition transform active:scale-95 text-base sm:text-lg">
+                    Finalizar Quiz e Ver Gabarito Comentado
+                </button>
+            </div>
+        </form>
+
+        <section id="results-section" class="hidden space-y-8 pt-8 border-t border-gray-300">
+            <!-- Score Card -->
+            <div id="score-card" class="bg-slate-900 text-white rounded-2xl p-8 text-center shadow-lg">
+                <h3 class="text-3xl font-bold mb-2">Resultado do Simulado</h3>
+                <p id="score-text" class="text-xl text-slate-300 mb-4">Você acertou X de 10 questões (Y%)</p>
+                <div class="inline-block bg-blue-600 text-white font-semibold px-6 py-2 rounded-full text-sm">
+                    Gabarito Oficial e Resoluções Analíticas Abaixo
+                </div>
+            </div>
+
+            <!-- Resolutions Header -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200">
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Gabarito e Resoluções Analíticas</h3>
+                <p class="text-slate-600">Abaixo encontram-se as justificativas detalhadas com base teórica em autores como Celso Vasconcellos, Jussara Hoffmann, José Carlos Libâneo, Ilma Passos Alencastro Veiga, entre outros.</p>
+            </div>
+
+            <!-- Resolution 1 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 01</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (A)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> A organização do trabalho pedagógico pressupõe uma profunda clareza conceitual para evitar que o planejamento de ensino degenere em mero rito burocrático de controle. Celso Vasconcellos propõe que o planejamento dialógico-crítico se desenvolva por meio de três dimensões estruturantes que operam de forma articulada no cotidiano docente, traduzindo as aspirações políticas e sociais em ações escolares concretas.</p>
+                    <p>A primeira dimensão, denominada <strong>Realidade</strong>, fundamenta-se na atividade <em>cognoscitiva</em>. Trata-se do movimento de apreensão teórica da realidade objetiva e concreta da escola, no qual o professor diagnostica o perfil cognitivo, os limites materiais e o contexto sociocultural dos discentes.</p>
+                    <p>A segunda dimensão, denominada <strong>Finalidade</strong>, ampara-se na atividade <em>teleológica</em>. Representa a projeção de intencionalidades, a definição de metas de desenvolvimento humano e a delimitação do tipo de cidadão que se pretende formar.</p>
+                    <p>A terceira dimensão, denominada <strong>Plano de ação mediadora</strong>, constitui a atividade <em>projetivo-mediadora</em>. É a etapa de síntese em que o docente operacionaliza os recursos didáticos e estabelece a sequência metodológica capaz de mediar a passagem do estado real diagnosticado para o estado ideal projetado.</p>
+                </div>
+            </div>
+
+            <!-- Resolution 2 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-2">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 02</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (C)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> A avaliação da aprendizagem constitui um dos maiores desafios didáticos para a estruturação do trabalho pedagógico. Jussara Hoffmann desenvolve o conceito de <strong>avaliação mediadora</strong> a partir de bases epistemológicas construtivistas e histórico-culturais, propondo que o ato avaliativo seja um processo contínuo, dialógico e essencialmente centrado na promoção de novas oportunidades de desenvolvimento cognitivo.</p>
+                    <p>A alternativa (C) está em absoluto desacordo com as formulações da autora. O modelo mediador opõe-se à premissa de que as práticas avaliativas devem forçar ou obrigar os alunos a aprender por meio de coerção ou vigilância burocrática. Hoffmann salienta que a aprendizagem deve ser pautada na mobilização do saber e no desejo pelo conhecimento.</p>
+                </div>
+            </div>
+
+            <!-- Resolution 3 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-3">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 03</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (C)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> José Carlos Libâneo estabelece a articulação intrínseca de três esferas de planejamento: o plano da escola, o plano de ensino e o plano de aula.</p>
+                    <p>A <strong>Assertiva I</strong> está correta, uma vez que o plano da escola abarca as dimensões pedagógica, administrativa e financeira da instituição. A <strong>Assertiva II</strong> está incorreta porque inverte a conceituação: o plano de ensino consiste na estruturação macroscópica ao longo do período letivo, enquanto o planejamento diário detalhado denomina-se plano de aula. A <strong>Assertiva III</strong> está correta, pois o planejamento atua como guia flexível e momento de pesquisa e reflexão crítica associado à avaliação formativa.</p>
+                </div>
+            </div>
+
+            <!-- Resolution 4 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-4">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 04</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (C)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> Ilma Passos Alencastro Veiga postula que o Projeto Político-Pedagógico (PPP) constitui a própria organização do trabalho pedagógico. Os cinco princípios norteadores são: igualdade, qualidade, gestão democrática, liberdade/autonomia e valorização do magistério.</p>
+                    <p>A <strong>Assertiva I</strong> e a <strong>Assertiva II</strong> estão corretas. A <strong>Assertiva III</strong> está incorreta porque a gestão democrática não visa eliminar conflitos por consensos artificiais e tecnocráticos; o conflito é inerente à vida escolar e mediado democraticamente.</p>
+                </div>
+            </div>
+
+            <!-- Resolution 5 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-5">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 05</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (C)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> Conforme Celso Vasconcellos, planejar consiste essencialmente em definir um percurso significativo do conteúdo de ensino a ser trabalhado, articulando os objetivos e os meios mediadores às reais possibilidades cognitivas dos discentes, afastando-se de visões mecanicistas ou puramente burocráticas.</p>
+                </div>
+            </div>
+
+            <!-- Resolution 6 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 06</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (C)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> José Carlos Libâneo classifica as tendências em liberais (tradicional, renovada, tecnicista) e progressistas (libertadora, libertária, crítico-social dos conteúdos). A associação correta resulta em: 1 (Tradicional), 2 (Libertadora), 1 (Tecnicista/Renovada), 2 (Crítico-social dos conteúdos), formando a sequência <strong>1 – 2 – 1 – 2</strong>.</p>
+                </div>
+            </div>
+
+            <!-- Resolution 7 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-7">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 07</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (D)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> O currículo por competências recusa as bases do tecnicismo instrumental que promove a atomização de saberes e o isolamento individualista. Ao contrário, preza pela descoberta coletiva, interdisciplinaridade e cooperação na resolução de problemas socioculturais reais, tornando a alternativa (D) incorreta.</p>
+                </div>
+            </div>
+
+            <!-- Resolution 8 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 08</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (C)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> As assertivas I e II estão corretas ao destacarem que a rotina escolar deve conciliar previsibilidade e flexibilidade, além de atuar como mediadora das relações. A assertiva III está incorreta pois refuta a homogeneização estrita e mecânica, que desconsidera a diversidade humana e as necessidades individuais.</p>
+                </div>
+            </div>
+
+            <!-- Resolution 9 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-9">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 09</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (C)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> O coordenador pedagógico atua no acompanhamento reflexivo do planejamento docente (Assertiva I) e pauta sua prática na escuta ativa e fomento ao trabalho coletivo (Assertiva III). A Assertiva II é incorreta por restringir a coordenação à burocracia administrativa.</p>
+                </div>
+            </div>
+
+            <!-- Resolution 10 -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 resolution-item" id="res-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded text-sm">Questão 10</span>
+                    <span class="font-semibold text-emerald-600">Gabarito: (B)</span>
+                </div>
+                <div class="text-slate-700 space-y-4">
+                    <p><strong>Análise Teórica:</strong> Barbara Rogoff desenvolve a teoria que compreende a aprendizagem como participação variável nas práticas socioculturais, elegendo a <strong>participação orientada ou guiada</strong> como o conceito central de sua formulação teórica.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('submit-quiz').addEventListener('click', function() {
+            let score = 0;
+            const totalQuestions = 10;
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach((card, index) => {
+                const qNum = card.getAttribute('data-question');
+                const correctOption = card.getAttribute('data-correct');
+                const selectedInput = card.querySelector(`input[name="q${qNum}"]:checked`);
+                
+                // Clear previous highlights
+                card.classList.remove('border-emerald-500', 'border-rose-500', 'bg-emerald-50/20', 'bg-rose-50/20');
+                
+                const labels = card.querySelectorAll('.option-label');
+                labels.forEach(l => l.classList.remove('bg-emerald-100', 'border-emerald-500', 'bg-rose-100', 'border-rose-500'));
+
+                if (selectedInput) {
+                    const userVal = selectedInput.value;
+                    const parentLabel = selectedInput.closest('label');
+                    if (userVal === correctOption) {
+                        score++;
+                        card.classList.add('border-emerald-500', 'bg-emerald-50/10');
+                        parentLabel.classList.add('bg-emerald-100', 'border-emerald-500');
+                    } else {
+                        card.classList.add('border-rose-500', 'bg-rose-50/10');
+                        parentLabel.classList.add('bg-rose-100', 'border-rose-500');
+                        
+                        // Highlight correct option
+                        cards.forEach(() => {
+                            const correctInput = card.querySelector(`input[name="q${qNum}"][value="${correctOption}"]`);
+                            if (correctInput) {
+                                correctInput.closest('label').classList.add('bg-emerald-100', 'border-emerald-500');
+                            }
+                        });
+                    }
+                } else {
+                    card.classList.add('border-amber-400');
+                    // Highlight correct option even if unanswered
+                    const correctInput = card.querySelector(`input[name="q${qNum}"][value="${correctOption}"]`);
+                    if (correctInput) {
+                        correctInput.closest('label').classList.add('bg-emerald-100', 'border-emerald-500');
+                    }
+                }
+            });
+
+            // Display results section
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.classList.remove('hidden');
+
+            const percentage = Math.round((score / totalQuestions) * 100);
+            const scoreText = document.getElementById('score-text');
+            scoreText.innerHTML = `Você acertou <strong>${score}</strong> de <strong>${totalQuestions}</strong> questões (<strong>${percentage}%</strong>)`;
+
+            // Scroll smoothly to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
