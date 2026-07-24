@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Completo de Memorização: Pedagogia Histórico-Crítica (PHC) - IFSC FAURGS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos e Cores para Grifos e Destaques Visuais de Alta Legibilidade */
+        .grifo {
+            background-color: #fef08a; /* Amarelo suave */
+            color: #713f12;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            border-bottom: 2px solid #eab308;
+        }
+        .grifo-forte {
+            background-color: #fde68a; /* Âmbar */
+            color: #78350f;
+            font-weight: 700;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            border-left: 3px solid #d97706;
+        }
+        .grifo-azul {
+            background-color: #e0f2fe; /* Azul claro */
+            color: #0369a1;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            border-bottom: 2px solid #0284c7;
+        }
+        .grifo-alerta {
+            background-color: #fee2e2; /* Vermelho suave */
+            color: #991b1b;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            border-bottom: 2px solid #ef4444;
+        }
+        .grifo-verde {
+            background-color: #dcfce7; /* Verde claro */
+            color: #14532d;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            border-bottom: 2px solid #22c55e;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 font-sans antialiased leading-relaxed min-h-screen flex flex-col">
+
+    <!-- Header Fixo Superior -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm/40 backdrop-blur-md bg-white/95">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-brand-100 text-brand-800 text-xs font-bold px-2.5 py-1 rounded-md uppercase tracking-wider border border-brand-600/20">
+                    IFSC / FAURGS
+                </span>
+                <h1 class="text-xs sm:text-sm md:text-base font-bold text-slate-900 truncate">
+                    Pedagogia Histórico-Crítica (PHC) & EPT
+                </h1>
+            </div>
+            <a href="#questoes" class="text-xs font-semibold text-brand-700 hover:text-brand-800 flex items-center space-x-1 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors border border-brand-600/30">
+                <span>Ir para Questões</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- SEÇÃO: REPRODUTOR DE ÁUDIO MP3 COM AJUSTE DINÂMICO DE NOME -->
+        <section class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-10 shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-700 text-white flex items-center justify-center shadow-md shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">Áudio do Resumo Guiado (Acompanhamento)</h2>
+                        <p class="text-xs text-slate-500">Ouça a explicação estruturada para reforço de memorização auditiva</p>
+                    </div>
+                </div>
+
+                <!-- Campo para Alterar o Nome do Arquivo MP3 -->
+                <div class="flex items-center space-x-2 bg-white border border-slate-300 rounded-lg p-1.5 text-xs shadow-none">
+                    <span class="text-slate-500 font-mono text-[11px] px-1">Arquivo MP3:</span>
+                    <input 
+                        type="text" 
+                        id="audioSourceInput" 
+                        value="audio6.mp3" 
+                        class="font-mono text-slate-800 bg-transparent border-none focus:outline-none w-48 sm:w-60 text-xs" 
+                        placeholder="nome_do_arquivo.mp3"
+                        title="Digite o nome do arquivo MP3 presente na mesma pasta"
+                    />
+                    <button 
+                        onclick="updateAudioSource()" 
+                        class="bg-slate-800 hover:bg-slate-900 text-white text-xs px-3 py-1 rounded font-medium transition-colors">
+                        Carregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Player HTML5 Integrado -->
+            <div class="mt-2">
+                <audio id="mainAudioPlayer" controls class="w-full h-11 rounded-lg">
+                    <source id="audioSource" src="audio6.mp3" type="audio/mpeg">
+                    Seu navegador não suporta o tocador de áudio HTML5.
+                </audio>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-2 flex items-center">
+                <svg class="w-3.5 h-3.5 mr-1 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Instrução: Salve seu arquivo MP3 no mesmo diretório deste arquivo HTML e confirme o nome no campo acima.
+            </p>
+        </section>
+
+        <!-- TÍTULO PRINCIPAL DO GUIA -->
+        <div class="border-b border-slate-200 pb-6 mb-8">
+            <div class="flex items-center space-x-2 mb-2">
+                <span class="text-xs font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-300 uppercase">Documento de Revisão Final</span>
+                <span class="text-xs text-slate-400">•</span>
+                <span class="text-xs text-brand-700 font-bold">FAURGS - Concurso Magistério EBTT (IFSC)</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-2">
+                GUIA INTEGRAL DE MEMORIZAÇÃO: Pedagogia Histórico-Crítica (PHC)
+            </h1>
+            <p class="text-sm font-semibold text-slate-600">
+                Foco Absoluto em Pontos de Acerto: Prova Objetiva & Discursiva (Informática / Licenciaturas / Geral)
+            </p>
+        </div>
+
+        <!-- ==================================================================== -->
+        <!-- PÁGINA 1: NÚCLEO TEÓRICO E FILOSÓFICO (SÍNTESE PARA FIXAÇÃO)         -->
+        <!-- ==================================================================== -->
+        <section class="mb-12">
+            <div class="bg-slate-100/90 border-l-4 border-slate-900 px-4 py-3 rounded-r-lg mb-6 flex items-center justify-between">
+                <h2 class="text-base sm:text-lg font-extrabold text-slate-900 uppercase tracking-wide">
+                    PÁGINA 1: FUNDAMENTAÇÃO FILOSÓFICA E DIDÁTICA DA PHC
+                </h2>
+                <span class="text-xs font-mono font-bold bg-white text-slate-700 px-2.5 py-1 rounded border border-slate-300">Teoria & Didática</span>
+            </div>
+
+            <!-- TÓPICO 1: MATRIZ MARXISTA E ONTOLOGIA -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center border-b border-slate-100 pb-2">
+                    <span class="bg-slate-900 text-white rounded-md w-6 h-6 flex items-center justify-center text-xs mr-2 font-mono">1</span>
+                    Concepção Ontológica e Papel da Escola (Matriz Marxista-Gramsciana)
+                </h3>
+                
+                <div class="space-y-4 text-sm text-slate-700">
+                    <!-- Definição Literal de Saviani -->
+                    <div class="p-3.5 bg-slate-50 rounded-lg border-l-4 border-brand-700 text-xs sm:text-sm">
+                        <strong class="text-slate-900 font-bold block mb-1">Conceito Literal de Educação (Dermeval Saviani):</strong>
+                        <p class="italic text-slate-800">
+                            "A educação é o ato de <span class="grifo-forte">produzir, direta e intencionalmente, em cada indivíduo singular, a humanidade</span> que é produzida histórica e coletivamente pelo conjunto dos homens."
+                        </p>
+                    </div>
+
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-brand-700 font-bold mr-2 text-base">•</span>
+                            <div>
+                                <strong class="text-slate-900">Trabalho como Categoria Ontológica:</strong> O homem não nasce pronto; produz a sua própria existência humana pelo <span class="grifo">trabalho (transformação intencional da natureza</span> para a satisfação de necessidades humanas). O trabalho é a <span class="grifo">mediação histórica de produção do conhecimento</span> e da cultura.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-brand-700 font-bold mr-2 text-base">•</span>
+                            <div>
+                                <strong class="text-slate-900">Apropriação e Objectivação Cultural:</strong> A educação é o processo pelo qual o indivíduo se <span class="grifo-azul">apropria do patrimônio cultural objetivado</span> pela humanidade ao longo do processo histórico.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-brand-700 font-bold mr-2 text-base">•</span>
+                            <div>
+                                <strong class="text-slate-900">Especificidade e Função Social da Escola:</strong> Socialização e democratização do <span class="grifo-forte">saber sistematizado, elaborado e científico (o "clássico")</span>. A escola <span class="grifo-alerta">não existe para reproduzir o cotidiano ou o senso comum</span>, mas para propiciar a <span class="grifo">elevação cognitiva do estudante</span> a partir da cultura universal.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-brand-700 font-bold mr-2 text-base">•</span>
+                            <div>
+                                <strong class="text-slate-900">Trabalho como Princípio Educativo na EPT (IFSC):</strong> No Ensino Técnico e Tecnológico, o trabalho contrapõe-se ao <span class="grifo-alerta">treinamento utilitarista e imediatista</span> voltado unicamente para o mercado capitalista. Exige a integração das bases científicas, tecnológicas e culturais para atingir a <span class="grifo-verde">formação omnilateral (integral e emancipada)</span> do trabalhador.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-brand-700 font-bold mr-2 text-base">•</span>
+                            <div>
+                                <strong class="text-slate-900">Autores Fundamentais para Lembrar na FAURGS:</strong> <span class="grifo-azul">Dermeval Saviani</span> (criador da PHC), <span class="grifo-azul">Newton Duarte</span> (psicologia histórico-cultural e crítica ao construtivismo/espontaneísmo), <span class="grifo-azul">João Luiz Gasparin</span> (didática dialética), <span class="grifo-azul">Gaudêncio Frigotto e Lucília Machado</span> (trabalho como princípio educativo na EPT).
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TÓPICO 2: QUADRO COMPARATIVO DE TEORIAS DA EDUCAÇÃO -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center border-b border-slate-100 pb-2">
+                    <span class="bg-slate-900 text-white rounded-md w-6 h-6 flex items-center justify-center text-xs mr-2 font-mono">2</span>
+                    "Escola e Democracia" (Saviani) vs. Libâneo – Classificação Pedagógica
+                </h3>
+                <p class="text-xs text-slate-500 mb-4">
+                    Tabela estruturada com quebras de linha automáticas para visualização perfeita em qualquer tela (sem scroll horizontal).
+                </p>
+
+                <div class="w-full">
+                    <table class="w-full border-collapse border border-slate-300 text-xs sm:text-sm text-left">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-300">
+                                <th class="p-2 sm:p-3 border border-slate-300 w-1/4 align-top">Grupo de Teorias (Saviani)</th>
+                                <th class="p-2 sm:p-3 border border-slate-300 w-1/4 align-top">Concepção da Educação & Marginalidade</th>
+                                <th class="p-2 sm:p-3 border border-slate-300 w-1/4 align-top">Pedagogias Equivalentes (Libâneo)</th>
+                                <th class="p-2 sm:p-3 border border-slate-300 w-1/4 align-top">Foco de Cobrança / Pegadinha FAURGS</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-700">
+                            <!-- Linha 1: Não-Críticas -->
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top font-semibold">
+                                    <span class="grifo-azul">Teorias Não-Críticas</span><br>
+                                    <span class="text-[11px] text-slate-500 font-normal">(Educação como força autônoma e harmonizadora)</span>
+                                </td>
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top">
+                                    Instrumento de equalização social para superar a marginalidade (vista como desvio ou ignorância individual).
+                                </td>
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top font-medium text-slate-900">
+                                    <span class="grifo">Pedagogias Liberais:</span><br>
+                                    • Tradicional<br>
+                                    • Escolanovista (Nova)<br>
+                                    • Tecnicista
+                                </td>
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top">
+                                    Acredita-se que a escola pode corrigir as desigualdades sem alterar a estrutura social capitalista.
+                                </td>
+                            </tr>
+                            <!-- Linha 2: Crítico-Reprodutivistas -->
+                            <tr class="hover:bg-slate-50/80 transition-colors bg-slate-50/40">
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top font-semibold">
+                                    <span class="grifo-alerta">Crítico-Reprodutivistas</span><br>
+                                    <span class="text-[11px] text-slate-500 font-normal">(Educação totalmente dependente da economia)</span>
+                                </td>
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top">
+                                    Instrumento de reprodução das relações de produção e legitimação da marginalidade de classe.
+                                </td>
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top font-medium text-slate-900">
+                                    • Aparelho Ideológico do Estado (Althusser)<br>
+                                    • Escola Dualista (Baudelot/Establet)<br>
+                                    • Violência Simbólica (Bourdieu/Passeron)
+                                </td>
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top">
+                                    <span class="grifo-forte">ATENÇÃO: NÃO possuem proposta didática ou prática escolar!</span> São apenas teorias de denúncia sociológica.
+                                </td>
+                            </tr>
+                            <!-- Linha 3: PHC -->
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top font-semibold">
+                                    <span class="grifo-verde">Pedagogia Histórico-Crítica</span><br>
+                                    <span class="text-[11px] text-slate-500 font-normal">(Concepção dialética: condicionada, mas transformadora)</span>
+                                </td>
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top">
+                                    Instrumento de emancipação política e luta contra-hegemônica da classe trabalhadora.
+                                </td>
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top font-medium text-slate-900">
+                                    <span class="grifo-azul">Pedagogias Progressistas:</span><br>
+                                    • Libertadora (Freire)<br>
+                                    • Libertária<br>
+                                    • Crítico-Social dos Conteúdos / PHC
+                                </td>
+                                <td class="p-2 sm:p-3 border border-slate-300 align-top">
+                                    Apropriação do <span class="grifo">saber elaborado como ferramenta de luta de classes</span> e superação da alienação.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TÓPICO 3: A DIDÁTICA DIALÉTICA EM 5 MOMENTOS (GASPARIN) -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center border-b border-slate-100 pb-2">
+                    <span class="bg-slate-900 text-white rounded-md w-6 h-6 flex items-center justify-center text-xs mr-2 font-mono">3</span>
+                    A Didática Dialética e a Prática Pedagógica em 5 Passos (Gasparin/Saviani)
+                </h3>
+
+                <!-- Sequência Visual dos Passos -->
+                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 mb-5 text-center">
+                    <p class="font-mono text-xs sm:text-sm font-bold text-slate-800 flex flex-wrap justify-center items-center gap-2">
+                        <span class="bg-white px-2.5 py-1 rounded border border-slate-300 shadow-none text-slate-900">1. Prática Social Inicial</span>
+                        <span class="text-brand-700 font-bold">➔</span>
+                        <span class="bg-white px-2.5 py-1 rounded border border-slate-300 shadow-none text-slate-900">2. Problematização</span>
+                        <span class="text-brand-700 font-bold">➔</span>
+                        <span class="bg-white px-2.5 py-1 rounded border border-slate-300 shadow-none text-slate-900">3. Instrumentalização</span>
+                        <span class="text-brand-700 font-bold">➔</span>
+                        <span class="bg-white px-2.5 py-1 rounded border border-slate-300 shadow-none text-slate-900">4. Catarse</span>
+                        <span class="text-brand-700 font-bold">➔</span>
+                        <span class="bg-white px-2.5 py-1 rounded border border-slate-300 shadow-none text-slate-900">5. Prática Social Final</span>
+                    </p>
+                </div>
+
+                <!-- Detalhamento com Papéis de Professor e Aluno -->
+                <div class="space-y-4 text-xs sm:text-sm text-slate-700">
+                    <!-- Passo 1 -->
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 text-sm block mb-1">1. Prática Social Inicial da Conteúdo:</span>
+                        <p class="mb-1">Ponto de partida comum a professor e aluno. Ambos vivenciam a mesma realidade social, contudo em níveis de consciência qualitativamente distintos:</p>
+                        <p class="text-xs text-slate-600">
+                            • <strong class="text-slate-800">Aluno:</strong> Visão <span class="grifo-alerta">Sincrética (fragmentada, empírica e calcada no senso comum)</span>.<br>
+                            • <strong class="text-slate-800">Professor:</strong> Visão <span class="grifo-verde">Sintética (articulada, compreensiva e informada pelo saber científico)</span>.
+                        </p>
+                    </div>
+
+                    <!-- Passo 2 -->
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 text-sm block mb-1">2. Problematização:</span>
+                        <p class="mb-1">Momento em que se identificam os problemas postos pela prática social que exigem o domínio de conhecimentos científicos para a sua resolução.</p>
+                        <p class="text-xs text-slate-600">
+                            • O conteúdo curricular é questionado em suas dimensões: <span class="grifo">conceitual, histórica, econômica, social e política</span>.
+                        </p>
+                    </div>
+
+                    <!-- Passo 3 -->
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 text-sm block mb-1">3. Instrumentalização:</span>
+                        <p class="mb-1"><span class="grifo-forte">Coração do processo de ensino-aprendizagem na PHC</span>. Mediação pedagógica intencional e sistemática do professor.</p>
+                        <p class="text-xs text-slate-600">
+                            • O professor disponibiliza ao aluno os instrumentos teóricos e práticos (saber sistematizado) necessários para a apreensão profunda do objeto de estudo.
+                        </p>
+                    </div>
+
+                    <!-- Passo 4 -->
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 text-sm block mb-1">4. Catarse:</span>
+                        <p class="mb-1"><span class="grifo-forte">Salto qualitativo mental do aluno</span>. É a efetiva assimilação consciente dos conteúdos teóricos.</p>
+                        <p class="text-xs text-slate-600">
+                            • Ocorre a passagem da <span class="grifo-alerta">síncrese (senso comum)</span> para a <span class="grifo-verde">síntese (consciência filosófica e científica)</span>. O aluno reestrutura sua forma de pensar a realidade.
+                        </p>
+                    </div>
+
+                    <!-- Passo 5 -->
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 text-sm block mb-1">5. Prática Social Final da Conteúdo:</span>
+                        <p class="mb-1">Ponto de chegada. O aluno retorna à prática social, porém agora munido de novos instrumentos de análise e ação.</p>
+                        <p class="text-xs text-slate-600">
+                            • Transforma-se em um agente social capaz de agir com <span class="grifo">práxis emancipada e transformadora</span> sobre a realidade técnica e social.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================== -->
+        <!-- PÁGINA 2: GLOSSÁRIO DE TERMOS, ENGENHARIA FAURGS E PROVA DISCURSIVA -->
+        <!-- ==================================================================== -->
+        <section class="mb-12">
+            <div class="bg-slate-100/90 border-l-4 border-brand-700 px-4 py-3 rounded-r-lg mb-6 flex items-center justify-between">
+                <h2 class="text-base sm:text-lg font-extrabold text-slate-900 uppercase tracking-wide">
+                    PÁGINA 2: GLOSSÁRIO DE TERMOS-CHAVE E ENGENHARIA FAURGS
+                </h2>
+                <span class="text-xs font-mono font-bold bg-white text-slate-700 px-2.5 py-1 rounded border border-slate-300">Peguinhas & Discursiva</span>
+            </div>
+
+            <!-- TÓPICO 4: GLOSSÁRIO DE TERMOS DE OURO FAURGS -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center border-b border-slate-100 pb-2">
+                    <span class="bg-brand-700 text-white rounded-md w-6 h-6 flex items-center justify-center text-xs mr-2 font-mono">4</span>
+                    Glossário de "Termos de Ouro" para Reconhecimento Rápido no Gabarito
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">1. Práxis:</strong>
+                        <p class="text-slate-700 text-xs">Unidade indissociável entre teoria e prática. A teoria ilumina a prática e a prática ressignifica a teoria.</p>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">2. Omnilateralidade:</strong>
+                        <p class="text-slate-700 text-xs">Desenvolvimento pleno e integral de todas as faculdades humanas (físicas, mentais, científicas, tecnológicas e estéticas).</p>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">3. Dualidade Estrutural:</strong>
+                        <p class="text-slate-700 text-xs">Divisão histórica do ensino: uma escola preparatória/propedêutica para as elites e uma escola profissional utilitarista para a classe trabalhadora.</p>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">4. O "Clássico":</strong>
+                        <p class="text-slate-700 text-xs">O conhecimento científico e artístico que resistiu ao tempo e possui validade universal para a emancipação humana.</p>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">5. Síncrese → Análise → Síntese:</strong>
+                        <p class="text-slate-700 text-xs">Movimento do pensamento no processo de apreensão do conhecimento: do caótico/confuso (síncrese) para o abstrato/estruturado (análise) e o concreto pensado (síntese).</p>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">6. Avaliação Emancipatória:</strong>
+                        <p class="text-slate-700 text-xs">Na PHC, a avaliação não é punitiva nem mera classificação passiva; verifica o salto qualitativo (catarse) da aprendizagem do estudante.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TÓPICO 5: PARAMETROS DO EDITAL DO CONCURSO EBTT IFSC -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center border-b border-slate-100 pb-2">
+                    <span class="bg-brand-700 text-white rounded-md w-6 h-6 flex items-center justify-center text-xs mr-2 font-mono">5</span>
+                    Parâmetros Estruturais do Edital EBTT IFSC (Banca FAURGS)
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                    <div class="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">1. Prova Objetiva:</span>
+                        <p class="text-slate-700 text-xs">50 questões de múltipla escolha (20 de Conhecimentos Gerais/Pedagógicos e 30 de Conhecimentos Específicos). Mínimo de pontos por módulo e no geral.</p>
+                    </div>
+                    <div class="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">2. Prova Discursiva (Pedagógica):</span>
+                        <p class="text-slate-700 text-xs">Aplicada junto à objetiva. <span class="grifo-alerta">Limite RÍGIDO de 10 a 15 linhas</span>. Zera se tiver menos de 10 linhas ou ultrapassar 15 linhas. Avalia fundamentação pedagógica na EPT.</p>
+                    </div>
+                    <div class="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">3. Prova de Desempenho Didático:</span>
+                        <p class="text-slate-700 text-xs">Aula pública simulada de 40 a 50 minutos perante banca examinadora, seguida de arguição. Tema sorteado com 24 horas de antecedência. Nota mínima de corte: 70 pontos.</p>
+                    </div>
+                    <div class="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-slate-900 block mb-1">4. Prova de Títulos:</span>
+                        <p class="text-slate-700 text-xs">Valoração de Doutorado, Mestrado, Especialização e tempo de experiência docente e profissional na área técnica.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TÓPICO 6: AS 5 ARMADILHAS DA BANCA FAURGS -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center border-b border-slate-100 pb-2">
+                    <span class="bg-brand-700 text-white rounded-md w-6 h-6 flex items-center justify-center text-xs mr-2 font-mono">6</span>
+                    As 5 Armadilhas Recorrentes da FAURGS ("Peguinhas de Prova")
+                </h3>
+
+                <div class="space-y-4 text-xs sm:text-sm">
+                    <!-- Peguinha 1 -->
+                    <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/90">
+                        <h4 class="font-bold text-amber-950 mb-1 flex items-center text-sm">
+                            <svg class="w-4 h-4 mr-1.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Peguinha 1: O Jogo de Nomenclaturas Saviani vs. Libâneo
+                        </h4>
+                        <p class="text-slate-700 text-xs mb-1"><strong>Como a banca cobra:</strong> Troca os termos entre autores em questões de associação de colunas.</p>
+                        <p class="text-slate-800 text-xs"><strong>Regra infalível de acerto:</strong> <span class="grifo">Tradicional, Nova e Tecnicista</span> são sempre Liberais (Libâneo) / Não-Críticas (Saviani). <span class="grifo-azul">Libertadora, Libertária e Crítico-Social dos Conteúdos</span> são Progressistas (Libâneo) / Críticas (Saviani).</p>
+                    </div>
+
+                    <!-- Peguinha 2 -->
+                    <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/90">
+                        <h4 class="font-bold text-amber-950 mb-1 flex items-center text-sm">
+                            <svg class="w-4 h-4 mr-1.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Peguinha 2: Confundir Crítico-Reprodutivismo com Proposta Pedagógica
+                        </h4>
+                        <p class="text-slate-700 text-xs mb-1"><strong>Como a banca cobra:</strong> Afirma que Althusser, Bourdieu ou Baudelot/Establet propuseram uma didática renovadora para a escola pública.</p>
+                        <p class="text-slate-800 text-xs"><strong>Regra infalível de acerto:</strong> <span class="grifo-alerta">FALSO!</span> As teorias Crítico-Reprodutivistas explicam apenas a reprodução do capital, sem oferecer nenhuma proposta prática ou pedagógica de sala de aula.</p>
+                    </div>
+
+                    <!-- Peguinha 3 -->
+                    <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/90">
+                        <h4 class="font-bold text-amber-950 mb-1 flex items-center text-sm">
+                            <svg class="w-4 h-4 mr-1.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Peguinha 3: O Espontaneísmo e a "Neutralidade" do Professor
+                        </h4>
+                        <p class="text-slate-700 text-xs mb-1"><strong>Como a banca cobra:</strong> Sugere que na PHC o professor deve ser mero "facilitador" e os alunos aprendem sozinhos por meio de suas vivências.</p>
+                        <p class="text-slate-800 text-xs"><strong>Regra infalível de acerto:</strong> Na PHC, o professor exerce papel <span class="grifo-forte">DIRIGENTE, ATIVO e INTENCIONAL</span> na transmissão e mediação do saber científico elaborado. A aprendizagem espontânea do cotidiano é insuficiente para superar a alienação.</p>
+                    </div>
+
+                    <!-- Peguinha 4 -->
+                    <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/90">
+                        <h4 class="font-bold text-amber-950 mb-1 flex items-center text-sm">
+                            <svg class="w-4 h-4 mr-1.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Peguinha 4: A Visão de "Currículo por Competências"
+                        </h4>
+                        <p class="text-slate-700 text-xs mb-1"><strong>Como a banca cobra:</strong> Tenta igualar o modelo de competências corporativas com o princípio do currículo integrado histórico-crítico.</p>
+                        <p class="text-slate-800 text-xs"><strong>Regra infalível de acerto:</strong> O currículo por competências tecnicista enfoca o saber fazer utilitário e flexível do mercado capitalista. A PHC defende a <span class="grifo">integração entre Ciência, Tecnologia, Cultura e Trabalho</span> para a autonomia do sujeito.</p>
+                    </div>
+
+                    <!-- Peguinha 5 -->
+                    <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/90">
+                        <h4 class="font-bold text-amber-950 mb-1 flex items-center text-sm">
+                            <svg class="w-4 h-4 mr-1.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Peguinha 5: Dualidade Estrutural vs. Unidade Teoria e Prática
+                        </h4>
+                        <p class="text-slate-700 text-xs mb-1"><strong>Como a banca cobra:</strong> Trata a formação técnica profissionalizante como mero treino operacional dissociado de fundamentação teórica sólida.</p>
+                        <p class="text-slate-800 text-xs"><strong>Regra infalível de acerto:</strong> A EPT no IFSC sob a PHC luta para <span class="grifo-verde">superar a dualidade estrutural</span>, garantindo o acesso dos filhos da classe trabalhadora aos saberes propedêuticos elevados e científicos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TÓPICO 7: ESQUELETO E RESPOSTA MODELO PARA DISCURSIVA -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center border-b border-slate-100 pb-2">
+                    <span class="bg-brand-700 text-white rounded-md w-6 h-6 flex items-center justify-center text-xs mr-2 font-mono">7</span>
+                    Esqueleto e Modelo de Resposta Discursiva (10 a 15 Linhas Exatas)
+                </h3>
+
+                <p class="text-xs text-slate-600 mb-4">
+                    Utilize a estrutura abaixo para garantir pontuação máxima nos critérios de conteúdo pedagógico e norma culta da FAURGS:
+                </p>
+
+                <!-- Estrutura do Esqueleto por Linhas -->
+                <ul class="space-y-2 text-xs sm:text-sm text-slate-700 mb-6">
+                    <li class="p-2.5 bg-slate-50 rounded border border-slate-200">
+                        <strong class="text-slate-900">Linhas 1-3 (Tese de Abertura):</strong> Definição do conceito-chave exigido (ex: omnilateralidade, trabalho como princípio educativo) articulado à missão institucional do IFSC.
+                    </li>
+                    <li class="p-2.5 bg-slate-50 rounded border border-slate-200">
+                        <strong class="text-slate-900">Linhas 4-10 (Desenvolvimento Teórico-Didático):</strong> Articulação dos passos pedagógicos da PHC (Saviani/Gasparin) com a área técnica (ex: Informática). Cite termos-chave: <span class="grifo">saber elaborado</span>, <span class="grifo">problematização</span>, <span class="grifo">instrumentalização</span> e <span class="grifo">catarse</span>.
+                    </li>
+                    <li class="p-2.5 bg-slate-50 rounded border border-slate-200">
+                        <strong class="text-slate-900">Linhas 11-14/15 (Fecho Emancipatório):</strong> Demonstração do impacto na formação crítica e integral do estudante/trabalhador frente à realidade social.
+                    </li>
+                </ul>
+
+                <!-- Caixa de Texto com Modelo Pronto de 10 Linhas Rigorosamente Formatado -->
+                <div class="mb-2">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-600 mb-2">
+                        Exemplo de Resposta Nota 100 (Cargo: Professor EBTT - Informática / IFSC)
+                    </h4>
+                    <div class="bg-slate-50 border border-slate-300 rounded-lg p-4 font-mono text-xs sm:text-sm text-slate-900 leading-relaxed overflow-x-auto shadow-inner">
+                        <p class="whitespace-pre-line">
+<span class="text-slate-400 select-none mr-2 font-bold">01</span>A perspectiva da formação omnilateral na Educação Profissional do IFSC fundamenta-se na
+<span class="text-slate-400 select-none mr-2 font-bold">02</span>dimensão ontológica do trabalho como atividade primária de autoconstituição humana. Sob as
+<span class="text-slate-400 select-none mr-2 font-bold">03</span>diretrizes da Pedagogia Histórico-Crítica, a docência em Informática deve superar o mero treino
+<span class="text-slate-400 select-none mr-2 font-bold">04</span>utilitarista e instrumental de programação voltado ao mercado de capitais. O Ensino Médio
+<span class="text-slate-400 select-none mr-2 font-bold">05</span>Integrado exige um currículo que articule de forma dialética a ciência, a tecnologia, a cultura e o
+<span class="text-slate-400 select-none mr-2 font-bold">06</span>trabalho, permitindo que os estudantes compreendam os algoritmos e sistemas digitais como produtos
+<span class="text-slate-400 select-none mr-2 font-bold">07</span>históricos do desenvolvimento social. Por meio de uma didática assente na problematização e na
+<span class="text-slate-400 select-none mr-2 font-bold">08</span>instrumentalização, o professor de Informática socializa o saber elaborado, propiciando a catarse
+<span class="text-slate-400 select-none mr-2 font-bold">09</span>conceitual do aluno. O domínio técnico da computação converge, assim, para uma atuação prática e
+<span class="text-slate-400 select-none mr-2 font-bold">10</span>emancipada do cidadão técnico, capacitando-o a atuar na superação das contradições estruturais da realidade.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================== -->
+        <!-- SEÇÃO FINAL DE AÇÃO: BOTÃO PARA PÁGINA DE QUESTÕES                  -->
+        <!-- ==================================================================== -->
+        <div id="questoes" class="pt-6 pb-12 text-center border-t border-slate-200">
+            <div class="max-w-xl mx-auto bg-brand-50/70 border border-brand-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div class="w-12 h-12 bg-brand-700 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                </div>
+                <h3 class="text-xl font-black text-slate-900 mb-2">Testar Conhecimentos na Prática</h3>
+                <p class="text-xs sm:text-sm text-slate-600 mb-6">
+                    Fixe todos os conceitos teóricos, termos de ouro e esquive-se das armadilhas da banca resolvendo o banco de questões objetivas da FAURGS.
+                </p>
+                
+                <a 
+                    href="questoes6.html" 
+                    class="inline-flex items-center justify-center space-x-2 bg-brand-700 hover:bg-brand-800 text-white font-bold text-base px-8 py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 group w-full sm:w-auto">
+                    <span>Ir para Banco de Questões</span>
+                    <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Neutro -->
+    <footer class="bg-slate-50 border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>Guia de Estudo Pedagógico • Concurso Professor EBTT IFSC • Banca FAURGS</p>
+    </footer>
+
+    <!-- Script para atualizar dinamicamente o arquivo de áudio MP3 -->
+    <script>
+        function updateAudioSource() {
+            const inputVal = document.getElementById('audioSourceInput').value.trim();
+            const audioPlayer = document.getElementById('mainAudioPlayer');
+            const audioSource = document.getElementById('audioSource');
+
+            if (inputVal) {
+                audioSource.src = inputVal;
+                audioPlayer.load();
+                audioPlayer.play().catch(function(e) {
+                    console.log("Aguardando interação do usuário para reprodução do áudio:", e);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

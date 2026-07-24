@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Véspera - Acesso, Permanência e Êxito (IFSC / FAURGS)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax for rendering latex formulas clean & fast -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #0f172a; /* Slate-900 for ultra sharp readability */
+            line-height: 1.6;
+        }
+        /* Custom highlight styling for active memorization */
+        mark.hl-yellow {
+            background-color: #fef08a; /* Soft readable yellow */
+            color: #854d0e;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.hl-green {
+            background-color: #dcfce7; /* Soft readable green */
+            color: #166534;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.hl-red {
+            background-color: #fee2e2; /* Soft red alert */
+            color: #991b1b;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.hl-blue {
+            background-color: #dbeafe; /* Soft blue */
+            color: #1e40af;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        /* Tables text wrapping to prevent horizontal scroll */
+        table {
+            width: 100% !important;
+            table-layout: fixed !important;
+            border-collapse: collapse;
+        }
+        td, th {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen text-slate-900 flex flex-col">
+
+    <!-- AUDIO PLAYER HEADER (Sticky Top Box) -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm py-4 px-4 sm:px-6">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+                    <i class="fa-solid fa-headphones text-lg"></i>
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold text-slate-900 leading-tight">Audioaula de Resumo Completo</h2>
+                    <p class="text-xs text-slate-500">Ouça os pontos estratégicos em MP3</p>
+                </div>
+            </div>
+
+            <!-- Native HTML5 Audio Player -->
+            <div class="w-full md:w-auto flex-1 max-w-xl flex flex-col sm:flex-row items-center gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200">
+                <audio id="mainAudioPlayer" controls class="w-full h-10 text-xs">
+                    <!-- Default file path defined here -->
+                    <source id="audioSource" src="audio4.mp3" type="audio/mpeg">
+                    Seu navegador não suporta o reprodutor de áudio HTML5.
+                </audio>
+                
+                <!-- Quick File Name Config Box -->
+                <div class="w-full sm:w-auto shrink-0 text-right flex items-center gap-1 bg-white px-2 py-1.5 rounded-lg border border-slate-200 text-xs">
+                    <i class="fa-solid fa-file-audio text-slate-400"></i>
+                    <span class="text-slate-600 font-mono text-[11px]" id="currentFileName">audio4.mp3</span>
+                    <button onclick="changeAudioFile()" class="ml-1 text-emerald-600 hover:text-emerald-700 font-semibold text-[11px] underline cursor-pointer" title="Clique para alterar o caminho do arquivo MP3">
+                        Alterar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8">
+
+        <!-- HEADER BANNER -->
+        <div class="mb-8 border-b border-slate-200 pb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold mb-3 border border-emerald-200">
+                <i class="fa-solid fa-graduation-cap"></i> CONCURSO PROFESSOR EBTT IFSC • BANCA FAURGS
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+                RESUMO COMPLETO DE VÉSPERA: Democratização do Acesso, Permanência e Êxito Escolar
+            </h1>
+            <p class="text-sm sm:text-base text-slate-600">
+                Mapeamento teórico integral, arco legal atualizado (LDB, Lei de Cotas, PNAES 2024, Lei dos IFs), diretrizes institucionais do IFSC (PEAPEE, RDP, NAPNE, NEABI) e matriz de pegadinhas da FAURGS.
+            </p>
+        </div>
+
+        <!-- SECTION 1: CONCEITOS E DIRETRIZES DE FLUXO ESCOLAR -->
+        <section class="mb-10">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="bg-slate-900 text-white font-bold text-xs px-2.5 py-1 rounded-md">1</span>
+                <h2 class="text-xl font-bold text-slate-900">CONCEITOS FUNDAMENTAIS E DIRETRIZES DE FLUXO ESCOLAR</h2>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-5 mb-5">
+                <p class="text-sm sm:text-base leading-relaxed text-slate-800">
+                    <strong class="text-emerald-700">Mudança de Paradigma:</strong> A análise moderna de fluxo abandona a culpabilização individualista do estudante (focada em "defasagem cultural" ou "desinteresse") e assume a <mark class="hl-yellow">responsabilidade político-pedagógica e institucional</mark> da escola em garantir o percurso formativo completo com qualidade social.
+                </p>
+            </div>
+
+            <!-- Subtítulo: Classificação da Evasão e Retenção -->
+            <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-circle-chevron-right text-emerald-600 text-sm"></i>
+                Classificação da Evasão e Retenção (SETEC/MEC & TCU)
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+                <!-- Box 1 -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:border-slate-300 transition-colors">
+                    <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Conceito 01</div>
+                    <h4 class="font-bold text-slate-900 mb-2 text-sm sm:text-base">Evasão de Curso</h4>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-normal">
+                        Desligamento do estudante de um curso específico por <mark class="hl-yellow">abandono</mark> (não renovação), <mark class="hl-yellow">desistência oficial</mark>, <mark class="hl-yellow">transferência interna</mark> ou <mark class="hl-yellow">exclusão regimental</mark>.
+                    </p>
+                </div>
+                <!-- Box 2 -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:border-slate-300 transition-colors">
+                    <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Conceito 02</div>
+                    <h4 class="font-bold text-slate-900 mb-2 text-sm sm:text-base">Evasão de Sistema</h4>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-normal">
+                        Saída <mark class="hl-yellow">definitiva ou temporária da Rede Federal</mark> de ensino sem ter concluído qualquer diplomação em instituição pública equivalente.
+                    </p>
+                </div>
+                <!-- Box 3 -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:border-slate-300 transition-colors">
+                    <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Conceito 03</div>
+                    <h4 class="font-bold text-slate-900 mb-2 text-sm sm:text-base">Aluno Retido</h4>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-normal">
+                        Estudante <mark class="hl-yellow">formalmente ativo</mark> na instituição que ultrapassou o tempo regulamentar previsto no Projeto Pedagógico do Curso (PPC) para diplomação.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Subtítulo: Fórmulas de Fluxo Estudantil -->
+            <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-calculator text-emerald-600 text-sm"></i>
+                Indicadores e Fórmulas Oficiais de Fluxo (SETEC/MEC)
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <!-- Taxa de Evasão -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                    <div class="font-bold text-slate-900 text-sm mb-1">Taxa de Evasão do Curso ($T_E$)</div>
+                    <div class="my-3 text-center bg-slate-50 p-3 rounded-lg border border-slate-200 text-slate-900 overflow-x-auto">
+                        $$T_E=\left(1-\frac{A_M+A_C}{A_I}\right)\times100$$
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-800">Onde:</span> 
+                        <mark class="hl-blue">$A_M$</mark> = Matriculados no período seguinte; 
+                        <mark class="hl-blue">$A_C$</mark> = Concluintes/Diplomados; 
+                        <mark class="hl-blue">$A_I$</mark> = Matrícula inicial da coorte.
+                    </p>
+                </div>
+
+                <!-- Taxa de Conclusão -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                    <div class="font-bold text-slate-900 text-sm mb-1">Taxa de Conclusão ($T_C$)</div>
+                    <div class="my-3 text-center bg-slate-50 p-3 rounded-lg border border-slate-200 text-slate-900 overflow-x-auto">
+                        $$T_C=\left(\frac{A_C}{A_I}\right)\times100$$
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-800">Onde:</span> 
+                        <mark class="hl-blue">$A_C$</mark> = Total de alunos diplomados no tempo regular; 
+                        <mark class="hl-blue">$A_I$</mark> = Total de ingressantes da mesma turma/coorte.
+                    </p>
+                </div>
+
+                <!-- Índice de Retenção -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                    <div class="font-bold text-slate-900 text-sm mb-1">Índice de Retenção ($I_R$)</div>
+                    <div class="my-3 text-center bg-slate-50 p-3 rounded-lg border border-slate-200 text-slate-900 overflow-x-auto">
+                        $$I_R=\frac{A_{ret}}{A_{tot}}$$
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-800">Onde:</span> 
+                        <mark class="hl-blue">$A_{ret}$</mark> = Alunos com tempo excedido ativos; 
+                        <mark class="hl-blue">$A_{tot}$</mark> = Total de matriculados no curso.
+                    </p>
+                </div>
+
+                <!-- Índice de Eficiência Acadêmica -->
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                    <div class="font-bold text-slate-900 text-sm mb-1">Eficiência Acadêmica ($I_{EA}$)</div>
+                    <div class="my-3 text-center bg-slate-50 p-3 rounded-lg border border-slate-200 text-slate-900 overflow-x-auto">
+                        $$I_{EA}=\frac{A_C}{A_I - A_{transf}}$$
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-800">Onde:</span> Relaciona diplomados descontando transferências regulares amparadas por lei.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Dimensões dos Fatores de Evasão -->
+            <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-diagram-project text-emerald-600 text-sm"></i>
+                Multidimensionalidade dos Fatores de Evasão (MEC/SETEC)
+            </h3>
+            
+            <div class="space-y-2 mb-6">
+                <div class="p-3 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm">
+                    <strong class="text-slate-900">1. Fatores Individuais:</strong> Histórico socioeconômico, maturidade, saúde mental, <mark class="hl-yellow">opção precoce de curso sem orientação profissional</mark> prévia e lacunas da educação básica prévia.
+                </div>
+                <div class="p-3 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm">
+                    <strong class="text-slate-900">2. Fatores Intraescolares (Institucionais):</strong> Metodologias docentes bancárias/excludentes, <mark class="hl-yellow">grade curricular pré-requisita e rígida</mark>, falhas na infraestrutura de laboratórios, ausência de auxílios e falta de programas de acolhimento.
+                </div>
+                <div class="p-3 bg-white border border-slate-200 rounded-lg text-xs sm:text-sm">
+                    <strong class="text-slate-900">3. Fatores Extraescolares (Contextuais):</strong> Incompatibilidade com jornadas de trabalho, responsabilidade com sustento familiar, <mark class="hl-yellow">deficiência em redes públicas de transporte e moradia urbana</mark>.
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200 my-8">
+
+        <!-- SECTION 2: ARCO LEGAL NACIONAL -->
+        <section class="mb-10">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="bg-slate-900 text-white font-bold text-xs px-2.5 py-1 rounded-md">2</span>
+                <h2 class="text-xl font-bold text-slate-900">ARCO LEGAL NACIONAL DA DEMOCRATIZAÇÃO E PERMANÊNCIA</h2>
+            </div>
+
+            <!-- LDB Art. 3º e Atribuições -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-scale-balanced text-emerald-600 text-sm"></i>
+                    LDB (Lei nº 9.394/96) - Princípios e Competências
+                </h3>
+                <ul class="space-y-2 text-xs sm:text-sm text-slate-800">
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-emerald-600 mt-1"></i>
+                        <span><strong>Igualdade de Acesso e Permanência:</strong> Art. 3º, I - Princípio basilar absoluto da educação nacional.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-emerald-600 mt-1"></i>
+                        <span><strong>Diversidade Étnico-Racial:</strong> Art. 3º, XII - Inserido em 2013 (<mark class="hl-green">Lei 12.796</mark>).</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-emerald-600 mt-1"></i>
+                        <span><strong>Educação ao Longo da Vida:</strong> Art. 3º, XIII - Inserido em 2018 (<mark class="hl-green">Lei 13.632</mark>).</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-emerald-600 mt-1"></i>
+                        <span><strong>Diversidade Humana e Linguística:</strong> Art. 3º, XIV - Garantia para pessoas surdas/surdocegas inserida em 2021 (<mark class="hl-green">Lei 14.191</mark>).</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-emerald-600 mt-1"></i>
+                        <span><strong>Aproveitamento de Estudos:</strong> Art. 41 - Reconhecimento de conhecimentos anteriores adquiridos na experiência de trabalho.</span>
+                    </li>
+                </ul>
+
+                <div class="mt-4 pt-4 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="p-3 bg-slate-50 rounded-lg">
+                        <strong class="text-slate-900 block mb-1">Dever do Estabelecimento (Art. 12):</strong>
+                        Elaborar e executar proposta pedagógica; prover meios para recuperação de alunos de menor rendimento; articular-se com famílias e comunidade.
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg">
+                        <strong class="text-slate-900 block mb-1">Dever do Docente EBTT (Art. 13):</strong>
+                        Zelar pela aprendizagem dos alunos; estabelecer estratégias de recuperação contínua; ministrar os dias letivos e horas-aula estabelecidos.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notificação Conselho Tutelar -->
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 sm:p-5 mb-6">
+                <h3 class="text-base font-bold text-amber-900 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+                    Acordo Notificatório LDB (Art. 12, VIII) + ECA (Art. 56)
+                </h3>
+                <p class="text-xs sm:text-sm text-amber-800 mb-3">
+                    A direção da escola tem o dever legal intransferível de notificar o Conselho Tutelar diante das <strong>3 situações taxativas</strong>, <mark class="hl-red">EXCLUSIVAMENTE APÓS ESGOTADOS os recursos escolares</mark>:
+                </p>
+                <ol class="list-decimal list-inside text-xs sm:text-sm text-amber-900 space-y-1 font-medium">
+                    <li>Casos confirmados ou suspeitos de maus-tratos envolvendo seus alunos;</li>
+                    <li>Reiteração de faltas injustificadas e de evasão escolar (quando atingidos os limites legais);</li>
+                    <li>Elevados níveis de repetência acumulados.</li>
+                </ol>
+            </div>
+
+            <!-- Lei dos Institutos Federais -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-building-columns text-emerald-600 text-sm"></i>
+                    Lei de Criação da Rede Federal (Lei nº 11.892/2008) - Proporções Obrigatórias
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-lg">
+                        <strong class="text-emerald-900 block mb-1">Mínimo 50% das Vagas:</strong>
+                        Destinadas obrigatoriamente para a <mark class="hl-green">Educação Profissional Técnica de Nível Médio</mark>, prioritariamente na forma integrada.
+                    </div>
+                    <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-lg">
+                        <strong class="text-emerald-900 block mb-1">Mínimo 20% das Vagas:</strong>
+                        Destinadas a cursos de <mark class="hl-green">Licenciatura e formação pedagógica</mark> de professores para a Educação Básica.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lei de Cotas Atualizada -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-users text-emerald-600 text-sm"></i>
+                    Lei de Cotas Reformulada (Lei nº 12.711/12 alterada pela Lei nº 14.723/2023)
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">1. Novo Teto de Renda Per Capita:</strong>
+                        O limite socioeconômico caiu de 1,5 salário mínimo para no máximo <mark class="hl-yellow">1,0 Salário Mínimo per capita</mark>.
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">2. Inclusão dos Quilombolas:</strong>
+                        Inclusão expressa dos <mark class="hl-green">povos quilombolas</mark> nas cotas raciais ao lado de pretos, pardos e indígenas (PPIQ).
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">3. Regra de Concorrência Prioritária:</strong>
+                        Todos os candidatos cotistas <mark class="hl-yellow">concorrem primeiro na Ampla Concorrência</mark>. A cota só é acionada se a nota não atingir a classificação geral.
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">4. Prioridade Legal na Assistência:</strong>
+                        Garantia de <mark class="hl-yellow">prioridade absoluta</mark> de atendimento pelos programas de assistência estudantil para alunos cotistas.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nova PNAES -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-hand-holding-hand text-emerald-600 text-sm"></i>
+                    Nova Política Nacional de Assistência Estudantil (PNAES - Lei nº 14.914/2024)
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 mb-3">
+                    Substituiu o antigo Decreto nº 7.234/2010, alçando a assistência estudantil ao status de Lei Federal com os seguintes programas estruturantes:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+                        <span class="font-bold text-emerald-700 block">PBP (Bolsa Permanência)</span>
+                        Auxílio financeiro mensal direto a vulneráveis e povos originários/tradicionais.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+                        <span class="font-bold text-emerald-700 block">PEM (Programa Moradia)</span>
+                        Moradia estudantil ou auxílio aluguel para deslocados residenciais.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+                        <span class="font-bold text-emerald-700 block">PASES (Alimentação)</span>
+                        Acesso universal ou subsidiado a Restaurantes Universitários/Escolares.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+                        <span class="font-bold text-emerald-700 block">PATE (Transporte)</span>
+                        Subsídio e parcerias para mobilidade urbana diária até o câmpus.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+                        <span class="font-bold text-emerald-700 block">Programa Incluir</span>
+                        Eliminação de barreiras arquitetônicas, pedagógicas e comunicacionais (PcD).
+                    </div>
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+                        <span class="font-bold text-emerald-700 block">PROPEPE (Creche)</span>
+                        Apoio financeiro/estrutural para discentes pais/mães com filhos até 6 anos.
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROEJA -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-user-graduate text-emerald-600 text-sm"></i>
+                    PROEJA (Decreto nº 5.840/2006)
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-700">
+                    Sua finalidade estratégica é a <mark class="hl-yellow">elevação da escolaridade integrada à formação profissional</mark> de jovens e adultos que não tiveram acesso na idade própria. É instrumento crucial de democratização do IFSC, exigindo metodologias flexíveis e andragógicas.
+                </p>
+            </div>
+        </section>
+
+        <hr class="border-slate-200 my-8">
+
+        <!-- SECTION 3: ESTRUTURA INSTITUCIONAL E DIRETRIZES DO IFSC -->
+        <section class="mb-10">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="bg-slate-900 text-white font-bold text-xs px-2.5 py-1 rounded-md">3</span>
+                <h2 class="text-xl font-bold text-slate-900">ESTRUTURA INSTITUCIONAL E NORMAS INTERNAS DO IFSC</h2>
+            </div>
+
+            <!-- PEAPEE e Instâncias -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-sitemap text-emerald-600 text-sm"></i>
+                    PEAPEE-IFSC (Resolução CONSUP/IFSC nº 98/2024)
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-700 mb-4">
+                    O Plano Estratégico de Acesso, Permanência e Êxito dos Estudantes do IFSC atualizou as diretrizes institucionais sob rigor do <mark class="hl-yellow">Acórdão nº 612/2021-TCU</mark>. É articulado pela <mark class="hl-blue">PROEN</mark> (Pró-Reitoria de Ensino) através da <mark class="hl-blue">CSIPE</mark> (Coordenadoria de Suporte Institucional à Permanência e Êxito).
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">CAPE Central (Sistêmica - Reitoria):</strong>
+                        Nível estratégico. Responsável pelo planejamento macro, alocação orçamentária, alinhamento ao PDI e monitoramento sistêmico do fluxo de todos os câmpus.
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900 block mb-1">CAPE Local (Câmpus):</strong>
+                        Nível operacional. Analisa os microdados locais de retenção, desenvolve intervenções pedagógicas e consolida o <mark class="hl-yellow">Plano Local de Permanência e Êxito (PLPE)</mark>.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Núcleos Especiais no IFSC -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 mb-6 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-hands-holding-child text-emerald-600 text-sm"></i>
+                    Núcleos de Acessibilidade e Inclusão do IFSC
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div class="p-3 bg-emerald-50/50 border border-emerald-200 rounded-lg">
+                        <strong class="text-emerald-900 block mb-1"><i class="fa-solid fa-wheelchair"></i> NAPNE (Acessibilidade):</strong>
+                        Núcleo de Apoio às Pessoas com Necessidades Específicas. Garante flexibilizações curriculares, recursos assistivos e adequações de provas para estudantes com deficiência, altas habilidades ou transtornos de aprendizagem.
+                    </div>
+                    <div class="p-3 bg-emerald-50/50 border border-emerald-200 rounded-lg">
+                        <strong class="text-emerald-900 block mb-1"><i class="fa-solid fa-ribbon"></i> NEABI (Diversidade Étnica):</strong>
+                        Núcleo de Estudos Afro-brasileiros e Indígenas. Promove ações afirmativas, combate ao racismo institucional e aplicação obrigatória das Leis 10.639/03 e 11.645/08 no currículo do IFSC.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cronograma de Ações das CAPEs -->
+            <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-calendar-check text-emerald-600 text-sm"></i>
+                Cronograma de Ações Obrigatórias das CAPEs Locais (IFSC)
+            </h3>
+
+            <!-- Responsive Table Container without horizontal scroll -->
+            <div class="w-full bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6">
+                <table class="w-full text-left text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 border-b border-slate-200 text-slate-900 font-bold">
+                            <th class="p-2 sm:p-3 w-16 text-center border-r border-slate-200">Fase</th>
+                            <th class="p-2 sm:p-3">Ação Operacional Obrigatória (Fluxo Interno)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-800">
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold text-center bg-slate-50 border-r border-slate-200">1</td>
+                            <td class="p-2 sm:p-3">Diagnóstico quantitativo e qualitativo das taxas de retenção e evasão por curso.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold text-center bg-slate-50 border-r border-slate-200">2</td>
+                            <td class="p-2 sm:p-3">Mapeamento detalhado e categorização dos fatores geradores (internos/externos).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold text-center bg-slate-50 border-r border-slate-200">3</td>
+                            <td class="p-2 sm:p-3">Discussão colegiada pedagógica e deliberação das estratégias preventivas.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold text-center bg-slate-50 border-r border-slate-200">4</td>
+                            <td class="p-2 sm:p-3">Consolidação e aprovação do Plano Local de Permanência e Êxito (<mark class="hl-yellow">PLPE</mark>).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold text-center bg-slate-50 border-r border-slate-200">5</td>
+                            <td class="p-2 sm:p-3">Execução, monitoramento de metas em tempo real e relatórios de impacto.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Docência EBTT de Informática e Permanência -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-5 mb-6">
+                <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-code text-emerald-600 text-sm"></i>
+                    Atuação Prática do Professor EBTT de Informática
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    Em disciplinas com alto índice histórico de retenção (como Algoritmos, Lógica de Programação e Estruturas de Dados), o docente deve adotar estratégias formativas:
+                </p>
+                <ul class="list-disc list-inside text-xs sm:text-sm text-slate-800 mt-2 space-y-1">
+                    <li>Nivelamento pedagógico inicial em matemática básica e raciocínio lógico.</li>
+                    <li>Uso de monitoria acadêmica ativa entre pares e projetos de ensino.</li>
+                    <li>Disponibilização de laboratórios abertos e ferramentas com IDEs acessíveis (web/mobile).</li>
+                    <li>Avaliação processual contínua com feedback imediato e recuperação paralela garantida pelo RDP do IFSC.</li>
+                </ul>
+            </div>
+        </section>
+
+        <hr class="border-slate-200 my-8">
+
+        <!-- SECTION 4: MAPEAMENTO DE PEGADINHAS DA BANCA FAURGS -->
+        <section class="mb-10">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="bg-slate-900 text-white font-bold text-xs px-2.5 py-1 rounded-md">4</span>
+                <h2 class="text-xl font-bold text-slate-900">MATRIZ DE PEGADINHAS RECORRENTES DA BANCA FAURGS</h2>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-600 mb-4">
+                A banca FAURGS costuma trocar expressões regulamentares sutis por jargões genéricos. Decore a coluna de ouro para garantir os pontos diretos:
+            </p>
+
+            <!-- Pegadinhas Table (Designed to fit completely without scroll) -->
+            <div class="w-full bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6">
+                <table class="w-full text-left text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-slate-900 text-white font-bold">
+                            <th class="p-2 sm:p-3 w-1/4">Tópico Legal / Conceito</th>
+                            <th class="p-2 sm:p-3 w-3/8 text-rose-300">Pegadinha / Inversão da FAURGS</th>
+                            <th class="p-2 sm:p-3 w-3/8 text-emerald-300">Regra de Ouro (Gabarito Certo)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-800">
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold bg-slate-50">Conselho Tutelar</td>
+                            <td class="p-2 sm:p-3 text-rose-900 bg-rose-50/40">Afirmar que a notificação é automática no primeiro dia de ausência.</td>
+                            <td class="p-2 sm:p-3 text-emerald-900 bg-emerald-50/40">A escola deve <mark class="hl-red">esgotar os recursos internos</mark> antes de acionar (LDB Art. 12, VIII).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold bg-slate-50">Controle de Frequência</td>
+                            <td class="p-2 sm:p-3 text-rose-900 bg-rose-50/40">Generalizar o mínimo de 75% para todas as etapas da Educação Básica.</td>
+                            <td class="p-2 sm:p-3 text-emerald-900 bg-emerald-50/40">EF e Médio: <mark class="hl-yellow">75%</mark>.<br>Educação Infantil: <mark class="hl-yellow">60%</mark> (LDB Art. 31, IV).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold bg-slate-50">Inclusão Quilombola</td>
+                            <td class="p-2 sm:p-3 text-rose-900 bg-rose-50/40">Dizer que Quilombolas entraram na Lei de Cotas desde a origem em 2012.</td>
+                            <td class="p-2 sm:p-3 text-emerald-900 bg-emerald-50/40"><mark class="hl-green">PcD em 2016</mark> (Lei 13.409).<br><mark class="hl-green">Quilombolas em 2023</mark> (Lei 14.723).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold bg-slate-50">Teto de Renda Cotas</td>
+                            <td class="p-2 sm:p-3 text-rose-900 bg-rose-50/40">Sustentar o teto antigo de 1,5 salário mínimo per capita.</td>
+                            <td class="p-2 sm:p-3 text-emerald-900 bg-emerald-50/40">O teto atualizado é de <mark class="hl-yellow">no máximo 1,0 Salário Mínimo per capita</mark>.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold bg-slate-50">Disputa de Cotas</td>
+                            <td class="p-2 sm:p-3 text-rose-900 bg-rose-50/40">Afirmar que o cotista concorre apenas nas vagas reservadas.</td>
+                            <td class="p-2 sm:p-3 text-emerald-900 bg-emerald-50/40">Concorre <mark class="hl-yellow">primeiro na Ampla Concorrência</mark>; cota é acionada apenas de forma subsidiária.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 sm:p-3 font-bold bg-slate-50">Dever do Professor</td>
+                            <td class="p-2 sm:p-3 text-rose-900 bg-rose-50/40">Atribuir a responsabilidade por prover meios de recuperação à escola individualmente.</td>
+                            <td class="p-2 sm:p-3 text-emerald-900 bg-emerald-50/40">Escola provê os meios; o <mark class="hl-yellow">docente estabelece as estratégias de recuperação</mark> (Art. 13).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- BOTTOM NAVIGATION BUTTON -->
+        <div class="mt-12 mb-8 pt-6 border-t border-slate-200 text-center">
+            <a href="questoes4.html" class="inline-flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-base px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all w-full sm:w-auto">
+                <span>Ir para o Módulo de Questões (questoes.html)</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <p class="text-xs text-slate-500 mt-2">Você será redirecionado para a página de resolução de exercícios</p>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-50 border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>© Prepara IFSC - Professor EBTT Informática • Conteúdo Focado na Banca FAURGS</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        function changeAudioFile() {
+            const currentName = document.getElementById('currentFileName').innerText;
+            const newFileName = prompt("Digite o nome ou caminho do seu arquivo de áudio MP3:", currentName);
+            
+            if (newFileName && newFileName.trim() !== "") {
+                const audioPlayer = document.getElementById('mainAudioPlayer');
+                const audioSource = document.getElementById('audioSource');
+                const fileNameDisplay = document.getElementById('currentFileName');
+
+                audioSource.src = newFileName.trim();
+                fileNameDisplay.innerText = newFileName.trim();
+                
+                audioPlayer.load(); // Reload the audio element with new src
+                alert("Caminho do áudio atualizado para: " + newFileName.trim());
+            }
+        }
+    </script>
+</body>
+</html>

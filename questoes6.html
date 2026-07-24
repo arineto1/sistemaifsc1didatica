@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Pedagogia Histórico-Crítica (FAURGS)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Long Reading Comfort -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        paper: {
+                            bg: '#fcfbf9',
+                            card: '#ffffff',
+                            border: '#e7e5e4',
+                            text: '#1c1917',
+                            muted: '#57534e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['"Charis SIL"', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f7f6f2;
+            color: #1c1917;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.65;
+        }
+        .reading-text {
+            font-family: 'Charis SIL', Georgia, serif;
+            font-size: 1.085rem;
+            line-height: 1.8;
+            color: #262626;
+        }
+        .custom-radio:checked + label {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            color: #1e3a8a;
+        }
+        .correct-card {
+            border-left: 5px solid #16a34a;
+            background-color: #f0fdf4;
+        }
+        .incorrect-card {
+            border-left: 5px solid #dc2626;
+            background-color: #fef2f2;
+        }
+        .unanswered-card {
+            border-left: 5px solid #d97706;
+            background-color: #fffbeb;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-16">
+
+    <!-- Sticky Top Bar -->
+    <header class="sticky top-0 z-50 bg-[#f7f6f2]/95 backdrop-blur border-b border-stone-200 shadow-sm px-4 py-3">
+        <div class="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <span class="bg-stone-800 text-stone-100 font-bold px-2.5 py-1 rounded text-xs tracking-wider uppercase">FAURGS</span>
+                <h1 class="text-lg md:text-xl font-bold text-stone-800 font-sans tracking-tight">Pedagogia Histórico-Crítica</h1>
+            </div>
+            
+            <div class="flex items-center space-x-4 text-sm font-medium">
+                <div class="text-stone-600">
+                    Respondidas: <span id="answered-count" class="font-bold text-stone-900">0</span>/10
+                </div>
+                <button id="btn-top-submit" onclick="submitQuiz()" class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-4 py-1.5 rounded-lg shadow-sm transition-all text-sm">
+                    Finalizar Quiz
+                </button>
+            </div>
+        </div>
+        <!-- Progress Bar -->
+        <div class="w-full bg-stone-200 h-1.5 mt-2 rounded-full overflow-hidden max-w-4xl mx-auto">
+            <div id="progress-bar-inner" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 pt-8">
+
+        <!-- Quiz Intro Banner -->
+        <div class="bg-white rounded-xl border border-stone-200 p-6 mb-8 shadow-sm">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-stone-900 mb-2">Simulado Questões Inéditas &amp; Estilo FAURGS</h2>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Este simulado contém exatamente as 10 questões no estilo da banca FAURGS sobre Dermeval Saviani e a Pedagogia Histórico-Crítica. Selecione suas respostas e clique em <strong>"Finalizar Quiz"</strong> para ver seu desempenho e ler cada resolução analítica detalhada.
+                    </p>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-stone-100 flex flex-wrap gap-4 text-xs font-semibold text-stone-500">
+                <span class="flex items-center gap-1">⏱️ Leitura Confortável</span>
+                <span class="flex items-center gap-1">📚 Nível Concurso Superior</span>
+                <span class="flex items-center gap-1">📝 Resolução Integral</span>
+            </div>
+        </div>
+
+        <!-- Results Section (Hidden until quiz submission) -->
+        <section id="results-panel" class="hidden mb-10 bg-white rounded-xl border border-stone-200 p-6 md:p-8 shadow-md">
+            <div class="text-center pb-6 border-b border-stone-200">
+                <span class="inline-block px-3 py-1 bg-stone-100 text-stone-700 rounded-full text-xs font-bold uppercase tracking-wide mb-2">Resultado Final</span>
+                <h2 class="text-3xl font-extrabold text-stone-900 mb-2">Desempenho no Simulado</h2>
+                <div class="flex justify-center items-baseline gap-2 mt-4">
+                    <span id="score-number" class="text-5xl font-extrabold text-blue-700">0</span>
+                    <span class="text-2xl font-bold text-stone-400">/ 10</span>
+                </div>
+                <p id="score-percentage" class="text-stone-600 font-medium mt-1">Aproveitamento: 0%</p>
+                <p id="score-feedback" class="text-sm text-stone-500 italic mt-2"></p>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-3 gap-4 my-6 text-center">
+                <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-lg">
+                    <span class="block text-xs uppercase font-bold text-emerald-800">Acertos</span>
+                    <span id="stat-correct" class="text-2xl font-extrabold text-emerald-700">0</span>
+                </div>
+                <div class="bg-red-50 border border-red-200 p-3 rounded-lg">
+                    <span class="block text-xs uppercase font-bold text-red-800">Erros</span>
+                    <span id="stat-incorrect" class="text-2xl font-extrabold text-red-700">0</span>
+                </div>
+                <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg">
+                    <span class="block text-xs uppercase font-bold text-amber-800">Em Branco</span>
+                    <span id="stat-unanswered" class="text-2xl font-extrabold text-amber-700">0</span>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                <div class="flex items-center space-x-2 text-sm">
+                    <span class="font-semibold text-stone-700">Filtrar:</span>
+                    <button onclick="filterQuestions('all')" class="filter-btn active px-3 py-1 rounded bg-stone-800 text-white text-xs font-semibold">Todas</button>
+                    <button onclick="filterQuestions('correct')" class="filter-btn px-3 py-1 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold">Corretas</button>
+                    <button onclick="filterQuestions('incorrect')" class="filter-btn px-3 py-1 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold">Incorretas</button>
+                </div>
+                <button onclick="resetQuiz()" class="text-xs text-blue-700 hover:underline font-semibold flex items-center gap-1">
+                    🔄 Refazer Simulado
+                </button>
+            </div>
+        </section>
+
+        <!-- Questions List Container -->
+        <div id="questions-container" class="space-y-8">
+            <!-- Questions dynamically generated here -->
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="mt-10 mb-16 text-center flex flex-wrap justify-center gap-4">
+            <button onclick="submitQuiz()" class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all text-base flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Finalizar Simulado e Ver Resoluções
+            </button>
+            <button onclick="resetQuiz()" class="bg-stone-200 hover:bg-stone-300 text-stone-800 font-semibold px-6 py-3.5 rounded-xl transition-all text-base">
+                Limpar Respostas
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        // Database of Questions matching the document exactly
+        const questionsData = [
+            {
+                id: 1,
+                title: "Ontologia do Trabalho Educativo e Natureza da Educação",
+                statement: "Considere as seguintes afirmações sobre o conceito de trabalho educativo e a natureza do fenômeno educativo segundo a formulação original de Dermeval Saviani.",
+                items: [
+                    "I - O trabalho educativo caracteriza-se como uma modalidade de trabalho material, na qual o produto resultante se separa do ato de produção, constituindo um objeto físico passível de acumulação e troca independente da relação social entre os sujeitos.",
+                    "II - O trabalho educativo consiste no ato de produzir, direta e intencionalmente, em cada indivíduo singular, a humanidade que é produzida histórica e coletivamente pelo conjunto dos homens.",
+                    "III - A origem da educação coincide com a origem do próprio homem, dado que a existência humana não é garantida pela natureza, necessitando ser produzida historicamente pelos próprios homens por meio do trabalho de transformação da realidade.",
+                    "IV - A especificidade da educação reside na seleção e na transmissão assistemática do saber espontâneo, assistemático e fragmentado, de modo a garantir a adaptação biológica imediata dos sujeitos ao seu meio de origem."
+                ],
+                questionPrompt: "Quais estão corretas?",
+                options: [
+                    { id: "A", text: "Apenas I e II." },
+                    { id: "B", text: "Apenas II e III." },
+                    { id: "C", text: "Apenas III e IV." },
+                    { id: "D", text: "Apenas I, II e IV." },
+                    { id: "E", text: "I, II, III e IV." }
+                ],
+                answer: "B",
+                resolution: `
+                    <p class="mb-3">A fundamentação ontológica da Pedagogia Histórico-Crítica repousa sobre a compreensão do trabalho como a categoria constituinte do ser social. A proposição I é incorreta por caracterizar o trabalho educativo como material. Dermeval Saviani recorre à divisão marxiana entre trabalho material e não material para delimitar a natureza da educação como um <strong>trabalho não material</strong>. Na produção material, o produto se exterioriza sob a forma de um objeto físico independente do produtor. Na educação, o produto não se separa do ato de produção; trata-se de um serviço pedagógico em que a transmissão e a apropriação do saber coincidem temporal e espacialmente no mesmo ato de relação social entre quem ensina e quem aprende.</p>
+                    <p class="mb-3">A proposição II expressa a formulação clássica de Saviani, segundo a qual a finalidade da educação é a reconstrução intencional, no indivíduo singular, da riqueza cultural desenvolvida historicamente pela humanidade. A proposição III é verdadeira e situa a emergência do fenômeno educativo junto com a própria hominização. Posto que a natureza não assegura ao homem as suas condições de sobrevivência, ele precisa produzir a sua subsistência transformando o meio. Esse processo exige o aprendizado da produção, o que significa que a produção do homem é, concomitantemente, um processo educativo originário.</p>
+                    <p>A proposição IV é falsa, pois a especificidade da educação na Pedagogia Histórico-Crítica opõe-se à transmissão assistemática e espontânea; sua preocupação central é a transmissão do saber elaborado e sistematizado de maneira intencional e organizada.</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Tipologia das Teorias da Educação de acordo com Saviani",
+                statement: "Assinale V (verdadeiro) ou F (falso) nas afirmações a seguir, relativas à classificação das teorias educacionais elaborada por Dermeval Saviani na obra <em>Escola e Democracia</em>.",
+                items: [
+                    "( ) As teorias não-críticas concebem a educação como um instrumento de equalização social e, portanto, de superação da marginalidade, tratando-a como um desvio individual corrigível pela ação escolar autônoma.",
+                    "( ) As teorias crítico-reprodutivistas compreendem a educação como inteiramente dependente da estrutura social de classes, servindo como fator de marginalização e reprodução das relações de produção capitalistas.",
+                    "( ) De acordo com a análise de Saviani, as teorias crítico-reprodutivistas destacam-se por apresentar propostas pedagógicas didáticas altamente funcionais, capazes de orientar a prática cotidiana dos professores em sala de aula.",
+                    "( ) A Pedagogia Histórico-Crítica supera o otimismo ingênuo das teorias não-críticas e o pessimismo imobilista das teorias crítico-reprodutivistas ao postular que a escola é um espaço de contradição e de luta de classes."
+                ],
+                questionPrompt: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é",
+                options: [
+                    { id: "A", text: "V – V – F – V." },
+                    { id: "B", text: "V – F – V – F." },
+                    { id: "C", text: "F – V – F – V." },
+                    { id: "D", text: "V – V – V – F." },
+                    { id: "E", text: "F – F – V – V." }
+                ],
+                answer: "A",
+                resolution: `
+                    <p class="mb-3">A tipologia conceitual proposta por Saviani para analisar a relação entre educação, sociedade e marginalidade organiza-se em três grandes grupos de teorias. O primeiro parêntese é verdadeiro e descreve as teorias não-críticas, que englobam a Pedagogia Tradicional, a Escola Nova e a Pedagogia Tecnicista. Estas teorias analisam a educação como um fenômeno autônomo, dotado de ampla capacidade para pacificar a sociedade, promover a coesão social e erradicar a marginalidade de forma isolada, tratando os problemas sociais como meros desvios de percurso ou manifestações individuais de ignorância.</p>
+                    <p class="mb-3">O segundo parêntese também é verdadeiro e caracteriza o grupo das teorias crítico-reprodutivistas. Desenvolvidas a partir dos anos de 1960 e 1970, essas teorias compreendem que a escola atua necessariamente como um fator de marginalização e discriminação social, pois sua verdadeira função estrutural reside na preservação e reprodução ideológica e material do modo de produção capitalista.</p>
+                    <p class="mb-3">O terceiro parêntese é falso, uma vez que as teorias crítico-reprodutivistas limitam-se ao esforço de explicação sociológica do funcionamento da escola burguesa, não apresentando qualquer proposta pedagógica ou instrumentalização didática voltada para a intervenção do professor.</p>
+                    <p>O quarto parêntese é verdadeiro, pois a Pedagogia Histórico-Crítica busca superar o pessimismo imobilista das análises reprodutivistas e o otimismo ingênuo das pedagogias liberais. Ela reconhece que a escola pública é atravessada por profundas contradições sociais, constituindo-se em um campo de luta hegemônica no qual a classe trabalhadora pode se apropriar do saber elaborado para organizar a sua emancipação.</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Mecanismos de Reprodução Social e Teoria Crítica",
+                statement: "As chamadas teorias crítico-reprodutivistas fundamentam a sua análise do sistema de ensino a partir dos condicionantes materiais e históricos da sociedade capitalista. Numere a segunda coluna de acordo com a primeira, relacionando cada teoria crítico-reprodutivista à sua respectiva formulação conceitual analisada por Saviani.",
+                items: [
+                    "<strong>Primeira Coluna</strong><br>1. Teoria do sistema de ensino como violência simbólica<br>2. Teoria da escola como aparelho ideológico de estado<br>3. Teoria da escola dualista",
+                    "<strong>Segunda Coluna</strong><br>( ) Postula que a instituição escolar, sob uma falsa aparência de unidade e universalidade, divide-se internamente em duas redes de escolarização distintas que correspondem diretamente à divisão da sociedade entre proletariado e burguesia.<br>( ) Argumenta que a ação pedagógica constitui a imposição de uma arbitrariedade cultural dominante sobre os grupos dominados, convertendo as desigualdades de capital cultural em dons naturais por meio de uma força simbólica.<br>( ) Define a escola como o instrumento privileged da burguesia para inculcar a ideologia dominante na totalidade dos educandos, garantindo a reprodução da força de trabalho e a legitimação das relações sociais de produção."
+                ],
+                questionPrompt: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é",
+                options: [
+                    { id: "A", text: "1 – 2 – 3." },
+                    { id: "B", text: "3 – 1 – 2." },
+                    { id: "C", text: "2 – 3 – 1." },
+                    { id: "D", text: "3 – 2 – 1." },
+                    { id: "E", text: "1 – 3 – 2." }
+                ],
+                answer: "B",
+                resolution: `
+                    <p class="mb-3">A correlação entre as correntes crítico-reprodutivistas e seus núcleos conceituais revela o mecanismo de denúncia de cada teoria. A Teoria da Escola Dualista, atribuída a Christian Baudelot e Roger Establet, aponta que a escola capitalista, sob uma aparência unificadora e democrática, divide-se rigorosamente em duas redes de escolarização opostas. A rede primário-profissional destina-se a reproduzir o proletariado como força de trabalho manual submissa, enquanto a rede secundária-superior destina-se a reproduzir a burguesia como classe intelectual dirigente. Esta definição preenche o primeiro espaço com o número <strong>3</strong>.</p>
+                    <p class="mb-3">A Teoria do Sistema de Ensino como Violência Simbólica, formulada por Pierre Bourdieu e Jean-Claude Passeron, demonstra que a escola impõe de modo arbitrário o capital cultural da classe dominante como se fosse o único legítimo e universal. Ao desconsiderar as desigualdades de origem e tratar os privilégios culturais como dons naturais, a escola realiza uma exclusão sutil legitimada pelo mérito acadêmico. Esta formulação preenche o segundo espaço com o número <strong>1</strong>.</p>
+                    <p>Por fim, a Teoria da Escola como Aparelho Ideológico de Estado (AIE), formulada pelo filósofo Louis Althusser, define a escola como a instituição estatal mais sofisticada da sociedade burguesa para a inculcação sistemática da ideologia dominante, garantindo a reprodução pacífica e alienada das relações sociais de produção. Esta conceituação preenche o terceiro espaço com o número <strong>2</strong>. A sequência correta é <strong>3 – 1 – 2</strong>.</p>
+                `
+            },
+            {
+                id: 4,
+                title: "Currículo, Saber Elaborado e a Crítica ao Espontaneísmo",
+                statement: "Considere o período abaixo sobre as concepções de saber e a organização do currículo escolar na Pedagogia Histórico-Crítica.",
+                contextText: "Na perspectiva de Dermeval Saviani, a escola pública diz respeito ao conhecimento ______________ e não ao conhecimento espontâneo, priorizando o saber sistematizado e a cultura erudita no confronto com a prática social de referência. Outrossim, o autor assevera que o ______________ é condição da liberdade e que não é possível ser criativo sem dominar determinados ______________ técnicos e cognitivos formais.",
+                questionPrompt: "Assinale a alternativa que preenche, correta e respectivamente, as lacunas do trecho acima.",
+                options: [
+                    { id: "A", text: "vulgar – espontantismo – conteúdos" },
+                    { id: "B", text: "elaborado – automatismo – mecanismos" },
+                    { id: "C", text: "popular – silenciamento – saberes" },
+                    { id: "D", text: "elaborado – diálogo – métodos" },
+                    { id: "E", text: "sistematizado – lúdico – processos" }
+                ],
+                answer: "B",
+                resolution: `
+                    <p class="mb-3">A Pedagogia Histórico-Crítica estabelece uma distinção nítida entre as esferas do conhecimento cotidiano e do conhecimento escolar. Conforme asseverado por Dermeval Saviani, a instituição escolar justifica a sua existência histórica quando assume como conteúdo o <strong>saber elaborado</strong>, o conhecimento científico sistemático e a cultura erudita, diferenciando-se das formas de educação espontâneas e assistemáticas da vida prática imediata.</p>
+                    <p>No tocante ao desenvolvimento cognitivo e à aquisição da criatividade, Saviani contrapõe-se ao espontaneísmo e ao facilismo pedagógico que marcaram as vertentes do escolanovismo de matriz liberal. Para o autor, o <strong>automatismo</strong> e o domínio de regras lógicas, operacionais e conceituais rígidas não constituem barreiras à liberdade do educando; pelo contrário, são os instrumentos estruturantes sem os quais o sujeito não consegue exercer de forma rigorosa a sua liberdade de criação e de pensamento crítico. Portanto, a apreensão de <strong>mecanismos</strong> linguísticos, matemáticos e científicos formais confere a base instrumental indispensável para a superação consciente da alienação social.</p>
+                `
+            },
+            {
+                id: 5,
+                title: "Didática Dialética e Passos Metodológicos da PHC",
+                statement: "Considere as seguintes afirmações sobre a metodologia de ensino e os momentos da prática educativa na Pedagogia Histórico-Crítica segundo a formulação de Saviani.",
+                items: [
+                    "I - O método pedagógico de inspiração histórico-crítica orienta-se pela passagem da síncrese à síntese, tendo a prática social como ponto de partida e como ponto de chegada comum a professores e alunos.",
+                    "II - Os passos que estruturam o trabalho pedagógico são: a Prática Social Inicial, a Problematização, a Instrumentalização, a Catarse e a Prática Social Final.",
+                    "III - Os passos herbarteanos da pedagogia tradicional, baseados no método indutivo empirista de Bacon (preparação, apresentação, comparação, generalização e aplicação), são plenamente incorporados pela Pedagogia Histórico-Crítica para assegurar a memorização mecânica.",
+                    "IV - A catarse constitui o momento de culminância do processo de aprendizagem, caracterizado pela interiorização e apropriação dos instrumentos culturais que se traduzem em uma nova postura prática face à realidade social."
+                ],
+                questionPrompt: "Quais estão corretas?",
+                options: [
+                    { id: "A", text: "Apenas I e II." },
+                    { id: "B", text: "Apenas III e IV." },
+                    { id: "C", text: "Apenas I, II e III." },
+                    { id: "D", text: "Apenas I, II e IV." },
+                    { id: "E", text: "I, II, III e IV." }
+                ],
+                answer: "D",
+                resolution: `
+                    <p class="mb-3">A estruturação didático-metodológica da Pedagogia Histórico-Crítica é pautada por uma concepção dialética do conhecimento. A afirmação I é verdadeira e situa o movimento de ensino-aprendizagem na transição da apreensão sincrética do real à apreensão sintética. O professor e o aluno partem da prática social, contudo o professor detém uma compreensão sintética e organizada dessa prática, ao passo que o aluno apresenta uma visão sincrética, fragmentada e empiricamente confusa da realidade concreta.</p>
+                    <p class="mb-3">A afirmação II é verdadeira e descreve os cinco momentos do método propostos por Saviani: a Prática Social Inicial, seguida pela Problematização (identificação dos nós críticos a serem superados), a Instrumentalização (apropriação das ferramentas conceituais elaboradas), a Catarse (elevação teórica e intelectual do aluno) e o retorno à Prática Social Final.</p>
+                    <p class="mb-3">A afirmação III é incorreta, pois o método de PHC opõe-se radicalmente ao esquema de passos indutivos herbarteanos da pedagogia tradicional, criticado por sua raiz empirista e mecânica que rebaixa o aluno a um receptáculo passivo de informações isoladas.</p>
+                    <p>A afirmação IV é correta, indicando que a catarse constitui o momento ápice da aprendizagem, onde ocorre a interiorização ativa da cultura acumulada pela humanidade, modificando a estrutura de percepção e de ação consciente do educando sobre a sua realidade objetiva.</p>
+                `
+            },
+            {
+                id: 6,
+                title: "Trabalho como Princípio Educativo e Formação Omnilateral",
+                statement: "Com base nos fundamentos teóricos da Pedagogia Histórico-Crítica acerca da categoria do trabalho como princípio educativo e do horizonte da omnilateralidade, analise as seguintes afirmações.",
+                items: [
+                    "I - Na sociedade capitalista, o trabalho manifesta uma dimensão dialética contraditória: ao mesmo tempo em que constitui a fonte de criação do próprio ser social e de humanização, assume uma feição alienadora e exploradora que subjuga a classe trabalhadora.",
+                    "II - A formação omnilateral visa à superação histórica da divisão social do trabalho, articulando de forma indissociável a formação científica geral e o trabalho material, opondo-se à unilateralidade e à dualidade escolar.",
+                    "III - Para Saviani, a escola unitária e a formação omnilateral dos trabalhadores dependem da universalização do trabalho intelectual geral, permitindo ao trabalhador comandar e controlar todo o complexo de suas próprias criações tecnológicas.",
+                    "IV - A Pedagogia Histórico-Crítica defende que o pragmatismo e o aprender fazendo da Escola Nova são as referências metodológicas ideais para a construção da escola unitária sob a égide do capital."
+                ],
+                questionPrompt: "Quais estão corretas?",
+                options: [
+                    { id: "A", text: "Apenas I, II e III." },
+                    { id: "B", text: "Apenas I, II e IV." },
+                    { id: "C", text: "Apenas II, III e IV." },
+                    { id: "D", text: "Apenas I e III." },
+                    { id: "E", text: "I, II, III e IV." }
+                ],
+                answer: "A",
+                resolution: `
+                    <p class="mb-3">A articulação entre trabalho e educação na teoria histórico-crítica busca resgatar a integridade da atividade humana. A afirmação I é verdadeira, explicitando que na sociedade dominada pelo capital o trabalho se apresenta de forma cindida. Se por um lado ele é a atividade vital que cria as bases para a humanização do homem, sob o regime do capital ele assume uma dimensão alienada de exploração e degradação física e cognitiva.</p>
+                    <p class="mb-3">A afirmação II é verdadeira e define o conceito de formação omnilateral, a qual objetiva a preparação integrada e o desenvolvimento integral das faculdades físicas, intelectuais e estéticas do sujeito, recusando a separação capitalista entre o pensar e o fazer.</p>
+                    <p class="mb-3">A afirmação III é verdadeira e apoia-se nas análises de Gramsci e Saviani para defender que a emancipação do trabalhador na sociedade moderna exige a posse e o controle intelectual geral do complexo tecnológico de produção, superando a condição de mera engrenagem mecânica do maquinário.</p>
+                    <p>A afirmação IV é inteiramente falsa, pois a Pedagogia Histórico-Crítica realiza uma crítica ao pragmatismo escolanovista, sustentando que a ênfase utilitarista do aprender fazendo esvazia o ensino dos conteúdos científicos elaborados, impedindo a emancipação teórica e promovendo a adaptação e a conformação do aluno aos limites da ordem socioeconômica vigente.</p>
+                `
+            },
+            {
+                id: 7,
+                title: "Teorização Progressista e a Dialética de Saviani e Libâneo",
+                statement: "A fundamentação da Pedagogia Histórico-Crítica estabelece aproximações e distinções conceituais com outras correntes progressistas no contexto da redemocratização e da escola pública brasileira. Considerando as reflexões teóricas de Dermeval Saviani e a aproximação com José Carlos Libâneo, assinale a alternativa correta.",
+                options: [
+                    { id: "A", text: "Libâneo adota a designação de Pedagogia Histórico-Crítica para acentuar o caráter repressivo do Estado na transmissão vertical de conteúdos formais desprovidos de sentido social." },
+                    { id: "B", text: "Ambas as pedagogias recusam a herança teórica do materialismo histórico-dialético de Karl Marx, optando por um viés pragmático centrado no multiculturalismo liberal e na experiência imediata." },
+                    { id: "C", text: "Enquanto Saviani utiliza a denominação de Pedagogia Histórico-Crítica, fundamentada no materialismo histórico-dialético, Libâneo adota a terminologia de Pedagogia Crítico-Social dos Conteúdos, enfatizando os conteúdos escolares no confronto permanente com a prática social." },
+                    { id: "D", text: "A Pedagogia Crítico-Social dos Conteúdos foca exclusivamente no aprender a aprender, negando peremptoriamente o valor dos conhecimentos científicos acumulados na formação do educando." },
+                    { id: "E", text: "Saviani e Libâneo divergem sobre a importância da escola pública, pois este último advoga o fechamento das instituições escolares em prol de processos informais de educação comunitária geridos por organizações não governamentais." }
+                ],
+                answer: "C",
+                resolution: `
+                    <p class="mb-3">A transição política brasileira a partir do final da década de 1970 ensejou o surgimento de correntes progressistas na educação dedicadas a combater o tecnicismo e o autoritarismo escolar. Entre essas vertentes, a Pedagogia Histórico-Crítica, formulada por Dermeval Saviani, e a Pedagogia Crítico-Social dos Conteúdos, sistematizada por José Carlos Libâneo, partilham de uma estreita afinidade ontológica e política. Ambas as correntes fundamentam-se no materialismo histórico-dialético e afirmam que a função democrática da escola pública é a socialização do saber acumulado e sistematizado como instrumento de elevação cultural e de luta revolucionária das classes subalternas.</p>
+                    <p>Contudo, a diferenciação conceitual reside na terminologia e na trajetória de elaboração de cada autor. Saviani cunhou a expressão Pedagogia Histórico-Crítica para realçar as bases históricas e dialéticas do processo educativo articulado à transformação social global. Libâneo adotou a expressão Pedagogia Crítico-Social dos Conteúdos em sua obra <em>Democratização da Escola Pública</em>, ressaltando o papel primordial dos conteúdos escolares universais e o seu confronto dinâmico com a prática social dos educandos. As demais alternativas distorcem as propostas dos autores ao atribuir-lhes posições neoliberais, antiescolares ou relativistas.</p>
+                `
+            },
+            {
+                id: 8,
+                title: "Materialidade Pedagógica e Desafios de Políticas Públicas",
+                statement: "Assinale a alternativa que preenche, correta e respectivamente, as lacunas do parágrafo abaixo, referente à materialidade da ação pedagógica e aos desafios de implantação da escola pública na visão de Saviani.",
+                contextText: "Segundo a análise de Dermeval Saviani acerca dos desafios que envolvem a Pedagogia Histórico-Crítica, a ______________ administrativa e pedagógica das políticas públicas constitui um sério obstáculo para a estabilização da educação popular, sendo esse fator a base do insucesso histórico de empreendimentos como as campanhas de alfabetização, as quais, por sua natureza assistemática e descontínua, falham em alcançar o ponto de ______________ do aprendizado.",
+                questionPrompt: "",
+                options: [
+                    { id: "A", text: "centralização – terminalidade" },
+                    { id: "B", text: "descontinuidade – irreversibilidade" },
+                    { id: "C", text: "burocratização – memorização" },
+                    { id: "D", text: "linearidade – flexibilização" },
+                    { id: "E", text: "fragmentação – avaliação" }
+                ],
+                answer: "B",
+                resolution: `
+                    <p class="mb-3">O campo das políticas públicas educacionais no Brasil caracteriza-se por uma instabilidade crônica provocada por sucessivas reformas governamentais que interrompem processos pedagógicos em andamento. Conforme analisado por Saviani ao discutir a materialidade do trabalho pedagógico, o desafio da <strong>descontinuidade</strong> administrativa e política constitui uma barreira severa para a consolidação de projetos educacionais consistentes nas redes públicas.</p>
+                    <p>O autor exemplifica essa dinâmica com o fracasso de sucessivas campanhas de alfabetização no cenário brasileiro. Por serem estruturadas sob a forma de ações emergenciais, esporádicas e temporárias, essas campanhas carecem do tempo de maturação e de consolidação institucional indispensável para que o aprendizado atinja um patrimônio cognitivo consolidado e permanente no educando, denominado <strong>ponto de irreversibilidade</strong>. A descontinuidade impede a sedimentação cultural e perpetua o analfabetismo estrutural na população periférica.</p>
+                `
+            },
+            {
+                id: 9,
+                title: "Evolução da Iniciativa Pedagógica nas Tendências Não-Críticas",
+                statement: "Considere as seguintes afirmações sobre a evolução histórica das tendências pedagógicas não-críticas no Brasil e suas concepções sobre a iniciativa no processo educativo segundo <em>Escola e Democracia</em>.",
+                items: [
+                    "I - Na pedagogia tradicional, a iniciativa do processo pedagógico cabe centralmente ao professor, que atua como o sujeito e o elemento decisório, incumbido de transmitir os conteúdos universais acumulados.",
+                    "II - Na pedagogia nova, a iniciativa desloca-se para o aluno, situando-se o nervo da ação educativa na descoberta das diferenças individuais e no desenvolvimento do aprender a aprender.",
+                    "III - Na pedagogia tecnicista, a iniciativa desloca-se para a técnica e para o planejamento operacional, assemelhando a organização da escola a uma estrutura fabril para garantir produtividade e eficiência.",
+                    "IV - Para Saviani, a pedagogia nova representou a superação definitiva da marginalidade por ter redefinido o marginalizado não mais como o ignorante, mas como o desajustado, promovendo a harmonia social."
+                ],
+                questionPrompt: "Quais estão corretas?",
+                options: [
+                    { id: "A", text: "Apenas I e II." },
+                    { id: "B", text: "Apenas III e IV." },
+                    { id: "C", text: "Apenas I, II e III." },
+                    { id: "D", text: "Apenas I, II e IV." },
+                    { id: "E", text: "I, II, III e IV." }
+                ],
+                answer: "C",
+                resolution: `
+                    <p class="mb-3">A análise histórica da evolução do processo pedagógico de matriz liberal no Brasil, conforme descrita na obra <em>Escola e Democracia</em>, centra-se na alteração do eixo de iniciativa do trabalho pedagógico. A proposição I é verdadeira, uma vez que na Pedagogia Tradicional a centralidade reside no professor, concebido como o detentor soberano do saber sistematizado e o sujeito que conduz de forma diretiva a transmissão dogmática dos conteúdos universais acumulados.</p>
+                    <p class="mb-3">A proposição II é verdadeira ao demonstrar que o movimento da Escola Nova promoveu uma inversão copernicana na didática escolar, deslocando o foco para o educando e para os seus interesses psicológicos subjetivos, privileged as diferenças individuais e a adaptação do aluno em detrimento da apropriação rigorosa do conhecimento acumulado.</p>
+                    <p class="mb-3">A proposição III é verdadeira ao evidenciar que a Pedagogia Tecnicista transferiu o eixo do processo para a técnica e para a racionalidade do planejamento instrucional de matriz fabril, subordinando professores e alunos a diretrizes burocráticas e rotinas mecânicas sob pretexto de eficiência e produtividade.</p>
+                    <p>A proposição IV é falsa, pois Saviani argumenta que a pedagogia nova não superou a marginalidade. Ao redefinir o marginalizado sob o critério psicológico do desajuste ou da não aceitação individual, a Escola Nova suavizou a exclusão mas rebaixou os níveis de ensino escolar das classes populares, operando um mecanismo sutil de exclusão que acentuou o abismo entre o ensino público e o privado.</p>
+                `
+            },
+            {
+                id: 10,
+                title: "Contradições da Escola Pública e Papel das Classes Sociais",
+                statement: "Assinale V (verdadeiro) ou F (falso) nas afirmações a seguir, referentes ao papel do Estado, às contradições da escola pública e aos desafios da universalização do saber elaborado na Pedagogia Histórico-Crítica.",
+                items: [
+                    "( ) A escola sob o capitalismo abriga uma contradição fundamental: embora sirva como aparelho de reprodução ideológica do capital, ela constitui o local onde a socialização do saber elaborado pode instrumentalizar a classe trabalhadora para a superação social.",
+                    "( ) A expansão vertical e horizontal da escolarização pública promovida pelo Estado (como o ensino de tempo integral e a antecipação da escolaridade) é interpretada por Saviani como uma ação puramente emancipatória, destituída de funções de contenção social ou assistencialismo.",
+                    "( ) O processo de ensino-aprendizagem na perspectiva histórico-crítica pressupõe um ponto de partida marcado pela homogeneidade absoluta dos educandos, desconsiderando as desigualdades socioeconômicas reais para focar na igualdade formal.",
+                    "( ) A desmistificação da divisão do trabalho e a superação da dualidade escolar exigem abrir a caixa-preta da sociedade do conhecimento, integrando o saber científico à compreensão crítica do processo produtivo."
+                ],
+                questionPrompt: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é",
+                options: [
+                    { id: "A", text: "V – V – F – V." },
+                    { id: "B", text: "V – F – V – F." },
+                    { id: "C", text: "F – V – F – V." },
+                    { id: "D", text: "V – F – F – V." },
+                    { id: "E", text: "F – F – V – V." }
+                ],
+                answer: "D",
+                resolution: `
+                    <p class="mb-3">A escola na sociedade de classes não se comporta como um espaço neutro ou puramente pacífico, mas como um lócus de profunda contradição dialética. O primeiro parêntese é verdadeiro e assevera que, ao mesmo tempo em que a instituição escolar é instituída pelo Estado burguês para legitimar a dominação hegemônica e assegurar a reprodução ideológica do capital, ela abriga contradições internas inevitáveis. Ao democratizar o acesso à ciência, à literatura e à filosofia de nível elaborado para os filhos das classes subalternas, a escola fornece os recursos cognitivos fundamentais para a emancipação intelectual e para a articulação da luta de classes.</p>
+                    <p class="mb-3">O segundo parêntese é falso, visto que Saviani examina criticamente os processos de ampliação do tempo escolar (como a implantação do turno integral) e de antecipação da escolarização básica. O autor demonstra que o Estado capitalista frequentemente utiliza essas medidas assistencialistas de forma horizontal e vertical para fins de contenção social das massas empobrecidas e controle das populações vulneráveis, promovendo o assistencialismo em detrimento da verdadeira democratização do saber elaborado.</p>
+                    <p class="mb-3">O terceiro parêntese é falso, pois a Pedagogia Histórico-Crítica reconhece a heterogeneidade real dos alunos no ponto de partida do processo, decorrente de suas origens de classe desiguais, e busca ativamente alcançar uma homogeneidade possível no ponto de chegada por meio da apropriação coletiva do patrimônio científico universal.</p>
+                    <p>O quarto parêntese é verdadeiro e sintetiza a necessidade histórica de abrir a caixa-preta da sociedade do conhecimento para desmistificar a divisão social do trabalho, integrando o domínio científico e tecnológico geral à formação política e material do trabalhador.</p>
+                `
+            }
+        ];
+
+        // State
+        const userAnswers = {};
+        let isSubmitted = false;
+
+        // Initialize App on DOM Load
+        document.addEventListener("DOMContentLoaded", () => {
+            renderQuestions();
+            updateProgress();
+        });
+
+        // Render Questions
+        function renderQuestions() {
+            const container = document.getElementById("questions-container");
+            container.innerHTML = "";
+
+            questionsData.forEach((q) => {
+                const card = document.createElement("article");
+                card.id = `question-card-${q.id}`;
+                card.className = "bg-white rounded-xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all";
+
+                // Header / Number
+                let html = `
+                    <div class="flex items-center justify-between gap-2 mb-4">
+                        <span class="bg-stone-100 text-stone-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Questão ${q.id.toString().padStart(2, '0')}
+                        </span>
+                        <span class="text-xs font-semibold text-stone-500">${q.title}</span>
+                    </div>
+                    
+                    <div class="reading-text mb-5">
+                        <p class="font-sans font-medium text-stone-800 mb-3">${q.statement}</p>
+                `;
+
+                // Add context text if available (e.g. fill in blanks)
+                if (q.contextText) {
+                    html += `
+                        <div class="bg-stone-50 border-l-4 border-stone-400 p-4 rounded-r-lg my-4 italic text-stone-700">
+                            "${q.contextText}"
+                        </div>
+                    `;
+                }
+
+                // Add Items (Roman numerals, Column matchers, or T/F statements)
+                if (q.items && q.items.length > 0) {
+                    html += `<div class="space-y-3 my-4 bg-stone-50/70 p-4 rounded-lg border border-stone-200/60">`;
+                    q.items.forEach(item => {
+                        html += `<div class="text-stone-800 text-sm md:text-base leading-relaxed">${item}</div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                // Question Prompt if separate
+                if (q.questionPrompt) {
+                    html += `<p class="font-sans font-semibold text-stone-900 mt-4 mb-3">${q.questionPrompt}</p>`;
+                }
+
+                html += `</div>`; // Close reading-text container
+
+                // Options Section
+                html += `<div class="space-y-2.5 mt-6">`;
+                q.options.forEach((opt) => {
+                    const optionId = `q${q.id}_opt${opt.id}`;
+                    const isChecked = userAnswers[q.id] === opt.id;
+                    
+                    html += `
+                        <div class="relative">
+                            <input type="radio" 
+                                   name="question_${q.id}" 
+                                   id="${optionId}" 
+                                   value="${opt.id}" 
+                                   class="custom-radio sr-only" 
+                                   ${isChecked ? 'checked' : ''}
+                                   ${isSubmitted ? 'disabled' : ''}
+                                   onchange="selectOption(${q.id}, '${opt.id}')">
+                            <label for="${optionId}" 
+                                   id="label_${optionId}"
+                                   class="flex items-start gap-3 p-3.5 rounded-lg border border-stone-200 cursor-pointer hover:bg-stone-50 transition-all text-sm md:text-base text-stone-800">
+                                <span class="font-bold text-stone-500 min-w-[24px] uppercase">${opt.id})</span>
+                                <span class="flex-1">${opt.text}</span>
+                                <span class="status-icon hidden text-lg"></span>
+                            </label>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+
+                // Resolution Container (Hidden initially or until submitted)
+                html += `
+                    <div id="resolution-${q.id}" class="hidden mt-6 pt-6 border-t border-stone-200">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-blue-100 text-blue-900">
+                                    Resolução &amp; Gabarito: ${q.answer}
+                                </span>
+                            </div>
+                            <span id="badge-status-${q.id}" class="text-xs font-bold px-2.5 py-1 rounded"></span>
+                        </div>
+                        <div class="reading-text text-stone-700 bg-stone-50 p-5 rounded-xl border border-stone-200 text-sm md:text-base">
+                            ${q.resolution}
+                        </div>
+                    </div>
+                `;
+
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+        }
+
+        // Option Selection Handler
+        function selectOption(questionId, optionId) {
+            if (isSubmitted) return;
+            userAnswers[questionId] = optionId;
+            updateProgress();
+        }
+
+        // Update Progress Bar & Counter
+        function updateProgress() {
+            const count = Object.keys(userAnswers).length;
+            document.getElementById("answered-count").innerText = count;
+            const percentage = (count / questionsData.length) * 100;
+            document.getElementById("progress-bar-inner").style.width = `${percentage}%`;
+        }
+
+        // Submit Quiz Logic
+        function submitQuiz() {
+            if (isSubmitted) {
+                // Scroll to results if already submitted
+                document.getElementById("results-panel").scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < questionsData.length) {
+                const confirmSubmit = window.confirm(`Você respondeu ${answeredCount} de 10 questões. Deseja finalizar o simulado assim mesmo e ver os gabaritos?`);
+                if (!confirmSubmit) return;
+            }
+
+            isSubmitted = true;
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let unansweredCount = 0;
+
+            // Evaluate Questions
+            questionsData.forEach((q) => {
+                const userAns = userAnswers[q.id];
+                const card = document.getElementById(`question-card-${q.id}`);
+                const resDiv = document.getElementById(`resolution-${q.id}`);
+                const statusBadge = document.getElementById(`badge-status-${q.id}`);
+
+                // Disable all radios
+                const radios = document.querySelectorAll(`input[name="question_${q.id}"]`);
+                radios.forEach(r => r.disabled = true);
+
+                // Show resolution
+                resDiv.classList.remove("hidden");
+
+                if (!userAns) {
+                    unansweredCount++;
+                    card.className = "bg-white rounded-xl border p-6 md:p-8 shadow-sm transition-all unanswered-card";
+                    statusBadge.className = "text-xs font-bold px-2.5 py-1 rounded bg-amber-100 text-amber-900";
+                    statusBadge.innerText = "NÃO RESPONDIDA";
+                } else if (userAns === q.answer) {
+                    correctCount++;
+                    card.className = "bg-white rounded-xl border p-6 md:p-8 shadow-sm transition-all correct-card";
+                    statusBadge.className = "text-xs font-bold px-2.5 py-1 rounded bg-emerald-100 text-emerald-900";
+                    statusBadge.innerText = "Sua resposta: CORRETA";
+
+                    // Style selected correct option
+                    const label = document.getElementById(`label_q${q.id}_opt${userAns}`);
+                    if (label) {
+                        label.classList.add("bg-emerald-100", "border-emerald-500", "text-emerald-950", "font-bold");
+                    }
+                } else {
+                    incorrectCount++;
+                    card.className = "bg-white rounded-xl border p-6 md:p-8 shadow-sm transition-all incorrect-card";
+                    statusBadge.className = "text-xs font-bold px-2.5 py-1 rounded bg-red-100 text-red-900";
+                    statusBadge.innerText = `Sua resposta: ${userAns} (INCORRETA)`;
+
+                    // Highlight user incorrect choice
+                    const userLabel = document.getElementById(`label_q${q.id}_opt${userAns}`);
+                    if (userLabel) {
+                        userLabel.classList.add("bg-red-100", "border-red-400", "text-red-900", "line-through");
+                    }
+
+                    // Highlight correct choice
+                    const correctLabel = document.getElementById(`label_q${q.id}_opt${q.answer}`);
+                    if (correctLabel) {
+                        correctLabel.classList.add("bg-emerald-100", "border-emerald-500", "text-emerald-900", "font-bold");
+                    }
+                }
+            });
+
+            // Calculate Stats
+            const total = questionsData.length;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            document.getElementById("score-number").innerText = correctCount;
+            document.getElementById("score-percentage").innerText = `Aproveitamento: ${percentage}%`;
+            document.getElementById("stat-correct").innerText = correctCount;
+            document.getElementById("stat-incorrect").innerText = incorrectCount;
+            document.getElementById("stat-unanswered").innerText = unansweredCount;
+
+            // Feedback Text
+            let feedback = "";
+            if (percentage >= 80) {
+                feedback = "Excelente desempenho! Domínio consistente dos fundamentos da PHC e do perfil da banca FAURGS.";
+            } else if (percentage >= 60) {
+                feedback = "Bom resultado! Revise as resoluções das questões incorretas para consolidar a fundamentação conceitual.";
+            } else {
+                feedback = "Atenção necessária. Recomendamos a leitura atenta das resoluções analíticas ao final de cada questão.";
+            }
+            document.getElementById("score-feedback").innerText = feedback;
+
+            // Show Results Panel
+            const resultsPanel = document.getElementById("results-panel");
+            resultsPanel.classList.remove("hidden");
+            resultsPanel.scrollIntoView({ behavior: 'smooth' });
+
+            // Disable Top Submit Button
+            const btnTop = document.getElementById("btn-top-submit");
+            btnTop.innerText = "Ver Desempenho";
+            btnTop.onclick = () => resultsPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Filter Questions (All, Correct, Incorrect)
+        function filterQuestions(type) {
+            // Update filter buttons UI
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-stone-800', 'text-white');
+                btn.classList.add('bg-stone-100', 'text-stone-700');
+            });
+            event.target.classList.remove('bg-stone-100', 'text-stone-700');
+            event.target.classList.add('bg-stone-800', 'text-white');
+
+            questionsData.forEach(q => {
+                const card = document.getElementById(`question-card-${q.id}`);
+                const userAns = userAnswers[q.id];
+                const isCorrect = userAns === q.answer;
+
+                if (type === 'all') {
+                    card.classList.remove('hidden');
+                } else if (type === 'correct') {
+                    if (isCorrect) card.classList.remove('hidden');
+                    else card.classList.add('hidden');
+                } else if (type === 'incorrect') {
+                    if (!isCorrect) card.classList.remove('hidden');
+                    else card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Reset Quiz
+        function resetQuiz() {
+            // Clear Answers
+            Object.keys(userAnswers).forEach(key => delete userAnswers[key]);
+            isSubmitted = false;
+
+            // Hide Results
+            document.getElementById("results-panel").classList.add("hidden");
+
+            // Reset Top Button
+            const btnTop = document.getElementById("btn-top-submit");
+            btnTop.innerText = "Finalizar Quiz";
+            btnTop.onclick = submitQuiz;
+
+            // Re-render
+            renderQuestions();
+            updateProgress();
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

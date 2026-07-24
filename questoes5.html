@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado CTS - Estilo FAURGS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        paper: {
+                            50: '#fdfbf7',   /* Warm paper tone for eye comfort */
+                            100: '#f7f4ec',
+                            200: '#e8e2d5',
+                            800: '#2c2a29',   /* Soft dark text */
+                            900: '#1c1b1a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fdfbf7;
+            color: #2c2a29;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.75;
+        }
+        
+        .reading-text {
+            font-family: 'Merriweather', Georgia, serif;
+            line-height: 1.85;
+            color: #262422;
+        }
+
+        .custom-radio:checked + label {
+            border-color: #1d4ed8;
+            background-color: #f0f7ff;
+        }
+
+        /* Custom scrollbar for better reading experience */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f7f4ec;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1cabe;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b8b0a1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-brand-100 selection:text-brand-900">
+
+    <!-- Navigation / Header -->
+    <header class="sticky top-0 z-30 bg-paper-50/90 backdrop-blur-md border-b border-paper-200 transition-all duration-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    CTS
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold text-paper-900 leading-tight">Simulado CTS</h1>
+                    <p class="text-xs text-stone-500 font-medium">Banca FAURGS • 10 Questões Integrais</p>
+                </div>
+            </div>
+
+            <!-- Progress Indicator & Font Size Control -->
+            <div class="flex items-center space-x-4">
+                <div class="hidden sm:flex flex-col items-end">
+                    <span id="progress-text" class="text-xs font-semibold text-stone-600">0 de 10 respondidas</span>
+                    <div class="w-32 bg-paper-200 h-2 rounded-full mt-1 overflow-hidden">
+                        <div id="progress-bar" class="bg-brand-600 h-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- Font size adjuster -->
+                <div class="flex items-center bg-paper-100 rounded-lg p-1 border border-paper-200 text-stone-600 text-xs font-medium">
+                    <button onclick="changeFontSize(-1)" class="px-2 py-1 hover:bg-white rounded transition" title="Diminuir fonte">A-</button>
+                    <button onclick="changeFontSize(1)" class="px-2 py-1 hover:bg-white rounded transition font-bold" title="Aumentar fonte">A+</button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Progress Bar -->
+        <div class="sm:hidden w-full bg-paper-200 h-1.5">
+            <div id="progress-bar-mobile" class="bg-brand-600 h-full w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 py-8">
+        
+        <!-- Welcome / Instructions Card -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 border border-paper-200 shadow-sm mb-8">
+            <div class="flex items-start space-x-4">
+                <div class="p-3 bg-amber-50 rounded-xl text-amber-700 hidden sm:block">
+                    <i class="fa-solid fa-book-open text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-paper-900 mb-2">
+                        Questões sobre Ciência, Tecnologia e Sociedade
+                    </h2>
+                    <p class="text-sm sm:text-base text-stone-600 reading-text leading-relaxed">
+                        Este simulado contém exatamente as **10 questões inéditas elaboradas no modelo FAURGS**. As opções foram mantidas integralmente. Ao finalizar, clique no botão ao final da página para ver sua nota e acessar o gabarito comentado item a item na mesma tela.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Summary Dashboard (Hidden until submitted) -->
+        <div id="results-dashboard" class="hidden bg-white rounded-2xl p-6 sm:p-8 border-2 border-brand-600 shadow-md mb-10 transition-all duration-500">
+            <div class="text-center sm:text-left sm:flex items-center justify-between">
+                <div>
+                    <span class="inline-block px-3 py-1 bg-brand-50 text-brand-700 text-xs font-bold uppercase tracking-wider rounded-full mb-2">
+                        Resultado do Simulado
+                    </span>
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-paper-900" id="score-heading">
+                        Você acertou 0 de 10
+                    </h3>
+                    <p class="text-stone-600 mt-1 text-sm sm:text-base" id="score-feedback">
+                        Confira abaixo a resolução comentada de cada questão.
+                    </p>
+                </div>
+                <div class="mt-4 sm:mt-0 flex flex-col items-center sm:items-end">
+                    <div class="text-4xl sm:text-5xl font-black text-brand-600" id="score-percentage">
+                        0%
+                    </div>
+                    <button onclick="resetQuiz()" class="mt-3 inline-flex items-center space-x-2 text-sm font-semibold text-stone-600 hover:text-brand-600 transition">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Refazer Simulado</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Buttons for Explanations -->
+            <div class="mt-6 pt-6 border-t border-stone-100 flex flex-wrap gap-2">
+                <button onclick="filterQuestions('all')" id="btn-filter-all" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-stone-800 text-white transition">
+                    Todas (10)
+                </button>
+                <button onclick="filterQuestions('correct')" id="btn-filter-correct" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition">
+                    Acertos (<span id="count-correct">0</span>)
+                </button>
+                <button onclick="filterQuestions('incorrect')" id="btn-filter-incorrect" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition">
+                    Erros (<span id="count-incorrect">0</span>)
+                </button>
+            </div>
+        </div>
+
+        <!-- Questions Form Container -->
+        <form id="quiz-form" class="space-y-8" onsubmit="event.preventDefault(); submitQuiz();">
+            <div id="questions-container" class="space-y-8">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Submit Button Section -->
+            <div id="submit-container" class="pt-6 pb-12 text-center">
+                <button type="submit" id="btn-submit" class="inline-flex items-center space-x-3 px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Finalizar e Ver Gabarito Comentado</span>
+                </button>
+                <p class="text-xs text-stone-500 mt-2">Você poderá alterar suas respostas até finalizar.</p>
+            </div>
+        </form>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-paper-100 border-t border-paper-200 py-6 text-center text-xs text-stone-500 mt-auto">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>Simulado de Relações entre Ciência, Tecnologia e Sociedade (CTS) • Estilo Banca FAURGS</p>
+            <p class="mt-1">Desenvolvido com foco em alta legibilidade e estudo contínuo.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Array containing all 10 questions with full text and resolutions
+        const questionsData = [
+            {
+                id: 1,
+                title: "Questão 01",
+                context: "Considere as seguintes afirmações sobre a evolução histórica do movimento Ciência, Tecnologia e Sociedade (CTS) e a consequente contestação do chamado Modelo Linear de Desenvolvimento no período pós-Segunda Guerra Mundial.",
+                items: [
+                    "I. O relatório <em>Science: the endless frontier</em>, elaborado por Vannevar Bush em 1945, consolidou a visão tradicional de que o fomento direto à ciência básica gera, de forma espontânea e inexorável, inovação tecnológica, riqueza econômica e bem-estar social.",
+                    "II. O modelo linear de desenvolvimento é estruturado a partir de uma relação de causa e efeito unidirecional, a qual postula que a pesquisa tecnológica aplicada deve preceder metodologicamente a investigação científica básica para assegurar a sua aplicabilidade social.",
+                    "III. O movimento CTS emerge, na segunda metade do século XX, impulsionado pela percepção pública de que o desenvolvimento tecnocientífico desregulado gera riscos socioambientais graves, desmistificando a correlação automática entre o progresso técnico e o progresso humano equitativo.",
+                    "IV. A equação clássica que descreve as etapas de desenvolvimento do modelo linear tradicional pode ser representada pela seguinte dinâmica progressiva: + ciência &rarr; + tecnologia &rarr; + riqueza &rarr; + bem-estar social."
+                ],
+                prompt: "Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I e II." },
+                    { letter: "B", text: "Apenas II e IV." },
+                    { letter: "C", text: "Apenas I, III e IV." },
+                    { letter: "D", text: "Apenas II, III e IV." },
+                    { letter: "E", text: "I, II, III e IV." }
+                ],
+                correct: "C",
+                resolution: `
+                    <p class="mb-3">A análise detida do percurso da tecnociência após a Segunda Guerra Mundial revela os contornos da transição entre a visão triunfalista da ciência pura e as abordagens integradas representadas pelos estudos CTS.</p>
+                    <p class="mb-2"><strong>A afirmação I está correta:</strong> O memorando de 1945 intitulado <em>Science: the endless frontier</em>, formulado por Vannevar Bush para o presidente Franklin D. Roosevelt, é considerado a carta fundacional do modelo linear de desenvolvimento. Ele articulou a premissa de que o fomento governamental generoso direcionado à pesquisa básica era a engrenagem elementar que geraria novos inventos técnicos e bem-estar geral.</p>
+                    <p class="mb-2"><strong>A afirmação II está incorreta:</strong> O modelo linear estabelece exatamente a ordem contrária: o fluxo de causalidade é unidirecional e necessariamente parte da ciência pura (investigação básica) para a ciência aplicada (pesquisa tecnológica e desenvolvimento), desaguando na economia e na sociedade.</p>
+                    <p class="mb-2"><strong>A afirmação III está correta:</strong> O movimento CTS surge no final dos anos 1960 e ao longo da década de 1970 como um processo de desmistificação desse otimismo tecnológico. A percepção das graves externalidades ecológicas e riscos globais evidenciou que a ciência e a tecnologia podiam impor perigos sistêmicos à sociedade.</p>
+                    <p class="mb-2"><strong>A afirmação IV está correta:</strong> A equação referida sintetiza a ideologia do progresso técnico acumulativo que vigorou nas políticas públicas do pós-guerra (+ ciência &rarr; + tecnologia &rarr; + riqueza &rarr; + bem-estar social).</p>
+                    <p class="mt-3 font-semibold text-brand-700">Portanto, as afirmações corretas são I, III e IV (Alternativa C).</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Questão 02",
+                context: "No âmbito dos estudos sociológicos e epistemológicos da abordagem Ciência, Tecnologia e Sociedade (CTS), vários autores identificam a difusão de \"mitos\" ou concepções deformadas sobre a atividade tecnocientífica na percepção pública e nos currículos de ensino.",
+                customContent: `
+                    <div class="my-4 p-4 bg-paper-100 border border-paper-200 rounded-xl space-y-4 text-sm">
+                        <div>
+                            <h4 class="font-bold text-stone-800 mb-2">Coluna 1: Mitos de C&T</h4>
+                            <ol class="list-decimal list-inside space-y-1 font-medium text-stone-700">
+                                <li>Determinismo tecnológico</li>
+                                <li>Perspectiva salvacionista da ciência e da tecnologia</li>
+                                <li>Modelo de decisões tecnocráticas</li>
+                                <li>Mito da rendição de contas</li>
+                            </ol>
+                        </div>
+                        <div class="pt-3 border-t border-paper-200">
+                            <h4 class="font-bold text-stone-800 mb-2">Coluna 2: Definições Conceituais</h4>
+                            <ul class="space-y-2 text-stone-700">
+                                <li class="flex items-start space-x-2"><span class="font-bold">( )</span> <span>Crença ingênua de que o avanço contínuo e irrestrito da ciência e da tecnologia é capaz de solucionar de maneira automática, inevitável e definitiva todas as crises socioeconômicas e mazelas ecológicas da humanidade.</span></li>
+                                <li class="flex items-start space-x-2"><span class="font-bold">( )</span> <span>Concepção de que a tecnologia se desenvolve segundo uma lógica interna e autônoma, operando de modo independente das pressões e valores sociais, e atuando como o fator determinante único das transformações da sociedade.</span></li>
+                                <li class="flex items-start space-x-2"><span class="font-bold">( )</span> <span>Diretriz de governança que sustenta que apenas peritos científicos e especialistas técnicos possuem competência cognitiva e legitimidade para deliberar sobre a introdução de novas tecnologias e a gestão de riscos na esfera pública.</span></li>
+                                <li class="flex items-start space-x-2"><span class="font-bold">( )</span> <span>Proposição de que a atividade científica deve prosseguir livre de qualquer interferência, regulação ou avaliação externa por parte de atores não científicos, sob a alegação de que a produção do conhecimento possui mecanismos automáticos de autocorreção ética.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                prompt: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é:",
+                options: [
+                    { letter: "A", text: "2 – 1 – 3 – 4" },
+                    { letter: "B", text: "1 – 2 – 4 – 3" },
+                    { letter: "C", text: "3 – 1 – 2 – 4" },
+                    { letter: "D", text: "2 – 3 – 1 – 4" },
+                    { letter: "E", text: "1 – 3 – 2 – 4" }
+                ],
+                correct: "A",
+                resolution: `
+                    <p class="mb-3">A correspondência de conceitos e implicações desses mitos é estabelecida da seguinte maneira:</p>
+                    <ul class="list-disc list-inside space-y-2 mb-3">
+                        <li><strong>1. Perspectiva salvacionista (2):</strong> O primeiro parêntese define a crença ingênua na solução automática de mazelas sociais e ecológicas por meio da C&T.</li>
+                        <li><strong>2. Determinismo tecnológico (1):</strong> O segundo parêntese descreve a concepção de que a tecnologia evolui autonomamente segundo lógica própria e irreversível.</li>
+                        <li><strong>3. Modelo de decisões tecnocráticas (3):</strong> O terceiro parêntese abrange a diretriz de governança em que apenas especialistas técnicos possuem legitimidade deliberativa.</li>
+                        <li><strong>4. Mito da rendição de contas (4):</strong> O quarto parêntese refere-se à proposição de impermeabilidade da prática científica a controles e avaliações ético-sociais externas.</li>
+                    </ul>
+                    <p class="font-semibold text-brand-700">A sequência correta obtida de cima para baixo é 2 – 1 – 3 – 4 (Alternativa A).</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Questão 03",
+                context: "O Pensamento Latino-Americano em Ciência, Tecnologia e Sociedade (PLACTS), articulado a partir das discussões de intelectuais na segunda metade do século XX, apresenta premissas e direções políticas singulares em comparação com os movimentos CTS constituídos no Hemisfério Norte.",
+                items: [
+                    "I. Enquanto o movimento CTS na Europa e América do Norte emergiu impulsionado pelo questionamento ambiental decorrente dos efeitos colaterais do superdesenvolvimento industrial, o PLACTS centrou a sua agenda na superação do subdesenvolvimento e da dependência cultural e tecnológica das nações periféricas.",
+                    "II. O PLACTS defende a incorporação de pacotes tecnológicos concebidos em países industrializados como estratégia essencial de inserção soberana, argumentando que a ciência universal é neutra e livre de vieses ideológicos ou econômicos.",
+                    "III. Alinhado a pressupostos humanísticos de educadores como Paulo Freire, o PLACTS propõe que o fomento à pesquisa e a educação em ciências devem partir da problematização da realidade local e da reorientação da tecnologia para atender às demandas sociais reais da população."
+                ],
+                prompt: "Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e III." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: `
+                    <p class="mb-2"><strong>A afirmação I está correta:</strong> O movimento CTS no Hemisfério Norte esteve muito ligado à contestação do consumo de massas e à degradação ecológica. Já o PLACTS (com autores como Amílcar Herrera e Oscar Varsavsky) concentrou-se na superação do subdesenvolvimento e da dependência tecnológica das nações periféricas.</p>
+                    <p class="mb-2"><strong>A afirmação II está incorreta:</strong> O PLACTS criticou veementemente a aceitação cega da suposta "ciência universal neutra". Sustentou que a tecnologia importada traz o DNA ideológico de seus países de origem, reproduzindo a dependência econômica.</p>
+                    <p class="mb-2"><strong>A afirmação III está correta:</strong> Amparado nas reflexões emancipatórias e dialógicas (como as de Paulo Freire), o PLACTS defende que o fomento científico deve partir da problematização da realidade local para atender às reais necessidades sociais das populações marginalizadas.</p>
+                    <p class="mt-3 font-semibold text-brand-700">Estão corretas apenas as afirmações I e III (Alternativa C).</p>
+                `
+            },
+            {
+                id: 4,
+                title: "Questão 04",
+                context: "Os modelos conceituais de inovação e as dinâmicas de colaboração entre diferentes atores sociais têm sido repensados no âmbito do movimento CTS para superar a rigidez do modelo linear clássico.",
+                prompt: "Sobre esses modelos, assinale a alternativa correta.",
+                options: [
+                    { letter: "A", text: "O Triângulo de Sábato e a teoria da Hélice Tripla constituem termos perfeitamente equivalentes e sinônimos, concebidos sob as mesmas premissas de planejamento centralizado e soberania tecnológica da América Latina dos anos 1960." },
+                    { letter: "B", text: "O modelo de Sistemas de Inovação (SI) compreende a inovação como um processo interativo e multilinear que resulta de interações complexas, fluxos de informação e aprendizado mútuo entre uma rede ampla de agentes públicos e privados." },
+                    { letter: "C", text: "O modelo de inovação reversa conhecido como indução pela demanda (demand pull) postula que os novos produtos tecnológicos são originados diretamente de descobertas científicas básicas sem qualquer conexão com necessidades sociais de mercado." },
+                    { letter: "D", text: "No contexto da hélice tripla, a universidade deve manter-se estritamente isolada das demandas produtivas para preservar a sua isenção axiológica e a objetividade acadêmica de suas pesquisas científicas." },
+                    { letter: "E", text: "A teoria ator-rede (TAR) afirma que a inovação tecnológica decorre da ação exclusiva de inventores geniais individuais, desconsiderando redes institucionais ou a influência de objetos técnicos e regulação pública no processo." }
+                ],
+                correct: "B",
+                resolution: `
+                    <p class="mb-3"><strong>Análise da alternativa correta (B):</strong> O conceito de Sistemas de Inovação (SI) entende que a inovação não surge em laboratórios isolados para depois ser despejada na economia, mas resulta de processos interativos, não lineares e dinâmicos entre empresas, universidades, agências governamentais e instituições financeiras.</p>
+                    <p class="mb-2"><em>Por que as demais estão incorretas?</em></p>
+                    <ul class="list-disc list-inside space-y-1 text-sm text-stone-700 mb-2">
+                        <li><strong>A:</strong> O Triângulo de Sábato (anos 60) foca no papel do Estado na América Latina; a Hélice Tripla (anos 90) refere-se às economias baseadas no conhecimento no Norte global.</li>
+                        <li><strong>C:</strong> O modelo <em>demand pull</em> sustenta que a inovação é puxada pela demanda do mercado e necessidades sociais, e não por avanços científicos puros (<em>technology push</em>).</li>
+                        <li><strong>D:</strong> Na Hélice Tripla, a universidade desempenha papel ativo e empreendedor, interagindo intimamente com empresas e governo.</li>
+                        <li><strong>E:</strong> A Teoria Ator-Rede (Bruno Latour) rejeita o mito do inventor genial e analisa a inovação como fruto de redes sociotécnicas compostas por atores humanos e não humanos.</li>
+                    </ul>
+                    <p class="font-semibold text-brand-700">Gabarito: Alternativa B.</p>
+                `
+            },
+            {
+                id: 5,
+                title: "Questão 05",
+                context: "A incorporação da abordagem Ciência, Tecnologia e Sociedade (CTS) no campo do ensino de ciências visa transformar de maneira estrutural a formação geral dos estudantes na educação básica.",
+                items: [
+                    "( ) O objetivo primordial do ensino com enfoque CTS é preparar uma parcela selecionada de estudantes voltada às carreiras científicas de ponta, limitando a alfabetização científica e tecnológica aos que demonstram alta aptidão nas disciplinas exatas.",
+                    "( ) As controvérsias sociocientíficas (CSC) constituem ferramentas didáticas apropriadas para estruturar a abordagem CTS em sala de aula, pois permitem conectar o conteúdo científico formal a debates de cunho político, econômico e ético.",
+                    "( ) O ensino sob a perspectiva CTS contrapõe-se à veiculação de uma imagem descontextualizada, linear e socialmente neutra da ciência, estimulando a problematização sobre os propósitos do fomento e do desenvolvimento técnico.",
+                    "( ) Projetos didáticos interdisciplinares estruturados a partir de temas de relevância local e socioambiental, tais como a gestão hídrica ou o destino de efluentes, configuram práticas que inviabilizam o aprendizado rigoroso dos conteúdos específicos das disciplinas."
+                ],
+                prompt: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é:",
+                options: [
+                    { letter: "A", text: "V – F – V – F" },
+                    { letter: "B", text: "F – V – F – V" },
+                    { letter: "C", text: "F – V – V – F" },
+                    { letter: "D", text: "V – V – F – F" },
+                    { letter: "E", text: "F – F – V – V" }
+                ],
+                correct: "C",
+                resolution: `
+                    <p class="mb-3">A análise dos itens do ponto de vista do ensino de ciências em CTS indica:</p>
+                    <ul class="list-disc list-inside space-y-2 mb-3">
+                        <li><strong>1º Item (Falso):</strong> O objetivo central do ensino CTS é a Alfabetização Científica e Tecnológica (ACT) para <em>todos</em> os cidadãos, democratizando a tomada de decisões, e não para uma elite de futuros cientistas.</li>
+                        <li><strong>2º Item (Verdadeiro):</strong> As Controvérsias Sociocientíficas (CSC) são excelentes catalisadores pedagógicos para relacionar conhecimentos científicos a dimensões éticas e políticas.</li>
+                        <li><strong>3º Item (Verdadeiro):</strong> O enfoque CTS combate justamente a visão ingênua, dogmática e a-histórica da ciência neutra e descontextualizada.</li>
+                        <li><strong>4º Item (Falso):</strong> Temas socioambientais locais (como água e resíduos) enriquecem e dão sentido aos conteúdos conceituais, sem comprometer o rigor disciplinar.</li>
+                    </ul>
+                    <p class="font-semibold text-brand-700">A sequência correta é F – V – V – F (Alternativa C).</p>
+                `
+            },
+            {
+                id: 6,
+                title: "Questão 06",
+                context: "A governança das políticas de Ciência e Tecnologia (C&T) é alvo de intensas discussões na abordagem CTS, contrapondo o isolamento decisório à inclusão democrática da sociedade civil.",
+                items: [
+                    "I. A divulgação científica em meios de comunicação de massa e a participação pública em decisões de C&T são conceitos idênticos, uma vez que ambos se fundamentam no modelo de déficit cognitivo do cidadão comum.",
+                    "II. Mecanismos institucionais como conferências de consenso, júris de cidadãos e audiências públicas representam arranjos estruturados para promover o engajamento direto e a inserção de cidadãos não peritos nas decisões regulatórias de C&T.",
+                    "III. A participação pública em C&T atua como um fator de regulação e controle de riscos, permitindo que as decisões reflitam os valores éticos e as necessidades das populações mais vulneráveis aos efeitos das tecnologias."
+                ],
+                prompt: "Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e III." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "D",
+                resolution: `
+                    <p class="mb-2"><strong>A afirmação I está incorreta:</strong> Divulgação científica não é sinônimo de participação pública. A divulgação tradicional frequentemente adota o "modelo do déficit cognitivo" (transmissão unidirecional do especialista para o leigo), enquanto a participação pública pressupõe deliberação bi-direcional e influência decisória dos cidadãos.</p>
+                    <p class="mb-2"><strong>A afirmação II está correta:</strong> Conferências de consenso e júris de cidadãos são instrumentos consolidados de democracia deliberativa para integrar não especialistas na avaliação de riscos e escolhas tecnológicas.</p>
+                    <p class="mb-2"><strong>A afirmação III está correta:</strong> A participação social democratiza os rumos da C&T, garantindo que os impactos e riscos socioambientais sejam avaliados sob o prisma das populações afetadas.</p>
+                    <p class="mt-3 font-semibold text-brand-700">Portanto, apenas as afirmações II e III estão corretas (Alternativa D).</p>
+                `
+            },
+            {
+                id: 7,
+                title: "Questão 07",
+                context: "A crítica à pretensa neutralidade da ciência e da tecnologia constitui um dos eixos estruturantes do movimento Ciência, Tecnologia e Sociedade (CTS).",
+                prompt: "Em sintonia com a desmistificação da neutralidade axiológica da produção técnica, assinale a alternativa correta.",
+                options: [
+                    { letter: "A", text: "A teoria da Construção Social da Tecnologia (SCOT) assevera que o design e as funções de um artefato técnico resultam de processos de negociação política e social entre diferentes grupos relevantes, não possuindo uma trajetória autônoma de evolução determinada pela natureza." },
+                    { letter: "B", text: "A concepção da neutralidade tecnológica postula que os próprios artefatos técnicos incorporam e estabilizam permanentemente em seu design as intenções políticas da classe dominante, impossibilitando qualquer apropriação alternativa de seu uso." },
+                    { letter: "C", text: "De acordo com os preceitos de CTS, as inovações científico-tecnológicas operam à margem de decisões institucionais de caráter ideológico, uma vez que o rigor experimental garante a purificação social dos resultados científicos." },
+                    { letter: "D", text: "O direcionamento dado à atividade científica resulta estritamente do livre desenvolvimento da curiosidade dos pesquisadores, estando imune às prioridades de fomento estabelecidas por governos ou corporações privadas." },
+                    { letter: "E", text: "A compreensão da natureza da ciência e dos aspectos sociais da tecnologia constitui uma discussão restrita a filósofos profissionais, sendo prejudicial à formação crítica do cidadão comum para a tomada de decisões." }
+                ],
+                correct: "A",
+                resolution: `
+                    <p class="mb-3"><strong>Análise da alternativa correta (A):</strong> A abordagem da Construção Social da Tecnologia (SCOT, formulada por Pinch e Bijker) enfatiza a "flexibilidade interpretativa" dos artefatos. O design final de um objeto decorre da negociação e resolução de conflitos entre diferentes grupos sociais relevantes, e não de um determinismo físico ou autônomo.</p>
+                    <p class="mb-2"><em>Erros dos distratores:</em></p>
+                    <ul class="list-disc list-inside space-y-1 text-sm text-stone-700">
+                        <li><strong>B:</strong> Confunde neutralidade com determinismo radical e nega a flexibilidade de apropriação social.</li>
+                        <li><strong>C:</strong> Ignora que o conhecimento científico e as tecnologias são profundamente moldados por condicionantes socioeconômicos.</li>
+                        <li><strong>D:</strong> Desconsidera o papel do financiamento estatal e privado nas agendas de pesquisa.</li>
+                        <li><strong>E:</strong> Contradição direta com o pilar de alfabetização científica para o exercício do civismo na abordagem CTS.</li>
+                    </ul>
+                    <p class="mt-2 font-semibold text-brand-700">Gabarito: Alternativa A.</p>
+                `
+            },
+            {
+                id: 8,
+                title: "Questão 08",
+                context: "No contexto do ensino técnico integrado, a articulação entre as Relações Ciência, Tecnologia e Sociedade (CTS) e a Educação Profissional e Tecnológica (EPT) apresenta potenciais pedagógicos profundos para a formação do educando.",
+                items: [
+                    "I. O trabalho como princípio educativo requer uma formação que integre o domínio técnico-operacional das atividades produtivas à compreensão histórica e sociopolítica das formas de organização da tecnologia.",
+                    "II. A abordagem CTS na EPT visa subsidiar uma postura reflexiva do trabalhador, permitindo que ele reconheça a tecnologia não como um dado natural inevitável, mas como um processo resultante de opções políticas e decisões de poder.",
+                    "III. As diretrizes de CTS no ensino tecnológico justificam o direcionamento curricular estritamente voltado à adaptação mecânica dos estudantes às demandas sazonais do mercado produtivo privado."
+                ],
+                prompt: "Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e II." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: `
+                    <p class="mb-2"><strong>A afirmação I está correta:</strong> O trabalho como princípio educativo (conceito chave da EPT crítica) pressupõe superação da divisão entre trabalho manual e intelectual, integrando habilidades técnicas à reflexão científica e social.</p>
+                    <p class="mb-2"><strong>A afirmação II está correta:</strong> Ao aplicar CTS à Educação Profissional, o futuro trabalhador aprende a desnaturalizar as opções técnicas de produção, identificando relações de poder e impactos socioambientais.</p>
+                    <p class="mb-2"><strong>A afirmação III está incorreta:</strong> A abordagem CTS opõe-se frontalmente ao adestramento meramente utilitarista e à submissão mecânica às demandas imediatas do mercado privado.</p>
+                    <p class="mt-3 font-semibold text-brand-700">Estão corretas as afirmações I e II (Alternativa C).</p>
+                `
+            },
+            {
+                id: 9,
+                title: "Questão 09",
+                context: "Estudos de casos históricos de desastres tecnológicos e controvérsias ambientais desempenharam um papel decisivo como fatores catalisadores do movimento CTS e da revisão do otimismo tecnológico ingênuo do século XX.",
+                items: [
+                    "( ) Acidentes nucleares de grande magnitude, como o desastre de Chernobyl na Ucrânia, e incidentes radiológicos urbanos, como o ocorrido com o Césio-137 em Goiânia, fomentaram a desconfiança pública frente à suposta infalibilidade dos sistemas tecnológicos e ao monopólio decisório dos peritos.",
+                    "( ) O relatório do Clube de Roma sobre os \"Limites do Crescimento\", estruturado na década de 1970, reforçou a validade do modelo linear de desenvolvimento ao comprovar matematicamente que o crescimento econômico industrial ilimitado era plenamente sustentável sem riscos ecológicos de exaustão de recursos.",
+                    "( ) O debate sociocientífico inaugurado pela publicação do livro \"Primavera Silenciosa\", de Rachel Carson, denunciando as consequências do uso sistemático do pesticida DDT na avifauna, exemplifica as dinâmicas de contestação ético-social direcionadas aos produtos da ciência aplicada."
+                ],
+                prompt: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é:",
+                options: [
+                    { letter: "A", text: "V – F – V" },
+                    { letter: "B", text: "F – V – F" },
+                    { letter: "C", text: "V – V – F" },
+                    { letter: "D", text: "F – F – V" },
+                    { letter: "E", text: "V – V – V" }
+                ],
+                correct: "A",
+                resolution: `
+                    <p class="mb-3">A verificação das afirmativas traz os seguintes julgamentos:</p>
+                    <ul class="list-disc list-inside space-y-2 mb-3">
+                        <li><strong>1º Item (Verdadeiro):</strong> Os acidentes em Chernobyl (1986) e Césio-137 em Goiânia (1987) abalaram profundamente a crença cega na infalibilidade dos peritos técnicos e evidenciaram as dimensões de risco público.</li>
+                        <li><strong>2º Item (Falso):</strong> O relatório do Clube de Roma (1972) concluiu o oposto: alertou para a inviabilidade do crescimento econômico e industrial ilimitado devido à finitude dos recursos naturais.</li>
+                        <li><strong>3º Item (Verdadeiro):</strong> A obra <em>Primavera Silenciosa</em> (1962), de Rachel Carson, denunciando o impacto ambiental do DDT, é reconhecida como um marco fundacional da consciência ecológica moderna e dos estudos CTS.</li>
+                    </ul>
+                    <p class="font-semibold text-brand-700">A sequência correta é V – F – V (Alternativa A).</p>
+                `
+            },
+            {
+                id: 10,
+                title: "Questão 10",
+                context: "As controvérsias contemporâneas no campo da Ciência, Tecnologia e Sociedade (CTS) lançam luz sobre desigualdades estruturais, assimetrias de poder e desafios éticos candentes no desenvolvimento científico contemporâneo.",
+                prompt: "Sobre essas assimetrias e dilemas éticos, assinale a alternativa correta.",
+                options: [
+                    { letter: "A", text: "A barreira de gênero na ciência e nas engenharias (STEM) restringe-se a questões de preferência biológica individual, inexistindo obstáculos estruturais na contemporaneidade que barrem o acesso de mulheres a postos de liderança e fomento científico." },
+                    { letter: "B", text: "A democratização dos recursos digitais eliminou por completo as disparidades territoriais e as barreiras raciais no acesso à inovação técnico-científica, assegurando a homogeneidade dos benefícios socioeconômicos em escala global." },
+                    { letter: "C", text: "O desenvolvimento acelerado de inovações biotecnológicas em edição genômica e a introdução de inteligência artificial na automação e regulação da esfera pública geram dilemas éticos profundos, exigindo a adoção ativa de princípios de precaução social." },
+                    { letter: "D", text: "Os problemas de acesso à ciência e tecnologia enfrentados por grupos marginalizados derivam da neutralidade metodológica da pesquisa pura, sendo vedado ao Estado priorizar fomento científico a grupos vulneráveis." },
+                    { letter: "E", text: "Os riscos tecnológicos globais afetam de maneira idêntica todas as nações e classes sociais, não existindo qualquer relação de causalidade entre vulnerabilidade social e exposição geográfica a desastres industriais ou ambientais." }
+                ],
+                correct: "C",
+                resolution: `
+                    <p class="mb-3"><strong>Análise da alternativa correta (C):</strong> Tecnologias emergentes como edição genômica (CRISPR) e Inteligência Artificial na tomada de decisões públicas impõem dilemas éticos sem precedentes, exigindo governança democrática e a aplicação do Princípio da Precaução.</p>
+                    <p class="mb-2"><em>Por que as demais estão erradas?</em></p>
+                    <ul class="list-disc list-inside space-y-1 text-sm text-stone-700">
+                        <li><strong>A:</strong> Estudos comprovam barreiras de gênero estruturais (como o "teto de vidro") no acesso a cargos de topo na ciência.</li>
+                        <li><strong>B:</strong> A exclusão digital e o abismo tecnológico persistem intensamente entre países e classes sociais.</li>
+                        <li><strong>D:</strong> Políticas públicas governamentais podem e devem direcionar fomento técnico para combater vulnerabilidades sociais.</li>
+                        <li><strong>E:</strong> Negatividade do conceito de Injustiça Ambiental: as populações mais pobres e vulneráveis sofrem desproporcionalmente com os riscos e poluição gerados pelas tecnologias.</li>
+                    </ul>
+                    <p class="mt-2 font-semibold text-brand-700">Gabarito: Alternativa C.</p>
+                `
+            }
+        ];
+
+        // Application State
+        let userAnswers = {};
+        let isSubmitted = false;
+        let currentFontSizeLevel = 0; // -1, 0, +1
+
+        // DOM Elements
+        const container = document.getElementById('questions-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressBarMobile = document.getElementById('progress-bar-mobile');
+        const progressText = document.getElementById('progress-text');
+
+        // Render Questions on page load
+        function renderQuestions() {
+            container.innerHTML = '';
+
+            questionsData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.id = `question-card-${index}`;
+                qCard.className = "question-card bg-white rounded-2xl p-6 sm:p-8 border border-paper-200 shadow-sm transition-all duration-300 hover:shadow-md";
+
+                // Build context list items if any
+                let itemsHTML = '';
+                if (q.items && q.items.length > 0) {
+                    itemsHTML = `<div class="my-4 space-y-2 text-stone-700 font-normal leading-relaxed pl-1 sm:pl-2">
+                        ${q.items.map(item => `<div class="p-2.5 rounded-lg bg-paper-50 border border-paper-100">${item}</div>`).join('')}
+                    </div>`;
+                }
+
+                // Custom content (like matching tables in Q02)
+                let customHTML = q.customContent ? q.customContent : '';
+
+                // Build options list
+                const optionsHTML = q.options.map(opt => {
+                    const isChecked = userAnswers[index] === opt.letter ? 'checked' : '';
+                    return `
+                        <div class="option-row relative flex items-start p-3.5 rounded-xl border border-paper-200 hover:border-brand-600 hover:bg-brand-50/50 transition cursor-pointer mb-2.5">
+                            <input type="radio" 
+                                   id="q${index}_opt${opt.letter}" 
+                                   name="question_${index}" 
+                                   value="${opt.letter}" 
+                                   class="custom-radio mt-1 h-4 w-4 text-brand-600 focus:ring-brand-500 border-stone-300"
+                                   ${isChecked}
+                                   onchange="selectOption(${index}, '${opt.letter}')"
+                                   ${isSubmitted ? 'disabled' : ''}>
+                            <label for="q${index}_opt${opt.letter}" class="ml-3 flex-1 text-sm sm:text-base font-medium text-stone-800 cursor-pointer select-none">
+                                <span class="font-bold text-brand-700 mr-1">${opt.letter})</span> ${opt.text}
+                            </label>
+                            <!-- Feedback icon inserted after submission -->
+                            <span id="badge-q${index}-opt${opt.letter}" class="ml-2 hidden"></span>
+                        </div>
+                    `;
+                }).join('');
+
+                // Resolution Container (Hidden by default)
+                const resolutionHTML = `
+                    <div id="resolution-${index}" class="hidden mt-6 pt-6 border-t-2 border-stone-100">
+                        <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-5 sm:p-6 text-stone-800">
+                            <div class="flex items-center space-x-2 text-amber-800 font-bold mb-3 text-sm uppercase tracking-wide">
+                                <i class="fa-solid fa-lightbulb"></i>
+                                <span>Gabarito & Resolução Detalhada</span>
+                            </div>
+                            <div class="reading-text text-sm sm:text-base space-y-2 leading-relaxed">
+                                ${q.resolution}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                qCard.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-3 py-1 bg-paper-100 text-stone-700 rounded-lg text-xs font-bold tracking-wide uppercase">
+                            ${q.title}
+                        </span>
+                        <span id="status-tag-${index}" class="text-xs font-semibold px-2.5 py-1 rounded-full text-stone-500 bg-stone-100">
+                            Não respondida
+                        </span>
+                    </div>
+
+                    <div class="text-stone-800 reading-text font-normal text-base sm:text-lg mb-3">
+                        ${q.context}
+                    </div>
+
+                    ${customHTML}
+                    ${itemsHTML}
+
+                    <div class="font-bold text-stone-900 my-4 text-sm sm:text-base">
+                        ${q.prompt}
+                    </div>
+
+                    <div class="options-group space-y-1">
+                        ${optionsHTML}
+                    </div>
+
+                    ${resolutionHTML}
+                `;
+
+                container.appendChild(qCard);
+            });
+
+            updateProgress();
+        }
+
+        // Handle Option Selection
+        function selectOption(qIndex, optionLetter) {
+            if (isSubmitted) return;
+            
+            userAnswers[qIndex] = optionLetter;
+            
+            // Update question tag
+            const tag = document.getElementById(`status-tag-${qIndex}`);
+            if (tag) {
+                tag.textContent = "Respondida";
+                tag.className = "text-xs font-semibold px-2.5 py-1 rounded-full text-brand-700 bg-brand-50 border border-brand-200";
+            }
+
+            updateProgress();
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const percentage = (answeredCount / questionsData.length) * 100;
+
+            progressBar.style.width = `${percentage}%`;
+            progressBarMobile.style.width = `${percentage}%`;
+            progressText.textContent = `${answeredCount} de ${questionsData.length} respondidas`;
+        }
+
+        // Submit Quiz Function
+        function submitQuiz() {
+            const total = questionsData.length;
+            const answeredCount = Object.keys(userAnswers).length;
+
+            if (answeredCount < total) {
+                const confirmSubmit = window.confirm(`Você respondeu ${answeredCount} de ${total} questões. Deseja finalizar mesmo assim?`);
+                if (!confirmSubmit) return;
+            }
+
+            isSubmitted = true;
+
+            let score = 0;
+            let correctIndexes = [];
+            let incorrectIndexes = [];
+
+            questionsData.forEach((q, index) => {
+                const userChoice = userAnswers[index];
+                const isCorrect = userChoice === q.correct;
+
+                const card = document.getElementById(`question-card-${index}`);
+                const tag = document.getElementById(`status-tag-${index}`);
+                const resolutionBox = document.getElementById(`resolution-${index}`);
+
+                // Show resolution box
+                resolutionBox.classList.remove('hidden');
+
+                // Disable inputs
+                const inputs = card.querySelectorAll('input[type="radio"]');
+                inputs.forEach(input => input.disabled = true);
+
+                if (isCorrect) {
+                    score++;
+                    correctIndexes.push(index);
+                    tag.textContent = "Acertou";
+                    tag.className = "text-xs font-bold px-3 py-1 rounded-full text-emerald-700 bg-emerald-100 border border-emerald-300";
+                    card.classList.add('border-emerald-300', 'bg-emerald-50/10');
+                } else {
+                    incorrectIndexes.push(index);
+                    tag.textContent = userChoice ? `Errou (Sua opção: ${userChoice})` : "Não Respondida";
+                    tag.className = "text-xs font-bold px-3 py-1 rounded-full text-rose-700 bg-rose-100 border border-rose-300";
+                    card.classList.add('border-rose-200', 'bg-rose-50/10');
+                }
+
+                // Highlight correct and chosen options
+                q.options.forEach(opt => {
+                    const badge = document.getElementById(`badge-q${index}-opt${opt.letter}`);
+                    const optionRow = badge.closest('.option-row');
+
+                    if (opt.letter === q.correct) {
+                        // Mark correct answer in green
+                        optionRow.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'font-semibold');
+                        badge.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>';
+                        badge.classList.remove('hidden');
+                    } else if (opt.letter === userChoice && !isCorrect) {
+                        // Mark wrong user choice in red
+                        optionRow.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-900');
+                        badge.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>';
+                        badge.classList.remove('hidden');
+                    }
+                });
+            });
+
+            // Update Results Dashboard
+            const dashboard = document.getElementById('results-dashboard');
+            const scoreHeading = document.getElementById('score-heading');
+            const scorePercentage = document.getElementById('score-percentage');
+            const scoreFeedback = document.getElementById('score-feedback');
+            const countCorrect = document.getElementById('count-correct');
+            const countIncorrect = document.getElementById('count-incorrect');
+
+            const percentVal = Math.round((score / total) * 100);
+
+            scoreHeading.textContent = `Você acertou ${score} de ${total} questões`;
+            scorePercentage.textContent = `${percentVal}%`;
+            countCorrect.textContent = score;
+            countIncorrect.textContent = total - score;
+
+            if (percentVal >= 80) {
+                scoreFeedback.textContent = "Excelente desempenho! Domínio avançado sobre Relações CTS na banca FAURGS.";
+            } else if (percentVal >= 50) {
+                scoreFeedback.textContent = "Bom resultado! Revise os comentários das questões com erros para consolidar os conceitos.";
+            } else {
+                scoreFeedback.textContent = "Continue praticando! Leia atentamente a resolução detalhada de cada questão abaixo.";
+            }
+
+            dashboard.classList.remove('hidden');
+            document.getElementById('submit-container').classList.add('hidden');
+
+            // Smooth scroll to top of results
+            dashboard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Filter visible questions after submission
+        function filterQuestions(type) {
+            if (!isSubmitted) return;
+
+            // Reset button active classes
+            ['all', 'correct', 'incorrect'].forEach(t => {
+                const btn = document.getElementById(`btn-filter-${t}`);
+                if (t === type) {
+                    btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-stone-800 text-white transition";
+                } else {
+                    btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition";
+                }
+            });
+
+            questionsData.forEach((q, index) => {
+                const card = document.getElementById(`question-card-${index}`);
+                const isCorrect = userAnswers[index] === q.correct;
+
+                if (type === 'all') {
+                    card.classList.remove('hidden');
+                } else if (type === 'correct' && isCorrect) {
+                    card.classList.remove('hidden');
+                } else if (type === 'incorrect' && !isCorrect) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Reset Quiz State
+        function resetQuiz() {
+            if (window.confirm("Tem certeza de que deseja refazer o simulado? Suas respostas atuais serão limpas.")) {
+                userAnswers = {};
+                isSubmitted = false;
+                document.getElementById('results-dashboard').classList.add('hidden');
+                document.getElementById('submit-container').classList.remove('hidden');
+                renderQuestions();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Adjust Font Size for better reading comfort
+        function changeFontSize(delta) {
+            currentFontSizeLevel += delta;
+            if (currentFontSizeLevel > 2) currentFontSizeLevel = 2;
+            if (currentFontSizeLevel < -1) currentFontSizeLevel = -1;
+
+            const readingElements = document.querySelectorAll('.reading-text');
+            
+            readingElements.forEach(el => {
+                if (currentFontSizeLevel === 1) {
+                    el.style.fontSize = '1.125rem'; // 18px
+                } else if (currentFontSizeLevel === 2) {
+                    el.style.fontSize = '1.25rem';  // 20px
+                } else if (currentFontSizeLevel === -1) {
+                    el.style.fontSize = '0.875rem'; // 14px
+                } else {
+                    el.style.fontSize = '1rem';    // 16px (default)
+                }
+            });
+        }
+
+        // Initialize quiz on window load
+        window.onload = function() {
+            renderQuestions();
+        };
+    </script>
+</body>
+</html>

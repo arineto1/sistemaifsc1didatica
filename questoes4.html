@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS - Democratização e Permanência Escolar</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            800: '#1e3a8a',
+                            900: '#172554',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        /* Style adjustments for reading comfort */
+        .prose-reading {
+            line-height: 1.75;
+            font-size: 1.05rem;
+        }
+        .option-card {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-card:hover {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header / Navigation Bar -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 sm:px-6 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-brand-600 text-white font-bold text-xs px-2.5 py-1 rounded-md uppercase tracking-wider">FAURGS</span>
+                <h1 class="font-semibold text-slate-900 text-sm sm:text-base truncate">Democratização, Permanência e Êxito Escolar</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-xs sm:text-sm font-medium text-slate-600">
+                    Respondidas: <span id="answered-count" class="font-bold text-brand-600">0</span>/10
+                </div>
+                <button onclick="scrollToResultOrFinish()" id="header-btn" class="bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-medium px-3.5 py-1.5 rounded-lg transition-colors">
+                    Finalizar Simulado
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8 sm:px-6 space-y-8">
+
+        <!-- Intro Banner -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+            <div class="border-b border-slate-100 pb-4 mb-4">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-brand-600 bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Simulado Preparatório</span>
+                    <span class="text-xs text-slate-500">10 Questões Inéditas e Atualizadas</span>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-3">Democratização do Acesso, Permanência e Êxito Escolar</h2>
+            </div>
+            <p class="text-slate-600 prose-reading text-sm sm:text-base">
+                Este simulado interativo foi elaborado no formato padrão da banca <strong>FAURGS</strong>. Responda às 10 questões abaixo e, ao finalizar, receba seu desempenho detalhado juntamente com o gabarito comentado e fundamentado nas legislações e autores da área.
+            </p>
+        </section>
+
+        <!-- Question Fast Navigation Index -->
+        <section class="bg-slate-100/80 p-4 rounded-xl border border-slate-200">
+            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Navegação Rápida</div>
+            <div class="flex flex-wrap gap-2" id="question-nav">
+                <!-- Nav buttons rendered dynamically -->
+            </div>
+        </section>
+
+        <!-- Quiz Form Container -->
+        <form id="quiz-form" class="space-y-8">
+            <div id="questions-container" class="space-y-8">
+                <!-- Questions will be injected by JavaScript -->
+            </div>
+        </form>
+
+        <!-- Results Banner (Hidden until finished) -->
+        <section id="results-section" class="hidden bg-white rounded-2xl border border-slate-200 shadow-md p-6 sm:p-8 space-y-6">
+            <div class="text-center space-y-3 border-b border-slate-100 pb-6">
+                <span class="inline-block p-3 rounded-full bg-slate-100 text-3xl" id="score-icon">📊</span>
+                <h2 class="text-2xl font-bold text-slate-900">Resultado do Simulado</h2>
+                <p class="text-slate-600 text-sm sm:text-base" id="score-subtitle">Confira abaixo o seu aproveitamento geral nesta prova.</p>
+                <div class="inline-flex items-baseline space-x-2 bg-slate-50 px-6 py-3 rounded-2xl border border-slate-200">
+                    <span id="score-text" class="text-4xl font-extrabold text-brand-600">0/10</span>
+                    <span id="score-percent" class="text-lg font-medium text-slate-600">(0%)</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-amber-50 border border-amber-200 p-4 rounded-xl text-amber-900 text-sm">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">💡</span>
+                    <span>As resoluções e justificativas detalhadas foram desbloqueadas e exibidas logo abaixo de cada questão respondida acima.</span>
+                </div>
+                <button type="button" onclick="resetQuiz()" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-900 text-white font-medium px-4 py-2 rounded-lg text-sm transition-colors whitespace-nowrap">
+                    Refazer Simulado
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>Simulado no Estilo FAURGS — Legislação Educacional e Políticas de Inclusão</p>
+            <p class="mt-1">Desenvolvido com foco em acessibilidade e conforto de leitura.</p>
+        </div>
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                id: 1,
+                title: "Questão 01",
+                topic: "Princípios do Ensino (Constituição e LDB)",
+                stem: `<p class="mb-3 prose-reading">O debate sobre a democratização do acesso e a garantia da permanência e do êxito escolar perpassa a análise dos princípios constitucionais e infraconstitucionais que regem o ensino no Brasil. À luz do Artigo 206 da Constituição Federal de 1988 e do Artigo 3º da Lei de Diretrizes e Bases da Educação Nacional (LDB – Lei nº 9.394/1996), considere as seguintes afirmações sobre os princípios que balizam o ensino nacional:</p>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 my-4 space-y-2 text-slate-700 text-sm sm:text-base">
+                    <p><strong>I -</strong> A igualdade de condições para o acesso e a permanência na escola configura um princípio comum a ambos os diplomas legais, operando como base para a formulação de políticas públicas de assistência estudantil.</p>
+                    <p><strong>II -</strong> O pluralismo de ideias e de concepções pedagógicas constitui um princípio norteador que apoia a diversificação metodológica, sendo um elemento facilitador da permanência de estudantes com trajetórias escolares não lineares.</p>
+                    <p><strong>III -</strong> A garantia do direito à educação e à aprendizagem ao longo da vida, incorporada à LDB, restringe as ações de permanência e êxito à faixa etária obrigatória dos 4 aos 17 anos, desobrigando os sistemas de ensino de promover a permanência na Educação de Jovens e Adultos (EJA).</p>
+                </div>
+                <p class="font-semibold text-slate-900 mt-3">Quais estão corretas?</p>`,
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas II." },
+                    { key: "C", text: "Apenas I e II." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: `<div class="space-y-3 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa C</span>
+                    </div>
+                    <p><strong>Análise detalhada das afirmações:</strong></p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Afirmação I (Correta):</strong> A igualdade de condições para o acesso e a permanência na escola é o primeiro princípio fundamental consagrado tanto no Artigo 206, inciso I, da Constituição Federal, quanto no Artigo 3º, inciso I, da LDB. Ela estabelece o marco jurídico para que o Estado não apenas ofereça vagas, mas também garanta condições materiais e pedagógicas para a manutenção do estudante no ambiente educativo.</li>
+                        <li><strong>Afirmação II (Correta):</strong> O pluralismo de ideias e de concepções pedagógicas (Artigo 3º, inciso III da LDB) atua como base para que as instituições escolares organizem currículos e práticas de ensino flexíveis, capazes de respeitar as trajetórias de aprendizagem singulares e evitar a exclusão precoce.</li>
+                        <li><strong>Afirmação III (Incorreta):</strong> A garantia do direito à educação e à aprendizagem ao longo da vida (Artigo 3º, inciso XIII da LDB) amplia o dever do Estado para além da idade escolar regular, englobando de forma expressa a modalidade de Educação de Jovens e Adultos (EJA). Os sistemas de ensino possuem o dever legal de prover condições de acesso e permanência apropriadas aos trabalhadores que não tiveram acesso à escola na idade própria.</li>
+                    </ul>
+                </div>`
+            },
+            {
+                id: 2,
+                title: "Questão 02",
+                topic: "Atendimento Pedagógico Domiciliar e Hospitalar",
+                stem: `<p class="prose-reading">O Ministério da Educação (MEC), por meio do documento “Classe hospitalar e atendimento pedagógico domiciliar: estratégias e orientações”, disciplina o atendimento a estudantes impossibilitados de frequentar a escola comum devido a condições de saúde. Com o objetivo de assegurar a democratização do acesso e a continuidade do processo de escolarização desses alunos, evitando a evasão por motivos de adoecimento, o documento estabelece que o professor que atuar em classe hospitalar ou no atendimento pedagógico domiciliar deverá ter, preferencialmente, qual formação pedagógica?</p>`,
+                options: [
+                    { key: "A", text: "Licenciatura em Psicopedagogia Clínica ou Psicologia do Desenvolvimento." },
+                    { key: "B", text: "Educação Especial ou cursos de Pedagogia ou licenciaturas." },
+                    { key: "C", text: "Especialização Lato Sensu em Gestão Escolar ou Supervisão Pedagógica." },
+                    { key: "D", text: "Curso Técnico de Apoio Escolar em Ambiente Hospitalar com registro no conselho de saúde." },
+                    { key: "E", text: "Graduação em Serviço Social com habilitação em Atendimento Domiciliar e Comunitário." }
+                ],
+                correct: "B",
+                resolution: `<div class="space-y-3 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa B</span>
+                    </div>
+                    <p><strong>Fundamentação Teórica e Normativa:</strong></p>
+                    <p>Conforme as diretrizes federais expressas no documento do Ministério da Educação (MEC), <em>“Classe hospitalar e atendimento pedagógico domiciliar: estratégias e orientações”</em>, os profissionais de educação que atuam nesse contexto específico exercem um papel de transição pedagógica indispensável para mitigar os riscos de evasão e de defasagem de estudantes afastados do ambiente escolar comum por razões de saúde.</p>
+                    <p>Para assegurar a qualidade e a especificidade metodológica desse atendimento especial, o documento preconiza que esses docentes apresentem, preferencialmente, formação em <strong>Educação Especial, cursos de Pedagogia ou licenciaturas</strong>. Tal exigência justifica-se pela necessidade de adaptação curricular dinâmica à condição clínica do estudante.</p>
+                </div>`
+            },
+            {
+                id: 3,
+                title: "Questão 03",
+                topic: "Controle de Frequência e Notificação ao Conselho Tutelar",
+                stem: `<p class="mb-3 prose-reading">A garantia da permanência e do êxito escolar exige o monitoramento constante da frequência dos alunos para evitar a repetência por infrequência e a posterior evasão. Com base nas incumbências dos estabelecimentos de ensino previstas na LDB (Lei nº 9.394/1996) e em suas atualizações promovidas pelas Leis nº 13.803/2019 e nº 15.231/2025, analise as afirmações a seguir e assinale V (verdadeiro) ou F (falso):</p>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 my-4 space-y-3 text-slate-700 text-sm sm:text-base">
+                    <p>( &nbsp; ) O controle de frequência fica a cargo da escola, conforme o disposto no seu regimento e nas normas do respectivo sistema de ensino, sendo exigida a frequência mínima de 75% do total de horas letivas para aprovação nos níveis fundamental e médio.</p>
+                    <p>( &nbsp; ) Os estabelecimentos de ensino de educação básica têm a incumbência legal de notificar ao Conselho Tutelar do Município a relação dos alunos que apresentem quantidade de faltas acima de 30% do percentual permitido em lei.</p>
+                    <p>( &nbsp; ) A notificação ao Conselho Tutelar deve ser acompanhada, sob pena de nulidade do ato administrativo, de comunicação simultânea ao Juiz de Direito da Comarca e ao representante do Ministério Público, independentemente do esgotamento prévio dos recursos escolares.</p>
+                    <p>( &nbsp; ) Na educação infantil, o controle de frequência exige a frequência mínima de 60% do total de horas, constituindo pré-requisito para a promoção e o ingresso no primeiro ano do ensino fundamental.</p>
+                    <p>( &nbsp; ) Os estabelecimentos de ensino têm a incumbência de notificar ao Conselho Tutelar as ocorrências e os dados relativos a casos de violência que envolvam seus alunos, especialmente automutilações, tentativas de suicídio e suicídios consumados.</p>
+                </div>
+                <p class="font-semibold text-slate-900 mt-3">A sequência correta de preenchimento dos parênteses, de cima para baixo, é:</p>`,
+                options: [
+                    { key: "A", text: "V – V – F – F – V." },
+                    { key: "B", text: "V – F – V – F – F." },
+                    { key: "C", text: "F – V – F – V – F." },
+                    { key: "D", text: "V – V – V – F – V." },
+                    { key: "E", text: "F – F – V – V – V." }
+                ],
+                correct: "A",
+                resolution: `<div class="space-y-4 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa A (V – V – F – F – V)</span>
+                    </div>
+                    <p><strong>Análise dos Parênteses:</strong></p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>1º Item (Verdadeiro):</strong> De acordo com o Artigo 24, inciso VI da LDB, o controle de frequência fica a cargo da unidade escolar, sendo exigida a frequência mínima de 75% do total de horas letivas para a aprovação no Ensino Fundamental e no Ensino Médio.</li>
+                        <li><strong>2º Item (Verdadeiro):</strong> Trata-se da redação do Artigo 12, inciso VIII da LDB (alterada pelas Leis nº 13.803/2019 e nº 15.231/2025), que impõe a obrigação de notificar ao Conselho Tutelar a relação dos alunos que apresentem faltas que ultrapassem o patamar de 30% do limite de faltas permitido pela legislação.</li>
+                        <li><strong>3º Item (Falso):</strong> A Lei nº 13.803/2019 removeu do texto legal a obrigatoriedade de comunicação simultânea ao Juiz de Direito e ao Ministério Público que constava no ordenamento anterior, restringindo o dever de notificação imediata apenas ao Conselho Tutelar do Município, visando desburocratizar a intervenção.</li>
+                        <li><strong>4º Item (Falso):</strong> Na educação infantil (pré-escola), a frequência mínima exigida é de 60% (Artigo 31, inciso IV da LDB), mas a própria LDB determina expressamente que esse controle de frequência não possui finalidade de promoção ou retenção para o ingresso no Ensino Fundamental.</li>
+                        <li><strong>5º Item (Verdadeiro):</strong> Conforme a alteração adicionada pela Lei nº 15.231/2025, o Artigo 12, inciso VIII, alínea "b" da LDB estabelece como incumbência dos estabelecimentos de ensino a notificação de ocorrências de violência que envolvam seus alunos, destacando-se automutilações, tentativas de suicídio e suicídios consumados, a fim de subsidiar redes de proteção à saúde mental e conter a evasão decorrente do sofrimento psíquico.</li>
+                    </ul>
+
+                    <div class="overflow-x-auto mt-4">
+                        <table class="min-w-full text-xs sm:text-sm border-collapse border border-slate-200">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800">
+                                    <th class="border border-slate-200 p-2 text-left">Nível / Etapa de Ensino</th>
+                                    <th class="border border-slate-200 p-2 text-center">Frequência Mínima Exigida</th>
+                                    <th class="border border-slate-200 p-2 text-center">Limite de Faltas Permitido</th>
+                                    <th class="border border-slate-200 p-2 text-center">Gatilho p/ Notificação (30% do Limite)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Educação Infantil (Pré-Escola)</td>
+                                    <td class="border border-slate-200 p-2 text-center">60% das horas</td>
+                                    <td class="border border-slate-200 p-2 text-center">40% das horas</td>
+                                    <td class="border border-slate-200 p-2 text-center">12% do total de horas letivas</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Ensino Fundamental</td>
+                                    <td class="border border-slate-200 p-2 text-center">75% das horas</td>
+                                    <td class="border border-slate-200 p-2 text-center">25% das horas</td>
+                                    <td class="border border-slate-200 p-2 text-center">7,5% do total de horas letivas</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Ensino Médio</td>
+                                    <td class="border border-slate-200 p-2 text-center">75% das horas</td>
+                                    <td class="border border-slate-200 p-2 text-center">25% das horas</td>
+                                    <td class="border border-slate-200 p-2 text-center">7,5% do total de horas letivas</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`
+            },
+            {
+                id: 4,
+                title: "Questão 04",
+                topic: "Política Nacional de Assistência Estudantil (PNAES)",
+                stem: `<p class="prose-reading">A Lei nº 14.914/2024 instituiu a Política Nacional de Assistência Estudantil (PNAES) como política de Estado, com o objetivo de ampliar e garantir as condições de permanência dos estudantes e a conclusão de seus cursos. Sobre as diretrizes, os objetivos e os programas que integram a PNAES, assinale a alternativa correta:</p>`,
+                options: [
+                    { key: "A", text: "A PNAES restringe-se exclusivamente aos discentes regularmente matriculados em cursos de graduação presencial das universidades federais, vedando o atendimento a estudantes de pós-graduação ou de institutos federais." },
+                    { key: "B", text: "A Bolsa Permanência é um benefício direto concedido a estudantes da educação superior pública federal, sendo que os estudantes indígenas e quilombolas têm direito a receber essa bolsa com o valor em dobro." },
+                    { key: "C", text: "Os critérios e a metodologia para a seleção de beneficiários da assistência estudantil são centralizados e definidos de forma impositiva pelo Ministério da Educação, de modo a uniformizar o atendimento nacional e afastar a autonomia administrativa das instituições federais." },
+                    { key: "D", text: "A PNAES veda a concessão de apoios voltados à atenção à saúde e à moradia estudantil, concentrando seus recursos de forma exclusiva nas áreas de alimentação e transporte estudantil." },
+                    { key: "E", text: "O acesso ao Programa de Assistência Estudantil é universal para todos os estudantes matriculados, independentemente de sua origem escolar ou da situação socioeconômica de seu grupo familiar." }
+                ],
+                correct: "B",
+                resolution: `<div class="space-y-3 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa B</span>
+                    </div>
+                    <p><strong>Fundamentação Legal (Lei nº 14.914/2024):</strong></p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Alternativa A (Incorreta):</strong> A PNAES destina-se a ampliar as condições de permanência e conclusão de cursos tanto na educação superior pública federal quanto na educação profissional, científica e tecnológica pública federal, abrangendo estudantes de cursos técnicos, profissionalizantes e de pós-graduação.</li>
+                        <li><strong>Alternativa B (Correta):</strong> A lei prevê, em suas disposições protetivas, o benefício direto da Bolsa Permanência, assegurando o pagamento em dobro desse valor quando destinado a estudantes pertencentes a comunidades indígenas e quilombolas, de modo a compensar desvantagens históricas e geográficas de acesso a esses espaços de formação.</li>
+                        <li><strong>Alternativa C (Incorreta):</strong> Em respeito ao princípio da autonomia universitária, consagrado no Artigo 207 da Constituição Federal, as instituições federais possuem a competência administrativa para definir seus próprios critérios e sua metodologia local para a seleção dos beneficiários.</li>
+                        <li><strong>Alternativa D (Incorreta):</strong> A moradia estudantil, o suporte pedagógico e o atendimento à saúde física e mental integram de forma expressa o rol de áreas legítimas de atuação e concessão de auxílios no escopo do Programa de Assistência Estudantil da PNAES.</li>
+                        <li><strong>Alternativa E (Incorreta):</strong> Embora a política atenda ao corpo discente de forma ampla, os programas de assistência estudantil que demandam aportes financeiros diretos priorizam estudantes oriundos de escolas públicas de educação básica ou membros de famílias em situação de vulnerabilidade socioeconômica.</li>
+                    </ul>
+                </div>`
+            },
+            {
+                id: 5,
+                title: "Questão 05",
+                topic: "Teorias de Inclusão Escolar (Mantoan)",
+                stem: `<p class="prose-reading">A democratização do acesso e a garantia da permanência e do êxito escolar demandam a superação de barreiras históricas no ambiente escolar e o acolhimento qualificado da diversidade. No que tange aos posicionamentos teórico-metodológicos que fundamentam as políticas de inclusão, conforme as formulações de Mantoan (2003), a inclusão:</p>`,
+                options: [
+                    { key: "A", text: "Refere-se especificamente à inserção de alunos com deficiência de forma condicionada à sua capacidade prévia de adaptação à escola tradicional comum." },
+                    { key: "B", text: "Prescreve o desenvolvimento de currículos e avaliações paralelas segregadas, a serem executados exclusivamente em ambientes de educação especial." },
+                    { key: "C", text: "Requer uma mudança de posicionamento da escola comum, de modo que esta se reorganize para acolher a totalidade dos alunos e garantir a sua permanência e aprendizagem, independentemente de suas particularidades." },
+                    { key: "D", text: "Isenta a instituição de ensino regular de realizar reformulações administrativas ou organizacionais, delegando a responsabilidade de adaptação unicamente ao educando." },
+                    { key: "E", text: "Caracteriza-se como um arranjo provisório voltado apenas a alunos com deficiências leves que não exijam atendimento educacional especializado." }
+                ],
+                correct: "C",
+                resolution: `<div class="space-y-4 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa C</span>
+                    </div>
+                    <p><strong>Fundamentação Teórica (Maria Teresa Eglér Mantoan):</strong></p>
+                    <p>Na formulação teórica de Mantoan, a dicotomia entre <em>"integração"</em> e <em>"inclusão"</em> marca a evolução histórica da democratização da escola comum. Enquanto a integração pressupõe a inserção condicionada do educando — exigindo que ele mude e se adapte à estrutura escolar preexistente —, a inclusão opera uma ruptura estrutural.</p>
+                    <p>Sob o paradigma inclusivo, a escola comum assume a responsabilidade de se reformular administrativa, curricular e pedagogicamente para assegurar o acolhimento, a permanência e o êxito de todos os estudantes.</p>
+
+                    <div class="overflow-x-auto mt-4">
+                        <table class="min-w-full text-xs sm:text-sm border-collapse border border-slate-200">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800">
+                                    <th class="border border-slate-200 p-2 text-left">Critério de Comparação</th>
+                                    <th class="border border-slate-200 p-2 text-left">Integração Escolar</th>
+                                    <th class="border border-slate-200 p-2 text-left">Inclusão Escolar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Foco de Adaptação</td>
+                                    <td class="border border-slate-200 p-2">O estudante deve se adaptar à escola.</td>
+                                    <td class="border border-slate-200 p-2">A escola se reorganiza para acolher o estudante.</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Atendimento Curricular</td>
+                                    <td class="border border-slate-200 p-2">Currículos paralelos ou salas especiais segregadas.</td>
+                                    <td class="border border-slate-200 p-2">Currículo comum flexibilizado na mesma sala de aula.</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Público-Alvo</td>
+                                    <td class="border border-slate-200 p-2">Alunos cujas deficiências permitem adaptação fácil.</td>
+                                    <td class="border border-slate-200 p-2">Universalidade (toda a diversidade de alunos).</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Condição de Permanência</td>
+                                    <td class="border border-slate-200 p-2">Condicionada ao rendimento individual do estudante.</td>
+                                    <td class="border border-slate-200 p-2">Garantida como direito inalienável de aprendizagem.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`
+            },
+            {
+                id: 6,
+                title: "Questão 06",
+                topic: "Programa Pé-de-Meia (Lei nº 14.818/2024)",
+                stem: `<p class="mb-3 prose-reading">No âmbito das políticas públicas destinadas a combater a interrupção da trajetória escolar no nível médio público, a Lei nº 14.818/2024 instituiu o Programa Pé-de-Meia. Considere as seguintes afirmações sobre o funcionamento e os critérios de concessão desse incentivo financeiro-educacional:</p>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 my-4 space-y-2 text-slate-700 text-sm sm:text-base">
+                    <p><strong>I -</strong> O Programa Pé-de-Meia funciona como uma poupança financeira destinada a estudantes matriculados no ensino médio público, com o escopo de mitigar as taxas de evasão e abandono nesta etapa de ensino.</p>
+                    <p><strong>II -</strong> A concessão dos incentivos do programa é vinculada à comprovação de frequência mínima de 80% das horas letivas mensais, à efetivação da matrícula e à aprovação no ano letivo.</p>
+                    <p><strong>III -</strong> A conclusão do ensino médio com direito ao recebimento do incentivo acumulado exige, adicionalmente, a participação comprovada do estudante no Exame Nacional do Ensino Médio (Enem).</p>
+                </div>
+                <p class="font-semibold text-slate-900 mt-3">Quais estão corretas?</p>`,
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas II." },
+                    { key: "C", text: "Apenas I e III." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "E",
+                resolution: `<div class="space-y-3 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa E (I, II e III)</span>
+                    </div>
+                    <p><strong>Análise de todas as afirmações:</strong></p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Afirmação I (Correta):</strong> O Programa Pé-de-Meia, regulado pela Lei nº 14.818/2024, consiste em um incentivo financeiro-educacional, constituído sob a modalidade de poupança, voltado a apoiar materialmente a permanência e a conclusão de estudantes matriculados no ensino médio público, com foco no combate às taxas de evasão e desigualdade socioeconômica.</li>
+                        <li><strong>Afirmação II (Correta):</strong> Para usufruir dos repasses mensais, as diretrizes do programa exigem que o discente comprove a efetivação de sua matrícula no início do ano letivo e mantenha uma frequência mensal mínima de 80% das horas letivas, além de obter a aprovação ao fim de cada ano escolar.</li>
+                        <li><strong>Afirmação III (Correta):</strong> A liberação da poupança acumulada ao término do ciclo do ensino médio público é condicionada à participação do estudante no Exame Nacional do Ensino Médio (Enem) ao final do 3º ano, promovendo uma articulação direta entre a permanência básica e o acesso democrático ao ensino superior.</li>
+                    </ul>
+                </div>`
+            },
+            {
+                id: 7,
+                title: "Questão 07",
+                topic: "Finalidades da Educação Básica (Artigo 22 da LDB)",
+                stem: `<p class="prose-reading">A definição das finalidades da educação básica na LDB constitui um dos pilares jurídicos para estruturar os processos pedagógicos necessários à garantia da permanência e do êxito estudantil. De acordo com o disposto no Artigo 22 da Lei nº 9.394/1996, a educação básica tem por finalidades:</p>`,
+                options: [
+                    { key: "A", text: "Desenvolver o educando, assegurar-lhe a formação comum indispensável para o exercício da cidadania e fornecer-lhe meios para progredir no trabalho e em estudos posteriores." },
+                    { key: "B", text: "Habilitar tecnicamente o educando para a sua inserção imediata no mercado de trabalho formal, limitando o currículo acadêmico às ciências exatas aplicadas." },
+                    { key: "C", text: "Promover a seleção acadêmica dos estudantes com base no mérito individual, orientando-os precocemente para carreiras de nível superior." },
+                    { key: "D", text: "Oferecer suporte assistencial temporário focado no repasse de renda mínima, sem necessidade de acompanhamento pedagógico ou curricular integrado." },
+                    { key: "E", text: "Subordinar as práticas de ensino às necessidades exclusivas das corporações privadas locais, garantindo a flexibilização das disciplinas escolares comuns." }
+                ],
+                correct: "A",
+                resolution: `<div class="space-y-3 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa A</span>
+                    </div>
+                    <p><strong>Fundamentação na LDB:</strong></p>
+                    <p>O Artigo 22 da LDB estabelece expressamente que a Educação Básica possui um tríplice objetivo estruturante:</p>
+                    <ol class="list-decimal pl-5 space-y-1 my-2">
+                        <li>O pleno desenvolvimento do educando;</li>
+                        <li>O seu preparo qualificado para o exercício consciente da cidadania;</li>
+                        <li>O fornecimento de bases conceituais para progredir no trabalho e em estudos posteriores.</li>
+                    </ol>
+                    <p>Essa finalidade afasta qualquer perspectiva puramente tecnicista ou utilitarista, consolidando a educação integral como o principal vetor para garantir que a permanência escolar se converta em êxito social e intelectual real para o estudante.</p>
+                </div>`
+            },
+            {
+                id: 8,
+                title: "Questão 08",
+                topic: "Evasão e Permanência na EJA e na EPT",
+                stem: `<p class="mb-3 prose-reading">O estudo da evasão, da retenção e da não permanência na Educação de Jovens e Adultos (EJA) e na Educação Profissional e Tecnológica (EPT) exige a análise integrada de fatores sociais, institucionais e individuais. Com base nas discussões contemporâneas sobre permanência e êxito estudantil nessas modalidades, considere as afirmações abaixo:</p>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 my-4 space-y-2 text-slate-700 text-sm sm:text-base">
+                    <p><strong>I -</strong> Os horários de trabalho incompatíveis com o turno escolar, as jornadas laborais exaustivas e as dificuldades de transporte são classificados como fatores de ordem objetiva/socioeconômica que dificultam a permanência.</p>
+                    <p><strong>II -</strong> Questões pedagógicas, tais como currículos fragmentados e a desvalorização dos saberes práticos e prévios dos estudantes, constituem barreiras internas que contribuem diretamente para o abandono escolar.</p>
+                    <p><strong>III -</strong> A superação das taxas de evasão prescinde do desenvolvimento de Planos de Permanência e Êxito locais pelas escolas, uma vez que a não permanência decorre unicamente de decisões e limitações subjetivas do próprio estudante.</p>
+                </div>
+                <p class="font-semibold text-slate-900 mt-3">Quais estão corretas?</p>`,
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas II." },
+                    { key: "C", text: "Apenas I e II." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: `<div class="space-y-3 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa C (Apenas I e II)</span>
+                    </div>
+                    <p><strong>Análise das Afirmações:</strong></p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Afirmação I (Correta):</strong> Fatores socioeconômicos e estruturais, tais como a necessidade imediata de geração de renda, a incompatibilidade de horários comerciais com os turnos escolares e a deficiência no transporte, são obstáculos de ordem objetiva externos à escola que comprometem severamente a permanência escolar do trabalhador.</li>
+                        <li><strong>Afirmação II (Correta):</strong> Fatores internos à instituição de ensino, como a persistência de metodologias de ensino infantilizadas e descontextualizadas da realidade do adulto, somadas à desvalorização de seus saberes práticos, representam barreiras de caráter pedagógico que favorecem a infrequência e a evasão na EJA e na EPT.</li>
+                        <li><strong>Afirmação III (Incorreta):</strong> A superação do fracasso escolar e a contenção da retenção dependem fundamentalmente do desenvolvimento de estratégias locais planejadas. Os Planos de Permanência e Êxito (PPE) das unidades escolares são instrumentos indispensáveis para mapear as causas locais de abandono e implementar ações administrativas e pedagógicas corretivas.</li>
+                    </ul>
+                </div>`
+            },
+            {
+                id: 9,
+                title: "Questão 09",
+                topic: "Gestão Escolar e Planos de Permanência e Êxito",
+                stem: `<p class="prose-reading">A literatura e os documentos orientadores para a superação da evasão na Rede Federal de Ensino apontam que o êxito estudantil não resulta apenas de ações individuais, mas de intervenções estruturadas da gestão pedagógica e administrativa das escolas. Com relação às ações institucionais voltadas para mitigar a retenção e a evasão escolar, assinale a alternativa correta:</p>`,
+                options: [
+                    { key: "A", text: "O acolhimento e a inclusão da diversidade de gênero, geracional e étnico-racial devem ser evitados para não comprometer a padronização curricular e a eficiência acadêmica dos cursos." },
+                    { key: "B", text: "As intervenções institucionais devem basear-se na análise anual de indicadores de eficiência acadêmica extraídos de bases oficiais, no mapeamento socioeconômico do perfil dos estudantes e na implementação de ações administrativas e pedagógicas integradas." },
+                    { key: "C", text: "O acompanhamento e o auxílio pedagógico devem focar exclusivamente na aplicação do regime de reprovação como método punitivo eficaz para elevar o esforço pessoal do estudante." },
+                    { key: "D", text: "Os planos locais de permanência e êxito devem ser elaborados de forma centralizada pelas equipes diretivas, dispensando-se a participação ou o compromisso coletivo da comunidade escolar." },
+                    { key: "E", text: "A assistência estudantil deve ser gerida como um benefício assistencial temporário estrito, desvinculado de ações educativas e da articulação com o ensino, a pesquisa e a extensão." }
+                ],
+                correct: "B",
+                resolution: `<div class="space-y-4 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa B</span>
+                    </div>
+                    <p><strong>Fundamentação Metodológica:</strong></p>
+                    <p>De acordo com os marcos metodológicos adotados pela Rede Federal para a superação da evasão e da retenção, o êxito estudantil é resultado de um planejamento estratégico institucional coordenado. Isso implica que as unidades de ensino devem monitorar anualmente seus indicadores acadêmicos oficiais, realizar diagnósticos quantitativos e qualitativos locais e implementar ações multidimensionais.</p>
+
+                    <div class="overflow-x-auto mt-4">
+                        <table class="min-w-full text-xs sm:text-sm border-collapse border border-slate-200">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800">
+                                    <th class="border border-slate-200 p-2 text-left">Dimensão de Atuação</th>
+                                    <th class="border border-slate-200 p-2 text-left">Tipo de Ação Recomendada</th>
+                                    <th class="border border-slate-200 p-2 text-left">Impacto Direto na Permanência</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Pedagógica</td>
+                                    <td class="border border-slate-200 p-2">• Acompanhamento pedagógico contínuo;<br>• Adequação curricular de cursos;<br>• Formação continuada docente.</td>
+                                    <td class="border border-slate-200 p-2">Reduz as taxas de retenção por reprovação e qualifica o processo de ensino-aprendizagem.</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Socioeconômica (Assistencial)</td>
+                                    <td class="border border-slate-200 p-2">• Concessão de auxílios financeiros;<br>• Apoio à alimentação, transporte e moradia.</td>
+                                    <td class="border border-slate-200 p-2">Mitiga as barreiras materiais externas que forçam o abandono escolar por razões financeiras.</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 p-2 font-medium">Institucional (Gestão)</td>
+                                    <td class="border border-slate-200 p-2">• Mapeamento do perfil socioeconômico;<br>• Análise periódica de indicadores;<br>• Promoção da gestão participativa.</td>
+                                    <td class="border border-slate-200 p-2">Permite a tomada de decisões administrativas baseada em dados e na realidade local dos campi.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`
+            },
+            {
+                id: 10,
+                title: "Questão 10",
+                topic: "Organização da Educação Escolar Brasileira na LDB",
+                stem: `<p class="mb-3 prose-reading">A garantia do acesso democrático à educação exige uma estrutura educacional regulamentada que defina com clareza as etapas da escolarização obrigatória e gratuita e os direitos curriculares comuns. À luz da LDB (Lei nº 9.394/1996) e de suas alterações, considere as seguintes afirmações sobre a organização da educação escolar brasileira:</p>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 my-4 space-y-2 text-slate-700 text-sm sm:text-base">
+                    <p><strong>I -</strong> A educação escolar compõe-se de educação básica (formada por educação infantil, ensino fundamental e ensino médio) e educação superior.</p>
+                    <p><strong>II -</strong> O desdobramento do ensino fundamental em ciclos constitui uma faculdade dos sistemas de ensino, e não uma obrigação legal impositiva de caráter nacional.</p>
+                    <p><strong>III -</strong> O ensino de história e cultura afro-brasileira e indígena constitui estudo obrigatório no âmbito de todo o currículo escolar dos estabelecimentos de ensino fundamental e de ensino médio, públicos e privados.</p>
+                </div>
+                <p class="font-semibold text-slate-900 mt-3">Quais estão corretas?</p>`,
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas II." },
+                    { key: "C", text: "Apenas I e II." },
+                    { key: "D", text: "Apenas I e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "E",
+                resolution: `<div class="space-y-3 text-slate-700 text-sm sm:text-base">
+                    <div class="font-bold text-slate-900 border-b border-slate-200 pb-2">
+                        Gabarito: <span class="text-brand-600">Alternativa E (I, II e III)</span>
+                    </div>
+                    <p><strong>Análise dos dispositivos da LDB:</strong></p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>Afirmação I (Correta):</strong> Trata-se da divisão estabelecida no Artigo 21, incisos I e II da LDB. A educação escolar brasileira possui dois níveis estruturais: a educação básica (composta pelas etapas da educação infantil, ensino fundamental e ensino médio) e a educação superior.</li>
+                        <li><strong>Afirmação II (Correta):</strong> De acordo com a LDB (Artigo 23 c/c Artigo 32, § 1º), a organização do ensino fundamental em ciclos constitui uma prerrogativa de autonomia pedagógica e administrativa concedida a cada sistema de ensino, não havendo caráter de obrigatoriedade nacional para essa forma de organização.</li>
+                        <li><strong>Afirmação III (Correta):</strong> Em conformidade com o disposto no Artigo 26-A da LDB, o estudo da história e cultura afro-brasileira e indígena constitui conteúdo obrigatório da grade curricular e aplica-se de forma indistinta a todos os estabelecimentos públicos e privados de ensino fundamental e de ensino médio.</li>
+                    </ul>
+                </div>`
+            }
+        ];
+
+        const userAnswers = {};
+        let isSubmitted = false;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderNavButtons();
+            renderQuestions();
+        });
+
+        function renderNavButtons() {
+            const navContainer = document.getElementById("question-nav");
+            navContainer.innerHTML = quizData.map((q, idx) => `
+                <button type="button" onclick="scrollToQuestion(${q.id})" id="nav-btn-${q.id}" 
+                    class="w-8 h-8 rounded-lg text-xs font-semibold border transition-all flex items-center justify-between justify-center border-slate-300 text-slate-600 bg-white hover:bg-slate-50">
+                    ${q.id < 10 ? '0' + q.id : q.id}
+                </button>
+            `).join('');
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById("questions-container");
+            container.innerHTML = quizData.map((q) => `
+                <article id="question-card-${q.id}" class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-sm relative scroll-mt-20">
+                    
+                    <!-- Question Header Tag -->
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-5 flex-wrap gap-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-slate-900 text-white font-bold text-xs px-2.5 py-1 rounded-md">${q.title}</span>
+                            <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">${q.topic}</span>
+                        </div>
+                        <span id="badge-status-${q.id}" class="text-xs font-medium text-slate-400">Pendente</span>
+                    </div>
+
+                    <!-- Question Stem -->
+                    <div class="text-slate-800 mb-6">
+                        ${q.stem}
+                    </div>
+
+                    <!-- Options List -->
+                    <div class="space-y-3" id="options-group-${q.id}">
+                        ${q.options.map(opt => `
+                            <label id="label-q${q.id}-${opt.key}" 
+                                class="option-card flex items-start p-3.5 sm:p-4 rounded-xl border border-slate-200 cursor-pointer bg-slate-50/50 hover:bg-slate-100/80 transition-colors">
+                                <div class="flex items-center h-5 mt-0.5">
+                                    <input type="radio" 
+                                        name="question-${q.id}" 
+                                        value="${opt.key}" 
+                                        onchange="selectOption(${q.id}, '${opt.key}')" 
+                                        class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                </div>
+                                <div class="ml-3 text-sm sm:text-base text-slate-700 flex-1">
+                                    <strong class="text-slate-900 mr-1 font-semibold">(${opt.key})</strong> ${opt.text}
+                                </div>
+                                <div id="icon-q${q.id}-${opt.key}" class="ml-2 hidden text-base font-bold"></div>
+                            </label>
+                        `).join('')}
+                    </div>
+
+                    <!-- Resolution Container (Hidden until submission) -->
+                    <div id="resolution-${q.id}" class="hidden mt-6 pt-6 border-t border-slate-200/80 bg-slate-50/70 -mx-6 sm:-mx-8 -mb-6 sm:-mb-8 p-6 sm:p-8 rounded-b-2xl">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="text-brand-600 font-bold text-sm uppercase tracking-wider">Resolução Detalhada</span>
+                        </div>
+                        ${q.resolution}
+                    </div>
+
+                </article>
+            `).join('');
+        }
+
+        function selectOption(questionId, key) {
+            if (isSubmitted) return;
+
+            userAnswers[questionId] = key;
+
+            // Update UI count
+            document.getElementById("answered-count").innerText = Object.keys(userAnswers).length;
+
+            // Update Badge
+            const badge = document.getElementById(`badge-status-${questionId}`);
+            if (badge) {
+                badge.innerText = "Respondida";
+                badge.className = "text-xs font-semibold text-brand-600 bg-brand-50 px-2 py-0.5 rounded";
+            }
+
+            // Update Nav Button
+            const navBtn = document.getElementById(`nav-btn-${questionId}`);
+            if (navBtn) {
+                navBtn.className = "w-8 h-8 rounded-lg text-xs font-semibold border transition-all flex items-center justify-center border-brand-500 text-white bg-brand-600 shadow-sm";
+            }
+
+            // Highlight selected card visually
+            const qData = quizData.find(q => q.id === questionId);
+            qData.options.forEach(opt => {
+                const lbl = document.getElementById(`label-q${questionId}-${opt.key}`);
+                if (opt.key === key) {
+                    lbl.className = "option-card flex items-start p-3.5 sm:p-4 rounded-xl border-2 border-brand-600 cursor-pointer bg-brand-50/40 shadow-sm";
+                } else {
+                    lbl.className = "option-card flex items-start p-3.5 sm:p-4 rounded-xl border border-slate-200 cursor-pointer bg-slate-50/50 hover:bg-slate-100/80";
+                }
+            });
+        }
+
+        function scrollToQuestion(id) {
+            const el = document.getElementById(`question-card-${id}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function scrollToResultOrFinish() {
+            if (!isSubmitted) {
+                const total = quizData.length;
+                const answered = Object.keys(userAnswers).length;
+                if (answered < total) {
+                    if (confirm(`Você respondeu a ${answered} de ${total} questões. Deseja finalizar o simulado mesmo assim?`)) {
+                        finishQuiz();
+                    }
+                } else {
+                    finishQuiz();
+                }
+            } else {
+                document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function finishQuiz() {
+            isSubmitted = true;
+            let score = 0;
+
+            quizData.forEach(q => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = (userChoice === q.correct);
+                if (isCorrect) score++;
+
+                // Lock all inputs for this question
+                const inputs = document.querySelectorAll(`input[name="question-${q.id}"]`);
+                inputs.forEach(i => i.disabled = true);
+
+                // Reveal options feedback
+                q.options.forEach(opt => {
+                    const lbl = document.getElementById(`label-q${q.id}-${opt.key}`);
+                    const icon = document.getElementById(`icon-q${q.id}-${opt.key}`);
+                    icon.classList.remove('hidden');
+
+                    if (opt.key === q.correct) {
+                        // Correct option styling
+                        lbl.className = "flex items-start p-3.5 sm:p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50/70 font-medium text-emerald-950";
+                        icon.innerHTML = "<span class='text-emerald-600'>✓ Gabarito</span>";
+                    } else if (opt.key === userChoice && !isCorrect) {
+                        // User wrong choice styling
+                        lbl.className = "flex items-start p-3.5 sm:p-4 rounded-xl border-2 border-rose-400 bg-rose-50/70 text-rose-950";
+                        icon.innerHTML = "<span class='text-rose-600'>✕ Sua Resposta</span>";
+                    } else {
+                        lbl.className = "flex items-start p-3.5 sm:p-4 rounded-xl border border-slate-200 bg-white opacity-60";
+                    }
+                });
+
+                // Update Question Card Status Badge
+                const badge = document.getElementById(`badge-status-${q.id}`);
+                if (isCorrect) {
+                    badge.innerText = "Correta";
+                    badge.className = "text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-md";
+                } else {
+                    badge.innerText = "Incorreta";
+                    badge.className = "text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-md";
+                }
+
+                // Show Resolution Box
+                const res = document.getElementById(`resolution-${q.id}`);
+                if (res) res.classList.remove('hidden');
+            });
+
+            // Display Score Section
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.classList.remove('hidden');
+
+            const scoreText = document.getElementById('score-text');
+            const scorePercent = document.getElementById('score-percent');
+            const scoreIcon = document.getElementById('score-icon');
+            const scoreSubtitle = document.getElementById('score-subtitle');
+
+            const percent = Math.round((score / quizData.length) * 100);
+            scoreText.innerText = `${score}/${quizData.length}`;
+            scorePercent.innerText = `(${percent}%)`;
+
+            if (percent >= 80) {
+                scoreIcon.innerText = "🏆";
+                scoreSubtitle.innerText = "Excelente desempenho! Você demonstrou alto domínio das leis e teorias.";
+            } else if (percent >= 50) {
+                scoreIcon.innerText = "📈";
+                scoreSubtitle.innerText = "Bom resultado! Revise os pontos com atenção nas resoluções comentadas abaixo.";
+            } else {
+                scoreIcon.innerText = "📚";
+                scoreSubtitle.innerText = "Foco nos estudos! Aproveite as justificativas abaixo para fortalecer os conceitos.";
+            }
+
+            // Change Header Button
+            const headerBtn = document.getElementById('header-btn');
+            headerBtn.innerText = "Ver Placar Final";
+            headerBtn.className = "bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-medium px-3.5 py-1.5 rounded-lg transition-colors";
+
+            // Scroll to results section smoothly
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
