@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz FAURGS - Gestão Escolar e Aprendizagem</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Lora for long reading comfort -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#FAF8F5',
+                        cardBg: '#FFFFFF',
+                        ink: '#2C3036',
+                        subtle: '#5A626C',
+                        brandPrimary: '#2B4C7E',
+                        brandHover: '#1A3358',
+                        accentGreen: '#15803D',
+                        accentRed: '#B91C1C',
+                        borderSep: '#E5E0D8'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #2C3036;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+        }
+
+        .question-text {
+            font-family: 'Lora', serif;
+            font-size: 1.125rem;
+            color: #1E232A;
+            line-height: 1.8;
+        }
+
+        /* Custom Radio Button styling for better accessibility and touch */
+        .option-label {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .option-label:hover {
+            background-color: #F3EFEA;
+            border-color: #94A3B8;
+        }
+
+        .option-input:checked + .option-box {
+            border-color: #2B4C7E;
+            background-color: #EFF6FF;
+        }
+
+        .option-input:checked + .option-box .option-badge {
+            background-color: #2B4C7E;
+            color: #FFFFFF;
+        }
+
+        .correct-answer-card {
+            border-color: #22C55E !important;
+            background-color: #F0FDF4 !important;
+        }
+
+        .wrong-answer-card {
+            border-color: #EF4444 !important;
+            background-color: #FEF2F2 !important;
+        }
+
+        /* Scrollbar suave */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Top Header -->
+    <header class="sticky top-0 z-30 bg-[#FAF8F5]/95 backdrop-blur border-b border-borderSep shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-brandPrimary text-white font-bold text-xs uppercase px-2.5 py-1 rounded tracking-wider">
+                    FAURGS
+                </span>
+                <h1 class="text-lg md:text-xl font-bold text-ink">
+                    Simulado: Gestão Escolar & Aprendizagem
+                </h1>
+            </div>
+            
+            <div id="quiz-status-badge" class="hidden sm:flex items-center text-xs font-semibold text-subtle bg-stone-200/60 px-3 py-1.5 rounded-full">
+                <span id="answered-count">0</span>/10 Respondidas
+            </div>
+        </div>
+
+        <!-- Sticky Progress Bar -->
+        <div class="w-full bg-stone-200 h-1.5">
+            <div id="progress-bar" class="bg-brandPrimary h-1.5 w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-grow space-y-8">
+
+        <!-- Quiz Banner Info -->
+        <section class="bg-white border border-borderSep p-6 rounded-2xl shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+                <span class="text-xs uppercase font-bold text-brandPrimary tracking-wider">
+                    Concurso Público • Caderno de Questões
+                </span>
+                <span class="text-xs text-subtle font-medium">
+                    10 Questões Múltipla Escolha (A-E)
+                </span>
+            </div>
+            <h2 class="text-xl md:text-2xl font-bold font-serif text-ink">
+                Gestão Escolar e Gestão da Aprendizagem em Sala de Aula
+            </h2>
+            <p class="text-subtle text-sm">
+                Selecione uma alternativa para cada questão. Ao concluir, clique no botão <strong>"Finalizar Quiz e Ver Resultado"</strong> ao final da página para visualizar sua pontuação e acessar os gabaritos comentados na íntegra.
+            </p>
+        </section>
+
+        <!-- Fast Jump Navigation -->
+        <section class="bg-white border border-borderSep p-4 rounded-xl shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-subtle uppercase tracking-wider">
+                    Navegação Rápida
+                </span>
+                <button onclick="resetQuiz()" class="text-xs text-subtle hover:text-accentRed flex items-center gap-1 transition">
+                    <i class="fa-solid fa-rotate-right">text-xs</i> Reiniciar Respostas
+                </button>
+            </div>
+            <div id="nav-buttons" class="grid grid-cols-5 sm:grid-cols-10 gap-2">
+                <!-- Nav buttons generated via JS -->
+            </div>
+        </section>
+
+        <!-- Questions List Container -->
+        <div id="questions-container" class="space-y-8">
+            <!-- Questions rendered via JS -->
+        </div>
+
+        <!-- Finish Quiz Button Container -->
+        <div class="text-center py-6">
+            <button id="btn-submit" onclick="finishQuiz()" class="w-full sm:w-auto px-8 py-4 bg-brandPrimary hover:bg-brandHover text-white font-bold text-base rounded-xl shadow-md transition transform active:scale-95 flex items-center justify-center gap-3 mx-auto">
+                <i class="fa-solid fa-paper-plane"></i>
+                Finalizar Quiz e Ver Resultado
+            </button>
+        </div>
+
+        <!-- Result Summary Box (Hidden initially) -->
+        <section id="results-section" class="hidden bg-white border-2 border-brandPrimary p-6 md:p-8 rounded-2xl shadow-lg space-y-6">
+            <div class="text-center space-y-3">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 text-brandPrimary mb-2">
+                    <i id="result-icon" class="fa-solid fa-award text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-ink">Resultado do Simulado</h3>
+                <p id="score-text" class="text-3xl font-extrabold text-brandPrimary">0 / 10 (0%)</p>
+                <p id="feedback-message" class="text-subtle font-medium text-base">
+                    Você concluiu o simulado! Confira abaixo o gabarito detalhado com as resoluções explicativas.
+                </p>
+            </div>
+
+            <!-- Gabarito Sintético Table -->
+            <div class="border border-borderSep rounded-xl overflow-hidden bg-paper">
+                <div class="bg-stone-200/70 px-4 py-3 font-bold text-sm text-ink border-b border-borderSep">
+                    Gabarito Resumido
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-stone-100 text-subtle border-b border-borderSep">
+                            <tr>
+                                <th class="px-4 py-2 font-semibold">Questão</th>
+                                <th class="px-4 py-2 font-semibold">Sua Resposta</th>
+                                <th class="px-4 py-2 font-semibold">Gabarito Correto</th>
+                                <th class="px-4 py-2 font-semibold">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summary-table-body" class="divide-y divide-borderSep">
+                            <!-- Populated via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-borderSep py-6 mt-12 text-center text-xs text-subtle">
+        <div class="max-w-4xl mx-auto px-4 space-y-1">
+            <p><strong>Simulado de Gestão Escolar & Gestão da Aprendizagem</strong> — Estilo FAURGS</p>
+            <p>Material organizado para fins de estudo e preparação autônoma.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Database containing all 10 full questions, options and detailed resolutions
+        const quizData = [
+            {
+                id: 1,
+                subject: "Dimensões da Gestão Escolar",
+                statement: "A literatura contemporânea voltada à organização das instituições educacionais e às políticas públicas de ensino destaca que a condução do trabalho escolar abrange diferentes dimensões institucionais integradas. Considerando as dimensões pedagógica, administrativa e financeira na perspectiva da gestão educacional democrática, assinale a alternativa correta.",
+                options: {
+                    A: "(A) A dimensão administrativa deve ter prevalência hierárquica sobre a pedagógica, visto que a manutenção da infraestrutura física e o controle burocrático constituem a atividade-fim da instituição escolar pública.",
+                    B: "(B) A dimensão financeira atua de maneira isolada das decisões pedagógicas, cabendo exclusivamente à direção escolar a alocação de recursos sem consulta aos órgãos colegiados.",
+                    C: "(C) A gestão escolar envolve processos institucionais articulados, nos quais as dimensões pedagógica, administrativa e financeira se integram, orientando decisões sobre recursos e práticas educativas para o cumprimento de suas finalidades formativas.",
+                    D: "(D) A gestão pedagógica restringe-se ao cumprimento individual do currículo em sala de aula pelo docente, sem guardar relação com a gestão dos espaços físicos e dos recursos materiais da escola.",
+                    E: "(E) A organização de rotinas institucionais deve seguir diretrizes estritamente cartoriais, desvinculando-se das diretrizes e metas fixadas no Projeto Político-Pedagógico."
+                },
+                correct: "C",
+                resolution: "<strong>Resposta Correta: (C)</strong><br><br><strong>Análise da Resolução:</strong><br>A gestão educacional contemporânea fundamenta-se na unicidade do trabalho escolar. As dimensões pedagógica, administrativa e financeira não funcionam de modo estanque ou hierarquizado; ao contrário, integram-se de forma sistêmica. A dimensão pedagógica define a finalidade educativa da instituição (a atividade-fim), enquanto as dimensões administrativa e financeira fornecem os meios materiais, operacionais e de infraestrutura indispensáveis para que os objetivos do ensino sejam alcançados. A alternativa (C) reflete com precisão o consenso da literatura pedagógica e das políticas educacionais. As alternativas (A) e (E) incorrem no erro de hipertrofiar a burocracia cartorial em prejuízo da função formativa. A alternativa (B) nega a gestão participativa de recursos financeiros. A alternativa (D) fragmenta de forma equivocada a prática docente da gestão do espaço escolar."
+            },
+            {
+                id: 2,
+                subject: "Princípios da Gestão Democrática na LDB",
+                statement: "O artigo 14 da Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/1996) estabelece que os sistemas de ensino definirão as normas da gestão democrática do ensino público na educação básica, de acordo com as suas peculiaridades e conforme princípios legais específicos.<br><br>Considere as assertivas abaixo a respeito dos princípios da gestão democrática previstos na legislação educacional:<br><br>I. Participação dos profissionais da educação na elaboração do projeto pedagógico da escola.<br>II. Participação das comunidades escolar e local em conselhos escolares ou equivalentes.<br>III. Centralização da tomada de decisões regulatórias na figura exclusiva do diretor de escola para garantir eficácia administrativa.<br>IV. Autonomia financeira irrestrita às unidades escolares, sem obrigatoriedade de prestação de contas aos órgãos de controle social e aos conselhos institucionais.<br><br>Quais estão corretas?",
+                options: {
+                    A: "(A) Apenas I e II.",
+                    B: "(B) Apenas III e IV.",
+                    C: "(C) Apenas I, II e III.",
+                    D: "(D) Apenas I, II e IV.",
+                    E: "(E) I, II, III e IV."
+                },
+                correct: "A",
+                resolution: "<strong>Resposta Correta: (A)</strong><br><br><strong>Análise da Resolução:</strong><br>O artigo 14 da Lei de Diretrizes e Bases da Educação Nacional (LDB - Lei nº 9.394/1996) explicita dois princípios basilares para a gestão democrática no ensino público básico: I. Participação dos profissionais da educação na elaboração do projeto pedagógico da escola; e II. Participação das comunidades escolar e local em conselhos escolares ou equivalentes. A assertiva III é incorreta porque a gestão democrática visa justamente descentralizar a tomada de decisões, contrapondo-se ao autocratismo ou à centralização no diretor escolar. A assertiva IV está errada pois a autonomia da unidade escolar não se confunde com soberania absoluta, estando submetida à transparência, ao controle social e à prestação de contas pública dos recursos recebidos. Logo, apenas as assertivas I e II estão corretas."
+            },
+            {
+                id: 3,
+                subject: "Gestão da Sala de Aula e Ambiente de Aprendizagem",
+                statement: "A gestão e organização da sala de aula constitui fator determinante para a consolidação da gestão da aprendizagem, envolvendo a intencionalidade pedagógica na estruturação do tempo, do espaço e das interações sociais. Sobre a organização do ambiente de aprendizagem e a mediação docente, assinale a alternativa correta.",
+                options: {
+                    A: "(A) A disposição física do mobiliário e a organização dos espaços pedagógicos são irrelevantes para o comportamento dos estudantes e não interferem nas condições de aprendizagem.",
+                    B: "(B) A rotina institucional do planejamento do ensino deve ser mantida de forma rígida e inalterada ao longo de todo o período letivo, proibindo-se revisões decorrentes da avaliação diagnóstico-formativa.",
+                    C: "(C) A gestão eficaz da sala de aula articula a construção coletiva de normas, o diálogo e a mediação relacional, superando concepções focadas puramente no controle comportamental e na punição.",
+                    D: "(D) A ocorrência de situações de indisciplina na sala de aula deve ser tratada prioritariamente por meio de sanções individuais coercitivas, dispensando a reflexão pedagógica sobre as metodologias aplicadas.",
+                    E: "(E) A mediação pedagógica fundamenta-se na transferência passiva do conhecimento do professor para o aluno, cabendo a este adequar-se individualmente ao ritmo fixado."
+                },
+                correct: "C",
+                resolution: "<strong>Resposta Correta: (C)</strong><br><br><strong>Análise da Resolução:</strong><br>A gestão da sala de aula envolve o planejamento intencional do espaço, do tempo e das interações pedagógicas. O estabelecimento de um clima propício à aprendizagem depende de estratégias dialógicas, regras construídas de forma participativa (combinados pedagógicos) e mediação de conflitos, o que fomenta a autonomia do estudante e o engajamento. A alternativa (A) é incorreta, pois a literatura demonstra que o arranjo espacial interfere diretamente no comportamento e na atenção. A alternativa (B) comete o erro de rigidificar o planejamento, impedindo sua adequação contínua às necessidades diagnóstico-formativas. A alternativa (D) reduz a mediação relacional à mera coerção punitiva individual. A alternativa (E) descreve uma visão ultrapassada de ensino fundada na recepção passiva."
+            },
+            {
+                id: 4,
+                subject: "Dimensões da Didática Fundamental (Vera Maria Candau)",
+                statement: "Na obra de Vera Maria Candau, a Didática Fundamental é analisada a partir de três dimensões estruturantes que perpassam a prática pedagógica e o processo de ensino-aprendizagem. Numere a segunda coluna de acordo com a primeira, associando as dimensões às suas respectivas características.<br><br><strong>Coluna 1: Dimensões</strong><br>(1) Dimensão técnica<br>(2) Dimensão humana<br>(3) Dimensão política<br><br><strong>Coluna 2: Características</strong><br>( &nbsp; ) A relação interpessoal é o centro do processo, e o componente afetivo está presente.<br>( &nbsp; ) Refere-se ao processo de ensino-aprendizagem como ação intencional e sistemática, que procura organizar as condições de aprendizagem e os objetivos instrucionais.<br>( &nbsp; ) Impregna toda a prática pedagógica e reconhece que os condicionamentos sociais incidem sobre o processo de ensino-aprendizagem.<br><br>A sequência correta de preenchimento dos parênteses, de cima para baixo, é",
+                options: {
+                    A: "(A) 3 – 2 – 1.",
+                    B: "(B) 2 – 3 – 1.",
+                    C: "(C) 1 – 2 – 3.",
+                    D: "(D) 2 – 1 – 3.",
+                    E: "(E) 3 – 1 – 2."
+                },
+                correct: "D",
+                resolution: "<strong>Resposta Correta: (D)</strong><br><br><strong>Análise da Resolução:</strong><br>Segundo Vera Maria Candau (2012), a Didática Fundamental estrutura-se na articulação indissociável de três dimensões:<br>1. <em>Dimensão Humana:</em> Centra-se na relação interpessoal, na subjetividade e na presença constitutiva do componente afetivo e relacional do ato educativo. Preenche o primeiro parêntese: <strong>(2)</strong>.<br>2. <em>Dimensão Técnica:</em> Trata do processo de ensino-aprendizagem como uma ação intencional, consciente e sistemática, envolvendo objetivos instrucionais, planejamento, métodos e organização das condições de aprendizagem. Preenche o segundo parêntese: <strong>(1)</strong>.<br>3. <em>Dimensão Política:</em> Reconhece que toda prática educativa se insere em um contexto sociocultural e econômico determinado, promovendo a crítica social e a formação cidadã. Preenche o terceiro parêntese: <strong>(3)</strong>.<br>A ordem de preenchimento dos parênteses, de cima para baixo, é <strong>2 – 1 – 3</strong>, expressa na alternativa (D)."
+            },
+            {
+                id: 5,
+                subject: "Avaliação Processual e Formativa da Aprendizagem",
+                statement: "A avaliação da aprendizagem é componente fulcral da gestão pedagógica, definindo a orientação do trabalho docente e o acompanhamento dos estudantes. Em oposição aos modelos avaliativos estritamente classificatórios e seletivos, a avaliação processual e emancipatória caracteriza-se por",
+                options: {
+                    A: "(A) fundamentar-se na aplicação de provas punitivas ao final do período letivo com a finalidade primária de ranquear os estudantes e justificar a retenção escolar.",
+                    B: "(B) compreender que, sem um sistema classificatório de notas rígidas, é impossível atingir um ensino de qualidade que supere a repetição de erros no processo formativo.",
+                    C: "(C) diagnosticar e acompanhar continuamente o percurso de aprendizagem do estudante, fornecendo elementos para a reorganização da prática pedagógica e a superação de dificuldades.",
+                    D: "(D) priorizar exclusivamente os resultados obtidos em exames externos de larga escala, desconsiderando as observações sistemáticas registradas pelo professor no cotidiano escolar.",
+                    E: "(E) dispensar o fornecimento de feedbacks orientadores aos alunos, com o intuito de evitar comparações e preservar a neutralidade da gestão educacional."
+                },
+                correct: "C",
+                resolution: "<strong>Resposta Correta: (C)</strong><br><br><strong>Análise da Resolução:</strong><br>Conforme demonstrado nas provas oficiais da FAURGS, a avaliação processual, formativa e emancipatória entende a verificação da aprendizagem como um instrumento contínuo de diagnóstico e regulação pedagógica. O objetivo primordial não é punir, rotular ou selecionar, mas mapear o percurso do aluno para reorganizar as intervenções de ensino e assegurar que as aprendizagens essenciais sejam consolidadas. As alternativas (A) e (B) fundamentam-se na concepção tradicional e classificatória, expressamente rejeitada pelas diretrizes emancipatórias. A alternativa (D) reduz a avaliação escolar a índices estáticos exógenos, enquanto a alternativa (E) omite a relevância decisiva do feedback orientador no processo de autorregulação da aprendizagem."
+            },
+            {
+                id: 6,
+                subject: "Inclusão versus Integração (Maria Teresa Eglér Mantoan)",
+                statement: "No âmbito do debate sobre diversidade, igualdade e inclusão escolar, Maria Teresa Eglér Mantoan diferencia conceitualmente os termos 'integração' e 'inclusão'. Com base na teorização da autora, assinale a alternativa correta a respeito da perspectiva da inclusão.",
+                options: {
+                    A: "(A) A inclusão refere-se precipuamente à inserção parcial de alunos com deficiência em turmas regulares, desde que estes consigam acompanhar o currículo tradicional sem modificações estruturais.",
+                    B: "(B) A inclusão prevê a individualização rigorosa dos programas escolares e a criação de sistemas de avaliação especiais paralelos para alunos com transtornos do desenvolvimento.",
+                    C: "(C) A inclusão objetiva unicamente reintegrar os alunos que foram anteriormente excluídos, mantendo inalteradas as barreiras atitudinais e institucionais da escola.",
+                    D: "(D) A inclusão é incompatível com a integração, pois prevê a inserção escolar de forma radical, completa e sistemática de todos os alunos na estrutura do ensino comum.",
+                    E: "(E) A inclusão e a integração constituem estratégias equivalentes no texto normativo, fundamentando-se nas mesmas bases teórico-metodológicas da educação especial segregada."
+                },
+                correct: "D",
+                resolution: "<strong>Resposta Correta: (D)</strong><br><br><strong>Análise da Resolução:</strong><br>A FAURGS cobra de modo recorrente a obra de Maria Teresa Eglér Mantoan (2003) no tema da inclusão escolar. De acordo com a autora, os vocábulos 'integração' e 'inclusão' expressam posicionamentos teórico-metodológicos e ideológicos divergentes. A <em>integração</em> pressupõe que o aluno com deficiência deva se adaptar às exigências do sistema escolar comum pré-existente. Por sua vez, a <em>inclusão</em> é incompatível com a integração, pois exige a inserção escolar de forma radical, completa e sistemática de todos os estudantes nas turmas comuns do ensino regular, demandando a reestruturação das práticas metodológicas e organizacionais da escola para atender à diversidade. A alternativa (D) reproduz com precisão textual a definição teórica formulada por Mantoan."
+            },
+            {
+                id: 7,
+                subject: "Clima Escolar, Mediação de Conflitos e Prevenção de Violências",
+                statement: "A mediação de conflitos e a manutenção do clima institucional representam desafios centrais da gestão escolar para a promoção de um ambiente propício à aprendizagem. Em relação às ações atinentes à disciplina, à prevenção de violências e à convivência escolar, considere as assertivas abaixo:<br><br>I. O enfrentamento de formas de violência no ambiente escolar, tais como o bullying, o racismo e o capacitismo, constitui desafio prioritário para a construção de um clima acolhedor e democrático.<br>II. A construção participativa de normas de convivência, articulando diálogo e corresponsabilização, contribui para superar abordagens focadas exclusivamente no controle punitivo.<br>III. A organização intencional dos tempos, espaços e dinâmicas de grupo atua como fator preventivo frente a situações de conflito na rotina da sala de aula.<br>IV. A intervenção nos episódios de indisciplina deve ser tratada como atribuição isolada da gestão administrativa, sem vinculação com a reflexão pedagógica do corpo docente.<br><br>Quais estão corretas?",
+                options: {
+                    A: "(A) Apenas I e IV.",
+                    B: "(B) Apenas II e III.",
+                    C: "(C) Apenas I, II e III.",
+                    D: "(D) Apenas I, III e IV.",
+                    E: "(E) I, II, III e IV."
+                },
+                correct: "C",
+                resolution: "<strong>Resposta Correta: (C)</strong><br><br><strong>Análise da Resolução:</strong><br>As assertivas I, II e III abordam a gestão da convivência e do clima escolar sob uma perspectiva democrática e preventiva. O enfrentamento de violências (como bullying, racismo e capacitismo) é desafio estrutural para garantir um ambiente seguro e acolhedor (I). A pactuação transparente de regras mediante diálogo contínuo favorece a corresponsabilização e a autonomia ética dos estudantes (II). A organização intencional do tempo e dos espaços reduz pontos de atrito e qualifica as interações (III). A assertiva IV é incorreta porque a indisciplina e o clima relacional não constituem demandas meramente burocráticas ou administrativas; são elementos pedagógicos constitutivos do trabalho docente e do planejamento da sala de aula."
+            },
+            {
+                id: 8,
+                subject: "Projeto Político-Pedagógico (PPP)",
+                statement: "O Projeto Político-Pedagógico (PPP) consolida o planejamento institucional e orienta a ação pedagógica no âmbito da gestão escolar. Sobre a concepção, elaboração e execução do PPP na escola pública, assinale a alternativa correta.",
+                options: {
+                    A: "(A) O PPP deve ser elaborado por consultores especialistas externos e entregue pronto ao corpo docente para execução padronizada das metas técnicas.",
+                    B: "(B) A dimensão política do PPP refere-se ao dever de alinhamento doutrinário da gestão escolar aos programas do governante de turno na esfera estadual ou municipal.",
+                    C: "(C) O PPP é um instrumento dinâmico e participativo que expressa a identidade, a intencionalidade formativa e o compromisso coletivo da comunidade escolar, orientando a gestão da aprendizagem.",
+                    D: "(D) Após sua homologação inicial, o PPP adquire caráter definitivo, sendo vedadas alterações ou reavaliações periódicas por parte dos conselhos escolares.",
+                    E: "(E) A autonomia docente em sala de aula pressupõe a desconexão entre os planos de ensino das disciplinas e as diretrizes gerais estabelecidas no PPP."
+                },
+                correct: "C",
+                resolution: "<strong>Resposta Correta: (C)</strong><br><br><strong>Análise da Resolução:</strong><br>O Projeto Político-Pedagógico (PPP) configura o instrumento de gestão participativa que define a identidade, os valores, os objetivos educacionais e as estratégias metodológicas de uma instituição de ensino. Sua dimensão <em>política</em> vincula-se à formação do cidadão crítico para a sociedade, enquanto sua dimensão <em>pedagógica</em> organiza as ações de ensino-aprendizagem. A alternativa (C) sintetiza com precisão essa função orientadora e coletiva. A alternativa (A) erra ao propor a terceirização técnica da elaboração do PPP. A alternativa (B) confunde ideologia partidária com a dimensão política da cidadania. A alternativa (D) nega o caráter dinâmico e flexível do planejamento escolar. A alternativa (E) rompe erroneamente o nexo entre o trabalho em sala de aula e o plano gestor da escola."
+            },
+            {
+                id: 9,
+                subject: "Teoria Sociocultural da Aprendizagem (Barbara Rogoff)",
+                statement: "No campo das teorias da aprendizagem voltadas ao desenvolvimento humano e às práticas educacionais, Barbara Rogoff desenvolve uma abordagem calcada no papel das interações culturais e socioculturais. Qual autor e/ou conceito fundamenta a proposição teórica da autora acerca do aprendizado humano?",
+                options: {
+                    A: "(A) A aprendizagem compreendida como processo de participação variável dos sujeitos nas atividades socioculturais, tendo a participação orientada/guiada como conceito central.",
+                    B: "(B) A assimilação e a acomodação de esquemas cognitivos em estágios fixos e universais de desenvolvimento ontogenético.",
+                    C: "(C) O condicionamento operante pautado no reforço de comportamentos observáveis e na extinção de condutas indisciplinares.",
+                    D: "(D) A teoria da afetividade como elemento central do desenvolvimento psíquico, dividida nos estágios impulsivo-emocional e sensório-motor.",
+                    E: "(E) O nexo causal direto entre o aprendizado técnico e a memorização repetitiva de conteúdos disciplinares isolados."
+                },
+                correct: "A",
+                resolution: "<strong>Resposta Correta: (A)</strong><br><br><strong>Análise da Resolução:</strong><br>Questão elaborada com base no referencial teórico cobrado pela banca FAURGS em exames para pedagogos e analistas educacionais. A pesquisadora Barbara Rogoff compreende o desenvolvimento cognitivo e a aprendizagem como um processo dinâmico de participação variável dos sujeitos nas atividades socioculturais de suas comunidades. Nessa abordagem sociocultural, o conceito de 'participação orientada' (ou guiada) é central, traduzindo como os aprendizes reestruturam seus papéis à medida que interagem com parceiros mais experientes em contextos culturais estruturados. As alternativas (B), (C) e (D) dizem respeito, respectivamente, às teorias de Jean Piaget (epistemologia genética), B. F. Skinner (behaviorismo) e Henri Wallon (psicogenética da afetividade)."
+            },
+            {
+                id: 10,
+                subject: "Metodologias Ativas e Sala de Aula Invertida",
+                statement: "No contexto da reorganização dos tempos e espaços de ensino-aprendizagem, as metodologias ativas e o modelo de sala de aula invertida demandam novas posturas no planejamento e na gestão da aprendizagem. Analise as assertivas a seguir sobre a dinamização das aulas e o papel dos sujeitos pedagógicos:<br><br>I. Na sala de aula invertida, os estudantes travam contato prévio com os conteúdos teóricos por meio de recursos diversificados, dedicando o tempo presencial à aplicação prática, debates e resolução de problemas.<br>II. O docente atua como mediador e facilitador da aprendizagem, acompanhando atividades colaborativas e oferecendo feedback contínuo durante as produções individuais e coletivas.<br>III. A implementação de abordagens ativas prescinde de planejamento e estruturação prévia por parte da equipe pedagógica, ocorrendo de forma espontânea no decorrer das aulas.<br><br>Quais estão corretas?",
+                options: {
+                    A: "(A) Apenas I.",
+                    B: "(B) Apenas III.",
+                    C: "(C) Apenas I e II.",
+                    D: "(D) Apenas II e III.",
+                    E: "(E) I, II e III."
+                },
+                correct: "C",
+                resolution: "<strong>Resposta Correta: (C)</strong><br><br><strong>Análise da Resolução:</strong><br>As assertivas I e II captam adequadamente as transformações trazidas pelas metodologias ativas e pelo modelo da sala de aula invertida (<em>flipped classroom</em>) para a gestão da aprendizagem. Na sala de aula invertida, a etapa inicial de apropriação de conceitos teóricos é deslocada para momentos autônomos prévios, liberando o tempo do encontro presencial para a aplicação prática, resoluções de problemas complexos e trabalhos colaborativos (I). O papel do docente transforma-se de expositor exclusivo para mediador, orientador e provedor de feedbacks contínuos e formativos (II). A assertiva III é incorreta porque o ensino ativo exige maior intencionalidade, planejamento rigoroso e estruturação antecipada de roteiros pedagógicos e ambientes digitais/físicos pela equipe escolar."
+            }
+        ];
+
+        // User response state
+        const userAnswers = {};
+        let isSubmitted = false;
+
+
+        // Initialize App
+        document.addEventListener("DOMContentLoaded", () => {
+            renderNavButtons();
+            renderQuestions();
+            updateProgress();
+        });
+
+        // Render Top Navigation Buttons
+        function renderNavButtons() {
+            const container = document.getElementById("nav-buttons");
+            container.innerHTML = "";
+            quizData.forEach(q => {
+                const btn = document.createElement("button");
+                btn.id = `nav-btn-${q.id}`;
+                btn.className = "py-1.5 px-2 text-xs font-semibold rounded-lg border border-borderSep bg-paper hover:bg-stone-200 transition text-center";
+                btn.innerText = q.id;
+                btn.onclick = () => scrollToQuestion(q.id);
+                container.appendChild(btn);
+            });
+        }
+
+        // Render Questions Cards
+        function renderQuestions() {
+            const container = document.getElementById("questions-container");
+            container.innerHTML = "";
+
+            quizData.forEach((q, index) => {
+                const qCard = document.createElement("article");
+                qCard.id = `question-card-${q.id}`;
+                qCard.className = "bg-white border border-borderSep p-6 md:p-8 rounded-2xl shadow-sm transition-all duration-300 space-y-6";
+
+                let optionsHTML = "";
+                Object.keys(q.options).forEach(optKey => {
+                    const optText = q.options[optKey];
+                    optionsHTML += `
+                        <label class="option-label flex items-start gap-3 p-3.5 border border-borderSep rounded-xl bg-paper transition relative hover:border-stone-400" id="label-${q.id}-${optKey}">
+                            <input type="radio" name="q-${q.id}" value="${optKey}" class="option-input hidden" onchange="selectOption(${q.id}, '${optKey}')" ${isSubmitted ? 'disabled' : ''}>
+                            <div class="option-box w-7 h-7 rounded-lg border-2 border-stone-300 flex items-center justify-center shrink-0 font-bold text-xs text-subtle transition mt-0.5">
+                                <span class="option-badge">${optKey}</span>
+                            </div>
+                            <div class="text-sm md:text-base text-ink font-normal leading-relaxed pt-0.5">
+                                ${optText.substring(4)}
+                            </div>
+                        </label>
+                    `;
+                });
+
+                qCard.innerHTML = `
+                    <!-- Question Header -->
+                    <div class="flex items-center justify-between border-b border-borderSep pb-3">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brandPrimary bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                            <i class="fa-solid fa-file-lines text-xs"></i> Questão ${q.id} de ${quizData.length}
+                        </span>
+                        <span class="text-xs font-medium text-subtle bg-stone-100 px-2.5 py-1 rounded-md">
+                            ${q.subject}
+                        </span>
+                    </div>
+
+                    <!-- Statement -->
+                    <div class="question-text">
+                        ${q.statement}
+                    </div>
+
+                    <!-- Options List -->
+                    <div class="space-y-3 pt-2">
+                        ${optionsHTML}
+                    </div>
+
+                    <!-- Resolution Box (Shown after submission) -->
+                    <div id="resolution-${q.id}" class="hidden mt-6 p-5 rounded-xl border border-blue-200 bg-blue-50/70 text-ink text-sm leading-relaxed space-y-2">
+                        <div class="flex items-center gap-2 font-bold text-brandPrimary border-b border-blue-200/80 pb-2 mb-2">
+                            <i class="fa-solid fa-lightbulb text-amber-500 text-base"></i>
+                            Gabarito & Resolução Comentada
+                        </div>
+                        <div class="resolution-content">
+                            ${q.resolution}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(qCard);
+            });
+        }
+
+        // Handle Option Selection
+        function selectOption(qId, optKey) {
+            if (isSubmitted) return;
+
+            userAnswers[qId] = optKey;
+
+            // Update Radio visuals for this question
+            const keys = ['A', 'B', 'C', 'D', 'E'];
+            keys.forEach(k => {
+                const label = document.getElementById(`label-${qId}-${k}`);
+                const box = label.querySelector('.option-box');
+                
+                if (k === optKey) {
+                    label.classList.add('border-brandPrimary', 'bg-blue-50/50');
+                    label.classList.remove('bg-paper');
+                    box.classList.add('border-brandPrimary', 'bg-brandPrimary', 'text-white');
+                    box.classList.remove('border-stone-300');
+                } else {
+                    label.classList.remove('border-brandPrimary', 'bg-blue-50/50');
+                    label.classList.add('bg-paper');
+                    box.classList.remove('border-brandPrimary', 'bg-brandPrimary', 'text-white');
+                    box.classList.add('border-stone-300');
+                }
+            });
+
+            // Update Nav Button Visual
+            const navBtn = document.getElementById(`nav-btn-${qId}`);
+            navBtn.classList.remove('bg-paper');
+            navBtn.classList.add('bg-brandPrimary', 'text-white', 'border-brandPrimary');
+
+            updateProgress();
+        }
+
+        // Update Progress Counters
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById("answered-count").innerText = answeredCount;
+            
+            const percentage = (answeredCount / quizData.length) * 100;
+            document.getElementById("progress-bar").style.width = `${percentage}%`;
+        }
+
+        // Scroll smooth to question
+        function scrollToQuestion(qId) {
+            const element = document.getElementById(`question-card-${qId}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Finish Quiz and show feedback + resolutions
+        function finishQuiz() {
+            const answeredCount = Object.keys(userAnswers).length;
+
+            if (answeredCount < quizData.length) {
+                const confirmSubmit = confirm(`Você respondeu ${answeredCount} de ${quizData.length} questões. Deseja finalizar assim mesmo e ver o gabarito?`);
+                if (!confirmSubmit) return;
+            }
+
+            isSubmitted = true;
+            let score = 0;
+            const summaryTableBody = document.getElementById("summary-table-body");
+            summaryTableBody.innerHTML = "";
+
+            quizData.forEach(q => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = userChoice === q.correct;
+
+                if (isCorrect) score++;
+
+                // Reveal Resolution Box
+                const resBox = document.getElementById(`resolution-${q.id}`);
+                if (resBox) resBox.classList.remove("hidden");
+
+                // Style question cards and radio inputs according to user correctness
+                const qCard = document.getElementById(`question-card-${q.id}`);
+                const keys = ['A', 'B', 'C', 'D', 'E'];
+
+                keys.forEach(k => {
+                    const label = document.getElementById(`label-${q.id}-${k}`);
+                    const input = label.querySelector('input');
+                    input.disabled = true;
+
+                    if (k === q.correct) {
+                        label.classList.add("correct-answer-card");
+                        label.innerHTML += `
+                            <span class="absolute right-3 top-3 text-emerald-600 font-bold text-xs bg-emerald-100 px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-solid fa-check"></i> Correta
+                            </span>
+                        `;
+                    } else if (userChoice === k && !isCorrect) {
+                        label.classList.add("wrong-answer-card");
+                        label.innerHTML += `
+                            <span class="absolute right-3 top-3 text-red-600 font-bold text-xs bg-red-100 px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-solid fa-xmark"></i> Sua Escolha
+                            </span>
+                        `;
+                    }
+                });
+
+                // Populate Summary Table Row
+                const row = document.createElement("tr");
+                row.className = "hover:bg-stone-50 transition";
+                row.innerHTML = `
+                    <td class="px-4 py-2.5 font-bold text-ink">Questão ${q.id}</td>
+                    <td class="px-4 py-2.5 font-semibold ${userChoice ? (isCorrect ? 'text-emerald-700' : 'text-red-600') : 'text-stone-400 italic'}">
+                        ${userChoice ? `(${userChoice})` : 'Não respondeu'}
+                    </td>
+                    <td class="px-4 py-2.5 font-bold text-emerald-700">(${q.correct})</td>
+                    <td class="px-4 py-2.5">
+                        ${isCorrect 
+                            ? '<span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200"><i class="fa-solid fa-circle-check"></i> Acertou</span>' 
+                            : '<span class="inline-flex items-center gap-1 text-xs font-bold text-red-700 bg-red-50 px-2 py-1 rounded-md border border-red-200"><i class="fa-solid fa-circle-xmark"></i> Errou</span>'
+                        }
+                    </td>
+                `;
+                summaryTableBody.appendChild(row);
+
+                // Update Nav Button status
+                const navBtn = document.getElementById(`nav-btn-${q.id}`);
+                navBtn.classList.remove('bg-brandPrimary', 'bg-paper', 'text-white');
+                if (isCorrect) {
+                    navBtn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
+                } else {
+                    navBtn.classList.add('bg-red-500', 'text-white', 'border-red-500');
+                }
+            });
+
+            // Show Results Section
+            const resultsSection = document.getElementById("results-section");
+            resultsSection.classList.remove("hidden");
+
+            const percent = Math.round((score / quizData.length) * 100);
+            document.getElementById("score-text").innerText = `${score} / ${quizData.length} (${percent}%)`;
+
+            const feedbackMsg = document.getElementById("feedback-message");
+            const resultIcon = document.getElementById("result-icon");
+
+            if (percent >= 80) {
+                feedbackMsg.innerText = "Excelente resultado! Seu conhecimento sobre Gestão Escolar e da Aprendizagem está altamente afiado para exames da FAURGS.";
+                resultIcon.className = "fa-solid fa-trophy text-amber-500 text-3xl";
+            } else if (percent >= 50) {
+                feedbackMsg.innerText = "Bom desempenho! Revise os comentários das questões incorretas para consolidar a fundamentação pedagógica.";
+                resultIcon.className = "fa-solid fa-medal text-brandPrimary text-3xl";
+            } else {
+                feedbackMsg.innerText = "Aproveite a resolução comentada abaixo de cada questão para aprofundar os referenciais teóricos e a LDB.";
+                resultIcon.className = "fa-solid fa-book-open text-subtle text-3xl";
+            }
+
+            // Disable Submit Button
+            const submitBtn = document.getElementById("btn-submit");
+            submitBtn.disabled = true;
+            submitBtn.className = "w-full sm:w-auto px-8 py-4 bg-stone-300 text-stone-600 font-bold text-base rounded-xl cursor-not-allowed mx-auto flex items-center justify-center gap-3";
+            submitBtn.innerHTML = `<i class="fa-solid fa-check-double"></i> Quiz Finalizado`;
+
+            // Scroll to results box
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Reset Quiz
+        function resetQuiz() {
+            if (Object.keys(userAnswers).length > 0) {
+                const confirmReset = confirm("Tem certeza que deseja reiniciar suas respostas?");
+                if (!confirmReset) return;
+            }
+
+            for (let member in userAnswers) delete userAnswers[member];
+            isSubmitted = false;
+
+            // Reset submit button
+            const submitBtn = document.getElementById("btn-submit");
+            submitBtn.disabled = false;
+            submitBtn.className = "w-full sm:w-auto px-8 py-4 bg-brandPrimary hover:bg-brandHover text-white font-bold text-base rounded-xl shadow-md transition transform active:scale-95 flex items-center justify-center gap-3 mx-auto";
+            submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Finalizar Quiz e Ver Resultado`;
+
+            // Hide result section
+            document.getElementById("results-section").classList.add("hidden");
+
+            // Re-render
+            renderNavButtons();
+            renderQuestions();
+            updateProgress();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

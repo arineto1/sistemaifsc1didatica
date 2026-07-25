@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo: EJA no Estilo FAURGS</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for enhanced readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Source Serif 4"', 'serif'],
+                    },
+                    colors: {
+                        warmbg: '#FAF8F5',
+                        cardbg: '#FFFFFF',
+                        readingtext: '#2D3748',
+                        headingtext: '#1A202C',
+                        accent: '#2B6CB0',
+                        accentlight: '#EBF8FF',
+                        correctbg: '#F0FFF4',
+                        correctborder: '#38A169',
+                        wrongbg: '#FFF5F5',
+                        wrongborder: '#E53E3E'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #2D3748;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .question-body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            line-height: 1.75;
+        }
+        .option-label {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-label:hover {
+            border-color: #CBD5E0;
+            background-color: #F7FAFC;
+        }
+        input[type="radio"]:checked + .option-content {
+            border-color: #3182CE;
+            background-color: #EBF8FF;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 text-center border-b border-stone-200 pb-6">
+            <span class="inline-block px-3 py-1 bg-stone-200 text-stone-700 text-xs font-semibold rounded-full uppercase tracking-wider mb-2">Simulado Concurso</span>
+            <h1 class="text-3xl sm:text-4xl font-bold text-headingtext mb-3">Educação de Jovens e Adultos (EJA)</h1>
+            <p class="text-stone-600 text-base max-w-2xl mx-auto">
+                10 Questões completas no estilo da banca <strong>FAURGS</strong>. Responda às alternativas e finalize para conferir seu desempenho e a fundamentação teórico-normativa detalhada.
+            </p>
+        </header>
+
+        <!-- Top Progress & Score Board (Sticky) -->
+        <div id="sticky-bar" class="sticky top-4 z-10 bg-white/95 backdrop-blur shadow-sm border border-stone-200 rounded-xl p-4 mb-8 flex items-center justify-between transition-all">
+            <div class="flex items-center space-x-3">
+                <span id="progress-text" class="text-sm font-semibold text-stone-600">Progresso: 0/10 respondidas</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button id="btn-submit-top" onclick="finishQuiz()" class="bg-accent hover:bg-blue-700 text-white font-medium text-sm px-4 py-2 rounded-lg transition-colors shadow-sm">
+                    Finalizar Quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Summary Box (Hidden initially) -->
+        <div id="result-box" class="hidden mb-8 bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-md">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-headingtext mb-2">Resultado Final</h2>
+                <div class="text-5xl font-extrabold my-4" id="score-percentage">0%</div>
+                <p class="text-lg text-stone-700 font-medium mb-4" id="score-text"></p>
+                <div class="inline-flex items-center space-x-6 text-sm text-stone-600 bg-stone-100 px-6 py-3 rounded-xl mb-6">
+                    <div><strong id="correct-count" class="text-emerald-600 text-lg">0</strong> Acertos</div>
+                    <div class="h-4 w-px bg-stone-300"></div>
+                    <div><strong id="wrong-count" class="text-rose-600 text-lg">0</strong> Erros</div>
+                    <div class="h-4 w-px bg-stone-300"></div>
+                    <div><strong id="total-count" class="text-stone-800 text-lg">10</strong> Questões</div>
+                </div>
+                <div>
+                    <button onclick="resetQuiz()" class="bg-stone-800 hover:bg-stone-900 text-white font-semibold px-6 py-2.5 rounded-lg transition-colors text-sm">
+                        Refazer Simulado
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Form -->
+        <form id="quiz-form" class="space-y-8">
+            
+            <!-- QUESTÃO 1 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q1-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 01</span>
+                    <span class="text-xs text-stone-400">Legislação / LDB</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">A Educação de Jovens e Adultos (EJA) configura-se como uma modalidade da Educação Básica garantida constitucionalmente e regulamentada pela legislação educacional brasileira. Nos termos do artigo 37 da Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/1996), considere as seguintes afirmações:</p>
+                    <p class="mb-2"><strong>I -</strong> A EJA é destinada àqueles que não tiveram acesso ou continuidade de estudos nos ensinos fundamental e médio na idade própria, constituindo instrumento para a educação e a aprendizagem ao longo da vida.</p>
+                    <p class="mb-2"><strong>II -</strong> Os sistemas de ensino assegurarão gratuitamente aos jovens e aos adultos, que não puderam efetuar os estudos na idade regular, oportunidades educacionais apropriadas, consideradas as características dos alunos, seus interesses, condições de vida e de trabalho, mediante cursos e exames.</p>
+                    <p class="mb-4"><strong>III -</strong> O Poder Público viabilizará e estimulará o acesso e a permanência do trabalhador na escola, mediante ações integradas e articuladas entre os sistemas de ensino e os demais órgãos públicos.</p>
+                    <p class="font-semibold text-stone-900">Quais estão corretas?</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q1-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q1" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>Apenas I.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q1" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>Apenas II.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q1" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>Apenas I e III.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q1" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>Apenas II e III.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q1" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>I, II e III.</span>
+                        </div>
+                    </label>
+                </div>
+                <!-- Resolution Section (Hidden until submit) -->
+                <div id="q1-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative E</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">A análise minuciosa dos dispositivos contidos na Lei nº 9.394/1996 revela a exata correspondência entre as afirmativas propostas e o texto da Lei de Diretrizes e Bases da Educação Nacional. A afirmativa I traduz com fidelidade o <em>caput</em> do artigo 37, consagrando a EJA como uma modalidade destinada àqueles que não tiveram acesso ou continuidade de estudos na idade própria e formalizando o conceito de aprendizagem ao longo da vida como princípio orientador da educação contemporânea. A afirmativa II reproduz a essência do § 1º do mesmo artigo 37, impondo aos sistemas de ensino o dever de assegurar gratuidade e oportunidades educacionais apropriadas que contemplem as especificidades, os interesses e as condições concretas de vida e trabalho dos educandos. Por sua vez, a afirmativa III reflete com exatidão o mandamento do § 2º do artigo 37, que atribui ao Poder Público a responsabilidade de viabilizar o acesso e a permanência do trabalhador na escola por meio de articulações intersetoriais e sistêmicas. Como todos os itens expressam garantias legais vigentes na LDB, a alternativa E consolida-se como a única opção correta.</p>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 2 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q2-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 02</span>
+                    <span class="text-xs text-stone-400">Exames Supletivos / LDB Art. 38</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">No tocante à organização dos exames supletivos, à aferição de conhecimentos e à certificação no âmbito da Educação de Jovens e Adultos (EJA), conforme expressamente estabelecido pelo artigo 38 da Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/1996), assinale a alternativa correta.</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q2-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q2" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>Os exames supletivos para a conclusão do ensino fundamental realizam-se para os maiores de 14 anos, e os do ensino médio, para os maiores de 18 anos.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q2" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>Os exames supletivos realizar-se-ão no nível de conclusão do ensino fundamental, para os maiores de 15 anos, e no nível de conclusão do ensino médio, para os maiores de 18 anos.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q2" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>Os conhecimentos e habilidades adquiridos pelos educandos por meios informais não podem ser aferidos mediante exames, exigindo-se o cumprimento de frequência escolar presencial obrigatória de 75%.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q2" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>A emissão dos diplomas e certificados de conclusão da EJA mediante exames supletivos é de competência exclusiva das universidades federais, sendo vedada a atuação dos órgãos estaduais e municipais de ensino.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q2" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>O certificado de conclusão do ensino médio via exames supletivos pode ser concedido a candidatos maiores de 16 anos, desde que comprovem vínculo empregatício formal de no mínimo dois anos.</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="q2-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative B</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">A regulação dos exames supletivos para aferição de conhecimentos na EJA está inscrita no artigo 38 da LDB. O § 1º do artigo 38 estabelece de forma peremptória que os exames supletivos realizar-se-ão no nível de conclusão do ensino fundamental para os maiores de 15 (quinze) anos (inciso I) e no nível de conclusão do ensino médio para os maiores de 18 (dezoito) anos (inciso II). A alternativa A é incorreta por fixar erroneamente a idade de 14 anos para o ensino fundamental. A alternativa C contraria frontalmente o § 2º do artigo 38, o qual determina expressamente que os conhecimentos e habilidades adquiridos pelos educandos por meios informais serão aferidos e reconhecidos mediante exames. A alternativa D carece de fundamento jurídico, pois a organização de exames e emissão de certificados inserem-se na competência dos diversos sistemas de ensino estaduais e municipais, além dos exames de certificação nacional como o Encceja. A alternativa E é falsa por fixar a idade de 16 anos sob condição laboral, o que desrespeita a exigência legal e absoluta da maioridade de 18 anos completos para a certificação do ensino médio. Assim, confirma-se a alternativa B.</p>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 3 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q3-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 03</span>
+                    <span class="text-xs text-stone-400">Teoria Pedagógica</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">Qual dos pensamentos pedagógicos abaixo se refere à Educação de Jovens e Adultos (EJA) e evidencia a necessidade de uma prática de formação para a cidadania política e para a autonomia desses grupos etários, pautando-se pelo diálogo, pela conscientização crítica e pela valorização da leitura do mundo que antecede a leitura da palavra?</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q3-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q3" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>Freiriano.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q3" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>Durkheimiano.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q3" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>Foucaultiano.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q3" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>Malaguzziano.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q3" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>Froebeliano.</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="q3-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative A</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">A questão resgata a matriz teórica da Educação de Jovens e Adultos cobrada pela banca FAURGS em certames da área da Educação. O pensamento Freiriano, estruturado a partir da obra de Paulo Freire, constitui a referência basilar da EJA e da Educação Popular no Brasil e no mundo. Paulo Freire formulou a crítica radical à chamada "educação bancária" e propôs uma prática pedagógica problematizadora, fundamentada no diálogo horizontal, na conscientização política e no desenvolvimento da autonomia dos sujeitos oprimidos. O axioma de que a leitura do mundo antecede a leitura da palavra expressa o compromisso de partir dos saberes da experiência vivida pelo estudante adulto para construir a alfabetização e a emancipação cidadã. As demais alternativas citam autores vinculados a outras tradições intelectuais: Émile Durkheim ao funcionalismo sociológico; Michel Foucault às teorias do poder disciplinar; Loris Malaguzzi às abordagens da educação infantil em Reggio Emilia; e Friedrich Froebel à criação dos jardins de infância. A alternativa A é, portanto, a única correta.</p>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 4 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q4-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 04</span>
+                    <span class="text-xs text-stone-400">Parecer CNE/CEB nº 11/2000</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">De acordo com o Parecer CNE/CEB nº 11/2000, que estabelece as Diretrizes Curriculares Nacionais para a Educação de Jovens e Adultos, a EJA é caracterizada por três funções precípuas na estrutura da educação nacional. Considere as seguintes afirmações sobre essas funções:</p>
+                    <p class="mb-2"><strong>I -</strong> A função reparadora refere-se à restauração de um direito negado na idade própria, representando a superação de uma dívida social acumulada com os cidadãos privados do acesso ou da continuidade da escolarização.</p>
+                    <p class="mb-2"><strong>II -</strong> A função equalizadora visa garantir a redistribuição e a reentrada no sistema educacional, oferecendo oportunidades reais de igualdade no ponto de partida para educandos que possuem trajetórias de vida e condições socioeconômicas desiguais.</p>
+                    <p class="mb-4"><strong>III -</strong> A função qualificadora, também denominada permanente ou de atualização, fundamenta-se no compromisso com a aprendizagem ao longo da vida, proporcionando ao indivíduo a renovação contínua de conhecimentos, a qualificação profissional e a autonomia social.</p>
+                    <p class="font-semibold text-stone-900">Quais estão corretas?</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q4-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q4" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>Apenas I.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q4" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>Apenas I e II.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q4" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>Apenas I e III.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q4" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>Apenas II e III.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q4" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>I, II e III.</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="q4-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative E</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">O Parecer CNE/CEB nº 11/2000 representa o marco conceitual mais relevante das Diretrizes Curriculares Nacionais para a EJA. Esse documento explicita as três funções vitais da modalidade. A afirmativa I descreve adequadamente a função reparadora, que reconhece o não acesso à escola na idade própria como uma violação de direitos humanos e uma dívida social que o Estado tem o dever de reparar. A afirmativa II define com exatidão a função equalizadora, que busca redistribuir oportunidades educacionais e garantir a reentrada no sistema escolar com condições de equidade, considerando que a igualdade formal de acesso não basta sem a igualdade real de condições no ponto de partida. A afirmativa III retrata com precisão a função qualificadora, também identificada como permanente, calcada na premissa de que a educação prossegue ao longo de toda a vida e deve propiciar a constante atualização de conhecimentos, a qualificação profissional e o aperfeiçoamento da cidadania. Uma vez que todas as três afirmativas conceituam corretamente as funções normatizadas pelo CNE, a resposta correta é a alternativa E.</p>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 5 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q5-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 05</span>
+                    <span class="text-xs text-stone-400">Recursos Didáticos e Linguagem</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">Considere as afirmações a seguir relativas ao uso de recursos didáticos, materiais de comunicação e linguagens no trabalho pedagógico desenvolvido com turmas de Educação de Jovens e Adultos (EJA):</p>
+                    <p class="mb-2"><strong>I -</strong> Jornais, revistas e histórias em quadrinhos não são recursos importantes para o processo ensino-aprendizagem, pois possuem uma linguagem infantilizante.</p>
+                    <p class="mb-2"><strong>II -</strong> A mídia impressa é um componente facilitador do processo de aprendizagem e discussão em sala de aula, em especial quando tratamos da EJA.</p>
+                    <p class="mb-4"><strong>III -</strong> É importante trabalhar com a mídia impressa e textos de circulação social na EJA, respeitando a condição do estudante como sujeito sociocultural adulto e evitando materiais e abordagens projetados para a infância.</p>
+                    <p class="font-semibold text-stone-900">Quais estão corretas?</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q5-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q5" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>Apenas I.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q5" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>Apenas II.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q5" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>Apenas III.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q5" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>Apenas II e III.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q5" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>I, II e III.</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="q5-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative D</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">A formulação da questão reflete diretamente itens aplicados pela banca FAURGS em concursos públicos de magistério e pedagogia. A afirmativa I é incorreta porque desvaloriza o uso de jornais, revistas e histórias em quadrinhos no cotidiano pedagógico da EJA. Tais mídias impressas não são portadoras de linguagem infantilizante; ao contrário, constituem gêneros textuais autênticos e dinâmicos que circulam socialmente e favorecem o letramento de jovens e adultos. A afirmativa II é verdadeira, pois a mídia impressa atua como elemento disparador do debate crítico, aproximando os conteúdos escolares das notícias, problemas sociais e contradições do mundo real vivenciado pelos estudantes. A afirmativa III está igualmente correta ao prescrever a utilização de textos de circulação social genuínos e condenar o uso de metodologias e materiais infantilizantes, garantindo o respeito à condição sociocultural do educando adulto. Desta forma, estando corretas apenas as afirmativas II e III, o gabarito reside na alternativa D.</p>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 6 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q6-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 06</span>
+                    <span class="text-xs text-stone-400">PROEJA e Formação Profissional</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">A articulação da Educação de Jovens e Adultos com a Educação Profissional e Tecnológica (PROEJA) constitui uma estratégia central de elevação da escolaridade integrada à qualificação para o mundo do trabalho. Em relação às diretrizes e às normas vigentes para os cursos de PROEJA, assinale a alternativa correta.</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q6-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q6" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>A integração entre a EJA e a Educação Profissional é vedada no turno noturno, restringindo-se a oferta do PROEJA exclusivamente aos turnos diurnos.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q6" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>Nos cursos de Educação Profissional Técnica de Nível Médio, a Educação de Jovens e Adultos deve articular-se, preferencialmente, com a Educação Profissional e Tecnológica, propiciando simultaneamente a qualificação profissional e a elevação dos níveis de escolaridade dos trabalhadores.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q6" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>A oferta do PROEJA dispensa o cumprimento da carga horária mínima da Educação Básica, focando de maneira estrita na formação operacional de curta duração.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q6" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>O PROEJA destina-se prioritariamente a adolescentes na faixa etária de 12 a 14 anos com distorção idade-série.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q6" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>A certificação obtida no PROEJA concede habilitação técnica profissional, mas não possui validade para fins de continuidade de estudos em nível superior.</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="q6-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative B</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">A integração entre a Educação de Jovens e Adultos e a Educação Profissional e Tecnológica é disciplinada pelo Decreto nº 5.840/2006 e pelas resoluções normativas do Conselho Nacional de Educação. A alternativa A é incorreta porque a oferta do PROEJA é amplamente incentivada no turno noturno para garantir o atendimento aos trabalhadores que trabalham durante o dia. A alternativa B expressa com precisão a diretriz normativa e legal: a EJA deve articular-se preferencialmente com a Educação Profissional, proporcionando uma formação integrada que eleve a escolaridade e ofereça qualificação técnica aos trabalhadores. A alternativa C é falsa porque o PROEJA exige o cumprimento rigoroso da carga horária mínima estabelecida para o ensino fundamental ou médio e para a respectiva formação profissional (com mínimos de 2.400 horas para o Ensino Médio Integrado). A alternativa D erra ao citar a faixa de 12 a 14 anos, visto que a EJA e o PROEJA destinam-se exclusivamente a jovens e adultos que cumpram os requisitos de idade mínima legal. A alternativa E é incorreta pois a diplomação obtida no PROEJA possui plena validade para o ingresso no ensino superior e na pós-graduação. O gabarito correto é a alternativa B.</p>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 7 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q7-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 07</span>
+                    <span class="text-xs text-stone-400">Avaliação da Aprendizagem</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">A prática da avaliação escolar no contexto da Educação de Jovens e Adultos (EJA) exige uma reconfiguração epistemológica e metodológica para não reproduzir processos de exclusão historicamente vivenciados pelos estudantes. Tendo em vista os debates teórico-críticos sobre a avaliação na EJA, assinale a alternativa correta.</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q7-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q7" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>A avaliação na EJA deve pautar-se estritamente pela verificação pontual e classificatória, priorizando testes padronizados para garantir o controle disciplinar do ambiente escolar.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q7" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>A avaliação diagnóstica e formativa ultrapassa a simples verificação da obtenção do objeto do conhecimento, constituindo um ato reflexivo que exige a tomada de decisão pedagógica para promover o avanço do estudante.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q7" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>A prática avaliativa na EJA deve ignorar os saberes oriundos do trabalho e da vida comunitária, focando unicamente a memorização de conteúdos acadêmicos abstratos.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q7" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>A função punitiva da avaliação deve ser reforçada na EJA como mecanismo de aceleração disciplinar para compensar os anos de afastamento da escola.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q7" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>A atribuição de notas e o ranqueamento dos educandos representam a finalidade precípua do processo avaliativo dentro de uma concepção pedagógica progressista de EJA.</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="q7-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative B</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">A discussão sobre a avaliação escolar na EJA fundamenta-se nas teorias da pedagogia crítica e na superação do modelo tradicional classificatório. A alternativa A é incorreta pois a verificação pontual e meramente classificatória serve à seleção social e à punição, sendo incompatível com a inclusão. A alternativa B é a única correta: a avaliação autêntica e formativa diferencia-se da simples verificação. Enquanto a verificação apenas coleta dados e estipula uma nota de forma estática, a avaliação é diagnóstica, processual e amorosa, funcionando como um ato reflexivo que impulsiona o docente a tomar decisões pedagógicas capazes de reorientar o trabalho e superar as dificuldades dos alunos. A alternativa C é falsa porque a avaliação na EJA deve reconhecer e incorporar os saberes informais do trabalho e da vida. A alternativa D é incorreta por propor uma função punitiva incabível no ambiente escolar emancipatório. A alternativa E erra ao defender que a atribuição de notas e o ranqueamento constituem a finalidade da avaliação pedagógica progressista. Confirma-se a alternativa B.</p>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 8 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q8-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 08</span>
+                    <span class="text-xs text-stone-400">Currículo e Sujeitos da EJA</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">As discussões curriculares sobre a EJA destacam a heterogeneidade das turmas e a centralidade das trajetórias de vida dos educandos. Quanto à organização curricular e ao trabalho com os sujeitos da EJA, assinale a alternativa que apresenta a conduta pedagógica condizente com as diretrizes da modalidade.</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q8-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q8" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>O currículo da EJA deve consistir em uma mera compactação linear e acelerada da matriz curricular do ensino regular infantil e juvenil.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q8" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>O planejamento didático deve neutralizar as diferenças de idade, gênero e cultura das turmas, aplicando uma metodologia única e descontextualizada.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q8" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>O trabalho pedagógico deve reconhecer os educandos de EJA como sujeitos de direitos e produtores de cultura, articulando os saberes da experiência vivida aos conhecimentos científicos elaborados.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q8" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>A condição de trabalhador dos estudantes de EJA justifica a eliminação das disciplinas de Arte e Filosofia, devendo o currículo centrar-se exclusivamente em tarefas operacionais.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q8" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>O ensino de leitura e escrita na EJA deve adotar cartilhas de alfabetização infantil, visto que os processos cognitivos de adultos analfabetos assimilam melhor conteúdos simplificados.</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="q8-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative C</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">As teorias curriculares voltadas à EJA, amplamente debatidas por pensadores como Miguel Arroyo e Paulo Freire, contestam a visão de que o currículo da EJA deve ser uma versão empobrecida do ensino regular. A alternativa A é incorreta por propor a mera compactação ou aceleração linear do currículo infantil. A alternativa B erra ao pretender neutralizar as diferenças culturais e aplicar metodologias padronizadas. A alternativa C expressa a conduta pedagógica recomendada pelas diretrizes oficiais: os estudantes de EJA devem ser reconhecidos como sujeitos de direitos, portadores de trajetórias de vida complexas e produtores de cultura. O trabalho pedagógico deve estabelecer pontes e diálogos constantes entre a sabedoria da experiência cotidiana dos estudantes e o conhecimento acadêmico e científico acumulado. A alternativa D é incorreta porque a formação estética e filosófica é parte inalienável da cidadania integral do trabalhador. A alternativa E é falsa pois o uso de cartilhas infantis constitui um processo de infantilização que desrespeita a maturidade do adulto. A resposta correta é a alternativa C.</p>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 9 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q9-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 09</span>
+                    <span class="text-xs text-stone-400">Financiamento e Políticas Públicas</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">Garantir o acesso, a permanência e o êxito dos estudantes na Educação de Jovens e Adultos (EJA) requer a implementação de políticas públicas integradas que mitiguem a vulnerabilidade socioeconômica e o abandono escolar. Em relação ao financiamento, aos programas assistenciais e às diretrizes de permanência da EJA, considere as afirmativas a seguir:</p>
+                    <p class="mb-2"><strong>I -</strong> A inclusão dos estudantes matriculados na EJA da rede pública nas regras de redistribuição do Fundo de Manutenção e Desenvolvimento da Educação Básica e de Valorização dos Profissionais da Educação (FUNDEB) garantiu suporte financeiro específico para o custeio e desenvolvimento da modalidade.</p>
+                    <p class="mb-2"><strong>II -</strong> Programas de incentivo financeiro-educacional e assistência estudante voltados à EJA visam combater a evasão decorrente da necessidade de inserção precoce no mercado de trabalho ou de complementação da renda familiar.</p>
+                    <p class="mb-4"><strong>III -</strong> A oferta de turmas de EJA nos turnos noturnos desobriga as redes públicas de ensino de fornecerem alimentação escolar e transporte, uma vez que esses apoios assistenciais destinam-se exclusivamente aos alunos matriculados no ensino regular diurno.</p>
+                    <p class="font-semibold text-stone-900">Quais estão corretas?</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q9-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q9" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>Apenas I.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q9" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>Apenas III.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q9" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>Apenas I e II.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q9" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>Apenas II e III.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q9" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>I, II e III.</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="q9-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative C</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">A garantia do direito à educação na EJA envolve não apenas aspectos pedagógicos, mas a estruturação de financiamento e políticas de apoio socioeconômico. A afirmativa I é correta: a inclusão das matrículas da EJA no FUNDEB assegurou o aporte contínuo de recursos financeiros para o custeio de turmas públicas, valorizando os coeficientes de redistribuição para a modalidade. A afirmativa II é verdadeira, visto que programas de incentivo financeiro e bolsas de permanência para estudantes da EJA combatem a evasão motivada pelas pressões do mercado de trabalho e pela vulnerabilidade econômica familiar. A afirmativa III é incorreta, pois o artigo 208, inciso VII, da Constituição Federal de 1988 e a legislação do PNAE (Programa Nacional de Alimentação Escolar) garantem o atendimento ao educando em todas as etapas da educação básica por meio de programas suplementares de material didático, transporte, alimentação e assistência à saúde, sem qualquer distinção entre o turno diurno e o noturno. Estando corretas apenas as afirmativas I e II, a alternativa correta é a C.</p>
+                </div>
+            </div>
+
+            <!-- QUESTÃO 10 -->
+            <div class="question-card bg-cardbg rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm" id="q10-card">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accentlight px-3 py-1 rounded-md">Questão 10</span>
+                    <span class="text-xs text-stone-400">Educação a Distância na EJA</span>
+                </div>
+                <div class="question-body text-stone-800 text-lg mb-6">
+                    <p class="mb-4">No que concerne às modalidades de oferta e à utilização de tecnologias de Educação a Distância (EAD) no âmbito do Ensino Fundamental e do Ensino Médio para a Educação de Jovens e Adultos (EJA), conforme a regulamentação do sistema de ensino e as normas nacionais vigentes, assinale a alternativa correta.</p>
+                </div>
+                <div class="space-y-3 font-sans" id="q10-options">
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q10" value="A" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">A)</span> <span>A Educação a Distância é permitida sem restrições em todas as etapas da EJA, inclusive nos anos iniciais do Ensino Fundamental de crianças e jovens a partir de 10 anos.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q10" value="B" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">B)</span> <span>A modalidade de Educação a Distância não é permitida nos anos iniciais do Ensino Fundamental, podendo ser admitida na EJA para os anos finais do Ensino Fundamental e no Ensino Médio, desde que cumpridas as condições institucionais de oferta e as normas vigentes dos órgãos normativos estaduais e federais.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q10" value="C" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">C)</span> <span>Os cursos de EJA ofertados em EAD dispensam qualquer tipo de encontro ou avaliação presencial, permitindo a certificação 100% remota sem regramento específico.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q10" value="D" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">D)</span> <span>A idade mínima exigida para ingresso em cursos de EJA ofertados na modalidade EAD para o Ensino Médio é reduzida para 14 anos como forma de acelerar a diplomação.</span>
+                        </div>
+                    </label>
+                    <label class="option-label block relative cursor-pointer">
+                        <input type="radio" name="q10" value="E" class="sr-only" onchange="updateProgress()">
+                        <div class="option-content p-4 rounded-xl border border-stone-200 flex items-start space-x-3 text-stone-700">
+                            <span class="font-bold text-stone-500">E)</span> <span>A oferta de EJA a distância é restrita de forma absoluta às instituições privadas de ensino, sendo expressamente vedada no âmbito das redes públicas estaduais e federais.</span>
+                        </div>
+                    </label>
+                </div>
+                <div id="q10-resolution" class="hidden mt-6 p-5 rounded-xl border border-stone-200 bg-stone-50 text-sm leading-relaxed">
+                    <div class="flex items-center space-x-2 mb-2 font-bold text-stone-900">
+                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Gabarito: Alternative B</span>
+                        <span>– Resolução Comentada</span>
+                    </div>
+                    <p class="text-stone-700">A regulamentação das mídias e da Educação a Distância (EAD) no âmbito da EJA obedece às resoluções dos Conselhos de Educação estaduais e federais. A alternativa A é incorreta porque é expressamente vedada a oferta de EAD nos anos iniciais do Ensino Fundamental, etapa em que a presença física e o acompanhamento presencial direto são indispensáveis. A alternativa B reflete com exatidão a legislação normativa vigente: a modalidade EAD não é permitida nos anos iniciais do Ensino Fundamental, mas pode ser autorizada nos anos finais do Ensino Fundamental e no Ensino Médio para a EJA, desde que a instituição cumpra os requisitos exigidos de estrutura, corpo docente, tutoria e avaliação. A alternativa C é falsa porque os cursos em EAD para a EJA exigem obrigatoriamente a realização de exames e momentos presenciais. A alternativa D é incorreta pois a EAD não altera as idades mínimas constitucionais e legais para ingresso na EJA (15 e 18 anos). A alternativa E é incorreta porque as redes públicas estaduais e federais possuem autorização legal e incentivo para ofertar turmas de EJA na modalidade EAD. O gabarito definitivo é a alternativa B.</p>
+                </div>
+            </div>
+
+            <!-- Bottom Action Button -->
+            <div class="pt-4 text-center">
+                <button type="button" onclick="finishQuiz()" class="w-full sm:w-auto bg-accent hover:bg-blue-700 text-white font-bold text-base px-10 py-4 rounded-xl shadow-md transition-colors">
+                    Finalizar Quiz e Ver Gabarito Comentado
+                </button>
+            </div>
+        </form>
+
+        <footer class="mt-16 text-center text-xs text-stone-400 pb-12 border-t border-stone-200 pt-6">
+            <p>Simulado de Educação de Jovens e Adultos (EJA) • Estilo FAURGS</p>
+        </footer>
+    </div>
+
+    <script>
+        // Official Answer Key
+        const answerKey = {
+            q1: 'E',
+            q2: 'B',
+            q3: 'A',
+            q4: 'E',
+            q5: 'D',
+            q6: 'B',
+            q7: 'B',
+            q8: 'C',
+            q9: 'C',
+            q10: 'B'
+        };
+
+        let isSubmitted = false;
+
+        function updateProgress() {
+            if (isSubmitted) return;
+            let answered = 0;
+            for (let i = 1; i <= 10; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) answered++;
+            }
+            document.getElementById('progress-text').innerText = `Progresso: ${answered}/10 respondidas`;
+        }
+
+        function finishQuiz() {
+            if (isSubmitted) {
+                // Scroll to results if already submitted
+                document.getElementById('result-box').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            let correct = 0;
+            let wrong = 0;
+
+            for (let i = 1; i <= 10; i++) {
+                const qKey = `q${i}`;
+                const correctAns = answerKey[qKey];
+                const selected = document.querySelector(`input[name="${qKey}"]:checked`);
+                const userAns = selected ? selected.value : null;
+
+                const optionsContainer = document.getElementById(`${qKey}-options`);
+                const labels = optionsContainer.querySelectorAll('label');
+
+                labels.forEach(label => {
+                    const input = label.querySelector('input');
+                    const content = label.querySelector('.option-content');
+                    input.disabled = true;
+
+                    if (input.value === correctAns) {
+                        content.classList.remove('border-stone-200');
+                        content.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'font-semibold');
+                    } else if (userAns && input.value === userAns && userAns !== correctAns) {
+                        content.classList.remove('border-stone-200');
+                        content.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-900');
+                    }
+                });
+
+                if (userAns === correctAns) {
+                    correct++;
+                } else {
+                    wrong++;
+                }
+
+                // Show detailed resolution for each question
+                const resDiv = document.getElementById(`${qKey}-resolution`);
+                if (resDiv) {
+                    resDiv.classList.remove('hidden');
+                }
+            }
+
+            isSubmitted = true;
+
+            // Display Results
+            const total = 10;
+            const percentage = Math.round((correct / total) * 100);
+
+            document.getElementById('score-percentage').innerText = `${percentage}%`;
+            document.getElementById('correct-count').innerText = correct;
+            document.getElementById('wrong-count').innerText = wrong;
+
+            let message = '';
+            if (percentage === 100) message = 'Excelente! Você gabaritou a prova!';
+            else if (percentage >= 80) message = 'Ótimo desempenho! Você demonstra forte domínio dos temas de EJA.';
+            else if (percentage >= 60) message = 'Bom resultado! Revise os pontos indicados nas resoluções para aperfeiçoar.';
+            else message = 'Continue estudando! As resoluções comentadas abaixo ajudarão na fixação da matéria.';
+
+            document.getElementById('score-text').innerText = message;
+
+            const resultBox = document.getElementById('result-box');
+            resultBox.classList.remove('hidden');
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+
+            document.getElementById('progress-text').innerText = 'Simulado Concluído';
+            document.getElementById('btn-submit-top').innerText = 'Ver Desempenho';
+        }
+
+        function resetQuiz() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>

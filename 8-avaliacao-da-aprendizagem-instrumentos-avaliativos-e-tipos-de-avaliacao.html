@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Memorização: Avaliação da Aprendizagem (IFSC / FAURGS)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b; /* Slate 800 for high contrast, soft on eyes */
+        }
+        /* Custom highlight marker styling */
+        mark {
+            background-color: #fef08a; /* Yellow 200 */
+            color: #0f172a;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.green-mark {
+            background-color: #dcfce7; /* Green 100 */
+            color: #14532d;
+        }
+        mark.red-mark {
+            background-color: #fee2e2; /* Red 100 */
+            color: #7f1d1d;
+        }
+        /* Table optimization to guarantee zero horizontal scroll */
+        table {
+            width: 100% !important;
+            table-layout: fixed !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+        th, td {
+            word-break: break-word;
+            hyphens: auto;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-screen border-t-8 border-slate-900">
+
+    <!-- MAIN CONTAINER -->
+    <div class="max-w-5xl mx-auto px-4 py-8 md:px-8">
+
+        <!-- HEADER SECTION -->
+        <header class="mb-8 border-b border-slate-200 pb-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span class="bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-slate-200">
+                    Concurso IFSC • Banca FAURGS
+                </span>
+                <span class="bg-amber-100 text-amber-900 text-xs font-semibold px-3 py-1 rounded-full border border-amber-300">
+                    Professor EBTT - Informática
+                </span>
+            </div>
+            <h1 class="text-2xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
+                Resumo de Memorização: Avaliação da Aprendizagem
+            </h1>
+            <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                Material completo, estruturado e otimizado para retenção rápida de conceitos, legislação e "peguinhas" recorrentes.
+            </p>
+        </header>
+
+        <!-- AUDIO PLAYER SECTION -->
+        <section class="mb-10 bg-slate-50 border border-slate-200 rounded-xl p-4 md:p-5 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                    </svg>
+                    <h2 class="font-bold text-slate-900 text-base">Audio-Aula / Leitura Guia (MP3)</h2>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-500">
+                    <label for="mp3FileName" class="font-medium text-slate-600">Arquivo MP3:</label>
+                    <input type="text" id="mp3FileName" value="audio8.mp3" class="bg-white border border-slate-300 text-slate-800 text-xs rounded px-2 py-1 font-mono focus:outline-none focus:border-slate-500 w-44" title="Altere aqui o nome do arquivo MP3 presente na mesma pasta">
+                    <button onclick="updateAudioSource()" class="bg-slate-800 text-white text-xs px-2.5 py-1 rounded font-medium hover:bg-slate-700 transition-colors">
+                        Carregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- HTML Audio Player -->
+            <audio id="mainAudioPlayer" controls class="w-full h-11 focus:outline-none">
+                <source id="audioSource" src="audio8.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio MP3.
+            </audio>
+            <p class="text-xs text-slate-500 mt-2 italic">
+                💡 Dica: Mantenha o arquivo MP3 na mesma pasta deste documento HTML (nome padrão: <code class="font-mono bg-slate-200 px-1 py-0.5 rounded text-slate-800">audio8.mp3</code>).
+            </p>
+        </section>
+
+        <!-- CONTENT SECTION 1: AUTORES ESSENCIAIS -->
+        <section class="mb-10">
+            <div class="flex items-center gap-3 mb-4 border-b border-slate-200 pb-2">
+                <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-900 text-white font-bold text-sm">1</span>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-900">Núcleo Teórico e Autores Essenciais (Gatilhos de Prova)</h2>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Cipriano Luckesi -->
+                <div class="border border-slate-200 rounded-lg p-5 bg-white">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                        Cipriano Carlos Luckesi: <span class="text-amber-700">Exame vs. Avaliação</span>
+                    </h3>
+                    <ul class="space-y-3 text-slate-700 text-sm md:text-base leading-relaxed">
+                        <li class="pl-4 border-l-2 border-red-300">
+                            <strong class="text-red-950">Exame Escolar:</strong> Prática pontual, estática, <mark class="red-mark">classificatória, seletiva e excludente</mark>. Focada no passado, gera o <mark class="red-mark">"fetiche da prova"</mark> e a rotulação do estudante.
+                        </li>
+                        <li class="pl-4 border-l-2 border-emerald-400">
+                            <strong class="text-emerald-950">Avaliação da Aprendizagem:</strong> Processo dinâmico, <mark class="green-mark">inclusivo, amoroso, diagnóstico e voltado para o futuro</mark>. Acolhe o educando no estágio em que se encontra para tomar decisões pedagógicas e <mark class="green-mark">reorientar o ensino</mark>.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Jussara Hoffmann -->
+                <div class="border border-slate-200 rounded-lg p-5 bg-white">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                        Jussara Hoffmann: <span class="text-amber-700">Avaliação Mediadora</span>
+                    </h3>
+                    <ul class="space-y-3 text-slate-700 text-sm md:text-base leading-relaxed">
+                        <li>
+                            <strong>Princípio Central:</strong> Acompanhamento contínuo da trajetória do estudante por meio da práxis <mark>ação-reflexão-ação</mark>.
+                        </li>
+                        <li>
+                            <strong>Postulado Fundamental:</strong> <mark class="green-mark">"Todos aprendem sempre"</mark>. A aprendizagem é multidimensional e exige oportunidades pedagógicas adequadas.
+                        </li>
+                        <li>
+                            <strong>Visão Pedagógica:</strong> Leitura <mark>positiva e prospectiva</mark> da aprendizagem. Rejeita categoricamente o caráter <mark class="red-mark">punitivo, padronizado ou utilitarista/coercitivo</mark>.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Celso Vasconcellos -->
+                <div class="border border-slate-200 rounded-lg p-5 bg-white">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                        Celso dos Santos Vasconcellos: <span class="text-amber-700">Planejamento e Práxis</span>
+                    </h3>
+                    <p class="text-slate-700 text-sm md:text-base mb-3">
+                        Estrutura a avaliação no núcleo do planejamento pedagógico em <mark>três dimensões articuladas</mark>:
+                    </p>
+                    <ol class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                        <li class="bg-slate-50 border border-slate-200 p-3 rounded-md">
+                            <span class="font-bold text-slate-900 block mb-1">1. Apreensão da Realidade</span>
+                            <span class="text-xs text-slate-600 font-medium block mb-1">(Dimensão Cognoscitiva)</span>
+                            Mapeamento do estágio atual em que o estudante se encontra.
+                        </li>
+                        <li class="bg-slate-50 border border-slate-200 p-3 rounded-md">
+                            <span class="font-bold text-slate-900 block mb-1">2. Confrontação Finalidade</span>
+                            <span class="text-xs text-slate-600 font-medium block mb-1">(Dimensão Teleológica)</span>
+                            Definição clara dos objetivos educacionais a alcançar.
+                        </li>
+                        <li class="bg-slate-50 border border-slate-200 p-3 rounded-md">
+                            <span class="font-bold text-slate-900 block mb-1">3. Plano de Ação Mediadora</span>
+                            <span class="text-xs text-slate-600 font-medium block mb-1">(Dimensão Projetivo-Mediadora)</span>
+                            Intervenção pedagógica para superar a lacuna entre realidade e finalidade.
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- Philippe Perrenoud -->
+                <div class="border border-slate-200 rounded-lg p-5 bg-white">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                        Philippe Perrenoud: <span class="text-amber-700">As Duas Lógicas e a Regulação das Aprendizagens</span>
+                    </h3>
+                    <ul class="space-y-3 text-slate-700 text-sm md:text-base leading-relaxed">
+                        <li class="pl-4 border-l-2 border-red-300">
+                            <strong class="text-red-950">Lógica da Fabricação da Excelência Escolar:</strong> Avaliação tradicional, a serviço da hierarquização dos estudantes, seleção social e atribuição de notas/graus.
+                        </li>
+                        <li class="pl-4 border-l-2 border-emerald-400">
+                            <strong class="text-emerald-950">Lógica da Regulação das Aprendizagens:</strong> Avaliação formativa que intervém no processo de aprendizagem para <mark class="green-mark">ajustar o ensino às necessidades do aluno</mark>.
+                        </li>
+                        <li class="pl-4 border-l-2 border-slate-300">
+                            <strong class="text-slate-900">Estatuto Cognitivo do Erro:</strong> O erro deixa de ser falha moral/punição e passa a ser <mark>sintoma de hipóteses de raciocínio e indicador diagnóstico indispensável</mark>.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pedro Demo -->
+                <div class="border border-slate-200 rounded-lg p-5 bg-white">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                        Pedro Demo: <span class="text-amber-700">Avaliação Qualitativa e Educar pela Pesquisa</span>
+                    </h3>
+                    <ul class="space-y-3 text-slate-700 text-sm md:text-base leading-relaxed">
+                        <li>
+                            <strong>Avaliação Qualitativa:</strong> Supera a contabilidade de pontos e notas numéricas burocráticas. Mede o <mark>desenvolvimento da capacidade crítica, autonomia intelectual e emancipação do aluno</mark>.
+                        </li>
+                        <li>
+                            <strong>Educar pela Pesquisa:</strong> A avaliação deve aferir a habilidade do estudante de <mark class="green-mark">reconstruir conhecimentos com autoria</mark> (pesquisa como atitude cotidiana no ensino técnico e tecnológico).
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTENT SECTION 2: TIPOLOGIA E FUNÇÕES -->
+        <section class="mb-10">
+            <div class="flex items-center gap-3 mb-4 border-b border-slate-200 pb-2">
+                <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-900 text-white font-bold text-sm">2</span>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-900">Tipologia e Funções da Avaliação</h2>
+            </div>
+
+            <!-- Scroll-free table wrapper -->
+            <div class="border border-slate-200 rounded-lg overflow-hidden bg-white mb-2">
+                <table class="w-full text-left border-collapse text-xs md:text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-200">
+                            <th class="p-2 md:p-3 w-[18%]">Modalidade</th>
+                            <th class="p-2 md:p-3 w-[18%]">Momento</th>
+                            <th class="p-2 md:p-3 w-[26%]">Função Principal</th>
+                            <th class="p-2 md:p-3 w-[20%]">Foco do Processo</th>
+                            <th class="p-2 md:p-3 w-[18%]">Caráter do Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-800">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 md:p-3 font-bold text-slate-900">Diagnóstica</td>
+                            <td class="p-2 md:p-3">Início do ciclo ou unidade.</td>
+                            <td class="p-2 md:p-3">Mapear <mark>conhecimentos prévios</mark> e lacunas.</td>
+                            <td class="p-2 md:p-3">Pré-requisitos do estudante.</td>
+                            <td class="p-2 md:p-3 font-semibold text-slate-700">Analítico / <mark class="green-mark">Sem nota</mark></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-amber-50/30">
+                            <td class="p-2 md:p-3 font-bold text-slate-900">Formativa</td>
+                            <td class="p-2 md:p-3">Durante todo o processo (<mark>contínua</mark>).</td>
+                            <td class="p-2 md:p-3">Regular o ensino, orientar e dar <mark>feedback</mark>.</td>
+                            <td class="p-2 md:p-3">Trajetória, metacognição e <mark class="green-mark">erro construtivo</mark>.</td>
+                            <td class="p-2 md:p-3 font-semibold text-slate-700">Qualitativo / Processual</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 md:p-3 font-bold text-slate-900">Somativa</td>
+                            <td class="p-2 md:p-3">Término de um período ou módulo.</td>
+                            <td class="p-2 md:p-3">Aferir alcance final dos objetivos e certificar.</td>
+                            <td class="p-2 md:p-3">Produto final e consolidação de saberes.</td>
+                            <td class="p-2 md:p-3 font-semibold text-slate-700">Quantitativo / <mark class="red-mark">Classificatório</mark></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-slate-500 italic">
+                * Nota para prova: A FAURGS costuma cobrar a diferenciação direta entre a função **Formativa** (regulação contínua) e a **Somativa** (classificação final).
+            </p>
+        </section>
+
+        <!-- CONTENT SECTION 3: LEGISLAÇÃO LDB -->
+        <section class="mb-10">
+            <div class="flex items-center gap-3 mb-4 border-b border-slate-200 pb-2">
+                <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-900 text-white font-bold text-sm">3</span>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-900">Legislação Educacional: LDB nº 9.394/1996 (Artigo 24, Inciso V, Alíneas "a" a "e")</h2>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-lg p-5">
+                <p class="text-sm md:text-base text-slate-700 mb-4">
+                    Para a prova de Legislação e Conhecimentos Pedagógicos, é indispensável memorizar a <strong class="text-slate-900">literalidade das cinco alíneas do Artigo 24, Inciso V</strong>:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                    <div class="bg-slate-50 border-l-4 border-slate-900 p-3 rounded-r-md">
+                        <span class="font-bold text-slate-900 text-sm block">a) Avaliação Contínua e Cumulativa</span>
+                        <span class="text-xs md:text-sm text-slate-700">Avaliação <mark>contínua e cumulativa</mark> do desempenho do aluno, com <mark class="green-mark">prevalência dos aspectos qualitativos</mark> sobre os quantitativos e dos resultados ao longo do período sobre os de eventuais exames finais.</span>
+                    </div>
+                    <div class="bg-slate-50 border-l-4 border-slate-900 p-3 rounded-r-md">
+                        <span class="font-bold text-slate-900 text-sm block">b) Aceleração de Estudos</span>
+                        <span class="text-xs md:text-sm text-slate-700">Possibilidade de <mark>aceleração de estudos</mark> para alunos com atraso escolar.</span>
+                    </div>
+                    <div class="bg-slate-50 border-l-4 border-slate-900 p-3 rounded-r-md">
+                        <span class="font-bold text-slate-900 text-sm block">c) Avanço nos Cursos e Séries</span>
+                        <span class="text-xs md:text-sm text-slate-700">Possibilidade de <mark>avanço nos cursos e nas séries</mark> mediante verificação do aprendizado.</span>
+                    </div>
+                    <div class="bg-slate-50 border-l-4 border-slate-900 p-3 rounded-r-md">
+                        <span class="font-bold text-slate-900 text-sm block">d) Aproveitamento de Estudos</span>
+                        <span class="text-xs md:text-sm text-slate-700"><mark>Aproveitamento de estudos</mark> concluídos com êxito em experiências escolares e extraescolares anteriores.</span>
+                    </div>
+                    <div class="bg-slate-50 border-l-4 border-amber-500 p-3 rounded-r-md md:col-span-2">
+                        <span class="font-bold text-slate-900 text-sm block">e) Recuperação Paralela Obrigatória</span>
+                        <span class="text-xs md:text-sm text-slate-700">Obrigatoriedade de <mark class="green-mark">estudos de recuperação, de preferência paralelos ao período letivo</mark>, para os casos de baixo rendimento escolar, a serem disciplinados pelas instituições de ensino em seus regimentos.</span>
+                    </div>
+                </div>
+
+                <!-- Mathematical context formula box -->
+                <div class="border border-slate-200 bg-slate-50 rounded-md p-4 text-center">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-1">Contextualização Matemática (Média Ponderada vs. Diretriz LDB)</span>
+                    <div class="font-mono text-base md:text-lg font-bold text-slate-900 my-2">
+                        M<sub>p</sub> = &sum; (N<sub>i</sub> &middot; p<sub>i</sub>) &frasl; &sum; p<sub>i</sub>
+                    </div>
+                    <p class="text-xs text-slate-600 max-w-2xl mx-auto text-justify">
+                        Enquanto o cálculo puramente quantitativo penaliza a evolução do aluno mantendo peso fixo na nota inicial (N<sub>1</sub>), a diretriz do <strong>Artigo 24 da LDB exige que a superação demonstrada ao longo do processo suplante as falhas iniciais</strong>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTENT SECTION 4: PEGUINHAS FAURGS -->
+        <section class="mb-10">
+            <div class="flex items-center gap-3 mb-4 border-b border-slate-200 pb-2">
+                <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-900 text-white font-bold text-sm">4</span>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-900">Radiografia e "Peguinhas" Recorrentes da FAURGS</h2>
+            </div>
+
+            <p class="text-sm text-slate-700 mb-3">
+                Abaixo estão as pegadinhas clássicas elaboradas pela banca FAURGS em concursos de cargos EBTT e Licenciaturas:
+            </p>
+
+            <!-- Scroll-free table wrapper -->
+            <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                <table class="w-full text-left border-collapse text-xs md:text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-200">
+                            <th class="p-2.5 md:p-3 w-[20%]">Referencial / Tema</th>
+                            <th class="p-2.5 md:p-3 w-[40%] bg-red-50 text-red-950 border-r border-slate-200">
+                                Armadilha / Peguinha Recorrente<br><span class="text-[10px] uppercase font-normal">(Alternativa INCORRETA)</span>
+                            </th>
+                            <th class="p-2.5 md:p-3 w-[40%] bg-emerald-50 text-emerald-950">
+                                Conceito Alinhado à Banca<br><span class="text-[10px] uppercase font-normal">(Alternativa CORRETA)</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-800">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 md:p-3 font-bold text-slate-900 border-r border-slate-200">Jussara Hoffmann</td>
+                            <td class="p-2.5 md:p-3 text-red-900 bg-red-50/20 border-r border-slate-200">
+                                Afirmar que a avaliação mediadora visa transformar a aprendizagem em algo <mark class="red-mark">"obrigatório e necessário para alguma coisa"</mark>.
+                            </td>
+                            <td class="p-2.5 md:p-3 text-emerald-950 bg-emerald-50/20">
+                                Defender a aprendizagem em sua dimensão <mark class="green-mark">estética, prazerosa, prospectiva e multidimensional</mark>.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 md:p-3 font-bold text-slate-900 border-r border-slate-200">Cipriano Luckesi</td>
+                            <td class="p-2.5 md:p-3 text-red-900 bg-red-50/20 border-r border-slate-200">
+                                Utilizar a palavra "Avaliação" para respaldar a prática de <mark class="red-mark">classificação e aprovação/reprovação</mark>.
+                            </td>
+                            <td class="p-2.5 md:p-3 text-emerald-950 bg-emerald-50/20">
+                                Reservar a classificação ao <mark class="red-mark">"Exame"</mark> e conceituar <mark class="green-mark">"Avaliação"</mark> como acolhimento e diagnose inclusiva.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 md:p-3 font-bold text-slate-900 border-r border-slate-200">LDB Art. 24</td>
+                            <td class="p-2.5 md:p-3 text-red-900 bg-red-50/20 border-r border-slate-200">
+                                Inverter para "prevalência dos aspectos quantitativos" ou restringir a recuperação <mark class="red-mark">ao final do ciclo</mark>.
+                            </td>
+                            <td class="p-2.5 md:p-3 text-emerald-950 bg-emerald-50/20">
+                                Exigir a prevalência dos aspectos qualitativos e a <mark class="green-mark">recuperação paralela contínua</mark>.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 md:p-3 font-bold text-slate-900 border-r border-slate-200">Portfólios</td>
+                            <td class="p-2.5 md:p-3 text-red-900 bg-red-50/20 border-r border-slate-200">
+                                Reduzir o portfólio a um mero acúmulo de papéis ou <mark class="red-mark">depósito burocrático sem reflexão</mark>.
+                            </td>
+                            <td class="p-2.5 md:p-3 text-emerald-950 bg-emerald-50/20">
+                                Definir o portfólio como instrumento dinâmico de <mark class="green-mark">autoavaliação e acompanhamento reflexivo</mark>.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2.5 md:p-3 font-bold text-slate-900 border-r border-slate-200">Avaliação Formativa</td>
+                            <td class="p-2.5 md:p-3 text-red-900 bg-red-50/20 border-r border-slate-200">
+                                Confundir avaliação formativa com a aplicação de <mark class="red-mark">várias "provas somativas curtas valendo nota"</mark>.
+                            </td>
+                            <td class="p-2.5 md:p-3 text-emerald-950 bg-emerald-50/20">
+                                Conceituar avaliação formativa pelo fornecimento de <mark class="green-mark">feedbacks de regulação e acolhimento do erro</mark>.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CONTENT SECTION 5: INSTRUMENTOS EM EPT / INFORMÁTICA -->
+        <section class="mb-12">
+            <div class="flex items-center gap-3 mb-4 border-b border-slate-200 pb-2">
+                <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-900 text-white font-bold text-sm">5</span>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-900">Instrumentos Avaliativos no Ensino Técnico e Tecnológico (EBTT / Informática)</h2>
+            </div>
+
+            <!-- Competency Triad Box in EPT -->
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6">
+                <h3 class="font-bold text-slate-900 text-sm md:text-base mb-2">
+                    🎯 Avaliação por Competências na EPT (Resolução CNE/CP nº 1/2021)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs md:text-sm">
+                    <div class="bg-white p-3 rounded border border-slate-200">
+                        <span class="font-bold text-slate-900 block">1. Dimensão Conceitual (Saber)</span>
+                        Compreensão de conceitos, sintaxe de linguagens e teoria de algoritmos e redes.
+                    </div>
+                    <div class="bg-white p-3 rounded border border-slate-200">
+                        <span class="font-bold text-slate-900 block">2. Dimensão Procedimental (Saber-Fazer)</span>
+                        Capacidade técnica de codificar, depurar, modelar banco de dados e resolver problemas práticos.
+                    </div>
+                    <div class="bg-white p-3 rounded border border-slate-200">
+                        <span class="font-bold text-slate-900 block">3. Dimensão Atitudinal (Saber-Ser)</span>
+                        Trabalho em equipe, ética no tratamento de dados (LGPD), autonomia e perseverança na resolução de bugs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Prova Operatória -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white">
+                    <h3 class="font-bold text-slate-900 text-base mb-1 flex items-center gap-2">
+                        💻 Prova Operatória Prática
+                    </h3>
+                    <p class="text-xs md:text-sm text-slate-700 leading-relaxed">
+                        Avalia a <mark>aplicação do conhecimento em situações-problema complexas</mark> (ex.: desenvolvimento de algoritmos e sistemas), superando a memorização passiva e sintática de código.
+                    </p>
+                </div>
+
+                <!-- Portfólio Reflexivo -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white">
+                    <h3 class="font-bold text-slate-900 text-base mb-1 flex items-center gap-2">
+                        📁 Portfólio Reflexivo
+                    </h3>
+                    <p class="text-xs md:text-sm text-slate-700 leading-relaxed">
+                        Coleção organizada e contínua das produções do estudante que <mark>evidencia a evolução temporal</mark> e estimula ativamente a metacognição e a autocrítica.
+                    </p>
+                </div>
+
+                <!-- Rubricas de Desempenho -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white">
+                    <h3 class="font-bold text-slate-900 text-base mb-1 flex items-center gap-2">
+                        📊 Rubricas de Desempenho
+                    </h3>
+                    <p class="text-xs md:text-sm text-slate-700 leading-relaxed">
+                        Matrizes com critérios e níveis qualitativos divulgadas antecipadamente para conferir <mark>transparência, objetividade e imparcialidade</mark> à avaliação de projetos de software.
+                    </p>
+                </div>
+
+                <!-- Autoavaliação -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white">
+                    <h3 class="font-bold text-slate-900 text-base mb-1 flex items-center gap-2">
+                        🎯 Autoavaliação
+                    </h3>
+                    <p class="text-xs md:text-sm text-slate-700 leading-relaxed">
+                        Procedimento sistemático que estimula a <mark>autonomia, a responsabilidade e a consciência</mark> do próprio estudante sobre seu processo de aprendizagem.
+                    </p>
+                </div>
+
+                <!-- Projetos Integradores -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white">
+                    <h3 class="font-bold text-slate-900 text-base mb-1 flex items-center gap-2">
+                        🚀 Projetos Integradores (PBL)
+                    </h3>
+                    <p class="text-xs md:text-sm text-slate-700 leading-relaxed">
+                        Articulam múltiplas disciplinas do curso técnico (ex.: Programação + Banco de Dados + Engenharia de Software) em uma <mark>entrega real e interdisciplinar</mark>.
+                    </p>
+                </div>
+
+                <!-- Code Review Pedagógico -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white">
+                    <h3 class="font-bold text-slate-900 text-base mb-1 flex items-center gap-2">
+                        🔍 Code Review Pedagógico
+                    </h3>
+                    <p class="text-xs md:text-sm text-slate-700 leading-relaxed">
+                        Análise orientada de código-fonte em pares com <mark>feedback qualitativo contínuo</mark> focado em legibilidade, boas práticas e arquitetura de código.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTENT SECTION 6: FAURGS DICTIONARY & PATTERNS -->
+        <section class="mb-12">
+            <div class="flex items-center gap-3 mb-4 border-b border-slate-200 pb-2">
+                <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-900 text-white font-bold text-sm">6</span>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-900">Dicionário de Prova e Padrões de Questões da FAURGS</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Permitted/Positive Vocabulary -->
+                <div class="border border-emerald-200 bg-emerald-50/40 rounded-lg p-4">
+                    <h3 class="font-bold text-emerald-950 text-base mb-2 flex items-center gap-2">
+                        ✅ Termos "Verdes" (Típicos de Alternativas Corretas)
+                    </h3>
+                    <ul class="text-xs md:text-sm text-emerald-900 space-y-1.5 list-disc list-inside font-medium">
+                        <li>Ação-reflexão-ação / Emancipação / Autonomia</li>
+                        <li>Diagnóstico inclusivo / Acolhimento das aprendizagens</li>
+                        <li>Caráter processual, contínuo e cumulativo</li>
+                        <li>Prevalência dos aspectos qualitativos</li>
+                        <li>Erro construtivo / Reorientação da prática pedagógica</li>
+                        <li>Recuperação paralela contínua</li>
+                        <li>Metacognição e autoavaliação</li>
+                    </ul>
+                </div>
+
+                <!-- Prohibited/Negative Vocabulary -->
+                <div class="border border-red-200 bg-red-50/40 rounded-lg p-4">
+                    <h3 class="font-bold text-red-950 text-base mb-2 flex items-center gap-2">
+                        ❌ Termos "Vermelhos" (Gatilhos de Alternativas Incorretas)
+                    </h3>
+                    <ul class="text-xs md:text-sm text-red-900 space-y-1.5 list-disc list-inside font-medium">
+                        <li>Fetiche da prova / Verificação estática / Punitivo</li>
+                        <li>Classificação e seleção excludente (quando atribuído à avaliação)</li>
+                        <li>Função meramente burocrática ou cartorial</li>
+                        <li>Recuperação estritamente ao final do ano/semestre</li>
+                        <li>Medição fria / Prevalência quantitativa</li>
+                        <li>Unidimensionalidade / Uniformização padronizada</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- NAVIGATION / ACTION BUTTON SECTION -->
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center">
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 md:p-8 max-w-2xl mx-auto shadow-sm">
+                <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mb-2">
+                    Pronto para testar seus conhecimentos?
+                </h3>
+                <p class="text-slate-600 text-sm mb-6">
+                    Acesse o módulo de questões objetivas inéditas e comentadas da banca FAURGS.
+                </p>
+                <a href="questoes8.html" class="inline-flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-base px-8 py-4 rounded-xl shadow-md transition-all duration-200 hover:scale-105">
+                    <span>Ir para Questões de Fixação</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <p class="text-slate-400 text-xs mt-8">
+                © Concurso IFSC - Preparatório de Informática EBTT • Banca FAURGS
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- JAVASCRIPT FOR AUDIO PLAYER CONTROLS -->
+    <script>
+        function updateAudioSource() {
+            var fileName = document.getElementById('mp3FileName').value.trim();
+            if (!fileName) {
+                alert('Por favor, informe o nome do arquivo MP3.');
+                return;
+            }
+            var audioPlayer = document.getElementById('mainAudioPlayer');
+            var audioSource = document.getElementById('audioSource');
+            
+            audioSource.src = fileName;
+            audioPlayer.load();
+            audioPlayer.play().catch(function(error) {
+                console.log('Autoplay bloqueado pelo navegador ou arquivo não encontrado:', error);
+            });
+        }
+    </script>
+</body>
+</html>

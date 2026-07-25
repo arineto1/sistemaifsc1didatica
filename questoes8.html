@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS - Avaliação da Aprendizagem e Instrumentos Avaliativos</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter and Merriweather for optimum reading comfort -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Tailwind Styling Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            900: '#1e3a8a'
+                        },
+                        reading: {
+                            bg: '#faf8f5',
+                            card: '#ffffff',
+                            text: '#2d3748',
+                            heading: '#1a202c',
+                            muted: '#718096',
+                            border: '#e2e8f0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS Styles for enhanced reader comfort and custom components -->
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom typography for long reading comfort */
+        .question-stem {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.75;
+            font-size: 1.05rem;
+            color: #1e293b;
+        }
+
+        .resolution-text {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        /* Radio option transition */
+        .option-card {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .option-card:hover {
+            border-color: #94a3b8;
+            background-color: #f8fafc;
+        }
+
+        .option-card.selected {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            box-shadow: 0 0 0 1px #2563eb;
+        }
+
+        /* Post-submission result states */
+        .option-card.correct-answer {
+            border-color: #16a34a !important;
+            background-color: #f0fdf4 !important;
+            box-shadow: 0 0 0 1px #16a34a !important;
+        }
+
+        .option-card.incorrect-choice {
+            border-color: #dc2626 !important;
+            background-color: #fef2f2 !important;
+            box-shadow: 0 0 0 1px #dc2626 !important;
+        }
+
+        .option-card.disabled {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* Font size modifier classes */
+        .text-size-sm .question-stem { font-size: 0.95rem; }
+        .text-size-sm .option-text { font-size: 0.9rem; }
+        
+        .text-size-md .question-stem { font-size: 1.05rem; }
+        .text-size-md .option-text { font-size: 0.975rem; }
+        
+        .text-size-lg .question-stem { font-size: 1.15rem; }
+        .text-size-lg .option-text { font-size: 1.05rem; }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between text-size-md">
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    F
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-900 text-base md:text-lg leading-tight">Simulado FAURGS</h1>
+                    <p class="text-xs text-slate-500">Avaliação da Aprendizagem e Instrumentos Avaliativos</p>
+                </div>
+            </div>
+
+            <!-- Header Controls & Status -->
+            <div class="flex items-center gap-3">
+                <!-- Text size controls -->
+                <div class="flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200 text-xs">
+                    <button onclick="changeFontSize('sm')" class="font-bold px-2 py-1 rounded hover:bg-white text-slate-600 hover:text-slate-900 transition" title="Texto Pequeno">A-</button>
+                    <button onclick="changeFontSize('md')" class="font-bold px-2 py-1 rounded hover:bg-white text-slate-600 hover:text-slate-900 transition" title="Texto Normal">A</button>
+                    <button onclick="changeFontSize('lg')" class="font-bold px-2 py-1 rounded hover:bg-white text-slate-600 hover:text-slate-900 transition" title="Texto Grande">A+</button>
+                </div>
+
+                <!-- Progress Pill -->
+                <div id="progress-pill" class="bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-blue-200 flex items-center gap-1.5">
+                    <i class="fa-regular fa-circle-check"></i>
+                    <span id="answered-count">0</span> / <span id="total-count">10</span> respondidas
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Progress Bar -->
+        <div class="w-full bg-slate-100 h-1.5 overflow-hidden">
+            <div id="top-progress-bar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- Intro Banner Card -->
+        <section id="intro-card" class="bg-white rounded-xl p-6 mb-8 border border-slate-200 shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4 mb-4">
+                <div>
+                    <span class="inline-block px-2.5 py-1 text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 rounded-md border border-blue-200 mb-2">
+                        Padrão FAURGS • Concursos & Seleções
+                    </span>
+                    <h2 class="text-xl font-bold text-slate-900">Caderno de Questões Interativo</h2>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100">
+                    <i class="fa-regular fa-clock text-blue-600 text-sm"></i>
+                    <span>Sem limite de tempo • 10 Questões</span>
+                </div>
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                Responda às questões abaixo no seu ritmo. Ao concluir, clique em <strong>"Finalizar e Ver Resultados"</strong> no final da página para conferir seu desempenho com a nota final e a <strong>resolução comentada detalhada</strong> de cada item diretamente na página.
+            </p>
+
+            <!-- Quick Navigation Index -->
+            <div class="mt-4 pt-4 border-t border-slate-100">
+                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-2">Navegação Rápida pelas Questões:</span>
+                <div class="flex flex-wrap gap-2" id="quick-nav-buttons">
+                    <!-- Dynamic buttons generated via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Questions Container -->
+        <div id="questions-container" class="space-y-8">
+            <!-- Questions rendered via JS -->
+        </div>
+
+        <!-- Quiz Action Controls -->
+        <div id="quiz-actions" class="mt-10 p-6 bg-white rounded-xl border border-slate-200 shadow-sm text-center">
+            <p id="unanswered-warning" class="text-amber-600 text-sm mb-4 font-medium hidden">
+                <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                Você possui questões não respondidas. Deseja finalizar assim mesmo?
+            </p>
+            <button id="btn-submit-quiz" onclick="finishQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 mx-auto">
+                <i class="fa-solid fa-paper-plane"></i>
+                Finalizar e Ver Resultados
+            </button>
+        </div>
+
+        <!-- Summary Results Section (Appears after submission) -->
+        <section id="results-summary-section" class="mt-12 bg-white rounded-2xl border border-slate-200 shadow-lg p-6 md:p-8 hidden scroll-mt-20">
+            <div class="text-center pb-6 border-b border-slate-200">
+                <div id="score-badge" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center text-3xl font-extrabold mb-3 shadow-inner">
+                    <!-- JS populated score -->
+                </div>
+                <h2 id="score-title" class="text-2xl font-bold text-slate-900 mb-1">Resultado Final</h2>
+                <p id="score-subtitle" class="text-slate-600 text-sm max-w-lg mx-auto mb-4"></p>
+                
+                <!-- Score Breakdown Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mt-6">
+                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                        <span class="text-xs text-slate-500 font-medium block">Total</span>
+                        <span class="text-xl font-bold text-slate-800">10</span>
+                    </div>
+                    <div class="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200">
+                        <span class="text-xs text-emerald-600 font-medium block">Acertos</span>
+                        <span id="stat-correct" class="text-xl font-bold text-emerald-700">0</span>
+                    </div>
+                    <div class="bg-rose-50 p-3.5 rounded-xl border border-rose-200">
+                        <span class="text-xs text-rose-600 font-medium block">Erros</span>
+                        <span id="stat-incorrect" class="text-xl font-bold text-rose-700">0</span>
+                    </div>
+                    <div class="bg-blue-50 p-3.5 rounded-xl border border-blue-200">
+                        <span class="text-xs text-blue-600 font-medium block">Aproveitamento</span>
+                        <span id="stat-percent" class="text-xl font-bold text-blue-700">0%</span>
+                    </div>
+                </div>
+
+                <!-- Action Button after completion -->
+                <div class="mt-6 flex flex-wrap justify-center gap-3">
+                    <button onclick="resetQuiz()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg border border-slate-300 text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Refazer Simulado
+                    </button>
+                    <a href="#q1" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-list-check"></i>
+                        Revisar Resoluções Abaixo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Resolution Filter Options -->
+            <div class="pt-6 flex flex-wrap items-center justify-between gap-3">
+                <h3 class="font-bold text-slate-900 text-base">Gabarito Comentado e Resoluções</h3>
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="text-slate-500">Filtrar:</span>
+                    <button onclick="filterQuestions('all')" id="btn-filter-all" class="px-2.5 py-1 rounded-md bg-slate-800 text-white font-medium">Todas (10)</button>
+                    <button onclick="filterQuestions('correct')" id="btn-filter-correct" class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium">Acertos</button>
+                    <button onclick="filterQuestions('incorrect')" id="btn-filter-incorrect" class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium">Erros</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Page Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="font-medium text-slate-600">Simulado de Avaliação da Aprendizagem • Estilo Banca FAURGS</p>
+            <p class="mt-1">Desenvolvido com foco na legibilidade e experiência de leitura continuada.</p>
+        </div>
+    </footer>
+
+    <script>
+        /*
+         * FULL QUESTION DATA BANK
+         * Contains all 10 complete questions, options, correct answers, and thorough resolutions.
+         */
+        const questionsData = [
+            {
+                id: 1,
+                stem: `Os três tipos mais usuais de avaliação escolar no processo de ensino e aprendizagem são a avaliação diagnóstica, a avaliação formativa e a avaliação somativa. Numere a segunda coluna de acordo com a primeira, relacionando as modalidades avaliativas às suas respectivas características e intencionalidades pedagógicas.<br><br>
+                <strong>(1) AVALIAÇÃO SOMATIVA</strong><br>
+                <strong>(2) AVALIAÇÃO DIAGNÓSTICA</strong><br>
+                <strong>(3) AVALIAÇÃO FORMATIVA</strong><br><br>
+                ( ) Tem o propósito pedagógico de permitir ao professor conhecer o aluno, identificando seus conhecimentos prévios e o perfil de entrada no início de um ciclo educativo ou módulo disciplinar.<br>
+                ( ) Ocorre continuadamente ao longo do processo de ensino-aprendizagem, atuando como mecanismo de regulação pedagógica, coleta de dados e acompanhamento do desenvolvimento de competências.<br>
+                ( ) Posiciona-se predominantemente ao final de um período de instrução, permitindo mensurar se os objetivos propostos foram atingidos e classificar o rendimento para fins de certificação ou promoção.<br><br>
+                Assinale a alternativa que apresenta a sequência correta de preenchimento dos parênteses, de cima para baixo.`,
+                options: [
+                    { letter: "A", text: "1 – 2 – 3" },
+                    { letter: "B", text: "2 – 3 – 1" },
+                    { letter: "C", text: "3 – 1 – 2" },
+                    { letter: "D", text: "2 – 1 – 3" },
+                    { letter: "E", text: "3 – 2 – 1" }
+                ],
+                correctAnswer: "B",
+                resolution: `<strong>Gabarito: B</strong><br><br>
+                A banca FAURGS explora com frequência a taxonomia clássica das modalidades de avaliação pedagógica, fundamentando suas questões nas definições operacionais das funções diagnóstica, formativa e somativa.<br><br>
+                • O preenchimento da primeira lacuna refere-se expressamente à <strong>avaliação diagnóstica (2)</strong>. Esta modalidade ocorre antes do início do processo educativo para mapear o perfil de entrada dos estudantes, levantar conhecimentos prévios e identificar lacunas iniciais que demandem adequação do planejamento pedagógico.<br>
+                • O segundo parêntese descreve a <strong>avaliação formativa (3)</strong>, cuja essência é o acompanhamento processual e contínuo da aprendizagem ao longo das atividades pedagógicas. Sua função precípua é reguladora, provendo subsídios para a verificação do desenvolvimento de competências e permitindo reajustes no percurso instrutivo.<br>
+                • Por fim, o terceiro parêntese delimita a <strong>avaliação somativa (1)</strong>, situada predominantemente ao final de módulos, disciplinas ou ciclos letivos. Ela objetiva mensurar em que medida os objetivos propostos foram alcançados, desempenhando uma função classificatória, somatória e certificadora.<br><br>
+                O ordenamento correto dos parênteses é <strong>2 – 3 – 1</strong>, o que estabelece a alternativa <strong>(B)</strong> como a única resposta correta.`
+            },
+            {
+                id: 2,
+                stem: `Segundo a fundamentação teórico-metodológica de Jussara Hoffmann sobre a Avaliação Mediadora, é essencial conceber a multidimensionalidade do termo e do ato de aprender. A avaliação mediadora exige uma postura docente reflexiva, de acompanhamento e de contínua provocação teórica frente às hipóteses construídas pelo educando em instâncias da educação básica, média ou superior. Assinale a alternativa que está em <strong>DESACORDO</strong> com as orientações da autora acerca dessa perspectiva avaliativa.`,
+                options: [
+                    { letter: "A", text: "A avaliação não tem por objetivo definir estaticamente se os alunos aprendem ou não aprendem, fundamentando-se na premissa de que todos aprendem sempre quando submetidos a melhores oportunidades de aprendizagem." },
+                    { letter: "B", text: "A leitura e o olhar sobre o aprender na avaliação mediadora precisam assumir uma dimensão positiva, prospectiva e multidimensional." },
+                    { letter: "C", text: "São possíveis e desejáveis práticas avaliativas que transformem a aprendizagem em necessária e obrigatória, em aprender sempre para alguma coisa coercitiva e disciplinar." },
+                    { letter: "D", text: "Não há parâmetros rígidos de julgamento que deem conta da diversidade do contexto educacional e do ato criativo das aprendizagens." }
+                ],
+                correctAnswer: "C",
+                resolution: `<strong>Gabarito: C</strong><br><br>
+                As questões elaboradas pela banca FAURGS sobre as obras de Jussara Hoffmann enfatizam a ruptura com o paradigma tradicional e positivista de avaliação. A perspectiva da Avaliação Mediadora concebe o ato de aprender como um processo multidimensional, dinâmico e singular.<br><br>
+                Na busca pela opção em desacordo com as formulações teóricas da autora, constata-se que a <strong>alternativa (C)</strong> reproduz uma concepção equivocada e punitiva do ato avaliativo. Hoffmann afirma taxativamente que a avaliação mediadora não deve transformar a aprendizagem em um dever coercitivo ou em uma obrigação cartesiana para alcançar um fim punitivo. Pelo contrário, a autora argumenta que a prática mediadora fundamenta-se na provocação intelectual e no acolhimento das hipóteses do estudante.<br><br>
+                As demais alternativas articulam com exatidão os postulados de Hoffmann: a premissa ético-pedagógica de que todos os sujeitos aprendem continuadamente (A), a necessidade de uma leitura positiva e prospectiva das produções dos educandos (B) e o reconhecimento da impossibilidade de parâmetros universais rígidos diante do ato criativo de aprender (D).`
+            },
+            {
+                id: 3,
+                stem: `Cipriano Carlos Luckesi estabelece uma nítida diferenciação conceitual entre a prática dos "exames escolares" e a efetiva "avaliação da aprendizagem". A respeito dessa distinção epistemológica no âmbito da Didática e da prática pedagógica escolar, considere as seguintes afirmações:<br><br>
+                <strong>I -</strong> O ato de examinar caracteriza-se por sua natureza classificatória e seletiva, focando na aferição pontual do rendimento do aluno para atribuição de notas e julgamento de aprovação ou reprovação.<br>
+                <strong>II -</strong> O ato de avaliar constitui-se como um processo eminentemente diagnóstico, inclusivo e processual, pautado pelo acolhimento do educando no seu estágio atual de desenvolvimento para a tomada de decisões e a melhoria da qualidade do ensino.<br>
+                <strong>III -</strong> A prática dos exames escolares tem caráter prospectivo, visto que utiliza a nota como recurso imediato para o replanejamento das tarefas e para a reorientação contínua da ação docente no ambiente de aprendizagem.<br>
+                <strong>IV -</strong> A avaliação da aprendizagem pressupõe uma relação ética e solidária do educador com o educando, visando garantir-lhe suporte afetivo e cognitivo ao longo de toda a sua caminhada escolar.<br><br>
+                Quais estão corretas?`,
+                options: [
+                    { letter: "A", text: "Apenas I e II." },
+                    { letter: "B", text: "Apenas III e IV." },
+                    { letter: "C", text: "Apenas I, II e IV." },
+                    { letter: "D", text: "Apenas II, III e IV." },
+                    { letter: "E", text: "I, II, III e IV." }
+                ],
+                correctAnswer: "C",
+                resolution: `<strong>Gabarito: C</strong><br><br>
+                A distinção conceitual proposta por Cipriano Carlos Luckesi entre "exame" e "avaliação" é um tema recorrente na avaliação de conteúdos pedagógicos pela FAURGS.<br><br>
+                • <strong>Afirmativa I (Correta):</strong> Aponta com precisão que o ato de examinar possui caráter essencialmente classificatório, pontual e excludente, concentrando sua atenção na nota atribuída e no julgamento final do rendimento.<br>
+                • <strong>Afirmativa II (Correta):</strong> Reflete adequadamente a concepção luckesiana de avaliação da aprendizagem, que é intrinsecamente diagnóstica, processual e voltada à tomada de decisões pedagógicas que promovam a elevação da qualidade do ensino.<br>
+                • <strong>Afirmativa III (Incorreta):</strong> Apresenta um erro conceitual ao atribuir caráter prospectivo aos exames escolares. Em verdade, os exames caracterizam-se por seu viés retrospectivo, pois apenas registram estaticamente o que foi ou não memorizado, encerrando o processo sem promover o replanejamento das tarefas.<br>
+                • <strong>Afirmativa IV (Correta):</strong> Reafirma a dimensão ética e solidária defendida por Luckesi, na qual avaliar exige compaixão, acolhimento e suporte cognitivo ao estudante.<br><br>
+                Estão corretas as afirmativas <strong>I, II e IV</strong>, justificando a escolha da alternativa <strong>(C)</strong>.`
+            },
+            {
+                id: 4,
+                stem: `Na obra de Celso dos Santos Vasconcellos, a avaliação da aprendizagem articula-se de modo indissociável ao planejamento educacional. Para o autor, a elaboração de um projeto de ensino-aprendizagem consciente exige a articulação entre três dimensões reflexivas essenciais. Associe as dimensões da Coluna 1 ao respectivo tipo de atividade reflexiva indicado na Coluna 2.<br><br>
+                <strong>Coluna 1</strong><br>
+                (1) Realidade<br>
+                (2) Finalidade<br>
+                (3) Plano de Ação<br><br>
+                <strong>Coluna 2</strong><br>
+                ( ) Dimensão em que o educador explicita a intencionalidade pedagógica, os objetivos, os valores e o horizonte de transformação que pretende alcançar.<br>
+                ( ) Dimensão em que se realiza a análise crítica e o diagnóstico das necessidades, contradições e saberes do contexto concreto da turma e da instituição.<br>
+                ( ) Dimensão em que se delineiam as propostas operacionais de intervenção, definindo-se metodologias, mediações e instrumentos de avaliação para superar a distância entre o existente e o desejado.<br><br>
+                Assinale a alternativa que indica a sequência correta da Coluna 2, de cima para baixo.`,
+                options: [
+                    { letter: "A", text: "1 – 2 – 3" },
+                    { letter: "B", text: "2 – 1 – 3" },
+                    { letter: "C", text: "3 – 1 – 2" },
+                    { letter: "D", text: "2 – 3 – 1" },
+                    { letter: "E", text: "1 – 3 – 2" }
+                ],
+                correctAnswer: "B",
+                resolution: `<strong>Gabarito: B</strong><br><br>
+                Nas formulações teóricas de Celso dos Santos Vasconcellos, o planejamento pedagógico e a avaliação constituem uma práxis indissociável e dialética. O autor organiza o processo de elaboração do planejamento e da avaliação pedagógica em três dimensões estruturantes:<br><br>
+                • <strong>Finalidade (2):</strong> Refere-se ao momento de reflexão no qual o educador explicita a intencionalidade pedagógica, os valores ético-políticos e os objetivos gerais e específicos que norteiam a ação educativa.<br>
+                • <strong>Realidade (1):</strong> Exige a análise crítica e o mapeamento diagnóstico da situação concreta da turma, identificando saberes, contradições, necessidades e condicionantes socioculturais.<br>
+                • <strong>Plano de Ação (3):</strong> Sintetiza a mediação operacional, onde o professor estabelece metodologias, formas de organização do trabalho pedagógico e instrumentos avaliativos voltados para superar as lacunas identificadas na Realidade em direção às Finalidades projetadas.<br><br>
+                A correspondência conceitual produz a sequência <strong>2 – 1 – 3</strong>, o que torna a alternativa <strong>(B)</strong> a resposta correta da questão.`
+            },
+            {
+                id: 5,
+                stem: `O portfólio pedagógico é reconhecido como um instrumento avaliativo de grande relevância no contexto de metodologias ativas e formações reflexivas. A respeito das potencialidades pedagógicas e características metodológicas do uso de portfólios no processo de ensino-aprendizagem, assinale a alternativa <strong>INCORRETA</strong>.`,
+                options: [
+                    { letter: "A", text: "O portfólio caracteriza-se como um mero repositório acumulativo de tarefas e provas, devendo ser avaliado prioritariamente pela quantidade total de trabalhos armazenados ao término do período letivo." },
+                    { letter: "B", text: "O portfólio possibilita o registro contínuo da produção do estudante, revelando a trajetória de construção do conhecimento e os marcos do seu desenvolvimento instrumental e cognitivo." },
+                    { letter: "C", text: "O uso sistemático do portfólio estimula a capacidade metacognitiva e a autoavaliação do aluno, chamando-o à corresponsabilidade pela sua própria aprendizagem." },
+                    { letter: "D", text: "O portfólio favorece a articulação entre a teoria e a prática ao integrar os saberes constituídos no curso com o fazer próprio da formação acadêmica ou profissional." },
+                    { letter: "E", text: "A construção do portfólio exige intencionalidade pedagógica e sistematização no acompanhamento pelo professor, servindo de suporte para o diálogo e a mediação formativa." }
+                ],
+                correctAnswer: "A",
+                resolution: `<strong>Gabarito: A</strong><br><br>
+                O uso de instrumentos avaliativos processuais e reflexivos, como o portfólio pedagógico, exige a superação de visões burocráticas sobre o trabalho do estudante. Ao demandar a alternativa incorreta sobre o tema, a questão destaca a falha conceitual contida na <strong>alternativa (A)</strong>.<br><br>
+                O portfólio não se reduz a uma pasta acumulativa de tarefas ou a um arquivo morto de documentos, tampouco deve ser quantitativamente mensurado ao final do período letivo. Sua essência pedagógica reside no caráter qualitativo, reflexivo e autoavaliativo do material selecionado pelo próprio educando com a mediação do professor.<br><br>
+                As opções (B), (C), (D) e (E) descrevem acertadamente as reais atribuições do portfólio: favorecer o registro do progresso cognitivo do aluno (B), fortalecer a capacidade de autoavaliação (C), integrar a teoria acadêmica ao saber prático (D) e demandar acompanhamento sistemático por parte do docente (E).`
+            },
+            {
+                id: 6,
+                stem: `Em suas reflexões sobre a Didática escolar, José Carlos Libâneo (1992) explicita que a avaliação é um componente do processo de ensino que cumpre funções vitais na estruturação do trabalho docente. O autor categoriza as funções da avaliação da aprendizagem em dimensões integradas: pedagógico-didática, diagnóstica e de controle. Considere as afirmações abaixo sobre essas funções:<br><br>
+                <strong>I -</strong> A função pedagógico-didática diz respeito ao cumprimento dos objetivos da educação formal, articulando os resultados da aprendizagem do estudante com o aperfeiçoamento constante do processo de ensino e o desenvolvimento do pensamento.<br>
+                <strong>II -</strong> A função diagnóstica refere-se à identificação constante das facilidades e dificuldades dos alunos, permitindo o levantamento dos conhecimentos prévios e o reordenamento tempestivo do planejamento de ensino.<br>
+                <strong>III -</strong> A função de controle refere-se ao acompanhamento contínuo do processo de assimilação da matéria, possibilitando ao professor a verificação dos resultados e a atribuição de notas ou conceitos de acordo com as exigências do sistema escolar.<br><br>
+                Quais estão corretas?`,
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas III." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correctAnswer: "E",
+                resolution: `<strong>Gabarito: E</strong><br><br>
+                A análise das funções da avaliação na perspectiva da Didática de José Carlos Libâneo exige a compreensão articulada entre os aspectos pedagógico-didáticos, diagnósticos e institucionais da escola.<br><br>
+                • <strong>Afirmativa I (Correta):</strong> Sintetiza a função pedagógico-didática, a qual abrange o cumprimento das intencionalidades educativas e orienta o aperfeiçoamento da prática do professor em sintonia com a formação cognitiva e social dos estudantes.<br>
+                • <strong>Afirmativa II (Correta):</strong> Descreve fidedignamente a função diagnóstica, focada na sondagem sistemática das facilidades, obstáculos e saberes prévios dos estudantes, fornecendo dados concretos para que o docente possa reordenar e ajustar seu planejamento.<br>
+                • <strong>Afirmativa III (Correta):</strong> Retrata adequadamente a função de controle, necessária ao acompanhamento formal do processo de assimilação dos conteúdos e à verificação dos resultados traduzidos em notas ou conceitos para cumprimento das normas institucionais.<br><br>
+                Uma vez que as três afirmativas traduzem com precisão as dimensões conceituadas por Libâneo, a alternativa <strong>(E)</strong> é a opção correta.`
+            },
+            {
+                id: 7,
+                stem: `A regulação das aprendizagens e a busca por estratégias inclusivas constituem o núcleo conceitual da avaliação formativa. Sobre a condução de práticas de regulação pedagógica no ambiente escolar, considere as seguintes afirmações:<br><br>
+                <strong>I -</strong> A regulação formativa fundamenta-se no fornecimento de feedbacks qualitativos e tempestivos aos alunos, orientando-os sobre o que e como necessita ser aprimorado em suas produções cognitivas.<br>
+                <strong>II -</strong> O erro, no paradigma da avaliação formativa e diagnóstica, deixa de ser considerado uma falha punível para ser tomado como um indicador valioso das hipóteses formuladas pelo estudante, servindo de base para o replanejamento.<br>
+                <strong>III -</strong> A prática autorreguladora dispensa a participação ativa do estudante, cabendo exclusivamente ao professor o controle unilateral e externo dos passos de correção da atividade.<br>
+                <strong>IV -</strong> A autoavaliação e a avaliação participante entre interlocutores constituem estratégias formativas aptas a consolidar a responsabilidade e o engajamento dos educandos no percurso educativo.<br><br>
+                Quais estão corretas?`,
+                options: [
+                    { letter: "A", text: "Apenas I e III." },
+                    { letter: "B", text: "Apenas II e IV." },
+                    { letter: "C", text: "Apenas I, II e IV." },
+                    { letter: "D", text: "Apenas I, III e IV." },
+                    { letter: "E", text: "I, II, III e IV." }
+                ],
+                correctAnswer: "C",
+                resolution: `<strong>Gabarito: C</strong><br><br>
+                A dinâmica de regulação das aprendizagens repousa sobre a transformação das posturas pedagógicas tradicionais em favor de práticas inclusivas e dialogadas.<br><br>
+                • <strong>Afirmativa I (Correta):</strong> Aponta o feedback pedagógico qualitativo e tempestivo como a engrenagem central da avaliação formativa, oferecendo ao estudante orientações precisas sobre sua produção.<br>
+                • <strong>Afirmativa II (Correta):</strong> Conceitua corretamente o estatuto do erro construtivo na avaliação diagnóstica e formativa: o erro deixa de carregar um caráter de punição e passa a constituir uma pista pedagógica relevante das hipóteses elaboradas pelo educando.<br>
+                • <strong>Afirmativa III (Incorreta):</strong> Encontra-se incorreta porque a autorregulação exige a participação direta, consciente e autônoma do estudante, não podendo ser tratada como um controle externo e unilateral exercido exclusivamente pelo docente.<br>
+                • <strong>Afirmativa IV (Correta):</strong> Ressalta a importância de instrumentos como a autoavaliação e a avaliação entre pares para a promoção da corresponsabilidade na aprendizagem.<br><br>
+                Estão corretas apenas as afirmativas <strong>I, II e IV</strong>, confirmando a alternativa <strong>(C)</strong>.`
+            },
+            {
+                id: 8,
+                stem: `Assinale a alternativa que preenche, correta e respectivamente, as lacunas do trecho abaixo relativas à dinâmica de avaliação e acompanhamento pedagógico.<br><br>
+                <em>"As avaliações devem sempre se basear nas ___________ específicas de cada momento e afastar-se de ___________ apressadas. Para garantir a fidedignidade da prática avaliativa, o docente deve aliar o rigor das ___________ pedagógicas ao pleno conhecimento do ___________ institucional."</em>`,
+                options: [
+                    { letter: "A", text: "dinâmicas – generalizações – observações – contexto" },
+                    { letter: "B", text: "rápidas – impressões – classificações – julgamento" },
+                    { letter: "C", text: "normas – comparações – mensurações – padrão" },
+                    { letter: "D", text: "hipóteses – rotulações – padronizações – índice" },
+                    { letter: "E", text: "exigências – descrições – contagens – ambiente" }
+                ],
+                correctAnswer: "A",
+                resolution: `<strong>Gabarito: A</strong><br><br>
+                A banca FAURGS emprega com frequência itens estruturados em preenchimento de lacunas textuais para avaliar a precisão conceitual dos candidatos em relação ao referencial bibliográfico. A análise do excerto exige termos que expressem a natureza flexível, rigorosa e contextualizada do ato de avaliar.<br><br>
+                • A primeira lacuna deve ser preenchida pelo vocábulo <strong>"dinâmicas"</strong>, indicando a atenção às especificidades do fluxo de aprendizagem de cada momento.<br>
+                • A segunda lacuna demanda o termo <strong>"generalizações"</strong>, afastando a prática pedagógica de rotulações ou julgamentos precipitados.<br>
+                • A terceira lacuna requer o termo <strong>"observações"</strong>, ressaltando que o rigor da avaliação processual advém do acompanhamento atento e metódico das produções dos estudantes.<br>
+                • A quarta e última lacuna completa-se adequadamente com o termo <strong>"contexto"</strong>, enfatizando a necessidade de compreender a realidade institucional e sociocultural em que o aluno está inserido.<br><br>
+                A associação correta dos vocábulos encontra-se reunida na alternativa <strong>(A)</strong>.`
+            },
+            {
+                id: 9,
+                stem: `Conforme concebida por Ana Maria Saul, a Avaliação Emancipatória se projeta como uma abordagem crítica e transformadora no contexto educacional. A esse respeito, assinale a alternativa <strong>INCORRETA</strong>.`,
+                options: [
+                    { letter: "A", text: "A avaliação emancipatória caracteriza-se pelo processo democrático de descrição, análise e crítica de uma realidade, com o objetivo explícito de transformá-la." },
+                    { letter: "B", text: "Essa vertente avaliativa privilegia o aperfeiçoamento da autonomia crítica, a emancipação dos sujeitos e o fortalecimento do projeto coletivo da escola." },
+                    { letter: "C", text: "A abordagem emancipatória assenta-se na aplicação de testes padronizados e neutros de larga escala como instrumento soberano e exclusivo para a classificação dos estudantes." },
+                    { letter: "D", text: "O processo avaliativo emancipatório exige o estabelecimento de relações dialógicas e participativas entre os atores educacionais, superando práticas autoritárias de verificação." }
+                ],
+                correctAnswer: "C",
+                resolution: `<strong>Gabarito: C</strong><br><br>
+                A Avaliação Emancipatória, teorizada por Ana Maria Saul, opõe-se rigorosamente às abordagens positivistas, tecnicistas e burocráticas de aferição do rendimento escolar. O objetivo da questão é identificar a alternativa incorreta frente ao pensamento da autora.<br><br>
+                A <strong>alternativa (C)</strong> é flagrantemente contrária aos princípios da avaliação emancipatória, pois defende a centralidade e soberania de testes padronizados de larga escala como critério exclusivo de classificação dos educandos. Saul propõe a superação do fetichismo dos testes e da classificação mecânica, ressaltando que a avaliação deve servir à emancipação e à conscientização crítica dos sujeitos.<br><br>
+                As opções (A), (B) e (D) expressam com exatidão a essência da proposta de Ana Maria Saul: o diagnóstico participativo e democrático para a transformação da realidade escolar (A), a busca pelo desenvolvimento da autonomia crítica (B) e a consolidação de relações dialógicas e horizontais (D).`
+            },
+            {
+                id: 10,
+                stem: `Os instrumentos avaliativos representam os recursos materiais e operacionais de que o docente se serve para coletar informações sobre a aprendizagem dos alunos. Para assegurar um processo avaliativo consistente e abrangente, a escolha dos instrumentos deve obedecer à intencionalidade pedagógica. Em relação às características dos diferentes instrumentos de avaliação, considere as afirmações a seguir:<br><br>
+                <strong>I -</strong> As provas objetivas contam com padronização e objetividade na correção, porém apresentam limitações estruturais para aferir a capacidade autoral de elaboração e a profundidade reflexiva do estudante.<br>
+                <strong>II -</strong> As provas dissertativas e os trabalhos escritos requerem a estipulação prévia de critérios e a clareza sobre os objetivos pedagógicos para mitigar a subjetividade na atribuição do conceito.<br>
+                <strong>III -</strong> A observação e o registro reflexivo constituem instrumentos exclusivos da Educação Infantil, sendo desprovidos de validade metodológica e acadêmica para o Ensino Médio ou Superior.<br>
+                <strong>IV -</strong> A diversificação de instrumentos avaliativos é fundamental para contemplar os diferentes estilos e ritmos de aprendizagem da turma.<br><br>
+                Quais estão corretas?`,
+                options: [
+                    { letter: "A", text: "Apenas I e III." },
+                    { letter: "B", text: "Apenas II e III." },
+                    { letter: "C", text: "Apenas I, II e IV." },
+                    { letter: "D", text: "Apenas II, III e IV." },
+                    { letter: "E", text: "I, II, III e IV." }
+                ],
+                correctAnswer: "C",
+                resolution: `<strong>Gabarito: C</strong><br><br>
+                A seleção de instrumentos avaliativos exige uma articulação consciente entre as características técnicas de cada recurso e a intencionalidade pedagógica que preside o trabalho docente.<br><br>
+                • <strong>Afirmativa I (Correta):</strong> As provas objetivas possuem alto grau de padronização na correção, porém apresentam limitações para avaliar a capacidade autoral, a síntese e a produção de argumentos complexos.<br>
+                • <strong>Afirmativa II (Correta):</strong> Instrumentos dissertativos demandam a elaboração prévia de critérios e matrizes de correção detalhadas, prevenindo avaliações subjetivas ou arbitrárias por parte do professor.<br>
+                • <strong>Afirmativa III (Incorreta):</strong> A observação sistemática e o registro reflexivo constituem procedimentos metodológicos válidos e recomendados para todos os níveis educativos, inclusive para o Ensino Médio e o Ensino Superior.<br>
+                • <strong>Afirmativa IV (Correta):</strong> Salienta a obrigatoriedade da diversificação instrumental como meio de respeitar os ritmos heterogêneos de aprendizagem presentes em uma turma.<br><br>
+                Sendo assim, estão corretas as afirmativas <strong>I, II e IV</strong>, o que estabelece a alternativa <strong>(C)</strong> como o gabarito definitivo.`
+            }
+        ];
+
+        /*
+         * Application State
+         */
+        const userAnswers = {}; // Map of qId -> selected letter
+        let isSubmitted = false;
+
+        /*
+         * Initialization on DOM Load
+         */
+        window.addEventListener('DOMContentLoaded', () => {
+            renderQuickNav();
+            renderQuestions();
+            updateProgress();
+        });
+
+        /**
+         * Render quick navigation buttons in the top card
+         */
+        function renderQuickNav() {
+            const navContainer = document.getElementById('quick-nav-buttons');
+            navContainer.innerHTML = '';
+
+            questionsData.forEach(q => {
+                const btn = document.createElement('a');
+                btn.href = `#q${q.id}`;
+                btn.id = `nav-btn-${q.id}`;
+                btn.className = `w-8 h-8 rounded-lg flex items-center justify-center font-semibold text-xs border transition border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-200`;
+                btn.innerText = q.id < 10 ? `0${q.id}` : q.id;
+                navContainer.appendChild(btn);
+            });
+        }
+
+        /**
+         * Render all question cards
+         */
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            questionsData.forEach((q) => {
+                const qCard = document.createElement('div');
+                qCard.id = `q${q.id}`;
+                qCard.className = `question-card bg-white rounded-xl p-6 border border-slate-200 shadow-sm transition-all scroll-mt-24`;
+
+                let optionsHTML = '';
+                q.options.forEach(opt => {
+                    optionsHTML += `
+                        <label id="opt-container-${q.id}-${opt.letter}" 
+                               class="option-card flex items-start gap-3 p-3.5 rounded-lg border border-slate-200 cursor-pointer text-slate-700 hover:border-slate-300">
+                            <input type="radio" 
+                                   name="question_${q.id}" 
+                                   value="${opt.letter}" 
+                                   onchange="selectOption(${q.id}, '${opt.letter}')" 
+                                   class="mt-1 text-blue-600 focus:ring-blue-500 h-4 w-4 border-slate-300">
+                            <div class="flex-grow">
+                                <span class="font-bold text-slate-900 mr-1.5">(${opt.letter})</span>
+                                <span class="option-text">${opt.text}</span>
+                            </div>
+                            <span id="badge-icon-${q.id}-${opt.letter}" class="ml-2 hidden"></span>
+                        </label>
+                    `;
+                });
+
+                qCard.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md">
+                                Questão ${q.id < 10 ? '0' + q.id : q.id}
+                            </span>
+                            <span class="text-xs text-slate-400 font-medium">FAURGS</span>
+                        </div>
+                        <span id="status-tag-${q.id}" class="text-xs font-medium text-slate-400">Pendente</span>
+                    </div>
+
+                    <div class="question-stem mb-6">
+                        ${q.stem}
+                    </div>
+
+                    <div class="space-y-3">
+                        ${optionsHTML}
+                    </div>
+
+                    <!-- Resolution Box (Hidden until submit) -->
+                    <div id="resolution-${q.id}" class="mt-6 pt-5 border-t border-slate-200 hidden">
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                            <div class="flex items-center gap-2 font-bold text-slate-900 text-sm mb-3">
+                                <i class="fa-solid fa-book-bookmark text-blue-600"></i>
+                                Resolução e Comentário Pedagógico
+                            </div>
+                            <div class="resolution-text text-sm leading-relaxed">
+                                ${q.resolution}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(qCard);
+            });
+        }
+
+        /**
+         * Handle user option selection
+         */
+        function selectOption(qId, letter) {
+            if (isSubmitted) return; // Freeze after submission
+
+            userAnswers[qId] = letter;
+
+            // Clear previous selections UI for this question
+            const q = questionsData.find(item => item.id === qId);
+            q.options.forEach(opt => {
+                const el = document.getElementById(`opt-container-${qId}-${opt.letter}`);
+                if (el) {
+                    el.classList.remove('selected');
+                }
+            });
+
+            // Highlight selected
+            const selectedEl = document.getElementById(`opt-container-${qId}-${letter}`);
+            if (selectedEl) {
+                selectedEl.classList.add('selected');
+            }
+
+            // Update Quick Nav & Status tag
+            const navBtn = document.getElementById(`nav-btn-${qId}`);
+            if (navBtn) {
+                navBtn.className = `w-8 h-8 rounded-lg flex items-center justify-center font-semibold text-xs border transition border-blue-500 bg-blue-50 text-blue-700 shadow-sm`;
+            }
+
+            const statusTag = document.getElementById(`status-tag-${qId}`);
+            if (statusTag) {
+                statusTag.innerText = "Respondida";
+                statusTag.className = "text-xs font-semibold text-blue-600";
+            }
+
+            updateProgress();
+        }
+
+        /**
+         * Update real-time progress indicator
+         */
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = questionsData.length;
+            const percent = (answeredCount / total) * 100;
+
+            document.getElementById('answered-count').innerText = answeredCount;
+            document.getElementById('top-progress-bar').style.width = `${percent}%`;
+
+            // Hide warning if user starts answering again
+            if (answeredCount === total) {
+                document.getElementById('unanswered-warning').classList.add('hidden');
+            }
+        }
+
+        /**
+         * Adjust overall font size for comfortable reading
+         */
+        function changeFontSize(size) {
+            document.body.classList.remove('text-size-sm', 'text-size-md', 'text-size-lg');
+            document.body.classList.add(`text-size-${size}`);
+        }
+
+        /**
+         * Finish Quiz & Evaluate Results
+         */
+        function finishQuiz() {
+            const total = questionsData.length;
+            const answeredCount = Object.keys(userAnswers).length;
+
+            if (answeredCount < total && !isSubmitted) {
+                const warningEl = document.getElementById('unanswered-warning');
+                if (warningEl.classList.contains('hidden')) {
+                    warningEl.classList.remove('hidden');
+                    return; // Ask user to confirm or finish again
+                }
+            }
+
+            isSubmitted = true;
+
+            // Calculate Score
+            let correctCount = 0;
+            questionsData.forEach(q => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = userChoice === q.correctAnswer;
+                if (isCorrect) correctCount++;
+
+                // Lock inputs and style option cards
+                q.options.forEach(opt => {
+                    const optCard = document.getElementById(`opt-container-${q.id}-${opt.letter}`);
+                    const radioInput = optCard.querySelector('input[type="radio"]');
+                    const iconSpan = document.getElementById(`badge-icon-${q.id}-${opt.letter}`);
+
+                    radioInput.disabled = true;
+                    optCard.classList.add('disabled');
+
+                    if (opt.letter === q.correctAnswer) {
+                        optCard.classList.add('correct-answer');
+                        iconSpan.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i>`;
+                        iconSpan.classList.remove('hidden');
+                    } else if (opt.letter === userChoice && !isCorrect) {
+                        optCard.classList.add('incorrect-choice');
+                        iconSpan.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i>`;
+                        iconSpan.classList.remove('hidden');
+                    }
+                });
+
+                // Update status tags on question cards
+                const statusTag = document.getElementById(`status-tag-${q.id}`);
+                const navBtn = document.getElementById(`nav-btn-${q.id}`);
+
+                if (isCorrect) {
+                    statusTag.innerHTML = `<span class="text-emerald-700 font-bold"><i class="fa-solid fa-check mr-1"></i> Correta</span>`;
+                    if (navBtn) navBtn.className = `w-8 h-8 rounded-lg flex items-center justify-center font-semibold text-xs border border-emerald-500 bg-emerald-50 text-emerald-700 font-bold`;
+                } else {
+                    statusTag.innerHTML = `<span class="text-rose-700 font-bold"><i class="fa-solid fa-xmark mr-1"></i> Incorreta</span>`;
+                    if (navBtn) navBtn.className = `w-8 h-8 rounded-lg flex items-center justify-center font-semibold text-xs border border-rose-500 bg-rose-50 text-rose-700 font-bold`;
+                }
+
+                // Show Resolution section
+                document.getElementById(`resolution-${q.id}`).classList.remove('hidden');
+            });
+
+            // Populate Summary Statistics
+            const incorrectCount = total - correctCount;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            document.getElementById('stat-correct').innerText = correctCount;
+            document.getElementById('stat-incorrect').innerText = incorrectCount;
+            document.getElementById('stat-percent').innerText = `${percentage}%`;
+
+            const badgeEl = document.getElementById('score-badge');
+            const titleEl = document.getElementById('score-title');
+            const subTitleEl = document.getElementById('score-subtitle');
+
+            if (percentage >= 80) {
+                badgeEl.className = "w-20 h-20 mx-auto rounded-full flex items-center justify-center text-3xl font-extrabold mb-3 bg-emerald-100 text-emerald-700 border-2 border-emerald-500";
+                badgeEl.innerText = `${percentage}%`;
+                titleEl.innerText = "Excelente Desempenho!";
+                subTitleEl.innerText = "Você demonstra alto domínio sobre a legislação e referenciais de avaliação escolar segundo o padrão FAURGS.";
+            } else if (percentage >= 60) {
+                badgeEl.className = "w-20 h-20 mx-auto rounded-full flex items-center justify-center text-3xl font-extrabold mb-3 bg-blue-100 text-blue-700 border-2 border-blue-500";
+                badgeEl.innerText = `${percentage}%`;
+                titleEl.innerText = "Bom Desempenho!";
+                subTitleEl.innerText = "Você possui um bom embasamento teórico. Revise os comentários pedagógicos para consolidar os pontos pendentes.";
+            } else {
+                badgeEl.className = "w-20 h-20 mx-auto rounded-full flex items-center justify-center text-3xl font-extrabold mb-3 bg-amber-100 text-amber-700 border-2 border-amber-500";
+                badgeEl.innerText = `${percentage}%`;
+                titleEl.innerText = "Atenção e Revisão Requerida";
+                subTitleEl.innerText = "Recomendamos uma leitura atenta das resoluções comentadas para fixação dos autores clássicos (Hoffmann, Luckesi, Libâneo, Saul e Vasconcellos).";
+            }
+
+            // Hide action submit box & Reveal summary card
+            document.getElementById('quiz-actions').classList.add('hidden');
+            const summarySec = document.getElementById('results-summary-section');
+            summarySec.classList.remove('hidden');
+
+            // Scroll smoothly to results card
+            summarySec.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /**
+         * Filter displayed questions by result type (All, Correct, Incorrect)
+         */
+        function filterQuestions(type) {
+            const btnAll = document.getElementById('btn-filter-all');
+            const btnCorrect = document.getElementById('btn-filter-correct');
+            const btnIncorrect = document.getElementById('btn-filter-incorrect');
+
+            // Reset filter button styles
+            [btnAll, btnCorrect, btnIncorrect].forEach(btn => {
+                btn.className = "px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium";
+            });
+
+            if (type === 'all') {
+                btnAll.className = "px-2.5 py-1 rounded-md bg-slate-800 text-white font-medium";
+            } else if (type === 'correct') {
+                btnCorrect.className = "px-2.5 py-1 rounded-md bg-emerald-600 text-white font-medium";
+            } else if (type === 'incorrect') {
+                btnIncorrect.className = "px-2.5 py-1 rounded-md bg-rose-600 text-white font-medium";
+            }
+
+            questionsData.forEach(q => {
+                const card = document.getElementById(`q${q.id}`);
+                const isCorrect = userAnswers[q.id] === q.correctAnswer;
+
+                if (type === 'all') {
+                    card.classList.remove('hidden');
+                } else if (type === 'correct') {
+                    if (isCorrect) card.classList.remove('hidden');
+                    else card.classList.add('hidden');
+                } else if (type === 'incorrect') {
+                    if (!isCorrect) card.classList.remove('hidden');
+                    else card.classList.add('hidden');
+                }
+            });
+        }
+
+        /**
+         * Reset quiz state to attempt again
+         */
+        function resetQuiz() {
+            if (!confirm('Deseja reiniciar o simulado? Suas respostas atuais serão limpas.')) return;
+
+            for (let key in userAnswers) {
+                delete userAnswers[key];
+            }
+            isSubmitted = false;
+
+            document.getElementById('results-summary-section').classList.add('hidden');
+            document.getElementById('quiz-actions').classList.remove('hidden');
+            document.getElementById('unanswered-warning').classList.add('hidden');
+
+            renderQuickNav();
+            renderQuestions();
+            updateProgress();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

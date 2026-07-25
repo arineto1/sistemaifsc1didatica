@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo EJA e PROEJA | Concurso IFSC - Banca FAURGS</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #1e293b;
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+        /* Estilo para trechos grifados (highlight) */
+        .grifado {
+            background-color: #fef08a; /* Amarelo suave */
+            color: #854d0e;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .grifado-verde {
+            background-color: #dcfce7; /* Verde suave */
+            color: #166534;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .grifado-azul {
+            background-color: #dbeafe; /* Azul suave */
+            color: #1e40af;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        /* Garantia de tabelas responsivas sem scroll horizontal */
+        .table-responsive-no-scroll {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+        .table-responsive-no-scroll th,
+        .table-responsive-no-scroll td {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        @media (max-width: 640px) {
+            .table-responsive-no-scroll th,
+            .table-responsive-no-scroll td {
+                padding: 0.5rem 0.35rem !important;
+                font-size: 0.8125rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-screen antialiased selection:bg-amber-200 selection:text-amber-900">
+
+    <!-- Container Principal -->
+    <div class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+
+        <!-- Header da Página -->
+        <header class="border-b border-slate-200 pb-6 mb-8">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    <i class="fa-solid fa-graduation-cap"></i> Foco EBTT / IFSC - Banca FAURGS
+                </span>
+                <span class="text-xs text-slate-500 font-medium">
+                    <i class="fa-regular fa-clock mr-1"></i> Resumo de Memorização Rápida
+                </span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight mb-2">
+                Educação de Jovens e Adultos (EJA e PROEJA)
+            </h1>
+            <p class="text-sm sm:text-base text-slate-600">
+                Guia sintético de revisão com focos em números de ouro, marcos legais, diretrizes operacionais e anti-pegadinhas da banca FAURGS.
+            </p>
+        </header>
+
+        <!-- REPRODUTOR DE ÁUDIO MP3 -->
+        <section class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-10 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-headphones text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 leading-none">Áudio da Aula / Resumo Guiado</h2>
+                        <span class="text-xs text-slate-500">Ouça o resumo completo em MP3</span>
+                    </div>
+                </div>
+                <!-- Velocidade do Áudio -->
+                <div class="flex items-center gap-1 self-end sm:self-auto">
+                    <span class="text-xs font-medium text-slate-500 mr-1">Velocidade:</span>
+                    <button onclick="setAudioSpeed(1)" class="speed-btn px-2 py-1 text-xs font-semibold rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 active">1x</button>
+                    <button onclick="setAudioSpeed(1.25)" class="speed-btn px-2 py-1 text-xs font-semibold rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-100">1.25x</button>
+                    <button onclick="setAudioSpeed(1.5)" class="speed-btn px-2 py-1 text-xs font-semibold rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-100">1.5x</button>
+                    <button onclick="setAudioSpeed(2)" class="speed-btn px-2 py-1 text-xs font-semibold rounded bg-white border border-slate-300 text-slate-700 hover:bg-slate-100">2x</button>
+                </div>
+            </div>
+
+            <!-- Player Nativo Customizado -->
+            <audio id="audioPlayer" class="w-full mt-2 focus:outline-none" controls>
+                <!-- Nome do arquivo configurável -->
+                <source id="audioSource" src="audio7.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+
+            <!-- Configuração fácil do caminho do áudio -->
+            <div class="mt-3 pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center gap-2 text-xs text-slate-600">
+                <label for="audioFileInput" class="font-semibold whitespace-nowrap text-slate-700">
+                    <i class="fa-solid fa-file-audio text-emerald-600 mr-1"></i> Nome do Arquivo MP3:
+                </label>
+                <div class="flex w-full gap-2">
+                    <input type="text" id="audioFileInput" value="audio7.mp3" placeholder="Ex: audio7.mp3 ou audio.mp3"
+                           class="flex-1 px-3 py-1.5 border border-slate-300 rounded-md text-xs font-mono focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-slate-800">
+                    <button onclick="updateAudioSource()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-md text-xs transition">
+                        Atualizar Áudio
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTEÚDO PRINCIPAL DO RESUMO -->
+        <main class="space-y-10">
+
+            <!-- SEÇÃO 1: NÚMEROS E REGRAS DE OURO -->
+            <section class="bg-white">
+                <div class="flex items-center gap-2 border-b-2 border-emerald-600 pb-2 mb-4">
+                    <span class="text-emerald-700 font-black text-lg">1.</span>
+                    <h2 class="text-xl font-bold text-slate-900">Números e Regras de Ouro (Mnemônicos de Prova)</h2>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-4">
+                    A banca FAURGS costuma trocar números de idade, cargas horárias e porcentagens nas questões objetivas. Memorize os valores exatos:
+                </p>
+
+                <!-- Tabela Sem Scroll Horizontal -->
+                <div class="border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+                    <table class="table-responsive-no-scroll text-sm">
+                        <thead class="bg-slate-100 border-b border-slate-200 text-slate-800 font-bold">
+                            <tr>
+                                <th class="p-3 text-left w-3/12">Parâmetro</th>
+                                <th class="p-3 text-left w-4/12">Regra Legal / Exigência</th>
+                                <th class="p-3 text-left w-5/12">Ponto de Atenção em Prova</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="grifado">15 anos</span>
+                                </td>
+                                <td class="p-3">
+                                    Idade mínima para prestação de exames supletivos do <strong class="text-slate-900">Ensino Fundamental</strong> (LDB, Art. 38, § 1º, I).
+                                </td>
+                                <td class="p-3">
+                                    <span class="grifado-verde">Impossível</span> realizar exames de EF antes de 15 anos completos, sem exceção por emancipação civil.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="grifado">18 anos</span>
+                                </td>
+                                <td class="p-3">
+                                    Idade mínima para prestação de exames supletivos do <strong class="text-slate-900">Ensino Médio</strong> (LDB, Art. 38, § 1º, II).
+                                </td>
+                                <td class="p-3">
+                                    Exigidos <span class="grifado-azul">18 anos completos</span> na data da realização do exame (ex.: ENCCEJA Ensino Médio).
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="grifado">10% (no mínimo)</span>
+                                </td>
+                                <td class="p-3">
+                                    Cota compulsória de vagas de ingresso nos cursos técnicos para a modalidade <strong class="text-slate-900">PROEJA/EJA-EPT</strong> nos Institutos Federais (Lei nº 11.892/2008).
+                                </td>
+                                <td class="p-3">
+                                    A cota incide estritamente sobre as vagas dos <span class="grifado">cursos técnicos de nível médio</span>, e NÃO sobre cursos superiores/graduações.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="grifado">1.600 horas</span>
+                                </td>
+                                <td class="p-3">
+                                    Carga horária total mínima para o <strong class="text-slate-900">2º Segmento do Ensino Fundamental</strong> (Anos Finais) na EJA (Resolução CNE/CEB nº 1/2021).
+                                </td>
+                                <td class="p-3">
+                                    Carga horária regulamentada para a Formação Geral Básica do 2º segmento na EJA.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="grifado">2.400 horas</span>
+                                </td>
+                                <td class="p-3">
+                                    Carga horária mínima total para o <strong class="text-slate-900">PROEJA Ensino Médio Integrado</strong> (1.200h de Formação Geral + 1.200h de Educação Profissional / conforme catálogo técnico).
+                                </td>
+                                <td class="p-3">
+                                    Garante a <span class="grifado-verde">indissociabilidade</span> entre a educação básica e a habilitação técnica em uma única matriz.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="grifado">1.400 horas</span>
+                                </td>
+                                <td class="p-3">
+                                    Carga horária mínima para o <strong class="text-slate-900">PROEJA Ensino Fundamental (FIC)</strong> (1.000h de ensino fundamental + 400h de qualificação profissional).
+                                </td>
+                                <td class="p-3">
+                                    Direcionado aos trabalhadores sem conclusão dos Anos Finais do EF.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="grifado">100% Presencial</span>
+                                </td>
+                                <td class="p-3">
+                                    Obrigatoriedade de oferta presencial para o <strong class="text-slate-900">1º Segmento do Ensino Fundamental</strong> (Anos Iniciais) (Resolução CNE/CEB nº 1/2021).
+                                </td>
+                                <td class="p-3">
+                                    É <span class="grifado">terminantemente vedada</span> a oferta do 1º Segmento da EJA na modalidade Educação a Distância (EAD).
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEÇÃO ADICIONADA: BASES TEÓRICO-FILOSÓFICAS E PEDAGÓGICAS -->
+            <section class="bg-white">
+                <div class="flex items-center gap-2 border-b-2 border-emerald-600 pb-2 mb-4">
+                    <span class="text-emerald-700 font-black text-lg">2.</span>
+                    <h2 class="text-xl font-bold text-slate-900">Bases Teórico-Filosóficas da EJA e EJA-EPT (Aptos para Prova)</h2>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-4">
+                    Questões teóricas de concurso sobre EJA no Ensino Básico, Técnico e Tecnológico (EBTT) recorrem diretamente a referenciais da Pedagogia Crítica e da Educação Profissional:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Paulo Freire -->
+                    <div class="p-4 border border-slate-200 rounded-lg bg-slate-50/50">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-book-open-reader text-emerald-600 text-lg"></i>
+                            <h3 class="font-bold text-slate-900">Paulo Freire: Dialogicidade e Autonomia</h3>
+                        </div>
+                        <ul class="text-xs text-slate-700 space-y-1.5 leading-relaxed">
+                            <li>&bull; <strong class="text-slate-900">Leitura do mundo:</strong> Antecede a leitura da palavra. O conhecimento prévio do estudante é o ponto de partida obrigatorio.</li>
+                            <li>&bull; <span class="grifado">Anti-Educação Bancária:</span> Rejeita a deposição mecanicista de conteúdos. Exige problematização e diálogo liberador.</li>
+                            <li>&bull; <strong class="text-slate-900">Conscientização:</strong> Passagem da consciência ingênua para a consciência crítica e emancipadora.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Marise Ramos & Gaudêncio Frigotto -->
+                    <div class="p-4 border border-slate-200 rounded-lg bg-slate-50/50">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-briefcase text-blue-600 text-lg"></i>
+                            <h3 class="font-bold text-slate-900">Trabalho como Princípio Educativo</h3>
+                        </div>
+                        <ul class="text-xs text-slate-700 space-y-1.5 leading-relaxed">
+                            <li>&bull; <span class="grifado-azul">Trabalho Ontológico:</span> O trabalho como ação humana de produção da própria existência e cultura (diferente da mera adaptação ao mercado de trabalho).</li>
+                            <li>&bull; <strong class="text-slate-900">Formação Omnilateral:</strong> Desenvolvimento integral das faculdades físicas, intelectuais, técnicas, éticas e estéticas do sujeito.</li>
+                            <li>&bull; Superação da divisão histórica entre trabalho manual e intelectual.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Maria Ciavatta -->
+                    <div class="p-4 border border-slate-200 rounded-lg bg-slate-50/50">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-puzzle-piece text-purple-600 text-lg"></i>
+                            <h3 class="font-bold text-slate-900">Integração Curricular & Cidadania</h3>
+                        </div>
+                        <ul class="text-xs text-slate-700 space-y-1.5 leading-relaxed">
+                            <li>&bull; <strong class="text-slate-900">Pesquisa como Princípio Pedagógico:</strong> O estudante EJA produz conhecimento investigativo e não apenas consome dados.</li>
+                            <li>&bull; <span class="grifado-verde">Eixos Estruturantes:</span> Trabalho, Ciência, Tecnologia e Cultura articulados na matriz do PROEJA.</li>
+                            <li>&bull; Não-infantilização dos sujeitos da EJA.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO 3: TRÊS FUNÇÕES ESSENCIAIS DA EJA -->
+            <section class="bg-white">
+                <div class="flex items-center gap-2 border-b-2 border-emerald-600 pb-2 mb-4">
+                    <span class="text-emerald-700 font-black text-lg">3.</span>
+                    <h2 class="text-xl font-bold text-slate-900">Três Funções Essenciais da EJA (Parecer CNE/CEB nº 11/2000)</h2>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-4">
+                    Diretrizes conceituais e normativas estabelecidas pelo Parecer CNE/CEB nº 11/2000 para a Educação de Jovens e Adultos:
+                </p>
+
+                <!-- Tabela Ocupando Toda a Largura Sem Scroll Horizontal -->
+                <div class="border border-slate-200 rounded-lg overflow-hidden shadow-sm w-full">
+                    <table class="table-responsive-no-scroll w-full text-sm">
+                        <thead class="bg-slate-100 border-b border-slate-200 text-slate-800 font-bold">
+                            <tr>
+                                <th class="p-3 text-left w-3/12">Função</th>
+                                <th class="p-3 text-left w-5/12">Conceito e Significado Legal</th>
+                                <th class="p-3 text-left w-4/12">Foco para a Prova FAURGS</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="inline-flex items-center gap-1.5 font-bold text-amber-800">
+                                        <i class="fa-solid fa-scale-balanced text-amber-600"></i> Função Reparadora
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    Restauração de um <span class="grifado">direito civil e político sonegado</span> pelo Estado na idade própria. Reconhece a dívida social histórica com os não escolarizados.
+                                </td>
+                                <td class="p-3">
+                                    <span class="grifado-verde">Não é mero assistencialismo ou caridade</span>; é direito subjetivo e indisponível do cidadão.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="inline-flex items-center gap-1.5 font-bold text-blue-800">
+                                        <i class="fa-solid fa-equals text-blue-600"></i> Função Equalizadora
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    Garantia de <span class="grifado-azul">redistribuição e equidade</span>, oferecendo oportunidades reais de reingresso e permanência para superar desigualdades sociais e econômicas.
+                                </td>
+                                <td class="p-3">
+                                    Exige <span class="grifado">adequação às condições do trabalhador</span> (flexibilidade de horários, acesso e metodologias).
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900">
+                                    <span class="inline-flex items-center gap-1.5 font-bold text-emerald-800">
+                                        <i class="fa-solid fa-chart-line text-emerald-600"></i> Função Qualificadora
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    Educação permanente e atualização contínua ao longo da vida (<span class="grifado-verde">lifelong learning</span>), visando à valorização do trabalhador e o exercício pleno da cidadania.
+                                </td>
+                                <td class="p-3">
+                                    Propicia a <span class="grifado-verde">reorganização de saberes e potencialidades</span>, superando o mero adestramento operacional.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEÇÃO 4: SÍNTESE DOS MARCOS LEGAIS E NORMATIVOS -->
+            <section class="bg-white">
+                <div class="flex items-center gap-2 border-b-2 border-emerald-600 pb-2 mb-4">
+                    <span class="text-emerald-700 font-black text-lg">4.</span>
+                    <h2 class="text-xl font-bold text-slate-900">Síntese dos Marcos Legais e Normativos</h2>
+                </div>
+
+                <div class="space-y-4 text-sm text-slate-700">
+                    <!-- LDB -->
+                    <div class="p-4 border-l-4 border-slate-800 bg-slate-50 rounded-r-lg">
+                        <h3 class="font-bold text-slate-900 mb-1">
+                            LDB (Lei nº 9.394/1996) – Arts. 37 e 38
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm">
+                            <li><strong class="text-slate-900">Art. 37:</strong> Define a EJA como modalidade da Educação Básica destinada àqueles que não tiveram acesso ou continuidade de estudos no Ensino Fundamental e Médio na idade própria. Exige <span class="grifado">adequação às condições do trabalhador</span> (horários, calendário e metodologias).</li>
+                            <li><strong class="text-slate-900">Art. 38:</strong> Regulamenta os exames supletivos mantendo a exigência absoluta de <span class="grifado">15 anos para EF</span> e <span class="grifado">18 anos para EM</span>. Conhecimentos e habilidades adquiridos por meios informais serão aferidos e reconhecidos mediante exames.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Decreto PROEJA -->
+                    <div class="p-4 border-l-4 border-emerald-600 bg-slate-50 rounded-r-lg">
+                        <h3 class="font-bold text-slate-900 mb-1">
+                            Decreto nº 5.840/2006 (PROEJA)
+                        </h3>
+                        <p class="text-xs sm:text-sm mb-2">
+                            Institui o Programa Nacional de Integração da Educação Profissional com a Educação Básica na Modalidade de Educação de Jovens e Adultos na Rede Federal.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-medium">
+                            <div class="bg-white p-2.5 rounded border border-slate-200">
+                                <strong class="text-slate-900 block mb-1">Linha de Ação 1: FIC (Formação Inicial e Continuada)</strong>
+                                Carga horária mínima de <span class="grifado-verde">1.400h</span> (sendo 1.000h de EF e 400h de qualificação profissional).
+                            </div>
+                            <div class="bg-white p-2.5 rounded border border-slate-200">
+                                <strong class="text-slate-900 block mb-1">Linha de Ação 2: Técnica de Nível Médio</strong>
+                                Carga horária mínima de <span class="grifado-verde">2.400h</span> (sendo 1.200h de Formação Geral e 1.200h Técnica) na modalidade integrada com <span class="grifado">matrícula única</span> na mesma instituição.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lei dos IFs -->
+                    <div class="p-4 border-l-4 border-blue-600 bg-slate-50 rounded-r-lg">
+                        <h3 class="font-bold text-slate-900 mb-1">
+                            Lei nº 11.892/2008 (Criação da Rede Federal e Institutos Federais)
+                        </h3>
+                        <p class="text-xs sm:text-sm">
+                            Define a missão prioritariamente inclusiva dos Institutos Federais. Torna obrigatório o compromisso de destinar <span class="grifado-azul">no mínimo 10% das vagas de ingresso</span> dos cursos técnicos de nível médio para o PROEJA.
+                        </p>
+                    </div>
+
+                    <!-- Reconhecimento de Saberes / Rede CERTIFIC -->
+                    <div class="p-4 border-l-4 border-purple-600 bg-slate-50 rounded-r-lg">
+                        <h3 class="font-bold text-slate-900 mb-1">
+                            Reconhecimento, Validação e Certificação de Saberes (Rede CERTIFIC)
+                        </h3>
+                        <p class="text-xs sm:text-sm">
+                            Garante ao trabalhador adulto o direito de ter suas competências profissionais e conhecimentos adquiridos em experiências de vida e de trabalho <span class="grifado-verde">avaliados, reconhecidos e certificados formalmente</span> pelos Institutos Federais para fins de prosseguimento de estudos ou progressão profissional.
+                        </p>
+                    </div>
+
+                    <!-- Resolução CNE/CEB 1/2021 -->
+                    <div class="p-4 border-l-4 border-amber-500 bg-slate-50 rounded-r-lg">
+                        <h3 class="font-bold text-slate-900 mb-2">
+                            Resolução CNE/CEB nº 1/2021 (Diretrizes Operacionais Nacionais)
+                        </h3>
+                        <p class="text-xs sm:text-sm mb-3">
+                            Alinha a EJA à Base Nacional Comum Curricular (BNCC) e estabelece <strong class="text-slate-900">4 alternativas operacionais flexíveis de atendimento</strong>:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <span class="font-bold text-amber-900 block mb-1">1. EJA Combinada</span>
+                                Modalidade presencial com divisão da carga horária em momentos de atendimento direto (presenciais) e indireto (atividades pedagógicas guiadas).
+                            </div>
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <span class="font-bold text-amber-900 block mb-1">2. EJA Direcionada</span>
+                                Atendimento presencial ao estudante trabalhador em horários flexíveis e mediação em espaços pedagógicos empresariais ou comunitários.
+                            </div>
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <span class="font-bold text-amber-900 block mb-1">3. EJA Multietapas</span>
+                                Turmas organizadas com estudantes de diferentes etapas/níveis no mesmo espaço físico, devido à baixa demanda ou restrições de infraestrutura local.
+                            </div>
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <span class="font-bold text-amber-900 block mb-1">4. EJA Vinculada</span>
+                                Turmas instaladas em unidades acolhedoras (espaços comunitários ou de empresas) vinculadas administrativamente a uma escola sede responsável pela gestão acadêmica.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO 5: TABELA ANTI-PEGUINHA FAURGS -->
+            <section class="bg-white">
+                <div class="flex items-center gap-2 border-b-2 border-emerald-600 pb-2 mb-4">
+                    <span class="text-emerald-700 font-black text-lg">5.</span>
+                    <h2 class="text-xl font-bold text-slate-900">Tabela "Anti-Peguinha": O Perfil de Cobrança da FAURGS</h2>
+                </div>
+
+                <p class="text-sm text-slate-600 mb-4">
+                    Compare os distratores mais comuns usados pela banca FAURGS em provas da carreira EBTT com a previsão legal/teórica correta:
+                </p>
+
+                <!-- Tabela Sem Scroll Horizontal -->
+                <div class="border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+                    <table class="table-responsive-no-scroll text-sm">
+                        <thead class="bg-rose-50 border-b border-rose-200 text-rose-950 font-bold">
+                            <tr>
+                                <th class="p-3 text-left w-5/12 border-r border-rose-200">
+                                    <i class="fa-solid fa-xmark text-rose-600 mr-1"></i> O que a FAURGS afirma no distrator (ERRADO)
+                                </th>
+                                <th class="p-3 text-left w-7/12">
+                                    <i class="fa-solid fa-check text-emerald-600 mr-1"></i> O que a Legislação/Teoria determina (CORRETO)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 bg-rose-50/30 font-medium text-rose-900 border-r border-slate-200">
+                                    Aluno emancipado de 14 anos pode realizar o exame supletivo do Ensino Fundamental.
+                                </td>
+                                <td class="p-3">
+                                    A exigência de <span class="grifado">15 anos para EF</span> e <span class="grifado">18 anos para EM</span> é <strong class="text-slate-900">ABSOLUTA</strong> no Art. 38 da LDB, não admitindo exceção por emancipação civil.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 bg-rose-50/30 font-medium text-rose-900 border-r border-slate-200">
+                                    A cota de 10% do PROEJA é calculada sobre o total geral de estudantes do campus (incluindo graduações).
+                                </td>
+                                <td class="p-3">
+                                    A cota obrigatória de <span class="grifado">no mínimo 10%</span> incide estritamente sobre as vagas de <strong class="text-slate-900">cursos técnicos de nível médio</strong> (Lei nº 11.892/2008).
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 bg-rose-50/30 font-medium text-rose-900 border-r border-slate-200">
+                                    Os Anos Iniciais do Ensino Fundamental (1º Segmento) podem ser ofertados 100% via Educação a Distância (EAD).
+                                </td>
+                                <td class="p-3">
+                                    O <strong class="text-slate-900">1º Segmento da EJA é OBRIGATORIAMENTE presencial</strong>. A EAD é vedada para os anos iniciais do EF (Resolução CNE/CEB nº 1/2021).
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 bg-rose-50/30 font-medium text-rose-900 border-r border-slate-200">
+                                    O trabalho no PROEJA deve ser compreendido estritamente como adestramento técnico para o mercado de trabalho.
+                                </td>
+                                <td class="p-3">
+                                    O trabalho é adotado como <span class="grifado-verde">princípio educativo e ontológico</span>, visando à formação humana integral e à emancipação (Ramos/Frigotto).
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 bg-rose-50/30 font-medium text-rose-900 border-r border-slate-200">
+                                    A avaliação no PROEJA deve ser somativa, punitiva e focada em provas teóricas padronizadas.
+                                </td>
+                                <td class="p-3">
+                                    A avaliação deve ser <strong class="text-slate-900">diagnóstica, formativa e processual</strong>, respeitando a heterogeneidade e a trajetória de vida do trabalhador adultas.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 bg-rose-50/30 font-medium text-rose-900 border-r border-slate-200">
+                                    A metodologia de Informática no PROEJA deve ser instrucional, bancária e focada na repetição mecanicista.
+                                </td>
+                                <td class="p-3">
+                                    A EJA na EPT adota a <span class="grifado-verde">pedagogia crítica</span> e a <span class="grifado-verde">formação humana integral</span> (Freire/Ramos), promovendo o letramento digital emancipatório e a autonomia.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 bg-rose-50/30 font-medium text-rose-900 border-r border-slate-200">
+                                    O público da EJA é homogêneo, devendo ter currículo simplificado ou infantilizado.
+                                </td>
+                                <td class="p-3">
+                                    O público é <strong class="text-slate-900">acentuadamente heterogêneo</strong> (jovens, adultos e idosos). É <span class="grifado">terminantemente vedada a infantilização</span> dos materiais e métodos.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEÇÃO 6: PRÁXIS PEDAGÓGICA NO IFSC -->
+            <section class="bg-white">
+                <div class="flex items-center gap-2 border-b-2 border-emerald-600 pb-2 mb-4">
+                    <span class="text-emerald-700 font-black text-lg">6.</span>
+                    <h2 class="text-xl font-bold text-slate-900">Práxis Pedagógica no IFSC (Aplicações para o Professor de Informática)</h2>
+                </div>
+
+                <div class="space-y-3 text-sm text-slate-700">
+                    <div class="p-3.5 border border-slate-200 rounded-lg flex items-start gap-3 bg-slate-50/50">
+                        <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Letramento Digital Crítico & Software Livre</h3>
+                            <p class="text-xs text-slate-600">
+                                O ensino de tópicos de computação (hardware, redes, algoritmos, softwares) não deve ser mero adestramento técnico instrumental. Deve incentivar o uso de <span class="grifado-verde">softwares livres e tecnologias abertas</span> como instrumento de cidadania, soberania tecnológica e emancipação do trabalhador contra a precarização do trabalho digital.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 border border-slate-200 rounded-lg flex items-start gap-3 bg-slate-50/50">
+                        <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Valorização do Saber Empírico e da Práxis</h3>
+                            <p class="text-xs text-slate-600">
+                                O estudante adulto traz consigo conhecimentos prévios construídos em sua vida profissional e social. O ensino de tecnologia deve articular esses <span class="grifado">saberes da experiência</span> com os saberes acadêmicos e científicos, permitindo a certificação de saberes informais.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 border border-slate-200 rounded-lg flex items-start gap-3 bg-slate-50/50">
+                        <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Gestão Institucional no IFSC & Mitigação de Evasão</h3>
+                            <p class="text-xs text-slate-600">
+                                Conhecer a atuação do Núcleo de Implementação da EJA (<strong class="text-slate-900">NUPEJA</strong>) nos campi e a Comissão Permanente de Implementação da Política de EJA-EPT (<strong class="text-slate-900">CPEJA</strong>), responsáveis por garantir flexibilização curricular, itinerários formativos abertos, busca ativa e assistência estudantil para combater a evasão escolar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- BOTÃO DE DIRECIONAMENTO PARA QUESTÕES -->
+        <footer class="mt-12 pt-8 border-t border-slate-200 text-center">
+            <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl max-w-2xl mx-auto shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Pronto para testar seus conhecimentos?</h3>
+                <p class="text-xs sm:text-sm text-slate-600 mb-5">
+                    Fixe a teoria e os pontos de memorização respondendo a questões práticas focadas na banca FAURGS e no perfil do concurso IFSC.
+                </p>
+                <a href="questoes7.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-lg text-sm transition-all shadow hover:shadow-md">
+                    <i class="fa-solid fa-pen-to-square"></i> Ir para Questões de Fixação (questoes.html)
+                </a>
+            </div>
+            <p class="text-xs text-slate-400 mt-6">
+                Material de Estudo Integrado &bull; IFSC EBTT Informática
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPTS PARA CONTROLE DO PLAYER DE ÁUDIO -->
+    <script>
+        // Função para atualizar a velocidade de reprodução do áudio
+        function setAudioSpeed(speed) {
+            const player = document.getElementById('audioPlayer');
+            if (player) {
+                player.playbackRate = speed;
+            }
+            
+            // Atualizar classes dos botões
+            const buttons = document.querySelectorAll('.speed-btn');
+            buttons.forEach(btn => {
+                if (parseFloat(btn.innerText) === speed) {
+                    btn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
+                    btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-300');
+                } else {
+                    btn.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600');
+                    btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300');
+                }
+            });
+        }
+
+        // Função para atualizar dinamicamente o arquivo MP3 de áudio
+        function updateAudioSource() {
+            const input = document.getElementById('audioFileInput');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const audioSource = document.getElementById('audioSource');
+            
+            if (input && input.value.trim() !== '') {
+                const newPath = input.value.trim();
+                audioSource.src = newPath;
+                audioPlayer.load();
+                console.log('Novo arquivo de áudio carregado:', newPath);
+            }
+        }
+    </script>
+</body>
+</html>
