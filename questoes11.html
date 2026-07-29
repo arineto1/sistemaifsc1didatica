@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Didática e Formação Docente - Banca FAURGS</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fontes Google - Inter & Merriweather para excelente legibilidade -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        cream: '#faf9f5',
+                        paper: '#ffffff',
+                        charcoal: '#1e293b',
+                        muted: '#475569',
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                        },
+                        navy: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .question-text {
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+        }
+
+        .option-card {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .option-card:hover:not(.disabled) {
+            border-color: #3b82f6;
+            background-color: #f0f9ff;
+        }
+
+        .option-card.selected {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            box-shadow: 0 0 0 1px #2563eb;
+        }
+
+        .option-card.correct-answer {
+            border-color: #16a34a !important;
+            background-color: #f0fdf4 !important;
+            box-shadow: 0 0 0 1px #16a34a !important;
+        }
+
+        .option-card.wrong-answer {
+            border-color: #dc2626 !important;
+            background-color: #fef2f2 !important;
+            box-shadow: 0 0 0 1px #dc2626 !important;
+        }
+
+        /* Animações suaves */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbar customizada suave */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- Top Progress Bar (Fixed) -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-blue-900 text-white font-bold text-xs uppercase px-2.5 py-1 rounded tracking-wide">FAURGS</span>
+                <h1 class="text-sm md:text-base font-semibold text-slate-800 truncate">Didática e Formação Docente</h1>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <span id="progress-text" class="text-xs font-semibold text-slate-600">0 de 10 respondidas</span>
+                    <div class="w-28 md:w-36 bg-slate-200 h-2 rounded-full overflow-hidden mt-0.5">
+                        <div id="progress-bar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl w-full mx-auto px-4 py-8 flex-grow">
+
+        <!-- Intro Banner -->
+        <section id="intro-card" class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4 mb-4">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-900 font-sans">Simulado Concurso Magistério</h2>
+                    <p class="text-slate-600 text-sm mt-1">Questões inéditas e adaptadas no estilo da banca FAURGS com fundamentação completa.</p>
+                </div>
+                <div class="flex items-center gap-2 self-start md:self-auto">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
+                        <i class="fa-regular fa-file-lines text-slate-500"></i> 10 Questões
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                        <i class="fa-regular fa-clock text-blue-500"></i> Sem limite de tempo
+                    </span>
+                </div>
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed">
+                Selecione uma alternativa para cada questão. Ao clicar em <strong>"Finalizar e Corrigir Simulado"</strong>, sua pontuação será calculada instantaneamente e as resoluções detalhadas serão exibidas diretamente abaixo de cada questão.
+            </p>
+        </section>
+
+        <!-- Score Summary Header (Hidden by default, shown upon submission) -->
+        <section id="score-summary" class="hidden mb-8 bg-white rounded-xl border border-slate-200 shadow-md overflow-hidden fade-in">
+            <div id="score-banner-bg" class="bg-blue-900 text-white p-6 md:p-8">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur rounded-full text-xs font-medium uppercase tracking-wider mb-2">Resultado Final</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold" id="score-title">Desempenho no Simulado</h2>
+                        <p class="text-blue-100 text-sm mt-1" id="score-subtitle">Confira abaixo o resumo de acertos e a correção questão por questão.</p>
+                    </div>
+
+                    <div class="flex items-center justify-center bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/20 min-w-[160px] text-center">
+                        <div>
+                            <span class="block text-4xl font-extrabold" id="score-number">0/10</span>
+                            <span class="block text-xs uppercase tracking-wider text-blue-100 mt-1" id="score-percent">0% de Aproveitamento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 text-sm">
+                <span class="font-semibold text-slate-700">Filtrar exibição:</span>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="filterQuestions('all')" id="btn-filter-all" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white shadow-sm transition">
+                        Todas (10)
+                    </button>
+                    <button onclick="filterQuestions('correct')" id="btn-filter-correct" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-check text-green-600 mr-1"></i> Acertos (<span id="count-correct">0</span>)
+                    </button>
+                    <button onclick="filterQuestions('wrong')" id="btn-filter-wrong" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-xmark text-red-600 mr-1"></i> Erros/Em Branco (<span id="count-wrong">0</span>)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Form & Questions Container -->
+        <form id="quiz-form" onsubmit="event.preventDefault(); finishQuiz();">
+            <div id="questions-container" class="space-y-8">
+                <!-- Questions will be injected dynamically via JS -->
+            </div>
+
+            <div id="action-bar" class="mt-8 p-6 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-xs text-slate-500">
+                    <i class="fa-solid fa-circle-info mr-1 text-blue-500"></i> Resposta obrigatória em todas as questões para feedback completo.
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <button type="button" onclick="resetQuiz()" class="w-1/2 sm:w-auto px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-medium text-sm hover:bg-slate-50 transition">
+                        Limpar Respostas
+                    </button>
+                    <button type="submit" id="btn-submit" class="w-1/2 sm:w-auto px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition flex items-center justify-center gap-2">
+                        <span>Finalizar e Corrigir Simulado</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Official Answer Key & Resolution Table (Hidden by default, shown upon submission) -->
+        <section id="gabarito-table-section" class="hidden mt-12 bg-white rounded-xl border border-slate-200 shadow-sm p-6 fade-in">
+            <h3 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-3 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-table-list text-blue-600"></i> Gabarito Oficial e Quadro Temático
+            </h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-slate-700 border-collapse">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100 border-b border-slate-200">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-center">Questão</th>
+                            <th scope="col" class="px-4 py-3 text-center">Gabarito</th>
+                            <th scope="col" class="px-4 py-3">Fundamentação Teórico-Temática</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200" id="gabarito-table-body">
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="font-medium text-slate-700">Simulado de Didática e Formação Docente – Padrão Banca FAURGS</p>
+            <p class="mt-1">Interface otimizada para leitura e estudo continuado de concursos públicos do magistério.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data & Logic -->
+    <script>
+        const quizData = [
+            {
+                id: 1,
+                title: "Questão 1",
+                topic: "Conceito de Didática como Teoria do Ensino e Mediação Teoria-Prática (Libâneo)",
+                text: "A formação profissional do professor exige uma articulação contínua entre a teoria e a prática pedagógica, em que a teoria se vincula aos problemas da experiência e a ação prática é orientada teoricamente. Nesse processo, a Didática atua como mediação entre as bases teórico-científicas da educação e a prática docente concreta. Considerando a concepção de José Carlos Libâneo sobre o papel e a caracterização da Didática no processo de formação de professores, assinale a alternativa correta.",
+                options: [
+                    { letter: "A", text: "A Didática constitui-se em uma disciplina puramente prescritiva e instrumental, devendo atuar de forma dissociada dos condicionantes sociais, políticos e ideológicos da escolarização." },
+                    { letter: "B", text: "A Didática se caracteriza como teoria do ensino, assegurando a síntese entre a teoria pedagógica e a prática educativa real ao integrar fins e meios da educação escolar." },
+                    { letter: "C", text: "A formação docente efetiva deve focar exclusivamente no pragmatismo de sala de aula, dispensando o embasamento teórico pedagógico na tomada de decisões didáticas." },
+                    { letter: "D", text: "A Didática reduces-se ao campo das técnicas de controle disciplinar e da psicologia da aprendizagem individual, sem relação com a organização do trabalho pedagógico global." },
+                    { letter: "E", text: "A formação docente prescinde da reflexão sobre os métodos de ensino, visto que a experiência prática substitui a necessidade de sistematização metodológica." }
+                ],
+                correct: "B",
+                resolution: {
+                    correctReason: "A resposta fundamenta-se nos postulados pedagógicos de José Carlos Libâneo, para quem a Didática ultrapassa o caráter de mero instrumental técnico ao configurar-se como uma teoria do ensino que estuda o processo de ensino-aprendizagem no seu conjunto. A disciplina articula objetivos, conteúdos, métodos e formas organizativas da aula para assegurar a mediação entre as bases teórico-científicas da educação e a prática educativa concreta.",
+                    incorrectReasons: [
+                        "<strong>A está incorreta:</strong> A Didática crítica recusa o tecnicismo neutro e considera indispensáveis os condicionamentos sociopolíticos da escola.",
+                        "<strong>C está incorreta:</strong> O trabalho pedagógico não subsiste no pragmatismo empírico; a práxis exige orientação teórica explícita.",
+                        "<strong>D está incorreta:</strong> A Didática não se restringe ao controle disciplinar nem à psicologia individual, mas abrange o processo formativo integral.",
+                        "<strong>E está incorreta:</strong> O domínio dos métodos pedagógicos é estruturante para a ação docente intencional."
+                    ]
+                }
+            },
+            {
+                id: 2,
+                title: "Questão 2",
+                topic: "As Três Dimensões da Didática Fundamental (Vera Maria Candau)",
+                text: "Numere a segunda coluna de acordo com a primeira, associando as três dimensões da Didática Fundamental proposta por Vera Maria Candau às suas respectivas características no processo de ensino-aprendizagem.<br><br><strong>Coluna 1</strong><br>1. Dimensão técnica<br>2. Dimensão humana<br>3. Dimensão política<br><br><strong>Coluna 2</strong><br>( &nbsp; ) A relação interpessoal é o centro do processo, e o componente afetivo está presente.<br>( &nbsp; ) Refere-se ao processo de ensino-aprendizagem como ação intencional e sistemática, que procura organizar as condições de aprendizagem e os objetivos instrucionais.<br>( &nbsp; ) Impregna toda a prática pedagógica e reconhece que os condicionamentos sociais incidem sobre o processo de ensino-aprendizagem.<br><br>A sequência correta de preenchimento dos parênteses, de cima para baixo, é:",
+                options: [
+                    { letter: "A", text: "3 – 2 – 1." },
+                    { letter: "B", text: "2 – 3 – 1." },
+                    { letter: "C", text: "1 – 2 – 3." },
+                    { letter: "D", text: "2 – 1 – 3." },
+                    { letter: "E", text: "3 – 1 – 2." }
+                ],
+                correct: "D",
+                resolution: {
+                    correctReason: "A questão resgata a formulação teórica de Vera Maria Candau acerca das três dimensões integradas da Didática Fundamental:<br>• A <strong>dimensão humana (2)</strong> coloca o componente relacional, interpessoal e afetivo no centro do processo didático, justificando o preenchimento do primeiro parêntese com o número 2.<br>• A <strong>dimensão técnica (1)</strong> compreende o ensino como ação intencional e sistemática de organização de objetivos, metodologias e condições de aprendizagem, justificando o preenchimento do segundo parêntese com o número 1.<br>• A <strong>dimensão política (3)</strong> reconhece a imersão da prática educativa no contexto sociocultural e econômico, condicionando a formação escolar à cidadania, justificando o preenchimento do terceiro parêntese com o número 3.",
+                    incorrectReasons: [
+                        "A ordem correta de preenchimento dos parênteses é rigorosamente <strong>2 – 1 – 3</strong>, correspondendo exclusivamente à alternativa D."
+                    ]
+                }
+            },
+            {
+                id: 3,
+                title: "Questão 3",
+                topic: "A Didática Magna e o Ideal Pansófico (Comenius)",
+                text: "A <em>Didática Magna</em>, escrita por Comenius em meados do século XVII, é considerada uma das obras fundadoras da Pedagogia Moderna ao sistematizar o ensino como campo do conhecimento. Sobre essa obra e o pensamento de Comenius, é <strong>INCORRETO</strong> afirmar que:",
+                options: [
+                    { letter: "A", text: "Didática, na obra comeniana, significa a \"arte de ensinar tudo a todos\"." },
+                    { letter: "B", text: "O ideal educativo de Comenius pode ser resumido no chamado ideal pansófico, defendendo a universalização do conhecimento." },
+                    { letter: "C", text: "A Didática Magna preconiza um método de ensino que respeita o desenvolvimento natural e os interesses da criança." },
+                    { letter: "D", text: "Comenius foi um dos mentores do Manifesto dos Pioneiros da Escola Nova no Brasil." },
+                    { letter: "E", text: "O autor defendia a superação do ensino verbalista tradicional por meio da observação direta das coisas e da gradação do processo educativo." }
+                ],
+                correct: "D",
+                resolution: {
+                    correctReason: "<strong>Análise da Alternativa Incorreta (D - Gabarito):</strong> O Manifesto dos Pioneiros da Escola Nova foi publicado em 1932 no Brasil por proeminentes educadores brasileiros, tais como Anísio Teixeira, Lourenço Filho e Fernando de Azevedo, visando à reconstrução educacional do país. Jan Amos Comenius viveu no século XVII na Europa e escreveu a <em>Didática Magna</em> em meados de 1649, sendo anacrônico e incorreto vinculá-lo como redator ou mentor do manifesto brasileiro do século XX.",
+                    incorrectReasons: [
+                        "<strong>A e B estão corretas quanto a Comenius:</strong> A Didática Magna consagrou o ideal pansófico ('ensinar tudo a todos') e definiu a Didática como a arte universal de ensinar.",
+                        "<strong>C e E estão corretas quanto a Comenius:</strong> Comenius propôs a superação da memorização mecânica por meio do respeito ao ritmo biológico e da gradação lógica do simples para o complexo."
+                    ]
+                }
+            },
+            {
+                id: 4,
+                title: "Questão 4",
+                topic: "Currículo por Competências e Prática Pedagógica (Banca FAURGS)",
+                text: "Sobre a organização do trabalho pedagógico e a estruturação de um currículo por competências, é <strong>INCORRETO</strong> afirmar que:",
+                options: [
+                    { letter: "A", text: "Trabalha com tarefas complexas e desafios que mobilizam conhecimentos de modo cooperativo e contextualizado." },
+                    { letter: "B", text: "Atua com uma pedagogia ativa e questionadora, apresentando problemas reais a serem solucionados." },
+                    { letter: "C", text: "Atende às necessidades sociais emergentes, valorizando o trabalho em grupo e a pesquisa." },
+                    { letter: "D", text: "Enaltece os saberes docentes e discentes, privilegiando a descoberta individual em uma área de conhecimento específica." },
+                    { letter: "E", text: "Atua com temáticas cotidianas, exigindo aprofundamento conceitual e investigação." }
+                ],
+                correct: "D",
+                resolution: {
+                    correctReason: "<strong>Análise da Alternativa Incorreta (D - Gabarito):</strong> Em conformidade com as questões oficiais elaboradas pela banca FAURGS sobre organização curricular, o ensino por competências pauta-se pelo trabalho colaborativo, pela cooperação e pela resolução de problemas complexos que extrapolam divisões disciplinares estanques. Afirmar que essa abordagem 'privilegia a descoberta individual em uma área de conhecimento específica' é INCORRETO, pois contraria a dimensão de mobilização integrada e contextualizada de saberes.",
+                    incorrectReasons: [
+                        "<strong>A, B, C e E são afirmações verdadeiras:</strong> Retratam com exatidão os princípios metodológicos do currículo focado no desenvolvimento de competências, valorizando investigações de situações reais e o aprofundamento conceitual contextualizado."
+                    ]
+                }
+            },
+            {
+                id: 5,
+                title: "Questão 5",
+                topic: "Concepção de Avaliação Mediadora (Jussara Hoffmann)",
+                text: "Segundo Jussara Hoffmann, para entender de avaliação mediadora, é essencial conceber a multidimensionalidade do termo aprender. Assinale a alternativa que está em <strong>DESACORDO</strong> com a orientação da autora sobre a avaliação escolar.",
+                options: [
+                    { letter: "A", text: "A avaliação não tem por objetivo definir se os alunos aprendem ou não aprendem, pois a resposta está dada: todos aprendem sempre e aprendem mais com melhores oportunidades para isso." },
+                    { letter: "B", text: "Não há parâmetros de julgamento que deem conta da diversidade do contexto educacional e do ato criativo das aprendizagens." },
+                    { letter: "C", text: "São possíveis e desejáveis práticas avaliativas que transformem a aprendizagem em necessária e obrigatória, em aprender sempre para alguma coisa." },
+                    { letter: "D", text: "A leitura sobre o aprender em avaliação mediadora precisa ser positiva, prospectiva e multidimensional." },
+                    { letter: "E", text: "É imperativo ensinar e mediar o prazer de ler nas escolas, valorizando-o e percebendo-o na dimensão estética do pensamento." }
+                ],
+                correct: "C",
+                resolution: {
+                    correctReason: "<strong>Análise da Alternativa Incorreta (C - Gabarito):</strong> Em sua obra sobre avaliação mediadora, Jussara Hoffmann postula que práticas avaliativas não devem transformar a aprendizagem em algo 'obrigatório ou utilitarista', isto é, 'aprender sempre para alguma coisa' sob imposição. Tratar a aprendizagem de forma meramente compulsória atenta contra o princípio do prazer de aprender e do ato criativo.",
+                    incorrectReasons: [
+                        "<strong>A está alinhada a Hoffmann:</strong> Parte-se do pressuposto positivo de que todos os estudantes são capazes de aprender e que o papel da avaliação é oportunizar avanços pedagógicos.",
+                        "<strong>B e D estão alinhadas a Hoffmann:</strong> O olhar avaliativo mediador recusa métricas classificatórias rígidas e adota uma perspectiva prospectiva e multidimensional.",
+                        "<strong>E está alinhada a Hoffmann:</strong> A leitura e a construção do conhecimento devem ser mediadas valorizando-se a dimensão estética e autônoma do pensamento."
+                    ]
+                }
+            },
+            {
+                id: 6,
+                title: "Questão 6",
+                topic: "Tipologia dos Saberes Docentes (Maurice Tardif)",
+                text: "Maurice Tardif preconiza que a formação docente se fundamenta em um saberes plurais e heterogêneos, oriundos de diferentes fontes sociais e institucionais ao longo da trajetória profissional do professor. Considere as afirmativas abaixo sobre as categorias dos saberes docentes descritas pelo autor:<br><br>I - Os saberes disciplinares correspondem aos conhecimentos das diversas áreas da ciência, integrados e transmitidos pelas faculdades e cursos de formação inicial.<br>II - Os saberes curriculares traduzem-se nos objetivos, conteúdos e programas definidos pela instituição escolar para serem ensinados e aprendidos.<br>III - Os saberes experienciais emergem do exercício cotidiano da profissão docente e das vivências práticas no ambiente escolar, constituindo a cultura do trabalho da aula.<br><br>Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e III." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "E",
+                resolution: {
+                    correctReason: "Maurice Tardif analisa a composição epistêmica da profissão docente e identifica quatro grandes fontes de saberes: saberes da formação profissional, saberes disciplinares, saberes curriculares e saberes experienciais.<br>• <strong>Afirmativa I está correta:</strong> Saberes disciplinares correspondem aos campos de conhecimento e matérias científicas integrados e transmitidos na formação inicial acadêmica.<br>• <strong>Afirmativa II está correta:</strong> Saberes curriculares traduzem os objetivos, programas e conteúdos institucionalizados pela escola.<br>• <strong>Afirmativa III está correta:</strong> Saberes experienciais são construídos no cotidiano da prática pedagógica, mediante a validação de estratégias de trabalho em sala de aula.",
+                    incorrectReasons: [
+                        "Como todas as afirmativas (I, II e III) são verdadeiras e corretas, o gabarito oficial é rigorosamente a alternativa E."
+                    ]
+                }
+            },
+            {
+                id: 7,
+                title: "Questão 7",
+                topic: "Tendências Pedagógicas e o Papel do Professor (José Carlos Libâneo)",
+                text: "As tendências pedagógicas orientam a atuação docente e refletem diferentes concepções de homem, sociedade e escola. Relacione a primeira coluna, que apresenta tendências pedagógicas, com a segunda coluna, que descreve o papel do professor no processo educativo de acordo com José Carlos Libâneo.<br><br><strong>Coluna 1</strong><br>1. Tendência Liberal Tradicional<br>2. Tendência Liberal Renovada Progressista<br>3. Tendência Liberal Tecnicista<br>4. Tendência Progressista Crítico-Social dos Conteúdos<br><br><strong>Coluna 2</strong><br>( &nbsp; ) O professor atua como mediador entre os conteúdos acadêmicos e as estruturas cognitivas e sociais do aluno, garantindo a assimilação ativa do saber.<br>( &nbsp; ) O professor é o centro do processo, autoridade máxima e transmissor expositivo da matéria, cabendo ao aluno a postura passiva e disciplinada.<br>( &nbsp; ) O professor assume o papel de facilitador da aprendizagem e organizador das experiências, centrando a ação pedagógica nos interesses da criança.<br>( &nbsp; ) O professor é um executor técnico de programas instrucionais padronizados, voltados para a eficiência e produtividade do sistema.<br><br>A sequência correta de preenchimento dos parênteses, de cima para baixo, é:",
+                options: [
+                    { letter: "A", text: "4 – 1 – 2 – 3." },
+                    { letter: "B", text: "1 – 4 – 3 – 2." },
+                    { letter: "C", text: "4 – 2 – 1 – 3." },
+                    { letter: "D", text: "2 – 1 – 4 – 3." },
+                    { letter: "E", text: "3 – 4 – 2 – 1." }
+                ],
+                correct: "A",
+                resolution: {
+                    correctReason: "Segundo a sistematização de José Carlos Libâneo sobre as tendências pedagógicas e a organização do trabalho docente:<br>• A <strong>Tendência Progressista Crítico-Social dos Conteúdos (4)</strong> estabelece o professor como mediador entre o saber sistematizado universal e a realidade concreta e estruturas cognitivas dos alunos.<br>• A <strong>Tendência Liberal Tradicional (1)</strong> é centrada na figura do professor como autoridade inquestionável e detentor do conhecimento, exigindo passividade e memorização.<br>• A <strong>Tendência Liberal Renovada Progressista (2)</strong> desloca o foco para o educando, cabendo ao docente facilitar a aprendizagem e organizar vivências ativas.<br>• A <strong>Tendência Liberal Tecnicista (3)</strong> subordina a atuação docente ao cumprimento de manuais e sequências instrucionais elaboradas de forma neutra e padronizada.",
+                    incorrectReasons: [
+                        "A associação sequencial correta resulta em <strong>4 – 1 – 2 – 3</strong>, correspondendo exatamente à alternativa A."
+                    ]
+                }
+            },
+            {
+                id: 8,
+                title: "Questão 8",
+                topic: "Ética, Autonomia e Cidadania Política (Paulo Freire)",
+                text: "Considere as afirmações abaixo sobre a formação para a autonomia e o pensamento pedagógico de Paulo Freire:<br><br>I - O respeito à autonomia e à dignidade de cada educando é um imperativo ético da prática pedagógica libertadora.<br>II - A prática de formação para a Educação de Jovens e Adultos evidencia a necessidade de uma ação voltada à cidadania política e à emancipação social.<br>III - O ato de ensinar restringe-se à transferência de conhecimento acumulado do educador para o educando, que o recebe passivamente.<br><br>Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e II." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: {
+                    correctReason: "Paulo Freire fundamenta a pedagogia crítica na construção da autonomia dos sujeitos e na educação para a liberdade:<br>• <strong>Afirmativa I está correta:</strong> O respeito à dignidade e à autonomia do educando é uma exigência ética inegociável na <em>Pedagogia da Autonomia</em>.<br>• <strong>Afirmativa II está correta:</strong> A atuação docente voltada para a Educação de Jovens e Adultos (EJA) requer intencionalidade de formação para a cidadania política e autonomia social.<br>• <strong>Afirmativa III está incorreta:</strong> Freire refuta de forma contundente a 'concepção bancária da educação', afirmando enfaticamente que ensinar não é transferir conhecimento, mas criar as possibilidades para a sua própria produção ou a sua construção.",
+                    incorrectReasons: [
+                        "Estão corretas apenas as afirmativas I e II, determinando o gabarito oficial na alternativa C."
+                    ]
+                }
+            },
+            {
+                id: 9,
+                title: "Questão 9",
+                topic: "Didática, Organização do Pensamento e Planejamento",
+                text: "Sobre a relação entre Didática, organização da aula e planejamento na formação docente, assinale a alternativa correta.",
+                options: [
+                    { letter: "A", text: "A Didática deve ser dissociada da reflexão teórica para priorizar a aplicação prática de técnicas imediatas em sala de aula." },
+                    { letter: "B", text: "A Didática tem como principal e única função a transferência mecânica e direta de conhecimentos do livro para o aluno." },
+                    { letter: "C", text: "A diversificação de metodologias e recursos pedagógicos é desnecessária, pois os alunos possuem processos idênticos de aprendizagem." },
+                    { letter: "D", text: "A Didática auxilia na organização do pensamento, na definição de objetivos de ensino e na escolha de métodos adequados para a mediação da aprendizagem." },
+                    { letter: "E", text: "O emprego da reflexão didática dispensa a realização do planejamento escolar e a análise de metas educacionais." }
+                ],
+                correct: "D",
+                resolution: {
+                    correctReason: "A Didática desempenha um papel central na formação inicial e continuada do professor ao prover os conhecimentos teóricos e metodológicos necessários para a estruturação do trabalho pedagógico. Ela provê suporte analítico para a organização do pensamento pedagógico, a definição de metas e objetivos de aprendizagem e a seleção criteriosa de metodologias e recursos.",
+                    incorrectReasons: [
+                        "<strong>A e E estão incorretas:</strong> A Didática crítica vincula permanentemente teoria e prática no planejamento da ação educativa.",
+                        "<strong>B está incorreta:</strong> A mediação didática contrapõe-se à simples transmissão bancária de conteúdos informativos.",
+                        "<strong>C está incorreta:</strong> A diversificação metodológica atende à pluralidade dos ritmos e estilos de aprendizagem existentes na sala de aula."
+                    ]
+                }
+            },
+            {
+                id: 10,
+                title: "Questão 10",
+                topic: "Avaliação Diagnóstica, Julgamento de Valor e Erro Construtivo (Luckesi)",
+                text: "Considere as afirmações abaixo sobre a avaliação escolar, a tomada de decisão e a abordagem do erro no processo didático:<br><br>I - De acordo com Cipriano Luckesi, a avaliação é um julgamento de valor sobre o processo de aprendizagem do aluno, tendo em vista uma tomada de decisão pedagógica.<br>II - O erro construtivo caracteriza-se pela criação de hipóteses e explicações por parte do aluno para resolver as atividades propostas, sem que este consiga chegar à resposta considerada correta pelo professor de imediato.<br>III - Diante do erro construtivo, a estratégia pedagógica adotada pelo professor deve ser oferecer atividades que propiciem ao aluno construir outros raciocínios com o objetivo de resolver a atividade de modo esperado.<br><br>Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e III." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "E",
+                resolution: {
+                    correctReason: "A questão aborda premissas teóricas formais da avaliação escolar cobradas pela banca FAURGS:<br>• <strong>Afirmativa I está correta:</strong> Cipriano Luckesi define a avaliação como um juízo de valor sobre a realidade do aprendizado com vistas a subsidiar decisões de melhoria da prática educativa.<br>• <strong>Afirmativa II está correta:</strong> O erro construtivo é compreendido como uma etapa necessária no processo de elaboração conceitual, refletindo as hipóteses temporárias formuladas pelo estudante.<br>• <strong>Afirmativa III está correta:</strong> Diante das hipóteses do educando, a intervenção didática mediadora consiste em oferecer desafios adicionais e atividades que favoreçam o processo de reestruturação do raciocínio até o alcance dos objetivos.",
+                    incorrectReasons: [
+                        "As três afirmativas (I, II e III) estão inteiramente corretas, indicando a alternativa E como gabarito oficial."
+                    ]
+                }
+            }
+        ];
+
+        // State variables
+        let userAnswers = {};
+        let isSubmitted = false;
+
+        window.onload = function() {
+            renderQuestions();
+            renderGabaritoTable();
+            updateProgressBar();
+        };
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.id = `q-card-${q.id}`;
+                questionCard.className = "bg-white rounded-xl border border-slate-200 shadow-sm p-6 transition-all duration-300";
+
+                let optionsHtml = '';
+                q.options.forEach(opt => {
+                    optionsHtml += `
+                        <label id="label-q${q.id}-${opt.letter}" 
+                               class="option-card flex items-start p-3.5 rounded-lg border border-slate-200 cursor-pointer text-slate-800 text-sm mb-2.5">
+                            <input type="radio" 
+                                   name="question-${q.id}" 
+                                   value="${opt.letter}" 
+                                   onchange="selectOption(${q.id}, '${opt.letter}')"
+                                   class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300">
+                            <span class="ml-3 font-semibold text-slate-700 min-w-[20px]">${opt.letter})</span>
+                            <span class="ml-1 leading-relaxed">${opt.text}</span>
+                        </label>
+                    `;
+                });
+
+                questionCard.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-slate-900 text-base">${q.title}</span>
+                            <span class="text-xs text-slate-500 font-normal">| Concurso FAURGS</span>
+                        </div>
+                        <span id="badge-q${q.id}" class="hidden text-xs font-semibold px-2.5 py-1 rounded-full"></span>
+                    </div>
+
+                    <div class="question-text text-slate-800 text-base mb-5">
+                        ${q.text}
+                    </div>
+
+                    <div class="space-y-1" id="options-group-${q.id}">
+                        ${optionsHtml}
+                    </div>
+
+                    <!-- Resolution Box (Injected on submit) -->
+                    <div id="resolution-q${q.id}" class="hidden mt-6 pt-5 border-t border-slate-200 fade-in">
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 text-sm text-slate-700">
+                            <div class="flex items-center gap-2 font-bold text-slate-900 mb-2">
+                                <i class="fa-solid fa-graduation-cap text-blue-600"></i>
+                                <span>Resolução e Comentário Pedagógico:</span>
+                            </div>
+                            <div class="text-slate-800 leading-relaxed space-y-2">
+                                <p class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <strong class="text-green-700 block mb-1">Fundamentação do Gabarito (${q.correct}):</strong>
+                                    ${q.resolution.correctReason}
+                                </p>
+                                ${q.resolution.incorrectReasons.length > 0 ? `
+                                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-slate-600 space-y-1.5 mt-2">
+                                        <strong class="text-slate-700 block text-sm mb-1">Análise dos Distratores:</strong>
+                                        ${q.resolution.incorrectReasons.map(r => `<p>${r}</p>`).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(questionCard);
+            });
+        }
+
+        function selectOption(questionId, letter) {
+            if (isSubmitted) return; // Prevent changing after submit
+
+            userAnswers[questionId] = letter;
+
+            // Visual feedback for selection
+            const q = quizData.find(item => item.id === questionId);
+            q.options.forEach(opt => {
+                const label = document.getElementById(`label-q${questionId}-${opt.letter}`);
+                if (opt.letter === letter) {
+                    label.classList.add('selected');
+                } else {
+                    label.classList.remove('selected');
+                }
+            });
+
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = quizData.length;
+            const percent = (answeredCount / total) * 100;
+
+            document.getElementById('progress-text').innerText = `${answeredCount} de ${total} respondidas`;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+        }
+
+        function finishQuiz() {
+            if (isSubmitted) {
+                // Smooth scroll to results if already submitted
+                document.getElementById('score-summary').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            const answeredCount = Object.keys(userAnswers).length;
+
+            let score = 0;
+            let correctCount = 0;
+            let wrongCount = 0;
+
+            quizData.forEach(q => {
+                const userChoice = userAnswers[q.id];
+                const card = document.getElementById(`q-card-${q.id}`);
+                const badge = document.getElementById(`badge-q${q.id}`);
+                const resolutionBox = document.getElementById(`resolution-q${q.id}`);
+
+                // Disable radio inputs
+                const inputs = document.querySelectorAll(`input[name="question-${q.id}"]`);
+                inputs.forEach(input => input.disabled = true);
+
+                // Style option cards
+                q.options.forEach(opt => {
+                    const label = document.getElementById(`label-q${q.id}-${opt.letter}`);
+                    label.classList.add('disabled');
+
+                    if (opt.letter === q.correct) {
+                        label.classList.add('correct-answer');
+                        // Add check icon
+                        const checkIcon = document.createElement('i');
+                        checkIcon.className = "fa-solid fa-circle-check text-green-600 ml-auto my-auto text-base";
+                        label.appendChild(checkIcon);
+                    }
+
+                    if (userChoice && opt.letter === userChoice && userChoice !== q.correct) {
+                        label.classList.add('wrong-answer');
+                        // Add xmark icon
+                        const xIcon = document.createElement('i');
+                        xIcon.className = "fa-solid fa-circle-xmark text-red-600 ml-auto my-auto text-base";
+                        label.appendChild(xIcon);
+                    }
+                });
+
+                // Badge & Score
+                badge.classList.remove('hidden');
+                if (userChoice === q.correct) {
+                    score++;
+                    correctCount++;
+                    badge.innerText = "ACERTOU";
+                    badge.className = "text-xs font-bold px-3 py-1 rounded-full bg-green-100 text-green-800 border border-green-200";
+                    card.classList.add('border-green-300');
+                } else {
+                    wrongCount++;
+                    badge.innerText = userChoice ? "ERROU" : "EM BRANCO";
+                    badge.className = "text-xs font-bold px-3 py-1 rounded-full bg-red-100 text-red-800 border border-red-200";
+                    card.classList.add('border-red-200');
+                }
+
+                // Show resolution
+                resolutionBox.classList.remove('hidden');
+            });
+
+            isSubmitted = true;
+
+            // Update Score Summary Header
+            const percentage = Math.round((score / quizData.length) * 100);
+            document.getElementById('score-number').innerText = `${score}/10`;
+            document.getElementById('score-percent').innerText = `${percentage}% de Aproveitamento`;
+            document.getElementById('count-correct').innerText = correctCount;
+            document.getElementById('count-wrong').innerText = wrongCount;
+
+            const titleEl = document.getElementById('score-title');
+            const subtitleEl = document.getElementById('score-subtitle');
+            const bannerBg = document.getElementById('score-banner-bg');
+
+            if (percentage >= 80) {
+                titleEl.innerText = "Excelente Desempenho!";
+                subtitleEl.innerText = "Você domina os conceitos fundamentais de Didática e Formação Docente da banca FAURGS.";
+                bannerBg.className = "bg-emerald-800 text-white p-6 md:p-8";
+            } else if (percentage >= 50) {
+                titleEl.innerText = "Bom Trabalho!";
+                subtitleEl.innerText = "Você tem uma boa base. Revise os comentários pedagógicos para consolidar os pontos pendentes.";
+                bannerBg.className = "bg-blue-900 text-white p-6 md:p-8";
+            } else {
+                titleEl.innerText = "Precisa de Mais Revisão";
+                subtitleEl.innerText = "Aproveite as resoluções detalhadas abaixo para estudar os autores clássicos da banca.";
+                bannerBg.className = "bg-amber-900 text-white p-6 md:p-8";
+            }
+
+            // Show hidden sections
+            document.getElementById('score-summary').classList.remove('hidden');
+            document.getElementById('gabarito-table-section').classList.remove('hidden');
+
+            // Scroll to score summary
+            document.getElementById('score-summary').scrollIntoView({ behavior: 'smooth' });
+
+            // Update action bar button
+            const btnSubmit = document.getElementById('btn-submit');
+            btnSubmit.innerHTML = `<span>Ver Resultado no Topo</span> <i class="fa-solid fa-arrow-up text-xs"></i>`;
+            btnSubmit.onclick = () => document.getElementById('score-summary').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterQuestions(type) {
+            // Update button styles
+            const btnAll = document.getElementById('btn-filter-all');
+            const btnCorrect = document.getElementById('btn-filter-correct');
+            const btnWrong = document.getElementById('btn-filter-wrong');
+
+            btnAll.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition";
+            btnCorrect.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition";
+            btnWrong.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition";
+
+            if (type === 'all') {
+                btnAll.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white shadow-sm transition";
+            } else if (type === 'correct') {
+                btnCorrect.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-green-600 text-white shadow-sm transition";
+            } else if (type === 'wrong') {
+                btnWrong.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-red-600 text-white shadow-sm transition";
+            }
+
+            quizData.forEach(q => {
+                const card = document.getElementById(`q-card-${q.id}`);
+                const isCorrect = userAnswers[q.id] === q.correct;
+
+                if (type === 'all') {
+                    card.classList.remove('hidden');
+                } else if (type === 'correct') {
+                    if (isCorrect) card.classList.remove('hidden');
+                    else card.classList.add('hidden');
+                } else if (type === 'wrong') {
+                    if (!isCorrect) card.classList.remove('hidden');
+                    else card.classList.add('hidden');
+                }
+            });
+        }
+
+        function resetQuiz() {
+            userAnswers = {};
+            isSubmitted = false;
+
+            document.getElementById('score-summary').classList.add('hidden');
+            document.getElementById('gabarito-table-section').classList.add('hidden');
+
+            const btnSubmit = document.getElementById('btn-submit');
+            btnSubmit.innerHTML = `<span>Finalizar e Corrigir Simulado</span> <i class="fa-solid fa-arrow-right text-xs"></i>`;
+            btnSubmit.onclick = null; // restore default form submit behavior
+
+            renderQuestions();
+            updateProgressBar();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderGabaritoTable() {
+            const tbody = document.getElementById('gabarito-table-body');
+            tbody.innerHTML = '';
+
+            quizData.forEach(q => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-semibold text-center text-slate-900">${q.title}</td>
+                    <td class="px-4 py-3 text-center font-extrabold text-blue-700 bg-blue-50/50">${q.correct}</td>
+                    <td class="px-4 py-3 text-slate-700">${q.topic}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>

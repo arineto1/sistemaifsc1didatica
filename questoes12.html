@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Interativo FAURGS - Interdisciplinaridade e Saberes</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter and Lora for optimal long-form readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        paper: '#FDFBF7',
+                        paperCard: '#FFFFFF',
+                        readingDark: '#1E293B',
+                        readingMuted: '#475569',
+                        faurgsBlue: '#1E3A8A',
+                        faurgsAccent: '#2563EB',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #1E293B;
+        }
+        .prose-reading {
+            font-family: 'Lora', Georgia, serif;
+            line-height: 1.8;
+        }
+        /* Custom radio buttons styling */
+        .option-label {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-label:hover {
+            background-color: #F1F5F9;
+        }
+        .option-radio:checked + .option-content {
+            border-color: #2563EB;
+            background-color: #EFF6FF;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased text-readingDark">
+
+    <header class="sticky top-0 z-30 bg-paperCard/90 backdrop-blur-md border-b border-stone-200 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-faurgsBlue text-white font-bold px-2.5 py-1 rounded text-xs tracking-wider uppercase">Banca FAURGS</span>
+                <h1 class="text-sm md:text-base font-semibold text-stone-800 tracking-tight hidden sm:block">
+                    Simulado: Interdisciplinaridade e Saberes
+                </h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div id="progress-indicator" class="text-xs font-medium text-readingMuted bg-stone-100 px-3 py-1.5 rounded-full border border-stone-200">
+                    <span id="answered-count">0</span> de 10 respondidas
+                </div>
+                <button onclick="resetQuiz()" class="text-xs font-medium text-stone-600 hover:text-stone-900 flex items-center gap-1 transition">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span class="hidden md:inline">Reiniciar</span>
+                </button>
+            </div>
+        </div>
+        <!-- Progress bar line -->
+        <div class="w-full bg-stone-200 h-1">
+            <div id="progress-bar" class="bg-faurgsAccent h-1 transition-all duration-300 w-0"></div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8 space-y-8">
+
+        <!-- Title Banner -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 border border-stone-200 shadow-sm">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 text-faurgsBlue font-semibold text-xs uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    Concurso Público • Pedagogia / Educação
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-900 tracking-tight font-serif mb-3">
+                    Questões FAURGS: Interdisciplinaridade, Pluridisciplinaridade, Transdisciplinaridade e Multidisciplinaridade
+                </h2>
+                <p class="text-readingMuted text-sm md:text-base leading-relaxed">
+                    Responda às 10 questões formuladas rigorosamente no estilo da banca FAURGS. Ao clicar em <strong>"Finalizar Quiz"</strong>, seu resultado será calculado instantaneamente e as <strong>resoluções detalhadas</strong> serão liberadas logo abaixo de cada questão.
+                </p>
+            </div>
+        </section>
+
+        <!-- Score Dashboard Banner (Hidden until submitted) -->
+        <section id="results-dashboard" class="hidden bg-white rounded-2xl p-6 md:p-8 border-2 border-faurgsBlue shadow-md transition-all">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 text-center md:text-left">
+                    <div class="inline-block px-3 py-1 bg-blue-50 text-faurgsBlue font-bold text-xs rounded-full uppercase tracking-wider">
+                        Resultado Final
+                    </div>
+                    <h3 class="text-2xl font-bold text-stone-900">
+                        Você acertou <span id="score-text" class="text-faurgsAccent">0</span> de 10 questões!
+                    </h3>
+                    <p id="score-feedback" class="text-readingMuted text-sm max-w-lg">
+                        Confira abaixo o gabarito comentado e a resolução pedagógica de cada questão para consolidar seu aprendizado.
+                    </p>
+                </div>
+                <div class="flex flex-col items-center justify-center p-4 bg-stone-50 rounded-xl border border-stone-200 min-w-[140px]">
+                    <span class="text-xs uppercase tracking-wider text-stone-500 font-semibold mb-1">Aproveitamento</span>
+                    <span id="score-percentage" class="text-3xl font-extrabold text-stone-900">0%</span>
+                </div>
+            </div>
+        </section>
+
+        <form id="quiz-form" class="space-y-8" onsubmit="event.preventDefault(); submitQuiz();">
+
+            <!-- QUESTÃO 01 -->
+            <article id="q1-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 01</span>
+                    <span id="status-q1" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>Considere as afirmações abaixo sobre os diferentes níveis de articulação disciplinar no campo do conhecimento e do currículo escolar, com base nas teorias epistemológicas contemporâneas.</p>
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-sm space-y-2 font-sans">
+                        <p><strong>I -</strong> A multidisciplinaridade caracteriza-se pela atuação simultânea de diversas disciplinas em torno de um tema comum, sem que haja necessariamente coordenação, integração conceitual ou cooperação metodológica entre elas.</p>
+                        <p><strong>II -</strong> A pluridisciplinaridade pressupõe a cooperação entre disciplinas do mesmo nível hierárquico, promovendo relações de complementariedade e afinidade temática, contudo sem estabelecer uma axiomática comum de nível superior.</p>
+                        <p><strong>III -</strong> A interdisciplinaridade introduz uma axiomática comum a um grupo de disciplinas conexas e um nível superior de coordenação, pautando-se em uma atitude de intercâmbio, reciprocidade e cooperação dialógica entre os saberes.</p>
+                        <p><strong>IV -</strong> A transdisciplinaridade limita-se ao diálogo isolado entre duas disciplinas afins, preservando rigorosamente as suas fronteiras e metodologias específicas, sem pretender uma visão holística ou complexa da realidade.</p>
+                    </div>
+                    <p class="font-sans font-medium">Quais estão corretas?</p>
+                </div>
+
+                <!-- Options -->
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q1" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> Apenas I e IV.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q1" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> Apenas III e IV.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q1" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> Apenas I, II e III.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q1" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> Apenas II, III e IV.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q1" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> I, II, III e IV.</span>
+                    </label>
+                </div>
+
+                <!-- Resolution Box -->
+                <div id="res-q1" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: C)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (C)</strong></p>
+                        <p>A análise dos itens revela a congruência com as teorias epistemológicas das disciplinaridades formuladas por autores como Eric Jantsch e Hilton Japiassu.</p>
+                        <ul class="list-disc pl-5 space-y-1 font-sans text-xs md:text-sm">
+                            <li><strong>Item I (Correto):</strong> A multidisciplinaridade expressa o primeiro nível de integração, no qual diversas disciplinas abordam simultaneamente um tema comum de maneira fragmentada, sem intercâmbio metodológico.</li>
+                            <li><strong>Item II (Correto):</strong> A pluridisciplinaridade envolve a cooperação entre disciplinas do mesmo nível hierárquico e áreas conexas, promovendo complementariedade sem uma axiomática comum.</li>
+                            <li><strong>Item III (Correto):</strong> A interdisciplinaridade estabelece cooperação intencional, coordenada por uma axiomática de nível superior e pautada no diálogo e reciprocidade.</li>
+                            <li><strong>Item IV (Incorreto):</strong> A transdisciplinaridade não se restringe ao diálogo isolado preservando fronteiras rígidas; seu objetivo é situar o conhecimento entre, através e além de qualquer disciplina.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article id="q2-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 02</span>
+                    <span id="status-q2" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>Relacione a Coluna 1 à Coluna 2, associando os conceitos teóricos de organização do conhecimento às suas respectivas definições epistemológicas.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans text-sm bg-stone-50 p-4 rounded-xl border border-stone-200">
+                        <div>
+                            <p class="font-bold text-stone-900 mb-2 border-b border-stone-200 pb-1">Coluna 1</p>
+                            <ol class="list-decimal pl-5 space-y-1">
+                                <li>Transdisciplinaridade, transversalidade.</li>
+                                <li>Interdisciplinaridade.</li>
+                                <li>Disciplinaridade.</li>
+                                <li>Multidisciplinaridade.</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-900 mb-2 border-b border-stone-200 pb-1">Coluna 2</p>
+                            <ul class="space-y-2 text-xs md:text-sm">
+                                <li>( &nbsp; ) Possibilita uma significação mais ampla que a de conteúdo pedagógico.</li>
+                                <li>( &nbsp; ) Equivale à necessidade de superar a visão fragmentada da produção de conhecimento.</li>
+                                <li>( &nbsp; ) Aborda um conhecimento a partir da visão de diversas disciplinas, sem necessariamente haver integração metodológica.</li>
+                                <li>( &nbsp; ) Diz respeito àquilo que está ao mesmo tempo entre, através e além das diferentes disciplinas e de qualquer unidade de conhecimento.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="font-sans font-medium">A ordem correta de preenchimento dos parênteses, de cima para baixo, é:</p>
+                </div>
+
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q2" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> 2 – 1 – 3 – 4.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q2" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> 4 – 3 – 2 – 1.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q2" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> 3 – 2 – 4 – 1.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q2" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> 1 – 2 – 3 – 4.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q2" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> 4 – 3 – 1 – 2.</span>
+                    </label>
+                </div>
+
+                <div id="res-q2" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: C)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (C) [3 – 2 – 4 – 1]</strong></p>
+                        <p>A questão reproduz a estrutura clássica de pareamento de conceitos da banca FAURGS:</p>
+                        <ul class="list-disc pl-5 space-y-1 font-sans text-xs md:text-sm">
+                            <li><strong>(3) Disciplinaridade:</strong> "Possibilita uma significação mais ampla que a de conteúdo pedagógico", fundamentando as unidades do saber acadêmico.</li>
+                            <li><strong>(2) Interdisciplinaridade:</strong> "Equivale à necessidade de superar a visão fragmentada da produção de conhecimento...".</li>
+                            <li><strong>(4) Multidisciplinaridade:</strong> "Aborda um conhecimento a partir da visão de diversas disciplinas... sem necessariamente haver integração".</li>
+                            <li><strong>(1) Transdisciplinaridade:</strong> "Diz respeito àquilo que está ao mesmo time entre, através e além das diferentes disciplinas...".</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article id="q3-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 03</span>
+                    <span id="status-q3" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>Assinale a alternativa que preenche correta e respectivamente as lacunas do texto abaixo.</p>
+                    <blockquote class="bg-stone-50 border-l-4 border-faurgsAccent p-4 rounded-r-xl italic text-stone-700 font-serif">
+                        "Segundo Ivani Fazenda, a interdisciplinaridade não pode ser reduzida a uma mera técnica de junção de conteúdos ou sobreposição de matérias. Trata-se de uma nova <span class="underline underline-offset-4 font-bold font-sans">__________</span> diante da questão do conhecimento, de abertura à compreensão de aspectos ocultos do ato de aprender e dos aparentemente expressos. A interdisciplinaridade pauta-se numa ação em movimento, tendo a metamorfose e a <span class="underline underline-offset-4 font-bold font-sans">__________</span> como pressupostos."
+                    </blockquote>
+                </div>
+
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q3" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> atitude – incerteza</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q3" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> técnica – rigidez</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q3" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> ferramenta – estabilidade</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q3" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> metodologia – neutralidade</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q3" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> teoria – simplificação</span>
+                    </label>
+                </div>
+
+                <div id="res-q3" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: A)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (A)</strong></p>
+                        <p>A citação direta de Ivani Fazenda define a interdisciplinaridade não como um mero conjunto de técnicas ou arranjos metodológicos estáticos, mas como uma <strong>atitude</strong> fundamental de abertura diante do ato de aprender e ensinar. Essa postura reconhece a metamorfose e a <strong>incerteza</strong> como elementos constitutivos da produção do conhecimento científico e escolar.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="q4-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 04</span>
+                    <span id="status-q4" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>Considere as afirmações a seguir relativas ao planejamento de ensino e à implementação da interdisciplinaridade na organização do trabalho pedagógico.</p>
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-sm space-y-2 font-sans">
+                        <p><strong>I -</strong> A prática interdisciplinar exige a eliminação formal de todas as disciplinas do currículo escolar, substituindo o conhecimento específico por eixos temáticos genéricos que prescindem dos conceitos fundamentais de cada área.</p>
+                        <p><strong>II -</strong> Os projetos de trabalho constituem abordagens metodológicas convergentes com a perspectiva interdisciplinar, pois viabilizam a investigação de problemas da realidade por meio da articulação intencional de saberes.</p>
+                        <p><strong>III -</strong> A abordagem interdisciplinar favorece a contextualização dos saberes escolares, promovendo a atribuição de sentido aos conteúdos e impulsionando processos de aprendizagem significativa nos estudantes.</p>
+                    </div>
+                    <p class="font-sans font-medium">Quais estão corretas?</p>
+                </div>
+
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q4" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> Apenas I.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q4" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> Apenas II.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q4" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> Apenas I e III.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q4" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> Apenas II e III.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q4" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> I, II e III.</span>
+                    </label>
+                </div>
+
+                <div id="res-q4" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: D)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (D)</strong></p>
+                        <p><strong>Item I (Incorreto):</strong> A interdisciplinaridade não elimina as disciplinas. O conhecimento disciplinar sólido é pré-requisito para que ocorra o diálogo consistente entre áreas.</p>
+                        <p><strong>Itens II e III (Corretos):</strong> A metodologia de projetos de trabalho articula o saber acadêmico com a investigação da realidade, viabilizando a aprendizagem significativa e contextualizada.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="q5-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 05</span>
+                    <span id="status-q5" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>No âmbito da teoria curricular contemporânea e da epistemologia da complexidade, a abordagem transdisciplinar se distingue dos demais modelos de articulação disciplinar por qual característica fundamental?</p>
+                </div>
+
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q5" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> Pela organização dos conteúdos escolares de forma rigidamente fracionada, assegurando a incomunicação total entre os campos científicos.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q5" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> Pela constituição de um nível de integração em que as fronteiras disciplinares se tornam fluidas, buscando compreender a realidade presente no espaço situado entre, através e além de qualquer disciplina.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q5" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> Pela restrição do estudo pedagógico a um único objeto de conhecimento analisado estritamente por duas metodologias idênticas sob liderança de um único componente.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q5" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> Pelo estabelecimento de uma hierarquia acadêmica estrita na qual uma disciplina soberana determina de forma unidirecional as regras para as demais.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q5" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> Pela negação do saber acadêmico e substituição do rigor científico por práticas exclusivamente baseadas no senso comum empírico.</span>
+                    </label>
+                </div>
+
+                <div id="res-q5" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: B)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (B)</strong></p>
+                        <p>Conforme a Carta da Transdisciplinaridade e autores como Basarab Nicolescu e Edgar Morin, o prefixo <em>trans</em> diz respeito ao que está simultaneamente <strong>entre</strong> as disciplinas, <strong>através</strong> das diferentes disciplinas e <strong>além</strong> de qualquer disciplina, visando à compreensão da complexidade do mundo real.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="q6-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 06</span>
+                    <span id="status-q6" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>Considere as afirmações abaixo a respeito do debate epistemológico que diferencia a multidisciplinaridade da pluridisciplinaridade no contexto da pesquisa e do ensino.</p>
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-sm space-y-2 font-sans">
+                        <p><strong>I -</strong> Na multidisciplinaridade, as disciplinas tratam de um tema comum de maneira simultânea, porém preservando o seu enquadramento isolado e sem estabelecer fluxos de intercâmbio conceitual.</p>
+                        <p><strong>II -</strong> A pluridisciplinaridade representa um grau de cooperação estruturalmente distinto da multidisciplinaridade, na medida em que introduz relações de afinidade e complementaridade entre disciplinas de áreas conexas.</p>
+                        <p><strong>III -</strong> Tanto a multidisciplinaridade quanto a pluridisciplinaridade caracterizam-se por configurarem sistemas de um só nível e de objetivos múltiplos, sem coordenação oriunda de um nível hierárquico superior.</p>
+                        <p><strong>IV -</strong> A pluridisciplinaridade resulta obrigatoriamente na fusão total de todos os campos do saber, erradicando qualquer traço das especificidades disciplinares pré-existentes.</p>
+                    </div>
+                    <p class="font-sans font-medium">Quais estão corretas?</p>
+                </div>
+
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q6" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> Apenas I e IV.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q6" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> Apenas II e III.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q6" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> Apenas I, II e III.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q6" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> Apenas II, III e IV.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q6" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> I, II, III e IV.</span>
+                    </label>
+                </div>
+
+                <div id="res-q6" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: C)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (C)</strong></p>
+                        <p>Os Itens I, II e III fundamentam-se na classificação de Jantsch e Japiassu. Ambos os níveis são "sistemas de um só nível e de objetivos múltiplos". O Item IV está incorreto porque a fusão total das áreas e diluição de fronteiras diz respeito à transdisciplinaridade, não à pluridisciplinaridade.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="q7-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 07</span>
+                    <span id="status-q7" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>Considere as proposições sobre as formas de articulação do conhecimento na educação básica. Assinale a alternativa que apresenta uma assertiva em <strong class="text-red-600">DESACORDO</strong> com a literatura pedagógica de referência.</p>
+                </div>
+
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q7" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> A multidisciplinaridade organiza os conteúdos escolares em disciplinas independentes, que podem abordar um assunto concomitante sem estabelecer conexões explícitas entre os seus métodos.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q7" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> A interdisciplinaridade busca superar a visão fragmentada da produção de conhecimento, viabilizando o diálogo e a inter-relação profunda entre os saberes sem anular as suas identidades específicas.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q7" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> A transdisciplinaridade coloca no centro da reflexão educacional a apreensão do mundo em sua totalidade e complexidade, atravessando as disciplinas tradicionais.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q7" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> A pluridisciplinaridade caracteriza-se pela construção de uma axiomática transdisciplinar unificada que extingue a necessidade da formação de professores em áreas específicas do conhecimento.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q7" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> O trabalho de natureza interdisciplinar pressupõe intencionalidade pedagógica, cooperação docente e postura reflexiva frente ao ato de ensinar e aprender.</span>
+                    </label>
+                </div>
+
+                <div id="res-q7" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: D - Opção Incorreta)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (D) [Em DESACORDO]</strong></p>
+                        <p>A alternativa D traz dois erros conceituais graves: 1) A pluridisciplinaridade é um sistema de um só nível e destituído de axiomática unificada; 2) Nenhuma proposta de integração disciplinar extingue a necessidade de formação docente específica e aprofundada nas disciplinas de origem.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="q8-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 08</span>
+                    <span id="status-q8" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>Assinale a alternativa que preenche correta e respectivamente as lacunas do texto abaixo.</p>
+                    <blockquote class="bg-stone-50 border-l-4 border-faurgsAccent p-4 rounded-r-xl italic text-stone-700 font-serif">
+                        "De acordo com a classificação epistemológica das formas de integração disciplinar formulada por Hilton Japiassu, a <span class="underline underline-offset-4 font-bold font-sans">__________</span> configura-se como um sistema de dois níveis e de objetivos múltiplos, provido de uma axiomática comum a um grupo de disciplinas conexas e coordenada a partir do nível hierárquico superior. Por sua vez, a <span class="underline underline-offset-4 font-bold font-sans">__________</span> representa o estágio de coordenação de todas as disciplinas e interdisciplinas do sistema sobre a base de uma axiomática geral e unificadora."
+                    </blockquote>
+                </div>
+
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q8" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> interdisciplinaridade – transdisciplinaridade</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q8" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> multidisciplinaridade – pluridisciplinaridade</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q8" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> transdisciplinaridade – interdisciplinaridade</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q8" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> pluridisciplinaridade – multidisciplinaridade</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q8" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> intradisciplinaridade – interdisciplinaridade</span>
+                    </label>
+                </div>
+
+                <div id="res-q8" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: A)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (A)</strong></p>
+                        <p>Em <em>Interdisciplinaridade e Patologia do Saber</em>, Hilton Japiassu conceitua a <strong>interdisciplinaridade</strong> como um sistema de dois níveis e a <strong>transdisciplinaridade</strong> como o nível superior máximo e unificador do sistema epistemológico.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="q9-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 09</span>
+                    <span id="status-q9" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>Relacione a Coluna 1 à Coluna 2, associando as situações práticas do cotidiano escolar ao modelo de integração disciplinar predominantemente evidenciado.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans text-sm bg-stone-50 p-4 rounded-xl border border-stone-200">
+                        <div>
+                            <p class="font-bold text-stone-900 mb-2 border-b border-stone-200 pb-1">Coluna 1</p>
+                            <ol class="list-decimal pl-5 space-y-1">
+                                <li>Multidisciplinaridade</li>
+                                <li>Pluridisciplinaridade</li>
+                                <li>Interdisciplinaridade</li>
+                                <li>Transdisciplinaridade</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-900 mb-2 border-b border-stone-200 pb-1">Coluna 2 (Práticas)</p>
+                            <ul class="space-y-2 text-xs md:text-sm">
+                                <li>( &nbsp; ) Professores abordam o tema "Água" em suas matérias de forma paralela e sem reuniões ou trocas.</li>
+                                <li>( &nbsp; ) Biologia e Química planejam cooperativamente uma unidade integrada sobre "Bioquímica Celular" com avaliações conjuntas.</li>
+                                <li>( &nbsp; ) História e Filosofia trabalham paralelamente sobre "Cidadania na Grécia", demonstrando afinidade sem coordenação superior.</li>
+                                <li>( &nbsp; ) Comunidade investiga a crise hídrica unindo saberes científicos, empíricos e comunitários; as fronteiras dos componentes se dissolvem.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="font-sans font-medium">A ordem correta de preenchimento dos parênteses, de cima para baixo, é:</p>
+                </div>
+
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q9" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> 1 – 3 – 2 – 4.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q9" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> 2 – 1 – 4 – 3.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q9" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> 3 – 2 – 1 – 4.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q9" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> 1 – 2 – 3 – 4.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q9" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> 4 – 3 – 2 – 1.</span>
+                    </label>
+                </div>
+
+                <div id="res-q9" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: A)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (A) [1 – 3 – 2 – 4]</strong></p>
+                        <ul class="list-disc pl-5 space-y-1 font-sans text-xs md:text-sm">
+                            <li><strong>1 (Multidisciplinaridade):</strong> Trabalho simultâneo sobre o tema água sem intercâmbio.</li>
+                            <li><strong>3 (Interdisciplinaridade):</strong> Planejamento integrado, metas compartilhadas em Bioquímica.</li>
+                            <li><strong>2 (Pluridisciplinaridade):</strong> História e Filosofia atuando paralelamente em áreas conexas.</li>
+                            <li><strong>4 (Transdisciplinaridade):</strong> Dissolução total entre saber escolar e comunitário.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article id="q10-container" class="question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <span class="font-bold text-faurgsBlue text-sm bg-blue-50 px-3 py-1 rounded-md">Questão 10</span>
+                    <span id="status-q10" class="text-xs font-semibold text-stone-400">Não respondida</span>
+                </div>
+
+                <div class="prose-reading text-stone-800 text-sm md:text-base mb-6 space-y-4">
+                    <p>Considere as afirmações abaixo referentes às relações entre interdisciplinaridade, transversalidade e as diretrizes curriculares nacionais na educação básica.</p>
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-sm space-y-2 font-sans">
+                        <p><strong>I -</strong> A transversalidade refere-se à dimensão em que temas urgentes para o exercício da cidadania (como ética, saúde, meio ambiente e diversidade) perpassam os diferentes componentes curriculares sem constituírem uma disciplina isolada.</p>
+                        <p><strong>II -</strong> A interdisciplinaridade e a transversalidade são abordagens mutuamente alimentadoras: a primeira foca na integração epistemológica e metodológica entre as áreas do saber, enquanto a segunda orienta essa articulação para questões sociais concretas.</p>
+                        <p><strong>III -</strong> A implementação dos Temas Transversais no currículo escolar invalida a estrutura disciplinar, exigindo o descarte imediato das competências específicas da Matemática e da Língua Portuguesa.</p>
+                        <p><strong>IV -</strong> A viabilização contínua do trabalho transversal e interdisciplinar depende de um ensino centrado no isolamento individualista do professor dentro de sua sala de aula.</p>
+                    </div>
+                    <p class="font-sans font-medium">Quais estão corretas?</p>
+                </div>
+
+                <div class="space-y-3 font-sans text-sm">
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q10" value="A" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(A)</strong> Apenas I e II.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q10" value="B" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(B)</strong> Apenas III e IV.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q10" value="C" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(C)</strong> Apenas I, II e IV.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q10" value="D" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(D)</strong> Apenas I, II e III.</span>
+                    </label>
+                    <label class="option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer">
+                        <input type="radio" name="q10" value="E" class="option-radio mt-0.5 text-faurgsAccent focus:ring-faurgsAccent" onchange="updateProgress()">
+                        <span class="option-content ml-3 text-stone-700"><strong>(E)</strong> Apenas I e IV.</span>
+                    </label>
+                </div>
+
+                <div id="res-q10" class="hidden mt-6 pt-6 border-t border-stone-200 bg-amber-50/60 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8 rounded-b-2xl">
+                    <div class="flex items-center gap-2 text-amber-900 font-bold text-sm mb-3">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i>
+                        Resolução Comentada (Gabarito: A)
+                    </div>
+                    <div class="prose-reading text-stone-700 text-sm md:text-base leading-relaxed space-y-3">
+                        <p><strong>Gabarito Correto: Alternativa (A)</strong></p>
+                        <p><strong>Itens I e II (Corretos):</strong> A transversalidade perpassa as áreas sem virar disciplina isolada e orienta a interdisciplinaridade para temas sociais urgentes da cidadania.</p>
+                        <p><strong>Item III (Incorreto):</strong> Não anula a Matemática ou a Língua Portuguesa.</p>
+                        <p><strong>Item IV (Incorreto):</strong> Exige trabalho coletivo e colaboração docente, opondo-se ao isolamento individualista.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Submit Action Bar -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-faurgsBlue hover:bg-blue-900 text-white font-bold rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-check-circle"></i>
+                    <span>Finalizar Quiz e Ver Gabarito</span>
+                </button>
+            </div>
+        </form>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-stone-200 py-6 mt-12 text-center text-xs text-stone-500">
+        <p>Simulado Interativo nos moldes da Banca FAURGS • Interdisciplinaridade, Pluridisciplinaridade, Transdisciplinaridade e Multidisciplinaridade</p>
+    </footer>
+
+    <script>
+        // Correct answer keys for the 10 questions
+        const correctAnswers = {
+            q1: 'C',
+            q2: 'C',
+            q3: 'A',
+            q4: 'D',
+            q5: 'B',
+            q6: 'C',
+            q7: 'D',
+            q8: 'A',
+            q9: 'A',
+            q10: 'A'
+        };
+
+        // Update real-time question progress
+        function updateProgress() {
+            let answered = 0;
+            for (let i = 1; i <= 10; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const statusBadge = document.getElementById(`status-q${i}`);
+                if (selected) {
+                    answered++;
+                    if (statusBadge && !statusBadge.classList.contains('text-emerald-600')) {
+                        statusBadge.textContent = "Respondida";
+                        statusBadge.className = "text-xs font-semibold text-faurgsAccent bg-blue-50 px-2 py-0.5 rounded";
+                    }
+                }
+            }
+            document.getElementById('answered-count').textContent = answered;
+            document.getElementById('progress-bar').style.width = `${(answered / 10) * 100}%`;
+        }
+
+        // Submit quiz and calculate results
+        function submitQuiz() {
+            let score = 0;
+
+            for (let i = 1; i <= 10; i++) {
+                const qName = `q${i}`;
+                const selectedOption = document.querySelector(`input[name="${qName}"]:checked`);
+                const userVal = selectedOption ? selectedOption.value : null;
+                const correctVal = correctAnswers[qName];
+                const card = document.getElementById(`q${i}-container`);
+                const statusBadge = document.getElementById(`status-q${i}`);
+                const resBox = document.getElementById(`res-q${i}`);
+
+                // Show resolution box
+                resBox.classList.remove('hidden');
+
+                // Style question cards based on accuracy
+                if (userVal === correctVal) {
+                    score++;
+                    card.className = "question-card bg-white rounded-2xl border-2 border-emerald-500 p-6 md:p-8 shadow-sm transition-all";
+                    statusBadge.textContent = "Correto ✓";
+                    statusBadge.className = "text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-md";
+                } else {
+                    card.className = "question-card bg-white rounded-2xl border-2 border-rose-300 p-6 md:p-8 shadow-sm transition-all";
+                    statusBadge.textContent = userVal ? `Incorreto (Sua resposta: ${userVal})` : "Não respondida";
+                    statusBadge.className = "text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-md";
+                }
+
+                // Highlight options
+                const options = document.querySelectorAll(`input[name="${qName}"]`);
+                options.forEach(opt => {
+                    const label = opt.closest('label');
+                    label.classList.remove('hover:bg-slate-100');
+
+                    if (opt.value === correctVal) {
+                        label.className = "option-label flex items-start p-3.5 border-2 border-emerald-500 bg-emerald-50/70 rounded-xl font-medium text-emerald-950";
+                    } else if (opt.checked && opt.value !== correctVal) {
+                        label.className = "option-label flex items-start p-3.5 border-2 border-rose-400 bg-rose-50 rounded-xl line-through text-rose-800";
+                    }
+                });
+            }
+
+            // Show Dashboard
+            const dashboard = document.getElementById('results-dashboard');
+            dashboard.classList.remove('hidden');
+            document.getElementById('score-text').textContent = score;
+            const percentage = Math.round((score / 10) * 100);
+            document.getElementById('score-percentage').textContent = `${percentage}%`;
+
+            // Feedback Message
+            const feedback = document.getElementById('score-feedback');
+            if (percentage >= 80) {
+                feedback.textContent = "Excelente desempenho! Você demonstra grande domínio sobre a epistemologia e legislação educacional cobrada pela FAURGS.";
+            } else if (percentage >= 50) {
+                feedback.textContent = "Bom trabalho! Revise os comentários e resoluções para sanar pequenas dúvidas entre conceitos parecidos.";
+            } else {
+                feedback.textContent = "Atenção necessária! A banca FAURGS costuma cobrar detalhes conceituais precisos. Estude com atenção o gabarito comentado abaixo.";
+            }
+
+            // Smooth scroll to top of dashboard
+            dashboard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Reset quiz state
+        function resetQuiz() {
+            document.getElementById('quiz-form').reset();
+            document.getElementById('results-dashboard').classList.add('hidden');
+
+            for (let i = 1; i <= 10; i++) {
+                const card = document.getElementById(`q${i}-container`);
+                const statusBadge = document.getElementById(`status-q7` ? `status-q${i}` : null);
+                const resBox = document.getElementById(`res-q${i}`);
+
+                if (card) {
+                    card.className = "question-card bg-white rounded-2xl border border-stone-200 p-6 md:p-8 shadow-sm transition-all";
+                }
+                if (statusBadge) {
+                    statusBadge.textContent = "Não respondida";
+                    statusBadge.className = "text-xs font-semibold text-stone-400";
+                }
+                if (resBox) {
+                    resBox.classList.add('hidden');
+                }
+
+                // Reset label styles
+                const options = document.querySelectorAll(`input[name="q${i}"]`);
+                options.forEach(opt => {
+                    const label = opt.closest('label');
+                    label.className = "option-label flex items-start p-3.5 border border-stone-200 rounded-xl cursor-pointer";
+                });
+            }
+
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

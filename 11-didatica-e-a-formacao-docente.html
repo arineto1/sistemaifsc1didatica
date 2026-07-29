@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Memorização Rápida - Didática e Formação Docente (IFSC/FAURGS)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfcfc;
+            color: #1f2937;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Direct styling for clean text highlighting without harsh contrast */
+        mark.hl-yellow {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.hl-green {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.hl-rose {
+            background-color: #ffe4e6;
+            color: #9f1239;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.hl-blue {
+            background-color: #e0f2fe;
+            color: #075985;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        /* Prevent table text overflow and guarantee NO horizontal scrolling */
+        .no-scroll-table {
+            table-layout: fixed;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .no-scroll-table th, .no-scroll-table td {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 min-h-screen py-6 px-3 sm:px-6 lg:px-8">
+
+    <div class="max-w-4xl mx-auto space-y-8">
+
+        <!-- HEADER SECTION -->
+        <header class="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs sm:text-sm font-semibold mb-3 border border-emerald-200">
+                <i class="fa-solid fa-graduation-cap"></i> Concurso Professor EBTT IFSC • Banca FAURGS
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight leading-tight">
+                Resumo de Memorização Rápida
+            </h1>
+            <p class="text-base sm:text-lg font-medium text-stone-600 mt-2">
+                Didática e Formação Docente em EPT
+            </p>
+        </header>
+
+        <!-- AUDIO PLAYER SECTION -->
+        <section class="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200 shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-headphones"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-stone-900">Reprodutor de Áudio da Aula</h2>
+                        <p class="text-xs text-stone-500">Ouça o resumo narrado enquanto revisa os pontos-chave</p>
+                    </div>
+                </div>
+                <!-- File Name Input Configurator -->
+                <div class="flex items-center gap-2 bg-stone-50 border border-stone-200 rounded-lg p-2 text-xs">
+                    <i class="fa-solid fa-file-audio text-stone-400"></i>
+                    <label for="audioFileName" class="font-semibold text-stone-600 shrink-0">Arquivo:</label>
+                    <input type="text" id="audioFileName" value="audio11.mp3" 
+                           class="bg-white border border-stone-300 rounded px-2 py-1 text-stone-800 font-mono text-xs focus:ring-2 focus:ring-amber-500 outline-none w-44 sm:w-52"
+                           title="Digite o nome do arquivo MP3 presente na mesma pasta">
+                    <button onclick="updateAudioSource()" class="bg-stone-800 text-white px-2.5 py-1 rounded hover:bg-stone-700 font-medium transition text-xs">
+                        Carregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- HTML5 Audio Element & Custom Responsive Controls -->
+            <audio id="mainAudioPlayer" preload="metadata" class="hidden">
+                <source id="audioSource" src="audio11.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+
+            <div id="customAudioControls" class="space-y-3 bg-stone-50 rounded-xl p-4 border border-stone-200">
+                <div class="flex items-center gap-3">
+                    <!-- Play/Pause Button -->
+                    <button id="playBtn" onclick="togglePlay()" class="w-12 h-12 rounded-full bg-amber-500 hover:bg-amber-600 text-white flex items-center justify-center font-bold text-xl transition shadow-sm shrink-0">
+                        <i id="playIcon" class="fa-solid fa-play ml-0.5"></i>
+                    </button>
+
+                    <!-- Time & Progress bar -->
+                    <div class="flex-1 space-y-1">
+                        <div class="flex justify-between text-xs font-semibold text-stone-600">
+                            <span id="currentTime">00:00</span>
+                            <span id="durationTime">00:00</span>
+                        </div>
+                        <input type="range" id="seekSlider" value="0" max="100" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-amber-500" oninput="seekAudio(this.value)">
+                    </div>
+
+                    <!-- Speed Toggle -->
+                    <button id="speedBtn" onclick="toggleSpeed()" class="px-2.5 py-1.5 rounded-lg bg-white border border-stone-300 font-bold text-xs text-stone-700 hover:bg-stone-100 transition shrink-0">
+                        1.0x
+                    </button>
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-stone-500 pt-1">
+                    <div class="flex items-center gap-2">
+                        <i id="muteIcon" class="fa-solid fa-volume-high cursor-pointer text-stone-600" onclick="toggleMute()"></i>
+                        <input type="range" id="volumeSlider" value="100" max="100" class="w-20 sm:w-28 h-1.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-amber-500" oninput="setVolume(this.value)">
+                    </div>
+                    <span id="audioStatus" class="italic text-stone-400">Pronto para reproduzir</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PÁGINA 1: NÚCLEO TEÓRICO, AUTORES E MATRIZES DA EPT -->
+        <article class="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm space-y-6">
+            
+            <div class="border-b border-stone-200 pb-4 flex items-center justify-between flex-wrap gap-2">
+                <span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-md font-bold text-xs uppercase tracking-wider">
+                    Página 1 de 2
+                </span>
+                <h2 class="text-xl sm:text-2xl font-bold text-stone-900">
+                    Núcleo Teórico, Autores e Matrizes da EPT
+                </h2>
+            </div>
+
+            <!-- 1. Epistemologia e Autores -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2 border-l-4 border-amber-500 pl-3">
+                    1. Epistemologia e Autores-Chave da Didática
+                </h3>
+
+                <ul class="space-y-3 text-sm sm:text-base leading-relaxed text-stone-700">
+                    <li class="bg-stone-50 p-3.5 rounded-xl border border-stone-200">
+                        <strong class="text-stone-900 font-bold">Didática (José Carlos Libâneo):</strong> 
+                        Ramo da Pedagogia que estuda o processo de ensino-aprendizagem em sua totalidade sociohistórica. Atua como a <mark class="hl-yellow">mediação</mark> entre as bases teórico-científicas da educação e a prática docente (o elo entre <mark class="hl-blue font-semibold">"o que"</mark> e <mark class="hl-blue font-semibold">"como"</mark>). Seu objeto central é a <mark class="hl-yellow">aula</mark>.
+                    </li>
+
+                    <li class="bg-stone-50 p-3.5 rounded-xl border border-stone-200">
+                        <strong class="text-stone-900 font-bold">Pedagogia vs. Didática:</strong> 
+                        A <em>Pedagogia</em> é a ciência ampla que investiga a teoria e a prática da educação na sociedade. A <em>Didática</em> é a disciplina operacional/específica da Pedagogia voltada à instrução e ao ensino.
+                    </li>
+
+                    <li class="bg-stone-50 p-3.5 rounded-xl border border-stone-200">
+                        <strong class="text-stone-900 font-bold">Didática Fundamental (Vera Maria Candau):</strong> 
+                        O ato pedagógico é composto por <mark class="hl-green">três dimensões interdependentes</mark>:
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs sm:text-sm">
+                            <div class="bg-white p-3 rounded-lg border border-stone-200">
+                                <span class="font-bold text-stone-900 block mb-1 text-emerald-700">1. Técnica:</span>
+                                Organização intencional, objetivos, métodos e planejamento.
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-stone-200">
+                                <span class="font-bold text-stone-900 block mb-1 text-sky-700">2. Humana:</span>
+                                Relação interpessoal, afeto, comunicação e empatia.
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-stone-200">
+                                <span class="font-bold text-stone-900 block mb-1 text-amber-700">3. Política:</span>
+                                Não-neutralidade do ensino, condicionantes socioeconômicos e transformação social.
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 2. Matrizes Pedagógicas da EPT -->
+            <section class="space-y-4 pt-2">
+                <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2 border-l-4 border-amber-500 pl-3">
+                    2. Matrizes Pedagógicas da Educação Profissional e Tecnológica (EPT)
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base">
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-1">
+                        <span class="font-bold text-stone-900 block">Trabalho como Princípio Educativo</span>
+                        <p class="text-stone-700">Entendido em sua dimensão <mark class="hl-yellow">ontológica</mark> (produção da vida e da existência humana).</p>
+                        <div class="mt-2 text-xs bg-rose-50 border border-rose-200 text-rose-800 p-2 rounded-lg font-medium">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>Pegadinha de Prova:</strong> Não confunda com preparação instrumental pragmática para o mercado de trabalho.
+                        </div>
+                    </div>
+
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-1">
+                        <span class="font-bold text-stone-900 block">Politecnia</span>
+                        <p class="text-stone-700">Domínio dos <mark class="hl-blue">princípios científicos e tecnológicos</mark> que fundamentam os processos produtivos modernos, superando a divisão entre trabalho manual e intelectual.</p>
+                    </div>
+
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-1">
+                        <span class="font-bold text-stone-900 block">Formação Omnilateral</span>
+                        <p class="text-stone-700">Desenvolvimento integral do ser humano em <mark class="hl-green">todas as suas dimensões</mark> (física, intelectual, técnica, estética, ética e política).</p>
+                    </div>
+
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-1">
+                        <span class="font-bold text-stone-900 block">Indissociabilidade (Lei nº 11.892/2008)</span>
+                        <p class="text-stone-700">Articulação intrínseca entre <mark class="hl-yellow">Ensino, Pesquisa e Extensão</mark> na prática cotidiana do docente EBTT.</p>
+                    </div>
+                </div>
+
+                <!-- Complemento Legal EPT -->
+                <div class="bg-amber-50/60 p-3.5 rounded-xl border border-amber-200 text-xs sm:text-sm text-amber-950 space-y-1">
+                    <strong class="font-bold text-amber-900 block flex items-center gap-1.5">
+                        <i class="fa-solid fa-scale-balanced text-amber-700"></i> Dispositivos Legais de Suporte para a FAURGS:
+                    </strong>
+                    <p>
+                        • <strong>LDB nº 9.394/1996 (Arts. 39 a 42):</strong> Integração do ensino técnico ao ensino médio e à formação continuada.<br>
+                        • <strong>Decreto nº 5.154/2004:</strong> Consolidação do ensino médio integrado, superando a dualidade entre formação geral e profissionalização instrumental.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 3. Tipologia dos Saberes Docentes -->
+            <section class="space-y-4 pt-2">
+                <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2 border-l-4 border-amber-500 pl-3">
+                    3. Tipologia dos Saberes Docentes (Maurice Tardif / Selma Garrido Pimenta)
+                </h3>
+
+                <!-- Responsive No-Scroll Table Container -->
+                <div class="w-full bg-stone-50 rounded-xl border border-stone-200 overflow-hidden p-2 sm:p-4">
+                    <table class="no-scroll-table text-xs sm:text-sm text-left">
+                        <thead>
+                            <tr class="bg-stone-200 text-stone-900 font-bold border-b border-stone-300">
+                                <th class="p-2 sm:p-3 w-1/4">Categoria</th>
+                                <th class="p-2 sm:p-3 w-2/5">Origem e Definição (Tardif / Pimenta)</th>
+                                <th class="p-2 sm:p-3 w-1/3">Aplicação no IFSC</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-stone-200 text-stone-800">
+                            <tr>
+                                <td class="p-2 sm:p-3 font-bold text-stone-900">Saberes Pedagógicos / Formação Profissional</td>
+                                <td class="p-2 sm:p-3">Ciências da Educação e Didática; teorias de aprendizagem, mediação e saber ensinar.</td>
+                                <td class="p-2 sm:p-3">Escolha de <mark class="hl-green">metodologias ativas</mark> e organização do ensino.</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="p-2 sm:p-3 font-bold text-stone-900">Saberes Disciplinares</td>
+                                <td class="p-2 sm:p-3">Saberes específicos da área de conhecimento acumulados pela comunidade científica.</td>
+                                <td class="p-2 sm:p-3">Domínio técnico de algoritmos, redes, arquitetura e bancos de dados.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 sm:p-3 font-bold text-stone-900">Saberes Curriculares</td>
+                                <td class="p-2 sm:p-3">Programas, diretrizes institucionais, ementas e Projeto Político-Pedagógico (PPP).</td>
+                                <td class="p-2 sm:p-3">Adequação do plano de ensino às diretrizes do curso técnico/graduação.</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="p-2 sm:p-3 font-bold text-stone-900">Saberes Experienciais / da Práxis</td>
+                                <td class="p-2 sm:p-3">Práxis cotidiana, saberes emergentes do trabalho docente e resolução de problemas na sala de aula.</td>
+                                <td class="p-2 sm:p-3">Adaptabilidade didática diante das limitações de infraestrutura ou perfil da turma.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </article>
+
+        <!-- PÁGINA 2: AVALIAÇÃO, PLANEJAMENTO E ESTRATÉGIA DE PROVA -->
+        <article class="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm space-y-6">
+            
+            <div class="border-b border-stone-200 pb-4 flex items-center justify-between flex-wrap gap-2">
+                <span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-md font-bold text-xs uppercase tracking-wider">
+                    Página 2 de 2
+                </span>
+                <h2 class="text-xl sm:text-2xl font-bold text-stone-900">
+                    Avaliação, Planejamento e Estratégia de Prova
+                </h2>
+            </div>
+
+            <!-- 1. Níveis de Planejamento e Avaliação -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2 border-l-4 border-amber-500 pl-3">
+                    1. Níveis de Planejamento e Funções da Avaliação
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Níveis de Planejamento -->
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-3">
+                        <h4 class="font-bold text-stone-900 text-sm sm:text-base border-b border-stone-200 pb-2">
+                            Níveis de Planejamento Pedagógico:
+                        </h4>
+                        <ol class="space-y-2 text-xs sm:text-sm text-stone-700 list-decimal list-inside">
+                            <li>
+                                <strong class="text-stone-900">Projeto Político-Pedagógico (PPP):</strong> 
+                                Nível <mark class="hl-yellow">macro/institucional</mark>; define a identidade, missão e gestão democrática do <em>campus</em>.
+                            </li>
+                            <li>
+                                <strong class="text-stone-900">Plano de Ensino (Módulo/Disciplina):</strong> 
+                                Nível <mark class="hl-blue">intermediário</mark>; sistematização dos conteúdos, ementa, metodologias e cronograma.
+                            </li>
+                            <li>
+                                <strong class="text-stone-900">Plano de Aula:</strong> 
+                                Nível <mark class="hl-green">micro/operacional</mark>; detalhamento da sequência didática, recursos e intervenções.
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- Funções da Avaliação -->
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-3">
+                        <h4 class="font-bold text-stone-900 text-sm sm:text-base border-b border-stone-200 pb-2">
+                            Funções da Avaliação da Aprendizagem:
+                        </h4>
+                        <ul class="space-y-2 text-xs sm:text-sm text-stone-700">
+                            <li>
+                                <strong class="text-stone-900">Diagnóstica (Anterativa):</strong> 
+                                Aplicada no <mark class="hl-yellow">início</mark> do processo; identifica conhecimentos prévios e fundamenta o planejamento.
+                            </li>
+                            <li>
+                                <strong class="text-stone-900">Formativa (Processual):</strong> 
+                                Aplicada <mark class="hl-green">durante</mark> o processo; acompanha o progresso, diagnostica falhas pontuais e fornece <em>feedback</em> para regulação contínua.
+                            </li>
+                            <li>
+                                <strong class="text-stone-900">Somativa (Classificatória):</strong> 
+                                Aplicada ao <mark class="hl-rose">final</mark> de um ciclo; mensura o rendimento, atribui nota/conceito e certifica a aprovação.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Regras Essenciais do Edital -->
+            <section class="space-y-4 pt-2">
+                <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2 border-l-4 border-amber-500 pl-3">
+                    2. Regras Essenciais do Edital do IFSC (Banca FAURGS)
+                </h3>
+
+                <!-- Responsive No-Scroll Table Container -->
+                <div class="w-full bg-stone-50 rounded-xl border border-stone-200 overflow-hidden p-2 sm:p-4">
+                    <table class="no-scroll-table text-xs sm:text-sm text-left">
+                        <thead>
+                            <tr class="bg-stone-200 text-stone-900 font-bold border-b border-stone-300">
+                                <th class="p-2 sm:p-3 w-1/4">Componente</th>
+                                <th class="p-2 sm:p-3 w-2/5">Estrutura</th>
+                                <th class="p-2 sm:p-3 w-1/3">Critérios / Cortes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-stone-200 text-stone-800">
+                            <tr>
+                                <td class="p-2 sm:p-3 font-bold text-stone-900">Prova Objetiva</td>
+                                <td class="p-2 sm:p-3">50 questões de múltipla escolha (A, B, C, D, E).</td>
+                                <td class="p-2 sm:p-3">Pontuação mínima total: <mark class="hl-rose">55,00 pontos</mark>.</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="p-2 sm:p-3 font-bold text-stone-900">Bloco Geral</td>
+                                <td class="p-2 sm:p-3">20 questões (Português, Legislação/Histórico EPT, Pedagógicos).</td>
+                                <td class="p-2 sm:p-3">Mínimo: <mark class="hl-yellow">2 acertos</mark> em Port; <mark class="hl-yellow">1 acerto</mark> em Leg; <mark class="hl-yellow">1 acerto</mark> em Pedag.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 sm:p-3 font-bold text-stone-900">Bloco Específico</td>
+                                <td class="p-2 sm:p-3">30 questões da área de conhecimento (Informática).</td>
+                                <td class="p-2 sm:p-3">Mínimo: <mark class="hl-green">15 acertos</mark> em Específicos.</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="p-2 sm:p-3 font-bold text-stone-900">Prova Discursiva</td>
+                                <td class="p-2 sm:p-3">1 questão de cunho pedagógico (comum a todas as áreas).</td>
+                                <td class="p-2 sm:p-3">Mínimo: <mark class="hl-rose">55,00 pts</mark>; <br>Tamanho obrigatório: <mark class="hl-yellow">10 a 15 linhas</mark>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 3. Matriz de Pegadinhas FAURGS -->
+            <section class="space-y-4 pt-2">
+                <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2 border-l-4 border-amber-500 pl-3">
+                    3. Matriz de "Pegadinhas" Recorrentes da Banca FAURGS
+                </h3>
+
+                <div class="space-y-3 text-xs sm:text-sm">
+                    <!-- Pegadinha 1 -->
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-2">
+                        <div class="flex items-center gap-2 font-bold text-rose-800">
+                            <i class="fa-solid fa-bug text-rose-600"></i>
+                            <span>Pegadinha 1: O "Tecnicismo Disfarçado"</span>
+                        </div>
+                        <p class="text-stone-700">
+                            <strong>Como a banca cobra:</strong> Afirma que a finalidade da EPT é a rápida adequação do aluno ao mercado produtivo industrial/corporativo.
+                        </p>
+                        <p class="text-stone-800 font-medium bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                            <strong class="text-emerald-900">Correção:</strong> A EPT visa à formação <mark class="hl-green">omnilateral</mark> e emancipatória; o trabalho é princípio educativo ontológico, não mero adestramento operacional.
+                        </p>
+                    </div>
+
+                    <!-- Pegadinha 2 -->
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-2">
+                        <div class="flex items-center gap-2 font-bold text-rose-800">
+                            <i class="fa-solid fa-bug text-rose-600"></i>
+                            <span>Pegadinha 2: A "Neutralidade Técnica" do Método</span>
+                        </div>
+                        <p class="text-stone-700">
+                            <strong>Como a banca cobra:</strong> Apresenta os procedimentos didáticos como ferramentas neutras e puramente mecânicas.
+                        </p>
+                        <p class="text-stone-800 font-medium bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                            <strong class="text-emerald-900">Correção:</strong> Toda escolha metodológica carrega intencionalidade <mark class="hl-yellow">política</mark> e deve articular-se com as dimensões técnica e humana (Vera Candau).
+                        </p>
+                    </div>
+
+                    <!-- Pegadinha 3 -->
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-2">
+                        <div class="flex items-center gap-2 font-bold text-rose-800">
+                            <i class="fa-solid fa-bug text-rose-600"></i>
+                            <span>Pegadinha 3: O "Notório Saber" em Detrimento da Didática</span>
+                        </div>
+                        <p class="text-stone-700">
+                            <strong>Como a banca cobra:</strong> Insinua que, no ensino técnico (ex.: Informática), o domínio exclusivo do conteúdo disciplinar basta para o ensino.
+                        </p>
+                        <p class="text-stone-800 font-medium bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                            <strong class="text-emerald-900">Correção:</strong> A identidade docente exige a mobilização conjunta de saberes <mark class="hl-blue">pedagógicos, disciplinares, curriculares e experienciais</mark>.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Check-List para a Prova Discursiva -->
+            <section class="space-y-4 pt-2">
+                <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2 border-l-4 border-amber-500 pl-3">
+                    4. Check-List para a Prova Discursiva (10 a 15 Linhas)
+                </h3>
+
+                <div class="bg-stone-50 p-4 sm:p-5 rounded-xl border border-stone-200 space-y-3 text-xs sm:text-sm">
+                    <div class="flex items-start gap-3">
+                        <span class="w-6 h-6 rounded-full bg-stone-800 text-white flex items-center justify-center text-xs font-bold shrink-0">1</span>
+                        <div>
+                            <strong class="text-stone-900">Linhas 1 a 4 (Conceituação Direta):</strong> 
+                            Defina objetivamente o conceito pedagógico solicitado pela questão (ex.: interdisciplinaridade, trabalho como princípio educativo ou avaliação formativa) citando os termos técnicos formais.
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="w-6 h-6 rounded-full bg-stone-800 text-white flex items-center justify-center text-xs font-bold shrink-0">2</span>
+                        <div>
+                            <strong class="text-stone-900">Linhas 5 a 10 (Articulação na EPT):</strong> 
+                            Relacione o conceito com a práxis no IFSC, citando a indissociabilidade entre ensino, pesquisa e extensão e a formação omnilateral.
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="w-6 h-6 rounded-full bg-stone-800 text-white flex items-center justify-center text-xs font-bold shrink-0">3</span>
+                        <div>
+                            <strong class="text-stone-900">Linhas 11 a 15 (Fechamento e Impacto Docente):</strong> 
+                            Conclua destacando como essa abordagem orienta a gestão da aula, a mediação do conhecimento e a emancipação do estudante.
+                        </div>
+                    </div>
+
+                    <div class="mt-3 bg-rose-100 border border-rose-300 text-rose-900 p-3 rounded-lg font-bold text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation text-rose-700 text-base"></i>
+                        <span>Alerta Zero: Textos com menos de 10 linhas ou mais de 15 linhas recebem nota zero ou penalização eliminatória no edital.</span>
+                    </div>
+                </div>
+            </section>
+        </article>
+
+        <!-- NAVIGATION TO QUESTIONS BUTTON -->
+        <footer class="pt-4 pb-12 text-center">
+            <a href="questoes11.html" class="inline-flex items-center justify-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base sm:text-lg px-8 py-4 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 border border-emerald-700 w-full sm:w-auto">
+                <i class="fa-solid fa-circle-question text-xl"></i>
+                <span>Ir para Banco de Questões (questoes.html)</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <p class="text-xs text-stone-400 mt-3">Pratique e valide seus conhecimentos resolvendo exercícios direcionados.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Audio Player Logic
+        const audio = document.getElementById('mainAudioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationTimeEl = document.getElementById('durationTime');
+        const seekSlider = document.getElementById('seekSlider');
+        const speedBtn = document.getElementById('speedBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const muteIcon = document.getElementById('muteIcon');
+        const audioStatus = document.getElementById('audioStatus');
+        
+        const speeds = [1.0, 1.25, 1.5, 2.0];
+        let currentSpeedIdx = 0;
+
+        function updateAudioSource() {
+            const fileNameInput = document.getElementById('audioFileName');
+            const newSrc = fileNameInput.value.trim();
+            if (newSrc) {
+                const source = document.getElementById('audioSource');
+                source.src = newSrc;
+                audio.load();
+                audioStatus.textContent = 'Carregado: ' + newSrc;
+                playIcon.className = 'fa-solid fa-play ml-0.5';
+            }
+        }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    playIcon.className = 'fa-solid fa-pause';
+                    audioStatus.textContent = 'Tocando...';
+                }).catch(err => {
+                    audioStatus.textContent = 'Arquivo não localizado ou bloqueado pelo navegador.';
+                });
+            } else {
+                audio.pause();
+                playIcon.className = 'fa-solid fa-play ml-0.5';
+                audioStatus.textContent = 'Pausado';
+            }
+        }
+
+        function formatTime(secs) {
+            if (isNaN(secs)) return "00:00";
+            const m = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationTimeEl.textContent = formatTime(audio.duration);
+            audioStatus.textContent = 'Áudio pronto para reproduzir';
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+            if (audio.duration) {
+                const pct = (audio.currentTime / audio.duration) * 100;
+                seekSlider.value = pct;
+            }
+        });
+
+        audio.addEventListener('ended', () => {
+            playIcon.className = 'fa-solid fa-play ml-0.5';
+            audioStatus.textContent = 'Finalizado';
+        });
+
+        function seekAudio(val) {
+            if (audio.duration) {
+                audio.currentTime = (val / 100) * audio.duration;
+            }
+        }
+
+        function toggleSpeed() {
+            currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
+            const newSpeed = speeds[currentSpeedIdx];
+            audio.playbackRate = newSpeed;
+            speedBtn.textContent = newSpeed.toFixed(1) + 'x';
+        }
+
+        function setVolume(val) {
+            audio.volume = val / 100;
+            if (val == 0) {
+                muteIcon.className = 'fa-solid fa-volume-xmark cursor-pointer text-stone-400';
+            } else {
+                muteIcon.className = 'fa-solid fa-volume-high cursor-pointer text-stone-600';
+            }
+        }
+
+        function toggleMute() {
+            if (audio.volume > 0) {
+                audio.volume = 0;
+                volumeSlider.value = 0;
+                muteIcon.className = 'fa-solid fa-volume-xmark cursor-pointer text-stone-400';
+            } else {
+                audio.volume = 1;
+                volumeSlider.value = 100;
+                muteIcon.className = 'fa-solid fa-volume-high cursor-pointer text-stone-600';
+            }
+        }
+    </script>
+</body>
+</html>

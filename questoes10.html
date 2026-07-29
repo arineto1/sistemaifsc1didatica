@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS - Planejamento Pedagógico e Ambiente de Aprendizagem</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for long reading ergonomics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fafc; /* Soft off-white to prevent glare */
+            color: #1e293b; /* Dark slate text for comfortable contrast */
+        }
+        .reading-text {
+            font-family: 'Lora', Georgia, serif;
+            line-height: 1.8;
+            color: #334155;
+        }
+        .custom-radio:checked + label {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
+        .correct-answer {
+            background-color: #dcfce7 !important;
+            border-color: #16a34a !important;
+            color: #14532d !important;
+        }
+        .incorrect-answer {
+            background-color: #fee2e2 !important;
+            border-color: #dc2626 !important;
+            color: #7f1d1d !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-blue-100 selection:text-blue-900">
+
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-4">
+            <div>
+                <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 mb-1">
+                    Padrão FAURGS
+                </span>
+                <h1 class="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">
+                    Simulado: Planejamento Pedagógico
+                </h1>
+            </div>
+            <div id="quiz-progress" class="flex items-center gap-3">
+                <span id="answered-counter" class="text-sm font-medium text-slate-600">0 de 10 respondidas</span>
+                <div class="w-32 bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+        <!-- Notice banner -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg mb-8 shadow-sm">
+            <div class="flex items-start">
+                <i class="fa-solid fa-circle-info text-amber-600 text-lg mt-0.5 mr-3"></i>
+                <div class="text-sm text-amber-900 leading-relaxed">
+                    <strong>Instruções do Simulado:</strong> Responda às 10 questões objetivas abaixo no seu próprio ritmo. Ao finalizar, clique no botão no final da página para ver seu desempenho total e conferir as resoluções comentadas detalhadas para cada questão na mesma página.
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Form -->
+        <form id="quiz-form" onsubmit="return false;">
+            <div id="questions-container" class="space-y-8">
+                <!-- Questions will be injected dynamically by JavaScript -->
+            </div>
+
+            <div class="mt-12 text-center border-t border-slate-200 pt-8">
+                <button id="submit-btn" type="button" onclick="calculateScore()" class="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                    <i class="fa-solid fa-paper-plane mr-3"></i> Finalizar Simulado e Ver Resoluções
+                </button>
+            </div>
+        </form>
+
+        <section id="results-section" class="hidden mt-12 pt-8 border-t-2 border-slate-300">
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-200 text-center mb-10">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-50 mb-4">
+                    <i id="score-icon" class="fa-solid fa-trophy text-3xl text-blue-600"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">Resultado do Simulado</h2>
+                <p class="text-slate-600 text-lg mb-6">Confira abaixo o seu desempenho geral e a pontuação obtida.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl mx-auto mb-8">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <span class="block text-xs uppercase tracking-wider text-slate-500 font-semibold mb-1">Acertos</span>
+                        <span id="correct-count" class="text-3xl font-extrabold text-emerald-600">0</span>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <span class="block text-xs uppercase tracking-wider text-slate-500 font-semibold mb-1">Erros</span>
+                        <span id="incorrect-count" class="text-3xl font-extrabold text-rose-600">0</span>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <span class="block text-xs uppercase tracking-wider text-slate-500 font-semibold mb-1">Aproveitamento</span>
+                        <span id="score-percentage" class="text-3xl font-extrabold text-blue-600">0%</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="resetQuiz()" class="px-6 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg transition-colors inline-flex items-center">
+                        <i class="fa-solid fa-rotate-right mr-2"></i> Refazer Simulado
+                    </button>
+                    <a href="#questions-container" class="px-6 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium rounded-lg transition-colors inline-flex items-center">
+                        <i class="fa-solid fa-arrow-up mr-2"></i> Rever Respostas e Resoluções
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-16 text-center text-sm">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="mb-2">Simulado de Concurso Público - Banca FAURGS</p>
+            <p class="text-slate-500 text-xs">O Planejamento Pedagógico e o Ambiente de Aprendizagem &copy; 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        const questionsData = [
+            {
+                id: 1,
+                title: "Questão 1 - Vasconcellos (Dimensões do Planejamento)",
+                stem: `<p class="mb-4">Na elaboração do planejamento de ensino e na estruturação da prática pedagógica, Celso dos Santos Vasconcellos propõe uma metodologia dialética organizada em três dimensões fundamentais, inter-relacionadas e interdependentes, que garantem a passagem da análise da realidade para a transformação intencional da prática educativa.</p>
+                <p class="mb-4 font-semibold text-slate-700">Numere a segunda coluna de acordo com a primeira, associando cada dimensão do planejamento pedagógico à sua respectiva caracterização funcional.</p>
+                <div class="bg-slate-50 p-4 rounded-lg mb-4 border border-slate-200 text-sm">
+                    <p>(1) Mapeamento da Realidade</p>
+                    <p>(2) Elaboração da Finalidade</p>
+                    <p>(3) Construção do Plano de Ação</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-lg mb-4 border border-slate-200 text-sm space-y-2">
+                    <p>( ) Define as utopias, os objetivos teóricos e os horizontes políticos e filosóficos que orientam a intencionalidade educativa, explicitando o tipo de ser humano e de sociedade que se pretende formar.</p>
+                    <p>( ) Consiste na análise crítica, diagnóstica e contextualizada das necessidades, contradições, possibilidades e limites presentes no ambiente de aprendizagem e no perfil dos educandos.</p>
+                    <p>( ) Estabelece as mediações práticas, estratégias didáticas, cronogramas, recursos e formas de intervenção concreta necessários para superar as lacunas identificadas e atingir os fins propostos.</p>
+                </div>
+                <p class="font-medium text-slate-800">A sequência correta de preenchimento dos parênteses, de cima para baixo, é:</p>`,
+                options: [
+                    { letter: "A", text: "1 – 2 – 3." },
+                    { letter: "B", text: "2 – 1 – 3." },
+                    { letter: "C", text: "3 – 1 – 2." },
+                    { letter: "D", text: "2 – 3 – 1." },
+                    { letter: "E", text: "1 – 3 – 2." }
+                ],
+                correct: "B",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 1</h4>
+                <p class="mb-2">A banca FAURGS explora a obra de Celso dos Santos Vasconcellos referente ao planejamento de ensino. Vasconcellos organiza o planejamento em três dimensões dialéticas:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                    <li><strong>Marco Operacional / Elaboração da Finalidade (2):</strong> Corresponde às utopias, objetivos teóricos e horizontes políticos/filosóficos (1º parêntese).</li>
+                    <li><strong>Marco Situacional / Mapeamento da Realidade (1):</strong> Consiste na análise crítica e diagnóstica das necessidades e limites (2º parêntese).</li>
+                    <li><strong>Plano de Ação (3):</strong> Estabelece as mediações práticas, estratégias didáticas e recursos (3º parêntese).</li>
+                </ul>
+                <p>A ordenação correta é <strong>2 – 1 – 3</strong>, respaldando a alternativa <strong>(B)</strong>.</p>`
+            },
+            {
+                id: 2,
+                title: "Questão 2 - Libâneo (Níveis de Planejamento)",
+                stem: `<p class="mb-4">O planejamento pedagógico desdobra-se em diferentes níveis de abrangência e concretude no âmbito do sistema educacional e das instituições de ensino. Sobre os níveis de planejamento e suas articulações com a estruturação do ambiente de aprendizagem na perspectiva de José Carlos Libâneo, considere as seguintes afirmações:</p>
+                <div class="space-y-3 mb-4 text-slate-700">
+                    <p><strong>I.</strong> O planejamento educacional situa-se no nível macro, de âmbito nacional, estadual ou municipal, definindo diretrizes, metas e políticas públicas gerais de educação, a exemplo do Plano Nacional de Educação.</p>
+                    <p><strong>II.</strong> O planejamento da escola sintetiza-se no Projeto Político-Pedagógico (PPP), instrumento que expressa a identidade, a intencionalidade sociopolítica e a organização do trabalho pedagógico de uma comunidade escolar específica.</p>
+                    <p><strong>III.</strong> O planejamento de ensino consiste na previsão e operacionalização das atividades didáticas do professor para uma determinada disciplina ou período, desdobrando-se no plano de curso e no plano de aula.</p>
+                    <p><strong>IV.</strong> O plano de aula, por sua máxima especificidade, prescinde de flexibilidade, devendo ser executado rigorosamente como prescrito, independentemente das contingências e dinâmicas que emergem do ambiente de aprendizagem.</p>
+                </div>
+                <p class="font-medium text-slate-800">Quais estão corretas?</p>`,
+                options: [
+                    { letter: "A", text: "Apenas I e II." },
+                    { letter: "B", text: "Apenas III e IV." },
+                    { letter: "C", text: "Apenas I, II e III." },
+                    { letter: "D", text: "Apenas II, III e IV." },
+                    { letter: "E", text: "I, II, III e IV." }
+                ],
+                correct: "C",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 2</h4>
+                <p class="mb-2">Análise das afirmativas segundo José Carlos Libâneo:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                    <li><strong>I. Correta:</strong> O planejamento educacional opera em nível macro (sistêmico).</li>
+                    <li><strong>II. Correta:</strong> O planejamento da escola sintetiza-se no PPP.</li>
+                    <li><strong>III. Correta:</strong> O planejamento de ensino operacionaliza a ação docente em planos de curso e aula.</li>
+                    <li><strong>IV. Incorreta:</strong> O plano de aula deve possuir caráter flexível e dinâmico, ajustando-se continuamente às necessidades da turma. Não "prescinde de flexibilidade".</li>
+                </ul>
+                <p>Portanto, apenas I, II e III estão corretas. Alternativa <strong>(C)</strong>.</p>`
+            },
+            {
+                id: 3,
+                title: "Questão 3 - Mantoan (Educação Inclusiva)",
+                stem: `<p class="mb-4">A organização de um ambiente de aprendizagem inclusivo pressupõe a superação do paradigma da integração e a consolidação do paradigma da inclusão. No âmbito do planejamento pedagógico voltado à garantia do direito à educação e à diversidade, assinale a alternativa que expressa CORRETAMENTE a concepção de ambiente de aprendizagem sob a perspectiva inclusiva formulada por Mantoan.</p>`,
+                options: [
+                    { letter: "A", text: "O ambiente inclusivo organiza-se mediante o agrupamento homogêneo dos estudantes conforme o nível de desenvolvimento cognitivo, visando otimizar a transmissão sequencial de conteúdos previstos no planejamento centralizado." },
+                    { letter: "B", text: "A inclusão restringe-se ao cumprimento de normas de acessibilidade arquitetônica, dispensando a flexibilização das metodologias pedagógicas e das estratégias avaliativas, uma vez que o currículo deve permanecer idêntico e unificado para todos os alunos." },
+                    { letter: "C", text: "O ambiente de aprendizagem inclusivo é aquele que antecipa e elimina barreiras atitudinais, comunicacionais e pedagógicas, diversificando os tempos, espaços e estratégias de mediação para acolher as singularidades e ritmos de todos os estudantes." },
+                    { letter: "D", text: "A criação de ambientes inclusivos exige o encaminhamento prévio dos estudantes com deficiência ou transtornos de aprendizagem a salas e turmas exclusivas de atendimento especializado, desvinculando-os do planejamento regular da turma." },
+                    { letter: "E", text: "O planejamento para a inclusão pauta-se no princípio da simplificação curricular reducionista, suprimindo conteúdos fundamentais para os alunos com necessidades educacionais específicas a fim de evitar sua frustração acadêmica." }
+                ],
+                correct: "C",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 3</h4>
+                <p class="mb-2">Sob a perspectiva de Maria Teresa Eglér Mantoan, a inclusão exige a transformação da escola para acolher a todos:</p>
+                <p class="mb-3">A alternativa <strong>(C)</strong> expressa com precisão o paradigma inclusivo ao definir o ambiente aprendente como um espaço intencionalmente organizado para antecipar e eliminar barreiras atitudinais, comunicacionais e didáticas, diversificando tempos, metodologias e mediações em favor da totalidade dos estudantes.</p>`
+            },
+            {
+                id: 4,
+                title: "Questão 4 - Luckesi / Vasconcellos (Práxis Pedagógica)",
+                stem: `<p class="mb-4">O planejamento pedagógico é fundamentado na literatura educacional como um processo dinâmico, reflexivo e intencional, oposto ao mero preenchimento de formulários administrativos ou ao tecnicismo burocrático. Em relação à concepção do planejamento pedagógico como práxis transformadora no ambiente escolar, assinale a alternativa CORRETA.</p>`,
+                options: [
+                    { letter: "A", text: "O planejamento pedagógico cumpre função estritamente de controle institucional, cujo objetivo precípuo é assegurar a padronização e o cumprimento mecânico de prazos e etapas do ano letivo." },
+                    { letter: "B", text: "A dimensão política do planejamento refere-se à sua vinculação ideológica a governos vigentes, devendo o professor abster-se de princípios éticos e democratizantes em sua formulação." },
+                    { letter: "C", text: "O planejamento é um processo contínuo de ação-reflexão-ação (práxis), em que o professor analisa a realidade, projeta intencionalidades, executa intervenções e reavalia a prática à luz dos resultados alcançados pelos estudantes." },
+                    { letter: "D", text: "O caráter científico do planejamento pedagógico neutraliza a subjetividade e a diversidade cultural dos alunos, estabelecendo rotinas rígidas que evitam desvios no ambiente de aprendizagem." },
+                    { letter: "E", text: "O plano de ensino, uma vez aprovado pelas instâncias pedagógicas da escola, adquire caráter imutável, sendo vedada qualquer readequação ao longo do ano letivo sob pena de desorganização do ambiente aprendente." }
+                ],
+                correct: "C",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 4</h4>
+                <p class="mb-2">O planejamento como práxis pedagógica recusa o mero cumprimento burocrático.</p>
+                <p class="mb-3">A alternativa <strong>(C)</strong> é a correta pois conceitua o planejamento como o ciclo contínuo e dialético de <em>ação-reflexão-ação</em>, no qual o professor continuamente reavalia sua atuação diante do diagnóstico e das necessidades de aprendizagem dos educandos.</p>`
+            },
+            {
+                id: 5,
+                title: "Questão 5 - Zabala (Organização da Aula e Variáveis Didáticas)",
+                stem: `<p class="mb-4">Antoni Zabala, ao analisar a prática educativa, destaca que a organização dos conteúdos, do espaço, do tempo, dos agrupamentos de alunos e dos materiais didáticos constitui o núcleo estruturante do ambiente de aprendizagem e reflete explicitamente a concepção teórica do docente. Sobre a relação entre o planejamento pedagógico e as variáveis organizacionais da sala de aula, considere as seguintes afirmações:</p>
+                <div class="space-y-3 mb-4 text-slate-700">
+                    <p><strong>I.</strong> Os agrupamentos de alunos (trabalhos individuais, em duplas, pequenos grupos ou grande grupo) devem ser diversificados em função dos objetivos de aprendizagem e da natureza das atividades planejadas.</p>
+                    <p><strong>II.</strong> O espaço escolar deve ser concebido como um agente educativo estruturante, que extrapola os limites da sala de aula tradicional e favorece interações, autonomia e investigações por parte dos estudantes.</p>
+                    <p><strong>III.</strong> A gestão do tempo no planejamento deve buscar um equilíbrio entre a flexibilidade necessária aos ritmos singulares de aprendizagem e a estruturação necessária para o desenvolvimento progressivo dos projetos pedagógicos.</p>
+                    <p><strong>IV.</strong> A escolha dos recursos e materiais didáticos é uma decisão estritamente técnica e neutra, desvinculada dos pressupostos epistemológicos e ideológicos adotados pelo professor em seu planejamento.</p>
+                </div>
+                <p class="font-medium text-slate-800">Quais estão corretas?</p>`,
+                options: [
+                    { letter: "A", text: "Apenas I e IV." },
+                    { letter: "B", text: "Apenas II e III." },
+                    { letter: "C", text: "Apenas I, II e III." },
+                    { letter: "D", text: "Apenas II, III e IV." },
+                    { letter: "E", text: "I, II, III e IV." }
+                ],
+                correct: "C",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 5</h4>
+                <p class="mb-2">Análise das proposições com base em Antoni Zabala:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                    <li><strong>I, II e III. Corretas:</strong> Tratam da intencionalidade pedagógica na organização dos agrupamentos, do espaço educativo e do tempo escolar.</li>
+                    <li><strong>IV. Incorreta:</strong> A escolha de recursos didáticos nunca é neutra; veicula escolhas pedagógicas, éticas e metodológicas do professor.</li>
+                </ul>
+                <p>Estão corretas apenas I, II e III, confirmando a alternativa <strong>(C)</strong>.</p>`
+            },
+            {
+                id: 6,
+                title: "Questão 6 - Veiga (Projeto Político-Pedagógico)",
+                stem: `<p class="mb-4">O Projeto Político-Pedagógico (PPP) configura-se como o documento fundante da organização do trabalho pedagógico e da construção da identidade da instituição de ensino. Sobre a articulação entre o PPP, o planejamento docente e a configuração do ambiente de aprendizagem, assinale a alternativa CORRETA.</p>`,
+                options: [
+                    { letter: "A", text: "O PPP deve ser elaborado exclusivamente pela equipe gestora e por consultores externos especializados, cabendo ao corpo docente apenas a execução passiva das diretrizes preestabelecidas." },
+                    { letter: "B", text: "A dimensão 'política' do PPP refere-se ao engajamento na formação de cidadãos críticos e conscientes de seus direitos e deveres, enquanto a dimensão 'pedagógica' refere-se à intencionalidade de organizar os processos de ensino e de aprendizagem." },
+                    { letter: "C", text: "O PPP é um documento de registro cartorial obrigatório que, após sua aprovação pelos órgãos normativos, deve ser arquivado e mantido intocado para resguardar a estabilidade da instituição." },
+                    { letter: "D", text: "O planejamento individual do professor em sala de aula é autônomo e independente do PPP da escola, não necessitando guardar alinhamento com a missão, visão e valores da comunidade escolar." }
+                ],
+                correct: "B",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 6</h4>
+                <p class="mb-2">Conforme Ilma Passos Alencastro Veiga, as duas dimensões do PPP são indissociáveis:</p>
+                <p class="mb-3">A alternativa <strong>(B)</strong> conceitua perfeitamente: a dimensão <em>política</em> refere-se ao compromisso com a formação cidadã emancipatória; a dimensão <em>pedagógica</em> refere-se à intencionalidade da organização das ações educativas e do ensino.</p>`
+            },
+            {
+                id: 7,
+                title: "Questão 7 - Belloni / TDIC (Tecnologia e Ambientes Virtuais)",
+                stem: `<p class="mb-4">A inserção das Tecnologias Digitais de Informação e Comunicação (TDIC) e a expansão dos Ambientes Virtuais de Aprendizagem (AVA) reconfiguraram as noções de espaço e tempo pedagógicos, exigindo transformações profundas no planejamento docente. Em relação à mediação pedagógica em ambientes de aprendizagem mediados por tecnologia e ao uso de metodologias ativas, considere as afirmativas a seguir:</p>
+                <div class="space-y-3 mb-4 text-slate-700">
+                    <p><strong>I.</strong> O planejamento para ambientes virtuais ou híbridos exige a transição de um modelo centrado na transmissão expositiva de conteúdos para um modelo focado na curadoria de materiais, na mediação interativa e no protagonismo do estudante.</p>
+                    <p><strong>II.</strong> A utilização do AVA no ensino presencial ou a distância substitui integralmente a figura do professor pela automação dos conteúdos digitais e dos algoritmos de avaliação formativa.</p>
+                    <p><strong>III.</strong> As metodologias ativas, como a sala de aula invertida e a aprendizagem baseada em problemas, utilizam o ambiente tecnológico para favorecer a investigação, a colaboração interpessoal e a aplicação prática do conhecimento.</p>
+                    <p><strong>IV.</strong> A mediação pedagógica digital requer a intencionalidade na proposição de fóruns, debates e atividades síncronas e assíncronas que estimulem o desenvolvimento da autonomia e do pensamento crítico dos educandos.</p>
+                </div>
+                <p class="font-medium text-slate-800">Quais estão corretas?</p>`,
+                options: [
+                    { letter: "A", text: "Apenas I e II." },
+                    { letter: "B", text: "Apenas II e IV." },
+                    { letter: "C", text: "Apenas I, III e IV." },
+                    { letter: "D", text: "Apenas II, III e IV." },
+                    { letter: "E", text: "I, II, III e IV." }
+                ],
+                correct: "C",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 7</h4>
+                <p class="mb-2">Análise das afirmativas sobre mediação pedagógica e tecnologia:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                    <li><strong>I, III e IV. Corretas:</strong> Expressam a mudança para o protagonismo do aluno, mediação ativa e intencionalidade pedagógica em recursos digitais.</li>
+                    <li><strong>II. Incorreta:</strong> A tecnologia e os AVAs não substituem o docente, atuando como meios e suportes para a mediação pedagógica.</li>
+                </ul>
+                <p>Estão corretas as afirmativas I, III e IV. Alternativa <strong>(C)</strong>.</p>`
+            },
+            {
+                id: 8,
+                title: "Questão 8 - Perrenoud / Hadji (Avaliação Formativa)",
+                stem: `<p class="mb-4">No planejamento pedagógico, a avaliação não se reduz ao ato de testar e atribuir notas ao final de um período, mas constitui um mecanismo contínuo de acompanhamento, diagnóstico e regulação das aprendizagens no ambiente escolar. Diante disso, assinale a alternativa que expressa CORRETAMENTE a função da avaliação formativa no planejamento e na estruturação do ambiente aprendente.</p>`,
+                options: [
+                    { letter: "A", text: "A avaliação formativa possui caráter predominantemente somativo e classificatório, visando selecionar os estudantes aptos e reter aqueles que apresentam lacunas de aprendizagem ao final da etapa." },
+                    { letter: "B", text: "A função reguladora da avaliação formativa fornece dados retroalimentadores ao professor, permitindo-lhe reorientar as estratégias de ensino e criar novas mediações para responder às dificuldades evidenciadas pelos alunos." },
+                    { letter: "C", text: "O planejamento da avaliação formativa exige a aplicação exclusiva de provas objetivas padronizadas, que garantam a impessoalidade e impeçam a interferência das variáveis do ambiente de sala de aula." },
+                    { letter: "D", text: "A avaliação formativa deve ocorrer de modo pontual e estanque em momentos predeterminados do calendário escolar, evitando interromper o fluxo do planejamento de ensino previamente traçado." },
+                    { letter: "E", text: "A autoavaliação do aluno deve ser desconsiderada no planejamento pedagógico, uma vez que a determinação dos avanços e lacunas de aprendizagem cabe privativamente ao juízo do docente." }
+                ],
+                correct: "B",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 8</h4>
+                <p class="mb-2">A avaliação formativa (Philippe Perrenoud / Charles Hadji) caracteriza-se por sua função de regulação pedagógica:</p>
+                <p class="mb-3">A alternativa <strong>(B)</strong> sintetiza a função formativa: diagnosticar avanços e dificuldades para retroalimentar o planejamento e permitir ao docente reorientar suas mediações pedagógicas.</p>`
+            },
+            {
+                id: 9,
+                title: "Questão 9 - Wallon / Vygotsky (Afetividade e Clima de Aprendizagem)",
+                stem: `<p class="mb-4">A perspectiva sociointeracionista e a teoria Walloniana ressaltam que o ambiente de aprendizagem é permeado por dimensões cognitivas, afetivas, sociais e relacionais. A qualidade das interações promovidas e planejadas pelo docente influencia diretamente o engajamento e o desenvolvimento do sujeito. Sobre a construção do ambiente de aprendizagem e o planejamento das mediações interpessoais, considere as seguintes afirmações:</p>
+                <div class="space-y-3 mb-4 text-slate-700">
+                    <p><strong>I.</strong> O clima de sala de aula é afetado pela cultura institucional, pelas regras de convivência pactuadas e pela postura acolhedora ou punitiva adotada pelo docente em suas mediações diárias.</p>
+                    <p><strong>II.</strong> A afetividade, na concepção walloniana, integra a dimensão biológica e social do indivíduo, atuando como elemento mediador preponderante na organização do ambiente e na disposição para a aprendizagem.</p>
+                    <p><strong>III.</strong> O erro no processo de aprendizagem deve ser encarado como um indicador diagnóstico de hipóteses do aluno e como ponto de partida para o replanejamento pedagógico, e não como uma falha a ser punida.</p>
+                    <p><strong>IV.</strong> A interação entre pares em atividades colaborativas prejudica o desenvolvimento da autonomia individual, devendo o planejamento privilegiar o silêncio absoluto e o trabalho solitário.</p>
+                </div>
+                <p class="font-medium text-slate-800">Quais estão corretas?</p>`,
+                options: [
+                    { letter: "A", text: "Apenas I e IV." },
+                    { letter: "B", text: "Apenas II e III." },
+                    { letter: "C", text: "Apenas I, II e III." },
+                    { letter: "D", text: "Apenas II, III e IV." },
+                    { letter: "E", text: "I, II, III e IV." }
+                ],
+                correct: "C",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 9</h4>
+                <p class="mb-2">Análise das afirmativas sociointeracionistas e wallonianas:</p>
+                <ul class="list-disc pl-5 space-y-1 mb-3">
+                    <li><strong>I, II e III. Corretas:</strong> Reconhecem o valor do clima de sala de aula, o papel central da afetividade (Wallon) e o estatuto construtivo do erro no diagnóstico pedagógico.</li>
+                    <li><strong>IV. Incorreta:</strong> A interação com pares e a colaboração impulsionam o desenvolvimento cognitivo e a autonomia.</li>
+                </ul>
+                <p>Estão corretas apenas I, II e III. Alternativa <strong>(C)</strong>.</p>`
+            },
+            {
+                id: 10,
+                title: "Questão 10 - Vygotsky (Zona de Desenvolvimento Proximal - ZDP)",
+                stem: `<p class="mb-4">Na teoria histórico-cultural de Lev Vygotsky, o conceito de Zona de Desenvolvimento Proximal (ZDP) é fundamental para orientar a intencionalidade do planejamento pedagógico e a mediação do ambiente aprendente. A respeito da aplicação do conceito de ZDP no planejamento e na intervenção docente, assinale a alternativa CORRETA.</p>`,
+                options: [
+                    { letter: "A", text: "O planejamento pedagógico deve focar prioritariamente o Nível de Desenvolvimento Real do estudante, assegurando que este realize apenas tarefas que já domina autonomamente e sem auxílio." },
+                    { letter: "B", text: "A Zona de Desenvolvimento Proximal define-se como a distância entre o nível de desenvolvimento real, determinado pela solução independente de problemas, e o nível de desenvolvimento potencial, determinado pela solução de problemas sob a orientação de adultos ou em colaboração com pares mais capazes." },
+                    { letter: "C", text: "O ambiente de aprendizagem organizado com base na ZDP dispensa o papel ativo e mediador do professor, pressupondo que o desenvolvimento cognitivo ocorre de maneira espontânea e imatura." },
+                    { letter: "D", text: "A atuação docente na ZDP deve ser estática, oferecendo o mesmo tipo e intensidade de suporte pedagógico a todos os alunos, independentemente de seus conhecimentos prévios e ritmos de aprendizagem." },
+                    { letter: "E", text: "As tarefas propostas no planejamento pedagógico devem situar-se aquém do desenvolvimento real dos alunos, garantindo altos índices de acerto imediato e evitando o desequilíbrio cognitivo." }
+                ],
+                correct: "B",
+                resolution: `<h4 class="font-bold text-slate-800 text-lg mb-2">Resolução Comentada - Questão 10</h4>
+                <p class="mb-2">Lev Vygotsky define a ZDP como o domínio de aprendizagem em que a mediação pedagógica produz desenvolvimento real:</p>
+                <p class="mb-3">A alternativa <strong>(B)</strong> reproduz literalmente a definição teórica clássica de Vygotsky sobre a ZDP: a distância entre o nível de desenvolvimento real e o nível potencial mediado.</p>`
+            }
+        ];
+
+        let userAnswers = {};
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            questionsData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.id = `question-card-${q.id}`;
+                qCard.className = "bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 transition-all duration-200";
+
+                let optionsHTML = q.options.map(opt => `
+                    <div class="relative">
+                        <input type="radio" 
+                               name="question_${q.id}" 
+                               id="q${q.id}_${opt.letter}" 
+                               value="${opt.letter}" 
+                               class="custom-radio sr-only"
+                               onchange="handleSelect(${q.id}, '${opt.letter}')">
+                        <label for="q${q.id}_${opt.letter}" 
+                               id="label_q${q.id}_${opt.letter}"
+                               class="flex items-start p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer transition-all duration-150">
+                            <span class="w-7 h-7 rounded-full bg-slate-100 text-slate-700 font-semibold text-xs flex items-center justify-center shrink-0 mr-3 mt-0.5 border border-slate-200">
+                                ${opt.letter}
+                            </span>
+                            <span class="text-slate-800 text-sm md:text-base leading-relaxed">
+                                ${opt.text}
+                            </span>
+                        </label>
+                    </div>
+                `).join('');
+
+                qCard.innerHTML = `
+                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                        <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                            ${q.title}
+                        </span>
+                        <span id="badge-q${q.id}" class="text-xs font-medium text-slate-400">
+                            Não respondida
+                        </span>
+                    </div>
+                    <div class="reading-text mb-6 text-base md:text-lg">
+                        ${q.stem}
+                    </div>
+                    <div class="space-y-3 mb-6">
+                        ${optionsHTML}
+                    </div>
+                    <!-- Resolution accordion (hidden initially) -->
+                    <div id="resolution-q${q.id}" class="hidden mt-6 pt-6 border-t border-slate-200 bg-slate-50/80 p-5 rounded-xl border border-slate-200 text-slate-700 text-sm md:text-base">
+                        ${q.resolution}
+                    </div>
+                `;
+
+                container.appendChild(qCard);
+            });
+        }
+
+        function handleSelect(questionId, optionLetter) {
+            userAnswers[questionId] = optionLetter;
+            
+            // Update badge
+            const badge = document.getElementById(`badge-q${questionId}`);
+            if (badge) {
+                badge.textContent = "Respondida";
+                badge.className = "text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded";
+            }
+
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const counterText = document.getElementById('answered-counter');
+            const progressBar = document.getElementById('progress-bar');
+            
+            counterText.textContent = `${answeredCount} de ${questionsData.length} respondidas`;
+            const percentage = (answeredCount / questionsData.length) * 100;
+            progressBar.style.width = `${percentage}%`;
+        }
+
+        function calculateScore() {
+            const answeredCount = Object.keys(userAnswers).length;
+            
+            if (answeredCount < questionsData.length) {
+                if (!confirm(`Você respondeu ${answeredCount} de ${questionsData.length} questões. Deseja finalizar assim mesmo?`)) {
+                    return;
+                }
+            }
+
+            let correctScore = 0;
+
+            questionsData.forEach(q => {
+                const selected = userAnswers[q.id];
+                const isCorrect = (selected === q.correct);
+
+                if (isCorrect) correctScore++;
+
+                // Disable all radios for this question
+                q.options.forEach(opt => {
+                    const radio = document.getElementById(`q${q.id}_${opt.letter}`);
+                    const label = document.getElementById(`label_q${q.id}_${opt.letter}`);
+                    if (radio) radio.disabled = true;
+
+                    // Highlight options
+                    if (opt.letter === q.correct) {
+                        label.classList.add('correct-answer');
+                    } else if (opt.letter === selected && !isCorrect) {
+                        label.classList.add('incorrect-answer');
+                    }
+                });
+
+                // Show resolution box
+                const resolutionBox = document.getElementById(`resolution-q${q.id}`);
+                if (resolutionBox) {
+                    resolutionBox.classList.remove('hidden');
+                }
+
+                // Update status badge
+                const badge = document.getElementById(`badge-q${q.id}`);
+                if (badge) {
+                    if (selected === undefined) {
+                        badge.textContent = "Não respondida";
+                        badge.className = "text-xs font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded";
+                    } else if (isCorrect) {
+                        badge.textContent = "Correta ✓";
+                        badge.className = "text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full";
+                    } else {
+                        badge.textContent = "Incorreta ✗";
+                        badge.className = "text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-full";
+                    }
+                }
+            });
+
+            // Display overall score board
+            const resultsSection = document.getElementById('results-section');
+            const correctCountEl = document.getElementById('correct-count');
+            const incorrectCountEl = document.getElementById('incorrect-count');
+            const scorePercentageEl = document.getElementById('score-percentage');
+            const submitBtn = document.getElementById('submit-btn');
+
+            const total = questionsData.length;
+            const incorrectScore = total - correctScore;
+            const percentage = Math.round((correctScore / total) * 100);
+
+            correctCountEl.textContent = correctScore;
+            incorrectCountEl.textContent = incorrectScore;
+            scorePercentageEl.textContent = `${percentage}%`;
+
+            resultsSection.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+
+            // Scroll down to score summary
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            userAnswers = {};
+            const submitBtn = document.getElementById('submit-btn');
+            const resultsSection = document.getElementById('results-section');
+
+            submitBtn.classList.remove('hidden');
+            resultsSection.classList.add('hidden');
+
+            renderQuestions();
+            updateProgressBar();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            renderQuestions();
+        };
+    </script>
+</body>
+</html>

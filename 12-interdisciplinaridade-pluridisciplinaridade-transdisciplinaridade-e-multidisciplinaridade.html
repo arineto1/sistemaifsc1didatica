@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="bg-white text-slate-800">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo Estratégico - Integratividade Curricular (FAURGS/IFSC)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+        }
+        /* Custom highlight classes for maximum readability */
+        mark.grifo {
+            background-color: #fef08a; /* yellow-200 */
+            color: #0f172a;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
+        mark.grifo-verde {
+            background-color: #dcfce7; /* green-100 */
+            color: #14532d;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+        }
+        mark.grifo-azul {
+            background-color: #e0f2fe; /* sky-100 */
+            color: #0c4a6e;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+        }
+        mark.grifo-alerta {
+            background-color: #fee2e2; /* red-100 */
+            color: #7f1d1d;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+        }
+        /* Prevent table overflow and force word wrapping without scrollbar */
+        .table-responsive-no-scroll {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+        .table-responsive-no-scroll th,
+        .table-responsive-no-scroll td {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen antialiased selection:bg-yellow-200 selection:text-slate-900 pb-16">
+
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <span class="bg-brand-100 text-brand-800 text-xs font-bold px-2.5 py-1 rounded-full border border-brand-600/20">
+                    FAURGS / IFSC
+                </span>
+                <h1 class="text-base sm:text-lg font-bold text-slate-900 truncate">
+                    Preparatório EBTT: Integratividade Curricular
+                </h1>
+            </div>
+            <a href="questoes.html" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-700 hover:bg-brand-800 text-white font-semibold text-xs sm:text-sm rounded-lg shadow transition-all duration-150 transform hover:-translate-y-0.5">
+                <span>Ir para Questões</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-12 space-y-10">
+
+        <!-- REPRODUTOR DE ÁUDIO -->
+        <section class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 016 0v6a3 3 0 01-3 3z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">Áudio da Aula / Resumo Guiado</h2>
+                        <p class="text-xs text-slate-600">Ouça o conteúdo para reforço da memorização enquanto revisa.</p>
+                    </div>
+                </div>
+                <div class="text-xs bg-white border border-slate-200 px-3 py-1.5 rounded-md text-slate-600 self-stretch sm:self-auto text-center">
+                    <span class="font-medium text-slate-800">Arquivo MP3 associado:</span> 
+                    <code id="mp3-filename" class="text-brand-700 font-mono font-semibold">audio12.mp3</code>
+                </div>
+            </div>
+
+            <!-- HTML5 Audio Element -->
+            <!-- CONFIGURAÇÃO DO NOME DO ARQUIVO DE ÁUDIO: Altere o atributo 'src' abaixo para o nome do seu MP3 -->
+            <audio id="main-audio-player" class="w-full rounded-lg outline-none focus:ring-2 focus:ring-brand-600" controls preload="metadata">
+                <source src="audio12.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio HTML5.
+            </audio>
+
+            <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 pt-2 border-t border-slate-200/80">
+                <span>Dica: Certifique-se de que o arquivo MP3 esteja na mesma pasta que esta página HTML.</span>
+                <div class="flex items-center gap-2">
+                    <button onclick="setSpeed(1.0)" class="px-2 py-1 bg-white border border-slate-200 rounded hover:bg-slate-100 text-slate-700 font-medium">1.0x</button>
+                    <button onclick="setSpeed(1.25)" class="px-2 py-1 bg-white border border-slate-200 rounded hover:bg-slate-100 text-slate-700 font-medium">1.25x</button>
+                    <button onclick="setSpeed(1.5)" class="px-2 py-1 bg-white border border-slate-200 rounded hover:bg-slate-100 text-slate-700 font-medium">1.5x</button>
+                    <button onclick="setSpeed(2.0)" class="px-2 py-1 bg-white border border-slate-200 rounded hover:bg-slate-100 text-slate-700 font-medium">2.0x</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TÍTULO PRINCIPAL E REVISÃO DE IMPACTO -->
+        <div class="border-b border-slate-200 pb-6">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+                Resumo Estratégico de Memorização: Integratividade Curricular para o Concurso EBTT/IFSC
+            </h1>
+            <p class="text-sm sm:text-base text-slate-600">
+                Foco total na banca <strong class="text-slate-900">FAURGS</strong> — Concurso para Professor de Informática e Áreas Correlas.
+            </p>
+        </div>
+
+        <!-- SEÇÃO 1: QUADRO COMPARATIVO (TABELA TOTALMENTE RESPONSIVA SEM SCROLL HORIZONTAL) -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 border-l-4 border-brand-700 pl-3">
+                <h2 class="text-xl font-bold text-slate-900">1. Quadro Comparativo de Aterrisagem Rápida</h2>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600">
+                Tabela sintetizada com <mark class="grifo">termos-gatilho</mark> de ocorrência recorrente na prova objetiva.
+            </p>
+
+            <!-- Tabela formatada para NUNCA gerar scroll horizontal -->
+            <div class="w-full border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                <table class="table-responsive-no-scroll text-xs sm:text-sm text-left">
+                    <thead>
+                        <tr class="bg-slate-100 border-b border-slate-200 text-slate-900 font-bold">
+                            <th class="p-2.5 sm:p-3.5 w-[22%]">Conceito</th>
+                            <th class="p-2.5 sm:p-3.5 w-[20%]">Grau de Cooperação</th>
+                            <th class="p-2.5 sm:p-3.5 w-[28%]">Impacto na Estrutura Disciplinar</th>
+                            <th class="p-2.5 sm:p-3.5 w-[30%]">Termos-Gatilho para a Prova</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-800">
+                        <!-- Multidisciplinaridade -->
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 sm:p-3.5 font-bold text-slate-900 align-top">
+                                Multidisciplinaridade
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top">
+                                <span class="inline-block px-2 py-0.5 rounded bg-red-100 text-red-800 text-xs font-semibold">
+                                    Nulo / Inexistente
+                                </span>
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top leading-snug">
+                                <strong class="text-slate-900">Nulo.</strong> Múltiplas disciplinas abordam o mesmo tema <mark class="grifo">sem qualquer diálogo</mark> ou planejamento conjunto.
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top leading-snug">
+                                <mark class="grifo-alerta">Justaposição</mark>, <mark class="grifo-alerta">paralelismo</mark>, <mark class="grifo-alerta">simultaneidade</mark>, ação isolada, ausência de cooperação.
+                            </td>
+                        </tr>
+
+                        <!-- Pluridisciplinaridade -->
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 sm:p-3.5 font-bold text-slate-900 align-top">
+                                Pluridisciplinaridade
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top">
+                                <span class="inline-block px-2 py-0.5 rounded bg-amber-100 text-amber-900 text-xs font-semibold">
+                                    Baixo / Informativo
+                                </span>
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top leading-snug">
+                                <strong class="text-slate-900">Mínimo.</strong> Cooperação temática entre disciplinas do mesmo campo ou áreas afins.
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top leading-snug">
+                                <mark class="grifo">Vizinhança conceitual</mark>, <mark class="grifo">áreas afins</mark>, agregação temática, cooperação inicial sem alteração de método.
+                            </td>
+                        </tr>
+
+                        <!-- Interdisciplinaridade -->
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 sm:p-3.5 font-bold text-brand-900 align-top">
+                                Interdisciplinaridade
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top">
+                                <span class="inline-block px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 text-xs font-semibold">
+                                    Intermediário / Alto
+                                </span>
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top leading-snug">
+                                <strong class="text-slate-900">Significativo.</strong> Interdependência orgânica com <mark class="grifo-verde">trocas recíprocas</mark> de métodos e conceitos.
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top leading-snug">
+                                <mark class="grifo-verde">Reciprocidade</mark>, <mark class="grifo-verde">interdependência</mark>, <mark class="grifo-verde">atitude docente</mark>, projeto comum, enriquecimento mútuo.
+                            </td>
+                        </tr>
+
+                        <!-- Transdisciplinaridade -->
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 sm:p-3.5 font-bold text-sky-900 align-top">
+                                Transdisciplinaridade
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top">
+                                <span class="inline-block px-2 py-0.5 rounded bg-sky-100 text-sky-900 text-xs font-semibold">
+                                    Máximo / Total
+                                </span>
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top leading-snug">
+                                <mark class="grifo-azul">Dissolução das fronteiras</mark> tradicionais em prol de um saber unificado e sistêmico.
+                            </td>
+                            <td class="p-2.5 sm:p-3.5 align-top leading-snug">
+                                <mark class="grifo-azul">Além das disciplinas</mark>, <mark class="grifo-azul">visão holística</mark>, unidade do saber, saberes não científicos, complexidade.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: MATRIZ EPISTEMOLÓGICA E AUTORES OBRIGATÓRIOS -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 border-l-4 border-brand-700 pl-3">
+                <h2 class="text-xl font-bold text-slate-900">2. Matriz Epistemológica e Autores Obrigatórios</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Card 1: Seminário de Nice -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-800">Marco Histórico</span>
+                        <span class="text-xs font-mono text-slate-500">1970 / OCDE</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-900">Seminário Internacional de Nice</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Marco inicial da sistematização teórica dos conceitos com <mark class="grifo">Jean Piaget</mark>, <mark class="grifo">Erich Jantsch</mark> e <mark class="grifo">Guy Michaud</mark>.
+                    </p>
+                    <div class="p-2.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-800">
+                        <strong>Jean Piaget:</strong> Defendeu a busca por <mark class="grifo-verde">mecanismos estruturais comuns</mark> para superar os compartimentos estanques entre as ciências.
+                    </div>
+                </div>
+
+                <!-- Card 2: Hilton Japiassu -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-900">Perspectiva Epistemológica</span>
+                        <span class="text-xs font-mono text-slate-500">Japiassu</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-900">Hilton Japiassu</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Define a disciplina como a exploração delimitada e rigorosa do universo de uma ciência específica.
+                    </p>
+                    <div class="p-2.5 bg-yellow-50 border border-yellow-200 rounded-lg text-xs text-slate-900 font-medium">
+                        🔥 <strong>Ponto-chave de prova:</strong> A interdisciplinaridade <mark class="grifo-alerta">NÃO extingue</mark> as disciplinas; pelo contrário, exige disciplinas consolidadas para que exista diálogo rigoroso.
+                    </div>
+                </div>
+
+                <!-- Card 3: Ivani Fazenda -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-900">Perspectiva Pedagógica</span>
+                        <span class="text-xs font-mono text-slate-500">Fazenda</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-900">Ivani Fazenda</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Aborda a interdisciplinaridade sob a ótica da prática pedagógica e da formação do professor.
+                    </p>
+                    <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-slate-900 font-medium">
+                        🔥 <strong>Ponto-chave de prova:</strong> A interdisciplinaridade é uma <mark class="grifo-verde">ATITUDE</mark> (ousadia, parceria, afeto e revisão da prática) e <mark class="grifo-alerta">NÃO um mero conjunto de técnicas</mark> ou receitas didáticas.
+                    </div>
+                </div>
+
+                <!-- Card 4: Olga Pombo & Basarab Nicolescu -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-900">Continuum Integrativo</span>
+                        <span class="text-xs font-mono text-slate-500">Pombo & Nicolescu</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-900">Olga Pombo e Basarab Nicolescu</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        As abordagens formam um <mark class="grifo-azul">continuum de cooperação crescente</mark>:
+                    </p>
+                    <div class="p-2.5 bg-white border border-slate-200 rounded-lg text-xs font-mono text-slate-800 text-center font-bold">
+                        Pluri/Multi <span class="text-slate-400">→</span> Interdisciplinaridade <span class="text-slate-400">→</span> Transdisciplinaridade
+                    </div>
+                </div>
+
+                <!-- Card 5: Edgar Morin -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-900">Pensamento Complexo</span>
+                        <span class="text-xs font-mono text-slate-500">Morin</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-900">Edgar Morin</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Critica a "inteligência cega" e a hiperespecialização que fragmentam o conhecimento. Defende o <mark class="grifo-azul">religamento dos saberes</mark>.
+                    </p>
+                    <div class="p-2.5 bg-indigo-50 border border-indigo-200 rounded-lg text-xs text-slate-900 font-medium">
+                        🔥 <strong>Ponto de prova:</strong> A transdisciplinaridade e a interdisciplinaridade são caminhos para a compreensão da <mark class="grifo">complexidade do real</mark>.
+                    </div>
+                </div>
+
+                <!-- Card 6: Ramos, Frigotto e Ciavatta (EPT) -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-teal-100 text-teal-900">Currículo Integrado EPT</span>
+                        <span class="text-xs font-mono text-slate-500">Frigotto / Ciavatta / Ramos</span>
+                    </div>
+                    <h3 class="font-bold text-base text-slate-900">M. Ramos, G. Frigotto e M. Ciavatta</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        A integração curricular na EPT visa à <mark class="grifo-verde">omnilateralidade</mark> (formação humana integral) contra a mera adestração mercadológica.
+                    </p>
+                    <div class="p-2.5 bg-teal-50 border border-teal-200 rounded-lg text-xs text-slate-900 font-medium">
+                        🔥 <strong>Ponto de prova:</strong> O trabalho como princípio educativo requer a <mark class="grifo-verde">superação da dicotomia</mark> entre formação geral e formação técnica.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2.1: MARCO LEGAL E NORMATIVO NA EPT / IFSC -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 border-l-4 border-brand-700 pl-3">
+                <h2 class="text-xl font-bold text-slate-900">2.1 Base Legal e Diretrizes Curriculares (FAURGS Focus)</h2>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600">
+                Como a legislação educacional fundamenta a integratividade curricular nos Institutos Federais.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-800">LDB 9.394/96 (Art. 35-A)</span>
+                        <span class="text-xs text-slate-500">Ensino Médio e Técnico</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Determina a organização curricular integrada por <mark class="grifo">áreas do conhecimento</mark> e a interdisciplinaridade pedagógica obrigatória na articulação dos itinerários formativos.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-800">Res. CNE/CP nº 1/2021</span>
+                        <span class="text-xs text-slate-500">Diretrizes da EPT</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Estabelece a organização por <mark class="grifo-verde">Eixos Tecnológicos</mark>, exigindo que as matrizes promovam a integração entre fundamentos científico-tecnológicos e a prática profissional.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: CHECKLIST ANTI-PEGADINHAS DA FAURGS -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 border-l-4 border-red-600 pl-3">
+                <h2 class="text-xl font-bold text-slate-900">3. Checklist Anti-Pegadinhas da FAURGS (Cargos EBTT)</h2>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600">
+                Atenção aos distratores mais comuns utilizados pela banca FAURGS em questões afirmativas e de Certo/Errado.
+            </p>
+
+            <div class="space-y-3">
+                
+                <!-- Pegadinha 1 -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 font-bold text-xs rounded">Pegadinha 1</span>
+                        <h3 class="text-sm font-bold text-slate-900">"A interdisciplinaridade acaba com as disciplinas isoladas para criar uma matéria única."</h3>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 pl-2 border-l-2 border-slate-300">
+                        <span class="font-bold text-red-700">ERRADO!</span> A interdisciplinaridade <mark class="grifo">preserva a identidade</mark> dos campos do saber. Sem a disciplina estruturada e rigorosa, não existe interdisciplinaridade.
+                    </p>
+                </div>
+
+                <!-- Pegadinha 2 -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 font-bold text-xs rounded">Pegadinha 2</span>
+                        <h3 class="text-sm font-bold text-slate-900">"Multidisciplinaridade e Pluridisciplinaridade são idênticas porque ambas trabalham um tema comum."</h3>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 pl-2 border-l-2 border-slate-300">
+                        <span class="font-bold text-red-700">ERRADO!</span> A multidisciplinaridade é <mark class="grifo-alerta">paralela e sem diálogo</mark> prévio. A pluridisciplinaridade tem intencionalidade e coordenação entre áreas afins (ex.: Química e Física).
+                    </p>
+                </div>
+
+                <!-- Pegadinha 3 -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 font-bold text-xs rounded">Pegadinha 3</span>
+                        <h3 class="text-sm font-bold text-slate-900">"Interdisciplinaridade é a realização de feiras de ciências ou eventos comemorativos."</h3>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 pl-2 border-l-2 border-slate-300">
+                        <span class="font-bold text-red-700">ERRADO!</span> Eventos pontuais são arranjos operacionais/pluridisciplinares. A interdisciplinaridade exige <mark class="grifo-verde">reflexão epistemológica</mark>, intencionalidade pedagógica e atitude continuada.
+                    </p>
+                </div>
+
+                <!-- Pegadinha 4 -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 font-bold text-xs rounded">Pegadinha 4</span>
+                        <h3 class="text-sm font-bold text-slate-900">"A atuação de uma equipe multiprofissional é uma prática transdisciplinar."</h3>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 pl-2 border-l-2 border-slate-300">
+                        <span class="font-bold text-red-700">ERRADO!</span> A atuação conjunta de especialistas em um mesmo espaço é <mark class="grifo">interprofissionalidade</mark> ou interdisciplinaridade. A transdisciplinaridade exige a <mark class="grifo-azul">transcendência dos saberes acadêmicos</mark> e integração com valores sociais e culturais.
+                    </p>
+                </div>
+
+                <!-- Pegadinha 5 -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 font-bold text-xs rounded">Pegadinha 5</span>
+                        <h3 class="text-sm font-bold text-slate-900">"Interdisciplinaridade é uma metodologia de ensino com passos rígidos e receita pronta."</h3>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 pl-2 border-l-2 border-slate-300">
+                        <span class="font-bold text-red-700">ERRADO!</span> Segundo Ivani Fazenda, a interdisciplinaridade é uma <mark class="grifo-verde">ATITUDE</mark> e postura do educador diante do conhecimento, não uma fórmula ou sequência didática padronizada.
+                    </p>
+                </div>
+
+                <!-- Pegadinha 6 -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 font-bold text-xs rounded">Pegadinha 6</span>
+                        <h3 class="text-sm font-bold text-slate-900">"O currículo integrado na EPT reduz o tempo e o conteúdo das disciplinas técnicas específicas."</h3>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 pl-2 border-l-2 border-slate-300">
+                        <span class="font-bold text-red-700">ERRADO!</span> O currículo integrado <mark class="grifo-verde">qualifica e articula</mark> a formação técnica à base científica/cultural, garantindo omnilateralidade sem esvaziar o rigor do ensino profissionalizante.
+                    </p>
+                </div>
+
+                <!-- Pegadinha 7 -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-red-100 text-red-800 font-bold text-xs rounded">Pegadinha 7</span>
+                        <h3 class="text-sm font-bold text-slate-900">"A transdisciplinaridade nega a ciência tradicional e elimina a necessidade de especialização técnica."</h3>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-700 pl-2 border-l-2 border-slate-300">
+                        <span class="font-bold text-red-700">ERRADO!</span> A transdisciplinaridade não anula o conhecimento disciplinar; ela o engloba e o <mark class="grifo-azul">transcende</mark>, articulando-o com múltiplos níveis de realidade e valores ético-sociais.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3.1: DICIONÁRIO MNEMÔNICO DE TERMOS-GATILHO FAURGS -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 border-l-4 border-brand-700 pl-3">
+                <h2 class="text-xl font-bold text-slate-900">3.1 Dicionário Mnemônico de Palavras-Chave (Gabarito Certo)</h2>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600">
+                Associe o conceito ao aparecimento dos seguintes termos no enunciado ou nas alternativas da FAURGS:
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <span class="text-xs font-bold text-red-900 block mb-1">MULTIDISCIPLINAR</span>
+                    <ul class="text-xs text-slate-700 space-y-1 list-disc list-inside">
+                        <li>Justaposição</li>
+                        <li>Paralelismo</li>
+                        <li>Acúmulo estanque</li>
+                        <li>Sem coordenação</li>
+                    </ul>
+                </div>
+
+                <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                    <span class="text-xs font-bold text-amber-900 block mb-1">PLURIDISCIPLINAR</span>
+                    <ul class="text-xs text-slate-700 space-y-1 list-disc list-inside">
+                        <li>Áreas afins / vizinhas</li>
+                        <li>Agregação temática</li>
+                        <li>Cooperação inicial</li>
+                        <li>Mesmo nível conceitual</li>
+                    </ul>
+                </div>
+
+                <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                    <span class="text-xs font-bold text-emerald-900 block mb-1">INTERDISCIPLINAR</span>
+                    <ul class="text-xs text-slate-700 space-y-1 list-disc list-inside">
+                        <li>Reciprocidade</li>
+                        <li>Interdependência</li>
+                        <li>Atitude docente</li>
+                        <li>Troca metodológica</li>
+                    </ul>
+                </div>
+
+                <div class="p-3 bg-sky-50 border border-sky-200 rounded-lg">
+                    <span class="text-xs font-bold text-sky-900 block mb-1">TRANSDISCIPLINAR</span>
+                    <ul class="text-xs text-slate-700 space-y-1 list-disc list-inside">
+                        <li>Além / Através</li>
+                        <li>Complexidade / Morin</li>
+                        <li>Visão holística</li>
+                        <li>Níveis de Realidade</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: CONTEXTUALIZAÇÃO NA EDUCAÇÃO PROFISSIONAL E TECNOLÓGICA (EPT) -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 border-l-4 border-brand-700 pl-3">
+                <h2 class="text-xl font-bold text-slate-900">4. Contextualização na Educação Profissional e Tecnológica (EPT)</h2>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600">
+                Nas provas da FAURGS para o <strong class="text-slate-900">IFSC</strong>, a integratividade curricular articula-se diretamente aos princípios fundantes da EPT.
+            </p>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-5 space-y-4">
+                
+                <div class="space-y-1">
+                    <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                        <svg class="w-5 h-5 text-brand-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Trabalho como Princípio Educativo e Pesquisa como Princípio Pedagógico
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed pl-7">
+                        A interdisciplinaridade é o instrumento integrador entre a <mark class="grifo">Formação Geral (propedeutização)</mark> e a <mark class="grifo">Formação Técnica (instrumentalização)</mark>, superando a histórica divisão entre trabalho manual e intelectual.
+                    </p>
+                </div>
+
+                <div class="border-t border-slate-200 pt-3 space-y-2">
+                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Aplicações Práticas na Área de Informática:</h4>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <!-- Exemplo Interdisciplinaridade -->
+                        <div class="p-3 bg-white border border-slate-200 rounded-lg space-y-1">
+                            <span class="text-xs font-bold text-brand-800 bg-brand-100 px-2 py-0.5 rounded">Interdisciplinaridade na TI</span>
+                            <p class="text-xs text-slate-700 leading-normal">
+                                <mark class="grifo-verde">Projetos Integradores (PI):</mark> Programação de Algoritmos + Matemática Discreta + Engenharia de Requisitos para um problema real do setor produtivo local.
+                            </p>
+                        </div>
+
+                        <!-- Exemplo Transdisciplinaridade -->
+                        <div class="p-3 bg-white border border-slate-200 rounded-lg space-y-1">
+                            <span class="text-xs font-bold text-sky-800 bg-sky-100 px-2 py-0.5 rounded">Transdisciplinaridade na TI</span>
+                            <p class="text-xs text-slate-700 leading-normal">
+                                <mark class="grifo-azul">Ética e Impacto Humano da IA:</mark> Análise de vieses algorítmicos integrando ciência da computação, direitos humanos, sociologia do trabalho e sustentabilidade digital.
+                            </p>
+                        </div>
+
+                        <!-- Exemplo EPT / Indissociabilidade -->
+                        <div class="p-3 bg-white border border-slate-200 rounded-lg space-y-1 sm:col-span-2">
+                            <span class="text-xs font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded">Indissociabilidade (Ensino, Pesquisa e Extensão no IFSC)</span>
+                            <p class="text-xs text-slate-700 leading-normal">
+                                A extensão mapeia a demanda da comunidade local, a pesquisa aplica o método investigativo científico e o ensino desenvolve a solução de software no laboratório, caracterizando a <mark class="grifo">práxis pedagógica integradora</mark>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: ALGORITMO DE RESOLUÇÃO DE QUESTÕES -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 border-l-4 border-brand-700 pl-3">
+                <h2 class="text-xl font-bold text-slate-900">5. Algoritmo de Resolução de Questões em 3 Passos</h2>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600">
+                Roteiro prático para aplicar durante a leitura das questões objetivas na prova do IFSC.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- Passo 1 -->
+                <div class="bg-white border-2 border-slate-200 rounded-xl p-4 space-y-3 relative overflow-hidden">
+                    <div class="text-xs font-extrabold text-slate-400">PASSO 01</div>
+                    <h3 class="text-sm font-bold text-slate-900">Identifique a Ação Docente</h3>
+                    <p class="text-xs text-slate-600">Há planejamento conjunto e troca metodológica?</p>
+                    <div class="space-y-1.5 text-xs pt-2 border-t border-slate-100">
+                        <div class="p-2 bg-slate-50 rounded">
+                            <strong class="text-red-700">Não:</strong> <mark class="grifo-alerta">Multidisciplinaridade</mark>
+                        </div>
+                        <div class="p-2 bg-slate-50 rounded">
+                            <strong class="text-amber-700">Apenas vizinhança temática:</strong> <mark class="grifo">Pluridisciplinaridade</mark>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passo 2 -->
+                <div class="bg-white border-2 border-brand-600/40 rounded-xl p-4 space-y-3 relative overflow-hidden">
+                    <div class="text-xs font-extrabold text-brand-700">PASSO 02</div>
+                    <h3 class="text-sm font-bold text-slate-900">Avalie o Nível de Modificação</h3>
+                    <p class="text-xs text-slate-600">Houve transformação mútua e interdependência nas práticas?</p>
+                    <div class="space-y-1.5 text-xs pt-2 border-t border-slate-100">
+                        <div class="p-2 bg-emerald-50 rounded text-emerald-900">
+                            <strong class="text-brand-800">Sim:</strong> <mark class="grifo-verde">Interdisciplinaridade</mark>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passo 3 -->
+                <div class="bg-white border-2 border-sky-600/40 rounded-xl p-4 space-y-3 relative overflow-hidden">
+                    <div class="text-xs font-extrabold text-sky-700">PASSO 03</div>
+                    <h3 class="text-sm font-bold text-slate-900">Cheque os Limites do Saber</h3>
+                    <p class="text-xs text-slate-600">O problema vai além das disciplinas, incluindo ética e saberes não formais?</p>
+                    <div class="space-y-1.5 text-xs pt-2 border-t border-slate-100">
+                        <div class="p-2 bg-sky-50 rounded text-sky-900">
+                            <strong class="text-sky-800">Sim:</strong> <mark class="grifo-azul">Transdisciplinaridade</mark>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- BOTÃO DE AÇÃO NO FINAL DA PÁGINA -->
+        <section class="pt-8 border-t border-slate-200 text-center space-y-4">
+            <h3 class="text-lg font-bold text-slate-900">Pronto para testar seus conhecimentos?</h3>
+            <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
+                Acesse o módulo de questões para fixar os conceitos e validar sua estratégia de memorização.
+            </p>
+            <div>
+                <a href="questoes12.html" class="inline-flex items-center gap-3 px-8 py-4 bg-brand-700 hover:bg-brand-800 text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                    <span>Acessar Questões e Simulados</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Função para alterar velocidade de reprodução do áudio
+        function setSpeed(speed) {
+            const player = document.getElementById('main-audio-player');
+            if (player) {
+                player.playbackRate = speed;
+            }
+        }
+    </script>
+</body>
+</html>
