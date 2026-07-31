@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Memorização: Educação Inclusiva - IFSC / FAURGS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b; /* Dark neutral for maximum legibility without harsh contrast */
+            background-color: #ffffff;
+        }
+
+        /* Custom text highlights */
+        .highlight-yellow {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        .highlight-red {
+            background-color: #fecdd3;
+            color: #9f1239;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 700;
+        }
+
+        .highlight-green {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 700;
+        }
+
+        .highlight-blue {
+            background-color: #e0f2fe;
+            color: #075985;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        /* Ensures tables wrap properly without horizontal scrollbar */
+        .table-responsive-no-scroll {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        .table-responsive-no-scroll th,
+        .table-responsive-no-scroll td {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Main Header -->
+    <header class="border-b border-slate-200 bg-white sticky top-0 z-30 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-100 p-2.5 rounded-xl border border-slate-200 text-slate-700">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Concurso Professor EBTT IFSC</span>
+                    <h1 class="text-xl md:text-2xl font-extrabold text-slate-900 leading-tight">Educação Inclusiva (Banca FAURGS)</h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-800 border border-slate-200">
+                    <i class="fa-solid fa-bolt text-amber-500 mr-1.5"></i> Resumo de Alta Retenção
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- Audio Player Section -->
+        <section class="mb-10 bg-slate-50 border border-slate-200 rounded-2xl p-5 shadow-sm">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-headphones"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">Áudio-Aula do Resumo</h2>
+                        <p class="text-xs text-slate-500">Ouça o resumo completo em áudio para fixação passiva</p>
+                    </div>
+                </div>
+                <!-- Editable MP3 path indicator -->
+                <div class="w-full sm:w-auto bg-white border border-slate-200 rounded-lg px-3 py-1.5 flex items-center gap-2 text-xs text-slate-600">
+                    <i class="fa-solid fa-file-audio text-slate-400"></i>
+                    <span class="font-medium">Arquivo MP3:</span>
+                    <input type="text" id="audioSourceInput" value="audio14.mp3" class="bg-slate-50 border border-slate-200 rounded px-2 py-0.5 text-slate-800 text-xs font-mono w-full sm:w-64 focus:outline-none focus:ring-1 focus:ring-slate-400" onchange="updateAudioSource(this.value)">
+                </div>
+            </div>
+
+            <!-- Custom HTML5 Audio Player Controls -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 flex flex-col md:flex-row items-center gap-4">
+                <audio id="mainAudioPlayer" class="hidden">
+                    <source id="audioSource" src="audio14.mp3" type="audio/mpeg">
+                    Seu navegador não suporta a execução de áudio.
+                </audio>
+
+                <div class="flex items-center gap-3 w-full md:w-auto justify-center">
+                    <button id="playPauseBtn" onclick="togglePlay()" class="w-12 h-12 rounded-full bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center transition shadow-sm">
+                        <i id="playIcon" class="fa-solid fa-play text-base ml-0.5"></i>
+                    </button>
+                    <button onclick="rewindAudio(10)" class="p-2 text-slate-600 hover:text-slate-900 transition" title="Voltar 10 segundos">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button onclick="forwardAudio(10)" class="p-2 text-slate-600 hover:text-slate-900 transition" title="Avançar 10 segundos">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="flex-grow w-full flex items-center gap-3">
+                    <span id="currentTime" class="text-xs font-mono text-slate-500 w-10 text-right">00:00</span>
+                    <input type="range" id="progressBar" value="0" min="0" step="0.1" class="w-full accent-slate-800 cursor-pointer h-2 bg-slate-100 rounded-lg" oninput="seekAudio(this.value)">
+                    <span id="durationTime" class="text-xs font-mono text-slate-500 w-10">00:00</span>
+                </div>
+
+                <!-- Playback Speed -->
+                <div class="flex items-center gap-2 w-full md:w-auto justify-end border-t md:border-t-0 border-slate-100 pt-3 md:pt-0">
+                    <span class="text-xs font-semibold text-slate-500">Velocidade:</span>
+                    <select onchange="changeSpeed(this.value)" class="bg-slate-50 border border-slate-200 rounded-md text-xs font-semibold px-2 py-1 text-slate-700 cursor-pointer focus:outline-none">
+                        <option value="1">1.0x</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="1.75">1.75x</option>
+                        <option value="2">2.0x</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOCO 1 -->
+        <section class="mb-12">
+            <div class="border-l-4 border-slate-900 pl-4 py-1 mb-6">
+                <span class="text-xs font-bold uppercase tracking-widest text-slate-500">Fundamentação e Leis</span>
+                <h2 class="text-2xl font-black text-slate-900">BLOCO 1: MARCOS TEÓRICOS E DISPOSITIVOS LEGAIS ESSENCIAIS</h2>
+            </div>
+
+            <!-- 1. Evolução dos Paradigmas Globais -->
+            <div class="mb-8 border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-800 text-xs flex items-center justify-center font-bold">1</span>
+                    Evolução dos Paradigmas Globais
+                </h3>
+
+                <ul class="space-y-3 mb-6 text-sm leading-relaxed">
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-angle-right text-slate-400 mt-1"></i>
+                        <div><strong class="text-slate-900">Exclusão:</strong> <span class="highlight-red">Marginalização total</span> do sistema social e escolar. Não há atendimento formal.</div>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-angle-right text-slate-400 mt-1"></i>
+                        <div><strong class="text-slate-900">Segregação:</strong> Atendimento exclusivo em <span class="highlight-yellow">instituições ou classes isoladas</span> e separadas do convívio comum.</div>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-angle-right text-slate-400 mt-1"></i>
+                        <div><strong class="text-slate-900">Integração:</strong> Baseada no <span class="highlight-yellow">Modelo Médico-Biológico</span>. Lógica da <span class="highlight-red">assimilação</span> (o aluno deve se adaptar e superar suas limitações para frequentar a escola regular).</div>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-angle-right text-slate-400 mt-1"></i>
+                        <div><strong class="text-slate-900">Inclusão:</strong> Baseada no <span class="highlight-green">Modelo Social / Direitos Humanos</span>. A deficiência é resultado da interação entre o impedimento do indivíduo e as <span class="highlight-yellow">barreiras do ambiente</span>. A <span class="highlight-green">escola se transforma</span> para acolher a todos.</div>
+                    </li>
+                </ul>
+
+                <!-- Table 1: Paradigmas -->
+                <div class="mt-6">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Tabela Comparativa: Integração vs. Inclusão</h4>
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <table class="table-responsive-no-scroll text-sm text-left">
+                            <thead class="bg-slate-100 border-b border-slate-200 text-slate-800 font-semibold text-xs uppercase">
+                                <tr>
+                                    <th class="p-3 border-r border-slate-200" style="width: 25%;">Eixo de Comparação</th>
+                                    <th class="p-3 border-r border-slate-200" style="width: 37.5%;">Paradigma da Integração</th>
+                                    <th class="p-3" style="width: 37.5%;">Paradigma da Inclusão</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Foco de Adequação</td>
+                                    <td class="p-3 border-r border-slate-200"><span class="highlight-red">Aluno se adapta</span> à escola.</td>
+                                    <td class="p-3"><span class="highlight-green">Escola se reestrutura</span> para o aluno.</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Visão da Deficiência</td>
+                                    <td class="p-3 border-r border-slate-200">Foco no déficit / <span class="highlight-yellow">Modelo médico</span>.</td>
+                                    <td class="p-3">Foco nas barreiras / <span class="highlight-green">Modelo social</span>.</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Organização do AEE</td>
+                                    <td class="p-3 border-r border-slate-200">Condicionado ou em <span class="highlight-red">classes especiais isoladas</span>.</td>
+                                    <td class="p-3"><span class="highlight-blue">Transversal</span>, na classe regular + AEE no <span class="highlight-yellow">contraturno</span>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Desenho Universal para a Aprendizagem (DUA) -->
+            <div class="mb-8 border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-800 text-xs flex items-center justify-center font-bold">2</span>
+                    Desenho Universal para a Aprendizagem (DUA)
+                </h3>
+                <p class="text-sm text-slate-600 mb-4">
+                    Abordagem <span class="highlight-green">proativa</span> que concebe currículos e aulas acessíveis a todos desde o planejamento inicial.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+                        <div class="font-bold text-slate-900 mb-1">1. Múltiplos meios de Engajamento</div>
+                        <div class="text-xs text-slate-600 mb-2">Redes afetivas</div>
+                        <p class="text-xs font-semibold text-slate-800"><span class="highlight-yellow">Por que aprender?</span> Foco na motivação, interesse e autorregulação.</p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+                        <div class="font-bold text-slate-900 mb-1">2. Múltiplos meios de Representação</div>
+                        <div class="text-xs text-slate-600 mb-2">Redes de reconhecimento</div>
+                        <p class="text-xs font-semibold text-slate-800"><span class="highlight-yellow">O que aprender?</span> Diversidade de mídias, formatos e linguagens.</p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+                        <div class="font-bold text-slate-900 mb-1">3. Múltiplos meios de Ação e Expressão</div>
+                        <div class="text-xs text-slate-600 mb-2">Redes estratégicas</div>
+                        <p class="text-xs font-semibold text-slate-800"><span class="highlight-yellow">Como aprender?</span> Formas variadas para o aluno demonstrar o saber.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Síntese Legislativa -->
+            <div class="border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-800 text-xs flex items-center justify-center font-bold">3</span>
+                    Síntese Legislativa (Artigos-Chave para a Prova)
+                </h3>
+
+                <div class="space-y-6 text-sm">
+                    <!-- LDB -->
+                    <div class="border-l-2 border-slate-800 pl-4">
+                        <h4 class="font-bold text-slate-900 text-base mb-2">LDB (Lei nº 9.394/1996)</h4>
+                        <ul class="space-y-2.5">
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">Art. 58 (Definição):</strong> A Educação Especial é uma <span class="highlight-green">MODALIDADE</span> escolar (e <span class="highlight-red">NÃO</span> nível ou etapa), transversal a todos os níveis, oferecida <span class="highlight-yellow">preferencialmente na rede regular</span>, com início na educação infantil e ao longo da vida.
+                            </li>
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">Art. 59, II (Terminalidade Específica):</strong> Concedida <span class="highlight-red">EXCLUSIVAMENTE</span> a alunos do <span class="highlight-yellow">Ensino Fundamental</span> que não atingirem o nível exigido por conta de suas deficiências (via histórico descritivo de competências).
+                            </li>
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">Art. 59, II (Aceleração de Estudos):</strong> Concedida a estudantes com <span class="highlight-blue">Altas Habilidades / Superdotação</span> para conclusão em menor tempo.
+                            </li>
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">Art. 59, III (Docência):</strong> Exige <span class="highlight-yellow">professores especializados</span> (nível médio/superior) para AEE e capacitados na classe regular.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- LBI -->
+                    <div class="border-l-2 border-slate-800 pl-4">
+                        <h4 class="font-bold text-slate-900 text-base mb-2">LBI (Lei nº 13.146/2015 - Estatuto da Pessoa com Deficiência)</h4>
+                        <ul class="space-y-2.5">
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">Art. 3º, XIII (Profissional de Apoio Escolar):</strong> Atua no suporte funcional (<span class="highlight-yellow">alimentação, higiene e locomoção</span>). <span class="highlight-red">PROIBIDO</span> exercer atividades pedagógicas técnicas/docentes.
+                            </li>
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">Art. 3º, VI (Adaptações Razoáveis):</strong> Ajustes e adaptações individuais que não imponham ônus desproporcional.
+                            </li>
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">Art. 28:</strong> <span class="highlight-red">PROIBIÇÃO EXPRESSA</span> de cobrança de taxa, mensalidade ou valor adicional por recursos de acessibilidade ou apoio em instituições privadas.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Decreto & PNEE -->
+                    <div class="border-l-2 border-slate-800 pl-4">
+                        <h4 class="font-bold text-slate-900 text-base mb-2">Decreto nº 7.611/2011 & PNEE-PEI/2008</h4>
+                        <ul class="space-y-2.5">
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">Público-Alvo da Educação Especial (PAEE):</strong> Deficiência (longo prazo), TGD/TEA e Altas Habilidades/Superdotação.
+                            </li>
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">AEE (Atendimento Educacional Especializado):</strong> Caráter <span class="highlight-green">Complementar</span> (deficiência/TGD) ou <span class="highlight-green">Suplementar</span> (altas habilidades). <span class="highlight-red">NUNCA substitutivo</span> ao ensino regular. Ocorre preferencialmente no <span class="highlight-yellow">contraturno</span> em Salas de Recursos Multifuncionais (SRM).
+                            </li>
+                            <li class="leading-relaxed">
+                                <strong class="text-slate-900">Financiamento (FUNDEB):</strong> Permite a <span class="highlight-green">DUPLA MATRÍCULA</span> pública (contabiliza a classe regular + o AEE).
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Marcos Internacionais e Constitucionais -->
+            <div class="mt-8 border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-800 text-xs flex items-center justify-center font-bold">4</span>
+                    Marcos Internacionais e Constitucionais Integrantes do Edital
+                </h3>
+
+                <div class="space-y-4 text-sm">
+                    <div class="border-l-2 border-slate-800 pl-4">
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Declaração de Salamanca (1994)</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            Documento marco do conceito de <span class="highlight-green">Escola Inclusiva</span>. Establece que as escolas regulares devem acolher <span class="highlight-yellow">TODAS as crianças</span>, independentemente de suas condições físicas, intelectuais, sociais, emocionais ou linguísticas.
+                        </p>
+                    </div>
+
+                    <div class="border-l-2 border-slate-800 pl-4">
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Convenção da ONU (2006) / Decreto Federal nº 6.949/2009</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            Aprovada no Brasil pelo rito especial do Art. 5º, §3º da Constituição Federal, possuindo <span class="highlight-green">STATUS DE EMENDA CONSTITUCIONAL</span> (norma constitucional). Define o <span class="highlight-yellow">Modelo Social da Deficiência</span> e consagra o direito a um sistema educacional inclusivo em todos os níveis.
+                        </p>
+                    </div>
+
+                    <div class="border-l-2 border-slate-800 pl-4">
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Constituição Federal de 1988 (Art. 205, 206 e 208)</h4>
+                        <p class="text-slate-700 leading-relaxed">
+                            Art. 206, I: <span class="highlight-yellow">Igualdade de condições</span> para o acesso e permanência na escola. <br>
+                            Art. 208, III: Dever do Estado em garantir o AEE aos portadores de deficiência, <span class="highlight-green">PREFERENCIALMENTE na rede regular de ensino</span>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Legislações Específicas e Atualizações Recentes -->
+            <div class="mt-8 border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-800 text-xs flex items-center justify-center font-bold">5</span>
+                    Atualizações Recentes e Normas Específicas de Alto Impacto
+                </h3>
+
+                <div class="space-y-4 text-sm">
+                    <div class="border-l-2 border-slate-800 pl-4">
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Lei nº 14.191/2021 &mdash; Educação Bilíngue de Surdos na LDB</h4>
+                        <p class="text-slate-700 leading-relaxed mb-2">
+                            Incluiu a <span class="highlight-green">EDUCAÇÃO BILÍNGUE DE SURDOS</span> como uma <span class="highlight-green">MODALIDADE ESCOLAR INDEPENDENTE</span> na LDB (Art. 60-A e 60-B).
+                        </p>
+                        <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1">
+                            <li><strong class="text-slate-900">Língua Padrão:</strong> Primeira Língua (L1) = <span class="highlight-yellow">Libras</span>; Segunda Língua (L2) = <span class="highlight-yellow">Português na modalidade escrita</span>.</li>
+                            <li><strong class="text-slate-900">Público:</strong> Estudantes surdos, surdo-cegos, com deficiência auditiva sinalantes, surdos com altas habilidades/superdotação ou com outras deficiências associadas.</li>
+                            <li><strong class="text-slate-900">Atenção:</strong> É uma modalidade de ensino <span class="highlight-red">diferente</span> da Educação Especial tradicional.</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-l-2 border-slate-800 pl-4">
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Lei Berenice Piana (Lei nº 12.764/2012 - Política para Pessoas com TEA)</h4>
+                        <p class="text-slate-700 leading-relaxed mb-1">
+                            Equipara formalmente a pessoa com Transtorno do Espectro Autista (TEA) à <span class="highlight-green">pessoa com deficiência</span> para todos os efeitos legais.
+                        </p>
+                        <p class="text-xs text-slate-700">
+                            Garante o direito a <span class="highlight-yellow">Acompanhante Especializado</span> nas classes regulares no caso de comprovada necessidade (diferente do profissional de apoio geral).
+                        </p>
+                    </div>
+
+                    <div class="border-l-2 border-slate-800 pl-4">
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Resolução CNE/CEB nº 04/2009 &mdash; Diretrizes Operacionais do AEE</h4>
+                        <p class="text-slate-700 leading-relaxed text-xs">
+                            Regulamenta o funcionamento do AEE na Educação Básica. Determina a elaboração obrigatória do <span class="highlight-yellow">Plano de AEE</span> pelo professor especialista, a organização da <span class="highlight-blue">Salas de Recursos Multifuncionais (SRM)</span> e a articulação constante com os professores da sala de aula comum.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. As 6 Dimensões da Acessibilidade e Atuação do NAPNE no IFSC -->
+            <div class="mt-8 border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-800 text-xs flex items-center justify-center font-bold">6</span>
+                    Dimensões da Acessibilidade (Sassaki) & Atuação Institucional no IFSC
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs mb-6">
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <strong class="text-slate-900 block mb-1">1. Arquitetônica</strong>
+                        Eliminação de barreiras físicas e edifícios acessíveis (rampas, elevadores, piso tátil).
+                    </div>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <strong class="text-slate-900 block mb-1">2. Comunicacional</strong>
+                        Libras, Braille, audiodescrição, comunicação alternativa e legendagem.
+                    </div>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <strong class="text-slate-900 block mb-1">3. Metodológica</strong>
+                        Flexibilização do ensino, adaptações de provas, tempos adicionais e DUA.
+                    </div>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <strong class="text-slate-900 block mb-1">4. Instrumental</strong>
+                        Ferramentas, tecnologias assistivas, periféricos e softwares adaptados.
+                    </div>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <strong class="text-slate-900 block mb-1">5. Programática</strong>
+                        Eliminação de barreiras em políticas públicas, regulamentos, editais e regimentos.
+                    </div>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <strong class="text-slate-900 block mb-1">6. Atitudinal</strong>
+                        Combate a preconceitos, estereótipos, capacitismo e estigmas na comunidade acadêmica.
+                    </div>
+                </div>
+
+                <!-- NAPNE / EPT -->
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-landmark text-slate-700"></i>
+                        O NAPNE nos Institutos Federais (IFSC)
+                    </h4>
+                    <p class="text-slate-700 leading-relaxed">
+                        O <span class="highlight-green">NAPNE (Núcleo de Apoio às Pessoas com Necessidades Específicas)</span> é o setor responsável por articular as ações de inclusão no IFSC. Atua na mediação pedagógica, na orientação aos docentes do Ensino Técnico e Superior, no acompanhamento da confecção do <span class="highlight-yellow">PDI (Plano de Desenvolvimento Individualizado)</span> ou <span class="highlight-yellow">PEI</span> e na garantia de acessibilidade em todo o percurso formativo da Educação Profissional e Tecnológica (EPT).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOCO 2 -->
+        <section class="mb-12">
+            <div class="border-l-4 border-slate-900 pl-4 py-1 mb-6">
+                <span class="text-xs font-bold uppercase tracking-widest text-slate-500">Mapeamento de Prova</span>
+                <h2 class="text-2xl font-black text-slate-900">BLOCO 2: PEGADINHAS RECORRENTES DA FAURGS E PONTOS DE ACERTO</h2>
+            </div>
+
+            <!-- Table 2: FAURGS Traps -->
+            <div class="mb-8 border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-800 text-xs flex items-center justify-center font-bold">1</span>
+                    Mapeamento de Armadilhas Frequentes em Concursos EBTT
+                </h3>
+
+                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                    <table class="table-responsive-no-scroll text-sm text-left">
+                        <thead class="bg-slate-100 border-b border-slate-200 text-slate-800 font-semibold text-xs uppercase">
+                            <tr>
+                                <th class="p-3 border-r border-slate-200" style="width: 22%;">Tema da Questão</th>
+                                <th class="p-3 border-r border-slate-200" style="width: 38%;">Pega / Distrator Frequente FAURGS</th>
+                                <th class="p-3" style="width: 40%;">Regra Absoluta (Gabarito Correto)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Níveis vs. Modalidades</td>
+                                <td class="p-3 border-r border-slate-200"><span class="highlight-red">Incluir a Educação Especial entre os "níveis"</span> da Educação Básica.</td>
+                                <td class="p-3">A Ed. Básica tem apenas <span class="highlight-green">3 etapas/níveis</span> (Infantil, Fundamental e Médio). Ed. Especial é <span class="highlight-green">MODALIDADE</span>.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Caráter do AEE</td>
+                                <td class="p-3 border-r border-slate-200"><span class="highlight-red">Afirmar que o AEE substitui</span> a frequência na sala regular para alunos graves.</td>
+                                <td class="p-3">O AEE <span class="highlight-red">NUNCA é substitutivo</span>. É sempre complementar ou suplementar, ofertado no <span class="highlight-yellow">contraturno</span>.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Terminalidade Específica</td>
+                                <td class="p-3 border-r border-slate-200"><span class="highlight-red">Afirmar que se aplica ao Ensino Médio, Superior</span> ou superdotados.</td>
+                                <td class="p-3">Aplicável <span class="highlight-green">APENAS ao Ensino Fundamental</span> e somente a pessoas com deficiência.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Papel do Apoio Escolar</td>
+                                <td class="p-3 border-r border-slate-200"><span class="highlight-red">Atribuir ao profissional de apoio funções de regência</span>, PDI ou mediação pedagógica.</td>
+                                <td class="p-3">Atuação restrita a <span class="highlight-yellow">higiene, locomoção e alimentação</span>. O ensino é de responsabilidade do professor.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Ed. Bilíngue de Surdos</td>
+                                <td class="p-3 border-r border-slate-200"><span class="highlight-red">Tratar a Educação Bilíngue de Surdos como um recurso da Educação Especial</span> ou apenas atendimento em AEE.</td>
+                                <td class="p-3">É uma <span class="highlight-green">MODALIDADE ESCOLAR INDEPENDENTE</span> (Lei nº 14.191/2021) na LDB, com Libras como L1 e Português escrito como L2.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Convenção ONU ( Status)</td>
+                                <td class="p-3 border-r border-slate-200"><span class="highlight-red">Classificar a Convenção da ONU como lei ordinária ou decreto infralegal</span>.</td>
+                                <td class="p-3">Foi aprovada com equivalência de <span class="highlight-green">EMENDA CONSTITUCIONAL</span> (Art. 5º, §3º da CF/88).</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-900 border-r border-slate-200 bg-slate-50">Financiamento AEE</td>
+                                <td class="p-3 border-r border-slate-200"><span class="highlight-red">Dizer que o aluno só pode ser financiado</span> pelo FUNDEB em uma matrícula.</td>
+                                <td class="p-3">É autorizada a <span class="highlight-green">DUPLA MATRÍCULA</span> (sala regular + AEE no setor público).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 2. Aplicação Prática no IFSC -->
+            <div class="mb-8 border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-800 text-xs flex items-center justify-center font-bold">2</span>
+                    Aplicação Prática: Docência em Informática no IFSC
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+                        <div class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-desktop text-slate-700"></i>
+                            Tecnologias Assistivas (TA)
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            Uso e ensino de leitores de tela (<span class="highlight-yellow">NVDA, Orca</span>), teclados adaptados e softwares de acessibilidade nos laboratórios de informática.
+                        </p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+                        <div class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-code text-slate-700"></i>
+                            Acessibilidade Digital
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            Obrigatoriedade de ensinar diretrizes formais como <span class="highlight-yellow">WCAG</span> (Web Content Accessibility Guidelines) e <span class="highlight-yellow">eMAG</span> (Modelo de Acessibilidade do Governo) nas disciplinas de software.
+                        </p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+                        <div class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-chalkboard-user text-slate-700"></i>
+                            Prática DUA em Lab
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            Apresentação de lógica de programação em múltiplos formatos (<span class="highlight-yellow">código sintático, fluxogramas acessíveis, áudio e simulações</span>) e avaliações flexíveis.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Checklist Rápido de Véspera -->
+            <div class="border border-slate-200 rounded-2xl p-6 bg-white shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-800 text-xs flex items-center justify-center font-bold">3</span>
+                    Checklist Rápido de Véspera (Gatilhos de Acerto)
+                </h3>
+
+                <div class="space-y-3 text-sm">
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>
+                        <div>Leu <span class="font-bold text-slate-900">"nível de Educação Especial"</span>? &rarr; <span class="highlight-red">ERRADO</span> (é modalidade).</div>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>
+                        <div>Leu <span class="font-bold text-slate-900">"AEE substitui a classe regular"</span>? &rarr; <span class="highlight-red">ERRADO</span> (é complementar/suplementar no contraturno).</div>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>
+                        <div>Leu <span class="font-bold text-slate-900">"terminalidade específica no Ensino Médio"</span>? &rarr; <span class="highlight-red">ERRADO</span> (exclusiva do Ensino Fundamental).</div>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>
+                        <div>Leu <span class="font-bold text-slate-900">"Apoio Escolar realiza adaptação curricular"</span>? &rarr; <span class="highlight-red">ERRADO</span> (função exclusivamente funcional/não docente).</div>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>
+                        <div>Leu <span class="font-bold text-slate-900">"Integração é a escola se adequar ao aluno"</span>? &rarr; <span class="highlight-red">ERRADO</span> (isso é Inclusão; na Integração o aluno se adequa).</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Redirect Button Section -->
+        <section class="mt-12 pt-8 border-t border-slate-200 flex flex-col items-center justify-center text-center">
+            <p class="text-sm text-slate-500 mb-4">Pronto para testar seus conhecimentos e fixar o conteúdo?</p>
+            <a href="questoes14.html" class="inline-flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-base px-8 py-4 rounded-xl shadow-md transition-all hover:shadow-lg transform hover:-translate-y-0.5">
+                <span>Ir para as Questões de Prova</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 mt-12">
+        <p>Guia de Estudo Concurso IFSC Professor EBTT - Educação Inclusiva</p>
+    </footer>
+
+    <!-- Audio Player Logic -->
+    <script>
+        const audio = document.getElementById('mainAudioPlayer');
+        const audioSource = document.getElementById('audioSource');
+        const playIcon = document.getElementById('playIcon');
+        const progressBar = document.getElementById('progressBar');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationTimeEl = document.getElementById('durationTime');
+
+        function updateAudioSource(newSource) {
+            audioSource.src = newSource;
+            audio.load();
+            resetPlayerUI();
+        }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    playIcon.className = "fa-solid fa-pause text-base";
+                }).catch(err => {
+                    alert('Não foi possível tocar o áudio. Verifique se o arquivo "' + audioSource.src + '" existe no mesmo diretório.');
+                });
+            } else {
+                audio.pause();
+                playIcon.className = "fa-solid fa-play text-base ml-0.5";
+            }
+        }
+
+        function rewindAudio(seconds) {
+            audio.currentTime = Math.max(0, audio.currentTime - seconds);
+        }
+
+        function forwardAudio(seconds) {
+            audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + seconds);
+        }
+
+        function seekAudio(val) {
+            audio.currentTime = val;
+        }
+
+        function changeSpeed(speed) {
+            audio.playbackRate = parseFloat(speed);
+        }
+
+        function formatTime(secs) {
+            if (isNaN(secs)) return "00:00";
+            const m = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function resetPlayerUI() {
+            playIcon.className = "fa-solid fa-play text-base ml-0.5";
+            progressBar.value = 0;
+            currentTimeEl.textContent = "00:00";
+            durationTimeEl.textContent = "00:00";
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            progressBar.max = audio.duration;
+            durationTimeEl.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            progressBar.value = audio.currentTime;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        });
+
+        audio.addEventListener('ended', () => {
+            resetPlayerUI();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS - Educação Mediada por Tecnologias e EaD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f7f6f3; /* Fundo claro e morno para não cansar a vista */
+            color: #1a1a1a; /* Texto escuro de alto contraste suave */
+        }
+        .serif-title {
+            font-family: 'Merriweather', Georgia, serif;
+        }
+        .custom-radio:checked + label {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            color: #1e3a8a;
+        }
+        .custom-radio:checked + label .radio-circle {
+            border-color: #2563eb;
+            background-color: #2563eb;
+        }
+        .custom-radio:checked + label .radio-inner {
+            display: block;
+        }
+        /* Estilos de feedback pós-submissão */
+        .option-correct {
+            border-color: #16a34a !important;
+            background-color: #f0fdf4 !important;
+            color: #14532d !important;
+        }
+        .option-wrong {
+            border-color: #dc2626 !important;
+            background-color: #fef2f2 !important;
+            color: #7f1d1d !important;
+        }
+        .option-neutral {
+            opacity: 0.65;
+        }
+        .shadow-soft {
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-stone-200/80 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-700 text-white font-bold text-sm shadow-sm">
+                    FAURGS
+                </span>
+                <div>
+                    <h1 class="text-base sm:text-lg font-semibold text-stone-900 leading-tight">Simulado de EaD & Tecnologias</h1>
+                    <p class="text-xs text-stone-500 hidden sm:block">10 Questões Inéditas e Comentadas • Padrão FAURGS</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <div class="text-right">
+                    <span id="progress-text" class="text-xs font-semibold text-stone-600 block">0 de 10 respondidas</span>
+                    <div class="w-28 bg-stone-200 h-2 rounded-full overflow-hidden mt-0.5">
+                        <div id="progress-bar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full">
+        
+        <!-- Banner de Apresentação -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 mb-8 border border-stone-200 shadow-soft">
+            <div class="flex items-start justify-between flex-wrap gap-4">
+                <div>
+                    <span class="inline-block px-3 py-1 bg-amber-100 text-amber-900 text-xs font-semibold rounded-full mb-3">
+                        Concursos Públicos & Licenciaturas
+                    </span>
+                    <h2 class="serif-title text-2xl sm:text-3xl font-bold text-stone-900 mb-2">
+                        Simulado: Educação Mediada por Tecnologias e EaD
+                    </h2>
+                    <p class="text-stone-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+                        Teste seus conhecimentos com questões elaboradas no perfil clássico da banca **FAURGS**. Ao concluir o simulado, você receberá a sua pontuação detalhada e o gabarito com a resolução fundamentada de cada questão na mesma página.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard de Resultados (Invisível inicialmente) -->
+        <div id="results-card" class="hidden bg-white rounded-2xl p-6 sm:p-8 mb-8 border-2 shadow-lg transition-all duration-500">
+            <div class="text-center max-w-xl mx-auto">
+                <div id="score-icon" class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-2xl font-bold mb-4">
+                    <!-- Icon JS -->
+                </div>
+                <h3 id="score-title" class="text-2xl font-bold text-stone-900 mb-1">Resultado do Simulado</h3>
+                <p id="score-subtitle" class="text-stone-600 text-sm mb-6"></p>
+                
+                <div class="grid grid-cols-3 gap-3 bg-stone-50 p-4 rounded-xl border border-stone-200 mb-6">
+                    <div class="p-2">
+                        <span class="block text-xs uppercase tracking-wider font-semibold text-stone-500">Acertos</span>
+                        <span id="score-count" class="text-2xl font-bold text-emerald-600">0 / 10</span>
+                    </div>
+                    <div class="p-2 border-x border-stone-200">
+                        <span class="block text-xs uppercase tracking-wider font-semibold text-stone-500">Aproveitamento</span>
+                        <span id="score-percentage" class="text-2xl font-bold text-blue-600">0%</span>
+                    </div>
+                    <div class="p-2">
+                        <span class="block text-xs uppercase tracking-wider font-semibold text-stone-500">Desempenho</span>
+                        <span id="score-badge" class="text-sm font-bold text-stone-800 mt-2 block">-</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-center gap-3">
+                    <button onclick="scrollToSummary()" class="px-5 py-2.5 bg-stone-800 text-white rounded-xl text-sm font-medium hover:bg-stone-900 transition-colors shadow-sm">
+                        Ver Tabela do Gabarito
+                    </button>
+                    <button onclick="resetQuiz()" class="px-5 py-2.5 bg-stone-100 text-stone-700 hover:bg-stone-200 rounded-xl text-sm font-medium transition-colors border border-stone-300">
+                        Refazer Simulado
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulário do Quiz com as Questões -->
+        <form id="quiz-form" class="space-y-8">
+            <div id="questions-container" class="space-y-8">
+                <!-- Questões geradas dinamicamente via JS -->
+            </div>
+
+            <!-- Botão de Envio -->
+            <div class="bg-white rounded-2xl p-6 border border-stone-200 shadow-soft flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-sm text-stone-500 text-center sm:text-left">
+                    Verifique se você respondeu todas as 10 questões antes de finalizar.
+                </div>
+                <button type="button" onclick="submitQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-xl shadow-md transition-all duration-200 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-200">
+                    Finalizar e Ver Desempenho
+                </button>
+            </div>
+        </form>
+
+        <!-- Seção de Gabarito Consolidado (Exibida pós-envio) -->
+        <div id="gabarito-summary" class="hidden mt-12 bg-white rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-soft">
+            <h3 class="serif-title text-xl font-bold text-stone-900 mb-4 pb-2 border-b border-stone-200">
+                Gabarito Oficial Rápido
+            </h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-stone-100 text-stone-700 font-semibold border-b border-stone-200">
+                            <th class="py-3 px-4 rounded-l-lg">Questão</th>
+                            <th class="py-3 px-4">Gabarito</th>
+                            <th class="py-3 px-4">Sua Resposta</th>
+                            <th class="py-3 px-4">Status</th>
+                            <th class="py-3 px-4 rounded-r-lg">Tópico Abordado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gabarito-table-body" class="divide-y divide-stone-200 text-stone-800">
+                        <!-- Conteúdo preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-stone-200 mt-12 py-6 text-center text-xs text-stone-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="font-medium text-stone-700">Simulado FAURGS — Educação Mediada por Tecnologias e Educação a Distância</p>
+            <p class="mt-1">Interface otimizada para estudo individual e análise contínua de questões pedagógicas.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dados Completos do Simulado (10 Questões na Íntegra)
+        const quizData = [
+            {
+                id: 1,
+                topic: "Legislação da EaD (LDB Art. 80 e Decreto nº 9.057/2017)",
+                prompt: "A Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/1996), em seu Artigo 80, e o Decreto nº 9.057/2017 consolidam o marco regulatório e as bases de funcionamento para a Educação a Distância (EaD) no sistema de ensino brasileiro.<br><br>Considere as seguintes afirmações sobre a regulamentação e a organização pedagógica da EaD.",
+                affirmations: [
+                    "I - A Educação a Distância é caracterizada legalmente como uma modalidade educacional na qual a mediação didático-pedagógica nos processos de ensino e aprendizagem ocorre com a utilização de meios e tecnologias de informação e comunicação, com estudantes e profissionais da educação desenvolvendo atividades educativas em lugares ou tempos diversos.",
+                    "II - O Polo de Educação a Distância é definido como a unidade descentralizada da instituição de ensino responsável por manter infraestrutura física, tecnológica e de recursos humanos adequada para o desenvolvimento de atividades presenciais relativas aos cursos ofertados a distância.",
+                    "III - A legislação educacional prevê a obrigatoriedade de momentos presenciais para a realização de avaliações, atividades práticas em laboratório de ensino e estágio supervisionado, quando previstos no projeto pedagógico do curso."
+                ],
+                questionEnd: "Quais estão corretas?",
+                options: [
+                    { id: "A", text: "(A) Apenas I." },
+                    { id: "B", text: "(B) Apenas II." },
+                    { id: "C", text: "(C) Apenas III." },
+                    { id: "D", text: "(D) Apenas I e II." },
+                    { id: "E", text: "(E) I, II e III." }
+                ],
+                correct: "E",
+                resolution: `<strong>Gabarito: (E)</strong><br><br>
+                A análise fundamenta-se nos textos legais que regem a Educação a Distância no Brasil.<br><br>
+                • <strong>Item I:</strong> Reproduz fielmente a definição contida no Artigo 1º do Decreto nº 9.057/2017, que regulamenta o Artigo 80 da Lei nº 9.394/1996 (LDB). A modalidade é caracterizada pelo uso de tecnologias de informação e comunicação na mediação didático-pedagógica de processos educativos desenvolvidos por alunos e educadores em lugares ou tempos diversos.<br>
+                • <strong>Item II:</strong> Está em perfeita consonância com o Artigo 5º do Decreto nº 9.057/2017. O polo de EaD é conceituado como a estrutura descentralizada da instituição, projetada para prover o suporte tecnológico, a infraestrutura física e os profissionais qualificados necessários ao acompanhamento presencial dos alunos.<br>
+                • <strong>Item III:</strong> Fundamenta-se no § 2º do Artigo 1º do Decreto nº 9.057/2017, o qual explicita a obrigatoriedade de previsão de momentos presenciais para a realização de exames avaliativos, estágios curriculares e atividades laboratoriais práticas, garantindo a equivalência e o padrão de qualidade do processo formativo.<br><br>
+                Portanto, todas as afirmações (I, II e III) estão corretas.`
+            },
+            {
+                id: 2,
+                topic: "Cibercultura, Espaço do Saber e Inteligência Coletiva (Pierre Lévy)",
+                prompt: "No âmbito da reflexão sobre a cibercultura e as transformações na produção do conhecimento, Pierre Lévy discute a emergência do espaço do saber e os novos modos de aprendizagem potencializados pela interconexão em redes digitais.<br><br>Com base nos aportes teóricos de Pierre Lévy sobre a cibercultura e a virtualização do saber, assinale a alternativa correta.",
+                options: [
+                    { id: "A", text: "(A) O conceito de virtual contrapõe-se diametralmente ao conceito de real, reduzindo a experiência cibernética a uma simples ilusão desprovida de relevância no mundo físico." },
+                    { id: "B", text: "(B) A inteligência coletiva expressa o somatório automatizado e mecânico de dados armazenados em servidores centrais, prescindindo da participação criativa dos sujeitos." },
+                    { id: "C", text: "(C) O ciberespaço atua como suporte telemático para a inteligência coletiva, promovendo aprendizagens contínuas, abertas e personalizadas, e reconfigurando a relação tradicional com a retenção da informação." },
+                    { id: "D", text: "(D) A virtualização do ensino elimina a necessidade de mediação pedagógica, atribuindo exclusivamente aos algoritmos de busca o papel de condução cognitiva do estudante." },
+                    { id: "E", text: "(E) A organização do saber na cibercultura sustenta-se pela rigidez das trajetórias lineares e pelo isolamento individual dos sujeitos no processo de aprendizagem." }
+                ],
+                correct: "C",
+                resolution: `<strong>Gabarito: (C)</strong><br><br>
+                A alternativa <strong>(C)</strong> é a única correta de acordo com a teoria da cibercultura formulada por Pierre Lévy. Lévy define o ciberespaço como o novo meio de comunicação emergente da interconexão mundial de computadores, funcionando como um ecossistema telemático que possibilita a construção da inteligência coletiva. Nesse espaço, o conhecimento deixa de ser concebido como um estoque estático a ser memorizado e passa a ser compreendido como um fluxo dinâmico e coletivo, promovendo a personalização e a continuidade das aprendizagens.<br><br>
+                As demais alternativas apresentam erros conceituais severos:<br>
+                • Na alternativa <strong>(A)</strong>, Lévy esclarece que o virtual não se opõe ao real, mas ao <em>atual</em>; o virtual existe em potência e possui plena capacidade de produzir transformações no mundo concreto.<br>
+                • Na alternativa <strong>(B)</strong>, a inteligência coletiva não é uma acumulação automática de dados, mas sim uma inteligência distribuída por toda parte, coordenada em tempo real e valorizada pelo engajamento dos sujeitos.<br>
+                • Nas alternativas <strong>(D)</strong> e <strong>(E)</strong>, Lévy reforça que a mediação pedagógica ganha ainda mais importância na cibercultura para orientar os alunos na navegação crítica pelo oceano informacional, opondo-se ao isolamento estático e à exclusão do docente.`
+            },
+            {
+                id: 3,
+                topic: "Tecnologias, Cognição e Mediação Pedagógica (Vani M. Kenski)",
+                prompt: "Vani Moreira Kenski analisa a integração das Tecnologias Digitais de Informação e Comunicação (TDIC) ao contexto educacional, enfatizando o impacto dessas ferramentas no tempo, no espaço e nas práticas pedagógicas escolares.<br><br>Considere as seguintes afirmações a respeito do ensino mediado por tecnologias na perspectiva de Kenski.",
+                affirmations: [
+                    "I - As tecnologias não se reduzem a meros instrumentos neutros ou suportes técnicos de transmissão; elas alteram a própria cognição humana, a produção do conhecimento e os processos comunicacionais.",
+                    "II - A simples aquisição e disponibilização de equipamentos tecnológicos avançados na escola garante a automação da inovação pedagógica e a superação das práticas tradicionais de ensino.",
+                    "III - A mediação pedagógica mediada pelas TDIC exige do docente o planejamento de trajetórias flexíveis e interativas, posicionando o estudante como sujeito ativo na reconstrução do saber."
+                ],
+                questionEnd: "Quais estão corretas?",
+                options: [
+                    { id: "A", text: "(A) Apenas I." },
+                    { id: "B", text: "(B) Apenas II." },
+                    { id: "C", text: "(C) Apenas I e III." },
+                    { id: "D", text: "(D) Apenas II e III." },
+                    { id: "E", text: "(E) I, II e III." }
+                ],
+                correct: "C",
+                resolution: `<strong>Gabarito: (C)</strong><br><br>
+                A análise apoia-se nas premissas de Vani Moreira Kenski sobre tecnologias e ensino.<br><br>
+                • <strong>Item I:</strong> Está correto. Kenski refuta a concepção instrumentalista ou ingênua de tecnologia. Para a autora, as tecnologias educacionais não são neutras; elas transformam as formas de pensar, produzir cultura, organizar o raciocínio e interagir socialmente.<br>
+                • <strong>Item II:</strong> Está incorreto. Trata-se da ilusão do determinismo tecnológico. Kenski argumenta que a mera presença de equipamentos de última geração nas salas de aula não altera, por si só, a qualidade da prática pedagógica. Sem a transformação das concepções metodológicas e das relações de poder na aula, a tecnologia é frequentemente utilizada apenas para informatizar o ensino tradicional bancário.<br>
+                • <strong>Item III:</strong> Está correto. A integração crítica das TDIC pressupõe a superação da transmissão passiva, exigindo uma mediação pedagógica voltada para o diálogo, para a flexibilidade curricular e para o fomento do protagonismo discente.<br><br>
+                Portanto, estão corretas apenas as afirmações I e III.`
+            },
+            {
+                id: 4,
+                topic: "Ensino Híbrido, Metodologias Ativas e Sala de Aula Invertida (José M. Moran)",
+                prompt: "José Manuel Moran reflete sobre a convergência entre mídias digitais, metodologias ativas e modelos flexíveis de aprendizagem, destacando os desafios da mediação pedagógica contemporânea.<br><br>Em relação ao ensino híbrido (<em>blended learning</em>) e às metodologias ativas de aprendizagem, assinale a alternativa correta.",
+                options: [
+                    { id: "A", text: "(A) O ensino híbrido resume-se à substituição do ensino presencial pela disponibilização de videoaulas gravadas, mantendo a transmissão passiva como centro da prática escolar." },
+                    { id: "B", text: "(B) As metodologias ativas colocam o estudante no centro do processo formativo, utilizando as tecnologias digitais como recursos para a pesquisa, a resolução de problemas e a construção de projetos de forma colaborativa." },
+                    { id: "C", text: "(C) No modelo de sala de aula invertida (flipped classroom), o primeiro contato com os conteúdos teóricos deve obrigatoriamente ocorrer durante o momento presencial com o expositor." },
+                    { id: "D", text: "(D) A comunicação afetiva e empática perde relevância no ensino mediado por tecnologias, em razão do caráter estritamente funcional e instrucional das plataformas virtuais." },
+                    { id: "E", text: "(E) O ensino híbrido prescreve a eliminação dos momentos de interações em grupo, restringindo a atuação do discente a tarefas assíncronas isoladas." }
+                ],
+                correct: "B",
+                resolution: `<strong>Gabarito: (B)</strong><br><br>
+                A alternativa <strong>(B)</strong> expressa com precisão a abordagem pedagógica defendida por José Manuel Moran. As metodologias ativas, integradas às tecnologias digitais, deslocam o foco da transmissão de conteúdos pelo professor para a aprendizagem ativa e reflexiva pelo estudante. As TDIC atuam como ferramentas ampliadoras das possibilidades de investigação, criação colaborativa e resolução de problemas ancorados em contextos reais.<br><br>
+                Análise dos erros das demais alternativas:<br>
+                • Na alternativa <strong>(A)</strong>, o ensino híbrido não se confunde com o mero consumo de videoaulas; trata-se da integração intencional e metodológica entre experiências virtuais e presenciais.<br>
+                • Na alternativa <strong>(C)</strong>, na sala de aula invertida, a introdução aos conceitos básicos ocorre no momento individual e virtual (estudo prévio de materiais), liberando o momento presencial para aplicação prática, sínteses e debates em grupo.<br>
+                • Na alternativa <strong>(D)</strong>, Moran postula categoricamente que a afetividade e a empatia são indispensáveis na comunicação pedagógica telemática, sustentando a motivação e o vínculo do discente.<br>
+                • Na alternativa <strong>(E)</strong>, o ensino híbrido estimula a cooperação em redes e a aprendizagem entre pares.`
+            },
+            {
+                id: 5,
+                topic: "Teoria da Distância Transacional (Moore) e Industrialização do Ensino (Peters)",
+                prompt: "A formulação teórica da Educação a Distância engloba conceitos referentes à autonomia do estudante, à mediação docente e à distância instrucional, destacando-se a Teoria da Distância Transacional de Michael Moore e a Teoria da Industrialização do Ensino de Otto Peters.<br><br>Considere as seguintes afirmações sobre os fundamentos teóricos da EaD.",
+                affirmations: [
+                    "I - A Distância Transacional, segundo Michael Moore, expressa um espaço pedagógico e psicológico de potenciais incompreensões, determinado pela relação contínua entre três variáveis: Diálogo, Estrutura e Autonomia do estudante.",
+                    "II - Otto Peters analisa a EaD a partir da analogia com o modo de produção industrial, ressaltando elementos como a divisão do trabalho na confecção do material didático, o planejamento sistematizado, a padronização e o controle de qualidade.",
+                    "III - De acordo com a Teoria da Distância Transacional, a distância transacional será menor quanto mais rígida for a estrutura do programa e quanto menor for a taxa de diálogo entre tutor e estudante."
+                ],
+                questionEnd: "Quais estão corretas?",
+                options: [
+                    { id: "A", text: "(A) Apenas I." },
+                    { id: "B", text: "(B) Apenas II." },
+                    { id: "C", text: "(C) Apenas III." },
+                    { id: "D", text: "(D) Apenas I e II." },
+                    { id: "E", text: "(E) I, II e III." }
+                ],
+                correct: "D",
+                resolution: `<strong>Gabarito: (D)</strong><br><br>
+                A análise apoia-se no referencial teórico clássico da Educação a Distância.<br><br>
+                • <strong>Item I:</strong> Está correto. A Teoria da Distância Transacional, formulada por Michael Moore, postula que a distância na EaD não é primariamente de natureza geográfica, mas sim uma pedagogia e um estado psicológico. A distância transacional varia conforme o equilíbrio entre três dimensões fundamentais: o <strong>Diálogo</strong> (a qualidade e frequência da interação entre professor e aluno), a <strong>Estrutura</strong> (o nível de rigidez do design instrucional) e a <strong>Autonomia</strong> (a capacidade do estudante de autogerir seus estudos).<br>
+                • <strong>Item II:</strong> Está correto. Otto Peters desenvolveu a Teoria da Industrialização da EaD, demonstrando como a modalidade a distância compartilha características estruturais com o modo de produção industrial, como o planejamento detalhado prévio, a divisão rigorosa do trabalho entre autores e tutores, a racionalização e a padronização dos materiais digitais em escala.<br>
+                • <strong>Item III:</strong> Está incorreto. Conforme o modelo de Moore, a distância transacional é <strong>diretamente proporcional</strong> à rigidez da estrutura e <strong>inversamente proporcional</strong> ao diálogo. Ou seja, quanto mais rígida for a estrutura e menor for o diálogo interpessoal, <strong>maior</strong> será a distância transacional percebida pelo discente.<br><br>
+                Assim, estão corretas apenas as afirmações I e II.`
+            },
+            {
+                id: 6,
+                topic: "Ambientes Virtuais de Aprendizagem: Interação e Interatividade",
+                prompt: "Os Ambientes Virtuais de Aprendizagem (AVA) configuram-se como plataformas telemáticas integradas destinadas à gestão de conteúdos, ao acompanhamento tutorial e ao fomento da interatividade e da mediação pedagógica.<br><br>Em relação às dinâmicas de comunicação e à mediação nos AVAs, assinale a alternativa correta.",
+                options: [
+                    { id: "A", text: "(A) Interação e interatividade constituem sinônimos perfeitos na EaD, aplicando-se indistintamente à navegação por hiperlinks da interface." },
+                    { id: "B", text: "(B) A interatividade diz respeito às potencialidades e recursos técnico-comunicacionais disponibilizados pela interface do sistema, enquanto a interação refere-se aos processos humanos e dialógicos construídos entre os sujeitos no ambiente." },
+                    { id: "C", text: "(C) A atuação docente nos fóruns acadêmicos deve restringir-se ao registro numérico de frequências e à checagem estática do cumprimento de prazos." },
+                    { id: "D", text: "(D) O fórum de discussão caracteriza-se como um recurso de comunicação síncrona que exige a concomitância temporal entre estudantes e tutores." },
+                    { id: "E", text: "(E) O design instrucional automatizado de um AVA invalida o acompanhamento contínuo por parte das equipes docente e tutorial." }
+                ],
+                correct: "B",
+                resolution: `<strong>Gabarito: (B)</strong><br><br>
+                A alternativa <strong>(B)</strong> diferencia corretamente os conceitos de interatividade e interação nos Ambientes Virtuais de Aprendizagem. A <strong>interatividade</strong> refere-se às possibilidades técnicas disponibilizadas pela arquitetura da interface tecnológica (hiperlinks, navegação modular, recursos multimídia). Por sua vez, a <strong>interação</strong> compreende a dimensão social, pedagógica e humana – a troca comunicativa e dialógica que ocorre entre as pessoas (aluno-aluno, aluno-professores e aluno-tutores) mediada pela tecnologia.<br><br>
+                Erros das alternativas incorretas:<br>
+                • A alternativa <strong>(A)</strong> confunde uma propriedade da interface tecnológica (interatividade) com um processo sociocultural humano (interação).<br>
+                • A alternativa <strong>(C)</strong> reduz o papel da mediação pedagógica a uma função cartorial e burocrática, desconsiderando a importância das intervenções qualitativas no AVA.<br>
+                • A alternativa <strong>(D)</strong> comete um equívoco ao classificar o fórum de discussão como síncrono; ele é uma ferramenta tipicamente assíncrona, onde os interlocutores participam em horários distintos.<br>
+                • A alternativa <strong>(E)</strong> desconsidera que a presença humana motivadora e mediadora é imprescindível para o sucesso da aprendizagem telemática.`
+            },
+            {
+                id: 7,
+                topic: "Avaliação Formativa, Processual e Feedback na EaD",
+                prompt: "A prática avaliativa nos contextos de educação mediada por tecnologias deve estar alinhada ao desenvolvimento contínuo do estudante, superando visões punitivas e meramente somativas.<br><br>Considere as seguintes afirmações sobre a avaliação da aprendizagem na Educação a Distância.",
+                affirmations: [
+                    "I - A avaliação na EaD deve assumir um caráter prioritariamente formativo, processual e diagnóstico, utilizando múltiplos instrumentos síncronos e assíncronos ao longo do itinerário formativo para orientar a mediação pedagógica.",
+                    "II - O feedback contínuo, ágil e qualitativo fornecido pelas equipes docente e tutorial constitui elemento fundamental para impulsionar a autoavaliação e a autorregulação da aprendizagem pelo discente.",
+                    "III - A avaliação na modalidade a distância deve apoiar-se exclusivamente na aplicação de exames somativos presenciais ao término do módulo, desconsiderando as produções e participações ocorridas no ambiente virtual."
+                ],
+                questionEnd: "Quais estão corretas?",
+                options: [
+                    { id: "A", text: "(A) Apenas I." },
+                    { id: "B", text: "(B) Apenas II." },
+                    { id: "C", text: "(C) Apenas III." },
+                    { id: "D", text: "(D) Apenas I e II." },
+                    { id: "E", text: "(E) I, II e III." }
+                ],
+                correct: "D",
+                resolution: `<strong>Gabarito: (D)</strong><br><br>
+                A análise avaliativa na EaD embasa-se nos princípios da avaliação pedagógica formativa e continuada.<br><br>
+                • <strong>Item I:</strong> Está correto. A avaliação no ambiente mediado por tecnologias deve ser processual, diagnóstica e formativa. A utilização de diversificados instrumentos (fóruns, portfólios virtuais, quizzes, tarefas colaborativas) permite acompanhar a evolução do estudante e reorientar a prática pedagógica ao longo do percurso.<br>
+                • <strong>Item II:</strong> Está correto. O feedback rápido, consistente e orientador fornecido pelos tutores e docentes é indispensável para promover a metacognição, permitindo que o aluno compreenda seus erros e autorregule sua rotina de estudos.<br>
+                • <strong>Item III:</strong> Está incorreto. A centralização em uma única prova somativa ao final do módulo contraria a concepção formativa de avaliação na EaD, reduzindo o acompanhamento do processo de construção do conhecimento a um ato meramente verificador.<br><br>
+                Portanto, estão corretas apenas as afirmações I e II.`
+            },
+            {
+                id: 8,
+                topic: "Comunicação Mediada por Tecnologia: Ferramentas Síncronas e Assíncronas",
+                prompt: "No planejamento pedagógico de cursos oferecidos na modalidade a distância ou com suporte de tecnologias digitais, selecionam-se ferramentas de comunicação em função da temporalidade do fluxo informacional entre os interlocutores.<br><br>Assinale a alternativa que apresenta, respectivamente, um recurso de comunicação <strong>síncrono</strong> e um recurso de comunicação <strong>assíncrono</strong>.",
+                options: [
+                    { id: "A", text: "(A) Webconferência em tempo real e Fórum de discussão pedagógico." },
+                    { id: "B", text: "(B) Correio eletrônico (e-mail) e Sala de bate-papo (chat) instantânea." },
+                    { id: "C", text: "(C) Blog institucional e Transmissão de áudio ao vivo (web-radio)." },
+                    { id: "D", text: "(D) Questionário automatizado e Canal de atendimento por voz síncrono." },
+                    { id: "E", text: "(E) Podcast gravado sob demanda e Videoaula gravada sob demanda." }
+                ],
+                correct: "A",
+                resolution: `<strong>Gabarito: (A)</strong><br><br>
+                A alternativa <strong>(A)</strong> apresenta a sequência correta no que tange à temporalidade da comunicação pedagógica. A <strong>webconferência</strong> em tempo real exige a presença simultânea dos sujeitos na rede para a troca imediata de voz, vídeo e texto, configurando-se como um recurso de comunicação <strong>síncrono</strong>. O <strong>fórum de discussão</strong> possibilita que alunos e educadores leiam e postem mensagens em momentos distintos, caracterizando-se como um recurso de comunicação <strong>assíncrono</strong>.<br><br>
+                Análise das demais alternativas:<br>
+                • Na alternativa <strong>(B)</strong>, o <em>e-mail</em> é assíncrono e o <em>chat</em> é síncrono (ordem invertida).<br>
+                • Na alternativa <strong>(C)</strong>, o blog é assíncrono e a transmissão ao vivo é síncrona (ordem invertida).<br>
+                • Na alternativa <strong>(D)</strong>, questionários automatizados são respondidos assincronamente.<br>
+                • Na alternativa <strong>(E)</strong>, tanto os podcasts gravados quanto as videoaulas gravadas sob demanda são recursos assíncronos.`
+            },
+            {
+                id: 9,
+                topic: "Organização do Trabalho Pedagógico e Atribuições da Tutoria",
+                prompt: "A organização do trabalho pedagógico e administrativo na Educação a Distância pressupõe a atuação articulada de uma equipe multidisciplinar, composta por gestores, designers instrucionais, professores autores, professores formadores e tutores.<br><br>Considere as seguintes afirmações sobre o papel pedagógico da tutoria no contexto da EaD.",
+                affirmations: [
+                    "I - O tutor a distância atua no ambiente virtual de aprendizagem, realizando a mediação didática diária, esclarecendo dúvidas conceituais, motivando o grupo e acompanhando a realização das atividades.",
+                    "II - O tutor presencial atua nos polos de apoio, auxiliando os estudantes no desenvolvimento de atividades práticas, na organização dos estudos e no suporte operacional durante momentos presenciais e exames.",
+                    "III - As atribuições do tutor restringem-se ao preenchimento mecânico de planilhas administrativas, sendo vedada qualquer intervenção de cunho formativo ou pedagógico com os estudantes."
+                ],
+                questionEnd: "Quais estão corretas?",
+                options: [
+                    { id: "A", text: "(A) Apenas I." },
+                    { id: "B", text: "(B) Apenas II." },
+                    { id: "C", text: "(C) Apenas I e II." },
+                    { id: "D", text: "(D) Apenas II e III." },
+                    { id: "E", text: "(E) I, II e III." }
+                ],
+                correct: "C",
+                resolution: `<strong>Gabarito: (C)</strong><br><br>
+                A análise aborda a Divisão de Trabalho e as atribuições das equipes pedagógicas na EaD.<br><br>
+                • <strong>Item I:</strong> Está correto. O tutor a distância atua diretamente no AVA, sendo o principal responsável pela mediação pedagógica contínua, pelo incentivo à participação, pelo esclarecimento de dúvidas e pela correção formativa das atividades acadêmicas.<br>
+                • <strong>Item II:</strong> Está correto. O tutor presencial desempenha seu papel nos polos de apoio presencial, prestando atendimento direto aos estudantes no manuseio de laboratórios, organizando salas de estudos e apoiando o desenvolvimento de atividades práticas e avaliações.<br>
+                • <strong>Item III:</strong> Está incorreto. A função da tutoria é fundamentalmente pedagógica e mediadora, exigindo acolhimento, escuta e mediação do conhecimento, não podendo ser reduzida ao preenchimento de formulários burocráticos.<br><br>
+                Assim, estão corretas apenas as afirmações I e II.`
+            },
+            {
+                id: 10,
+                topic: "Acessibilidade Digital e Desenho Universal para a Aprendizagem (DUA)",
+                prompt: "A garantia da acessibilidade digital e da usabilidade nos Ambientes Virtuais de Aprendizagem e nos materiais didáticos constitui uma exigência legal e pedagógica para assegurar o direito de acesso e permanência no ensino superior e na educação básica, conforme preconiza a Lei Brasileira de Inclusão (Lei nº 13.146/2015).<br><br>Em relação à acessibilidade e à diversidade na Educação Mediada por Tecnologias, assinale a alternativa correta.",
+                options: [
+                    { id: "A", text: "(A) A acessibilidade digital cumpre seus preceitos legais mediante a simples conversão de livros impressos para arquivos em PDF constituídos exclusivamente por imagens digitalizadas não editáveis." },
+                    { id: "B", text: "(B) O Desenho Universal para a Aprendizagem (DUA) orienta a concepção de recursos e ambientes educacionais flexíveis que ofereçam múltiplas formas de engajamento, de representação da informação e de ação e expressão, atendendo à diversidade de estudantes desde o planejamento." },
+                    { id: "C", text: "(C) As instituições de ensino ofertantes de EaD estão dispensadas de prover acessibilidade em suas plataformas virtuais a estudantes com deficiências sensoriais, cabendo essa obrigação apenas aos polos presenciais." },
+                    { id: "D", text: "(D) A inclusão de recursos de audiodescrição, janelas de Libras e legendagem é opcional em cursos de EaD, devendo ocorrer apenas mediante exigência judicial individualizada." },
+                    { id: "E", text: "(E) As plataformas virtuais de aprendizagem são nativamente acessíveis, dispensando a aplicação de diretrizes e padrões técnicos como o Modelo de Acessibilidade do Governo Eletrônico (e-MAG)." }
+                ],
+                correct: "B",
+                resolution: `<strong>Gabarito: (B)</strong><br><br>
+                A alternativa <strong>(B)</strong> fundamenta-se nos princípios do Desenho Universal para a Aprendizagem (DUA) e na Lei nº 13.146/2015 (Lei Brasileira de Inclusão). O DUA propõe a eliminação de barreiras pedagógicas e atitudinais por meio do planejamento de materiais e ambientes de aprendizagem que ofereçam, desde sua concepção inicial: múltiplos meios de engajamento (motivação), múltiplos meios de representação (diferentes linguagens e suportes para apresentar o conteúdo) e múltiplos meios de ação e expressão (diversas possibilidades para o aluno demonstrar o que aprendeu).<br><br>
+                Erros das alternativas incorretas:<br>
+                • A alternativa <strong>(A)</strong> apresenta um exemplo de barreira de acessibilidade, visto que leitores de tela não conseguem sintetizar texto em arquivos PDF formatados como imagens estáticas.<br>
+                • A alternativa <strong>(C)</strong> contraria o ordenamento jurídico, que exige acessibilidade plena e contínua tanto no ambiente virtual quanto nos polos presenciais.<br>
+                • A alternativa <strong>(D)</strong> trata recursos essenciais de acessibilidade (como Libras e audiodescrição) como opcionais, violando preceitos constitucionais e legais da educação inclusiva.<br>
+                • A alternativa <strong>(E)</strong> ignora a necessidade da aplicação deliberada de normas de acessibilidade digital (como o e-MAG e o WCAG) no desenvolvimento de software e conteúdos para garantir o acesso universal.`
+            }
+        ];
+
+        // Estado do Quiz
+        const userAnswers = {};
+        let submitted = false;
+
+        // Renderiza as Questões na Página
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.id = `q-card-${q.id}`;
+                questionCard.className = "bg-white rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-soft transition-all duration-200";
+
+                let affirmationsHTML = '';
+                if (q.affirmations && q.affirmations.length > 0) {
+                    affirmationsHTML = `
+                        <div class="my-4 p-4 bg-stone-50 border-l-4 border-blue-600 rounded-r-xl space-y-2 text-stone-800 text-sm sm:text-base leading-relaxed">
+                            ${q.affirmations.map(aff => `<p>${aff}</p>`).join('')}
+                        </div>
+                    `;
+                }
+
+                let questionEndHTML = q.questionEnd ? `<p class="font-medium text-stone-900 mt-2">${q.questionEnd}</p>` : '';
+
+                let optionsHTML = q.options.map(opt => `
+                    <div class="relative">
+                        <input type="radio" 
+                               name="question-${q.id}" 
+                               id="q${q.id}-${opt.id}" 
+                               value="${opt.id}" 
+                               class="custom-radio sr-only" 
+                               onchange="selectOption(${q.id}, '${opt.id}')"
+                               ${submitted ? 'disabled' : ''}>
+                        <label for="q${q.id}-${opt.id}" 
+                               id="label-q${q.id}-${opt.id}"
+                               class="flex items-start p-4 border-2 border-stone-200 rounded-xl cursor-pointer hover:border-stone-300 transition-all text-sm sm:text-base text-stone-700 leading-normal">
+                            <span class="radio-circle flex-shrink-0 w-5 h-5 rounded-full border-2 border-stone-300 mr-3 mt-0.5 flex items-center justify-center transition-colors">
+                                <span class="radio-inner hidden w-2 h-2 rounded-full bg-white"></span>
+                            </span>
+                            <span class="flex-grow">${opt.text}</span>
+                            <span id="badge-q${q.id}-${opt.id}" class="hidden ml-2 px-2 py-0.5 text-xs font-bold rounded"></span>
+                        </label>
+                    </div>
+                `).join('');
+
+                questionCard.innerHTML = `
+                    <div class="flex items-center justify-between gap-2 mb-4">
+                        <span class="px-3 py-1 bg-stone-100 text-stone-700 text-xs font-bold rounded-lg uppercase tracking-wider">
+                            Questão ${String(q.id).padStart(2, '0')}
+                        </span>
+                        <span class="text-xs text-stone-500 font-medium">${q.topic}</span>
+                    </div>
+
+                    <div class="text-stone-900 text-base sm:text-lg leading-relaxed mb-4">
+                        ${q.prompt}
+                        ${affirmationsHTML}
+                        ${questionEndHTML}
+                    </div>
+
+                    <div class="space-y-3 mt-6">
+                        ${optionsHTML}
+                    </div>
+
+                    <!-- Área de Resolução Comentada (Invisível até finalizar) -->
+                    <div id="resolution-q${q.id}" class="hidden mt-6 pt-6 border-t border-stone-200 bg-stone-50/80 -mx-6 sm:-mx-8 -mb-6 sm:-mb-8 p-6 sm:p-8 rounded-b-2xl">
+                        <div class="flex items-center space-x-2 text-blue-800 font-bold mb-3 text-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Resolução Comentada</span>
+                        </div>
+                        <div class="text-sm sm:text-base text-stone-700 leading-relaxed font-sans">
+                            ${q.resolution}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(questionCard);
+            });
+        }
+
+        // Seleção de Resposta pelo Usuário
+        function selectOption(questionId, optionId) {
+            if (submitted) return;
+            userAnswers[questionId] = optionId;
+            updateProgressBar();
+        }
+
+        // Atualização da Barra de Progresso
+        function updateProgressBar() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const percentage = (answeredCount / quizData.length) * 100;
+            
+            document.getElementById('progress-text').innerText = `${answeredCount} de 10 respondidas`;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        // Submissão do Simulado e Verificação
+        function submitQuiz() {
+            if (submitted) return;
+
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < quizData.length) {
+                const confirmSubmit = confirm(`Você respondeu ${answeredCount} de ${quizData.length} questões. Deseja finalizar mesmo assim?`);
+                if (!confirmSubmit) return;
+            }
+
+            submitted = true;
+            let correctCount = 0;
+
+            // Processar cada questão
+            quizData.forEach(q => {
+                const selectedOpt = userAnswers[q.id];
+                const card = document.getElementById(`q-card-${q.id}`);
+                const resolutionBox = document.getElementById(`resolution-q${q.id}`);
+
+                if (selectedOpt === q.correct) {
+                    correctCount++;
+                }
+
+                // Destacar opções
+                q.options.forEach(opt => {
+                    const label = document.getElementById(`label-q${q.id}-${opt.id}`);
+                    const input = document.getElementById(`q${q.id}-${opt.id}`);
+                    const badge = document.getElementById(`badge-q${q.id}-${opt.id}`);
+
+                    input.disabled = true;
+
+                    if (opt.id === q.correct) {
+                        label.classList.add('option-correct');
+                        badge.innerText = "Correta";
+                        badge.classList.add('bg-green-600', 'text-white');
+                        badge.classList.remove('hidden');
+                    } else if (opt.id === selectedOpt && selectedOpt !== q.correct) {
+                        label.classList.add('option-wrong');
+                        badge.innerText = "Sua Escolha";
+                        badge.classList.add('bg-red-600', 'text-white');
+                        badge.classList.remove('hidden');
+                    } else {
+                        label.classList.add('option-neutral');
+                    }
+                });
+
+                // Exibir Resolução na mesma página abaixo de cada questão
+                resolutionBox.classList.remove('hidden');
+            });
+
+            // Atualizar Card do Resultado
+            displayResults(correctCount);
+
+            // Preencher Tabela do Gabarito
+            renderGabaritoTable();
+
+            // Rolar suavemente para o resultado
+            document.getElementById('results-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Exibir Placar de Desempenho
+        function displayResults(correctCount) {
+            const resultsCard = document.getElementById('results-card');
+            const scoreIcon = document.getElementById('score-icon');
+            const scoreTitle = document.getElementById('score-title');
+            const scoreSubtitle = document.getElementById('score-subtitle');
+            const scoreCount = document.getElementById('score-count');
+            const scorePercentage = document.getElementById('score-percentage');
+            const scoreBadge = document.getElementById('score-badge');
+
+            const percentage = Math.round((correctCount / quizData.length) * 100);
+
+            scoreCount.innerText = `${correctCount} / ${quizData.length}`;
+            scorePercentage.innerText = `${percentage}%`;
+
+            if (percentage >= 80) {
+                resultsCard.className = resultsCard.className.replace(/border-\w+/, 'border-emerald-500');
+                scoreIcon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-2xl font-bold mb-4 bg-emerald-100 text-emerald-700";
+                scoreIcon.innerHTML = "✓";
+                scoreTitle.innerText = "Excelente Desempenho!";
+                scoreSubtitle.innerText = "Você demonstra domínio sólido dos tópicos de EaD e Legislação da FAURGS.";
+                scoreBadge.innerText = "Aprovado";
+                scoreBadge.className = "text-sm font-bold text-emerald-600 mt-2 block";
+            } else if (percentage >= 50) {
+                resultsCard.className = resultsCard.className.replace(/border-\w+/, 'border-amber-500');
+                scoreIcon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-2xl font-bold mb-4 bg-amber-100 text-amber-700";
+                scoreIcon.innerHTML = "!";
+                scoreTitle.innerText = "Bom Resultado!";
+                scoreSubtitle.innerText = "Você teve um bom rendimento, mas vale revisar os comentários das questões com erro.";
+                scoreBadge.innerText = "Atenção";
+                scoreBadge.className = "text-sm font-bold text-amber-600 mt-2 block";
+            } else {
+                resultsCard.className = resultsCard.className.replace(/border-\w+/, 'border-red-500');
+                scoreIcon.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-2xl font-bold mb-4 bg-red-100 text-red-700";
+                scoreIcon.innerHTML = "✕";
+                scoreTitle.innerText = "Necessita Revisão";
+                scoreSubtitle.innerText = "Recomendamos ler atentamente as resoluções comentadas para fixar as diretrizes teóricas e legais.";
+                scoreBadge.innerText = "Reforçar Estudos";
+                scoreBadge.className = "text-sm font-bold text-red-600 mt-2 block";
+            }
+
+            resultsCard.classList.remove('hidden');
+        }
+
+        // Tabela Consolidada de Gabarito
+        function renderGabaritoTable() {
+            const tbody = document.getElementById('gabarito-table-body');
+            tbody.innerHTML = '';
+
+            quizData.forEach(q => {
+                const userChoice = userAnswers[q.id] || "Não respondida";
+                const isCorrect = userChoice === q.correct;
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-stone-50 transition-colors";
+
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-semibold">Questão ${String(q.id).padStart(2, '0')}</td>
+                    <td class="py-3 px-4 font-bold text-emerald-700">${q.correct}</td>
+                    <td class="py-3 px-4 font-medium">${userChoice}</td>
+                    <td class="py-3 px-4">
+                        ${isCorrect 
+                            ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">Acertou</span>`
+                            : `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-800">Errou</span>`
+                        }
+                    </td>
+                    <td class="py-3 px-4 text-xs text-stone-600">${q.topic}</td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('gabarito-summary').classList.remove('hidden');
+        }
+
+        function scrollToSummary() {
+            document.getElementById('gabarito-summary').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Reiniciar o Simulado
+        function resetQuiz() {
+            if (confirm("Deseja reiniciar o simulado? Suas respostas atuais serão limpas.")) {
+                submitted = false;
+                for (let key in userAnswers) {
+                    delete userAnswers[key];
+                }
+                document.getElementById('results-card').classList.add('hidden');
+                document.getElementById('gabarito-summary').classList.add('hidden');
+                renderQuestions();
+                updateProgressBar();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Inicialização
+        window.onload = function() {
+            renderQuestions();
+            updateProgressBar();
+        };
+    </script>
+</body>
+</html>

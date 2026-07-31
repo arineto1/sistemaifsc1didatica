@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS: Educação e Relações Étnico-Raciais</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Merriweather for optimum reading comfort -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#faf9f6',
+                            100: '#f4f1ea',
+                            200: '#e8e2d5',
+                        },
+                        charcoal: {
+                            800: '#2c3038',
+                            900: '#1a1d23',
+                        },
+                        brand: {
+                            primary: '#2b5278',
+                            hover: '#1e3d5c',
+                            accent: '#d97706',
+                            light: '#eef4fa'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #faf9f6;
+            color: #2c3038;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Reading optimized typography */
+        .question-content {
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: #242830;
+        }
+
+        .custom-radio:checked + label {
+            border-color: #2b5278;
+            background-color: #f0f5fa;
+        }
+
+        .correct-answer {
+            background-color: #ecfdf5 !important;
+            border-color: #10b981 !important;
+            color: #065f46 !important;
+        }
+
+        .incorrect-answer {
+            background-color: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+        }
+
+        .correct-badge {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .incorrect-badge {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        /* Smooth transitions */
+        .option-card {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .option-card:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faf9f6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-brand-primary selection:text-white">
+
+    <!-- Top Header -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-brand-primary text-white flex items-center justify-center font-bold text-xl shadow">
+                    F
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-charcoal-900 leading-tight">Simulado FAURGS</h1>
+                    <p class="text-xs text-stone-500 font-medium">Educação e Relações Étnico-Raciais</p>
+                </div>
+            </div>
+
+            <!-- Quiz Controls & Mode -->
+            <div class="flex items-center gap-3 text-sm">
+                <div class="hidden sm:flex items-center gap-2 bg-stone-100 p-1 rounded-lg border border-stone-200 text-xs">
+                    <button id="modeExamBtn" onclick="setMode('exam')" class="px-3 py-1.5 rounded-md font-medium transition bg-white text-brand-primary shadow-sm">
+                        Modo Prova
+                    </button>
+                    <button id="modeStudyBtn" onclick="setMode('study')" class="px-3 py-1.5 rounded-md font-medium transition text-stone-600 hover:text-stone-900">
+                        Modo Estudo (Feedback Instantâneo)
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-2 text-stone-600 font-mono text-xs bg-stone-100 px-3 py-1.5 rounded-lg border border-stone-200">
+                    <i class="fa-regular fa-clock text-stone-500"></i>
+                    <span id="timer">00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-stone-100 h-1.5 overflow-hidden">
+            <div id="progressBar" class="bg-brand-primary h-full w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl w-full mx-auto px-4 py-8 flex-grow">
+
+        <!-- Quiz Intro Banner -->
+        <div class="bg-white border border-stone-200 rounded-2xl p-6 mb-8 shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-semibold rounded-full mb-2">
+                        Estilo FAURGS • 10 Questões
+                    </span>
+                    <h2 class="text-xl font-bold text-charcoal-900">Caderno de Conhecimentos Específicos</h2>
+                    <p class="text-sm text-stone-600 mt-1 max-w-2xl">
+                        Responda a todas as questões selecionando uma das alternativas. Ao finalizar, o sistema apresentará sua pontuação e a fundamentação jurídica/pedagógica minuciosa de cada item.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2 items-center">
+                    <button onclick="scrollToQuestion(0)" class="px-4 py-2 bg-brand-primary hover:bg-brand-hover text-white font-medium text-sm rounded-lg transition shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-play text-xs"></i> Iniciar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Question Navigator Pills -->
+            <div class="mt-6 pt-4 border-t border-stone-100 flex flex-wrap items-center gap-2">
+                <span class="text-xs font-semibold text-stone-500 mr-2">Navegação:</span>
+                <div id="navigatorPills" class="flex flex-wrap gap-1.5">
+                    <!-- Dynamic Pills Generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Questions List Container -->
+        <div id="questionsContainer" class="space-y-8">
+            <!-- Dynamic Questions Rendered Here -->
+        </div>
+
+        <!-- Bottom Action Bar / Finish Button -->
+        <div id="bottomBar" class="mt-12 bg-white border border-stone-200 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <h3 class="font-bold text-stone-800" id="statusSummary">0 de 10 questões respondidas</h3>
+                <p class="text-xs text-stone-500">Você pode revisar suas respostas antes de finalizar.</p>
+            </div>
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <button onclick="resetQuiz()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-stone-300 text-stone-700 hover:bg-stone-50 font-medium text-sm rounded-xl transition">
+                    Reiniciar
+                </button>
+                <button id="finishBtn" onclick="finishQuiz()" class="w-1/2 sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-check"></i> Finalizar Quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- Performance Summary Card (Hidden until finished) -->
+        <section id="resultsSection" class="hidden mt-10 bg-white border border-stone-200 rounded-2xl p-6 md:p-8 shadow-md">
+            <div class="text-center max-w-xl mx-auto">
+                <div id="scoreBadge" class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-3xl font-black mb-4 shadow-inner">
+                    <!-- Score icon/number -->
+                </div>
+                <h2 class="text-2xl font-bold text-charcoal-900" id="resultTitle">Resultado do Simulado</h2>
+                <p class="text-stone-600 mt-2 text-sm" id="resultSubtitle">Confira abaixo o seu desempenho geral.</p>
+
+                <div class="grid grid-cols-3 gap-3 my-6 text-center">
+                    <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
+                        <span class="block text-2xl font-bold text-stone-800" id="totalScoreText">0/10</span>
+                        <span class="text-xs text-stone-500">Acertos</span>
+                    </div>
+                    <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
+                        <span class="block text-2xl font-bold text-stone-800" id="percentageText">0%</span>
+                        <span class="text-xs text-stone-500">Aproveitamento</span>
+                    </div>
+                    <div class="bg-stone-50 p-3 rounded-xl border border-stone-200">
+                        <span class="block text-2xl font-bold text-stone-800" id="timeSpentText">00:00</span>
+                        <span class="text-xs text-stone-500">Tempo Total</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button onclick="scrollToQuestion(0)" class="px-5 py-2.5 bg-brand-primary text-white text-sm font-medium rounded-xl hover:bg-brand-hover transition shadow">
+                        <i class="fa-solid fa-list-check mr-1"></i> Revisar Questões e Resoluções
+                    </button>
+                    <button onclick="resetQuiz()" class="px-5 py-2.5 border border-stone-300 text-stone-700 text-sm font-medium rounded-xl hover:bg-stone-50 transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Tentar Novamente
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-stone-200 py-6 mt-16 text-center text-xs text-stone-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="font-medium">Simulado de Preparação para Concursos • Modelo FAURGS</p>
+            <p class="mt-1">Legislação e Diretrizes Curriculares Nacionais para a Educação das Relações Étnico-Raciais</p>
+        </div>
+    </footer>
+
+    <script>
+        // Full dataset containing all 10 questions and complete detailed resolutions from the source doc
+        const questionsData = [
+            {
+                id: 1,
+                tag: "Artigo 26-A da LDB (Leis 10.639/03 e 11.645/08)",
+                statement: "Considere as afirmações abaixo sobre o artigo 26-A da Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/1996), com as alterações introduzidas pelas Leis nº 10.639/2003 e nº 11.645/2008.",
+                items: [
+                    "I - Nos estabelecimentos de ensino fundamental e de ensino médio, públicos e privados, torna-se obrigatório o estudo da história e cultura afro-brasileira e indígena.",
+                    "II - O conteúdo programático incluirá diversos aspectos da história e da cultura que caracterizam a formação da população brasileira, a partir desses dois grupos étnicos, tais como o estudo da história da África e dos africanos, a luta dos negros e dos povos indígenas no Brasil, a cultura negra e indígena brasileira e a formação da sociedade nacional.",
+                    "III - Os conteúdos referentes à história e cultura afro-brasileira e dos povos indígenas brasileiros serão ministrados no âmbito de todo o currículo escolar, em especial nas áreas de educação artística e de literatura e história brasileiras.",
+                    "IV - O ensino da história e cultura afro-brasileira e indígena deve ser constituído como um componente curricular autônomo e isolado, substituindo a disciplina tradicional de História do Brasil no ensino fundamental II."
+                ],
+                prompt: "Quais estão corretas?",
+                options: {
+                    A: "(A) Apenas I e II.",
+                    B: "(B) Apenas III e IV.",
+                    C: "(C) Apenas I, II e III.",
+                    D: "(D) Apenas II e IV.",
+                    E: "(E) I, II, III e IV."
+                },
+                correct: "C",
+                resolutionTitle: "Resolução da Questão 01",
+                resolution: `A análise pormenorizada do artigo 26-A da Lei de Diretrizes e Bases da Educação Nacional (LDB - Lei nº 9.394/1996), com redação dada pelas Leis nº 10.639/2003 e nº 11.645/2008, revela o compromisso do legislador com a institucionalização do ensino da história e cultura afro-brasileira e indígena.<br><br>
+                A <strong>afirmativa I está correta</strong>, pois reflete o caput do artigo 26-A, o qual estabelece a obrigatoriedade do tema em estabelecimentos de ensino fundamental e médio, tanto públicos quanto privados. A <strong>afirmativa II encontra-se correta</strong> ao explicitar o parágrafo 1º do mesmo dispositivo legal, o qual delimita os conteúdos programáticos necessários para resgatar o protagonismo histórico dos grupos étnico-raciais na formação da sociedade nacional. A <strong>afirmativa III está igualmente correta</strong>, uma vez que o parágrafo 2º determina expressamente a abordagem transversal desses conteúdos ao longo do currículo, prevendo destaque paras as áreas de Educação Artística, Literatura e História Brasileiras.<br><br>
+                Por outro lado, a <strong>afirmativa IV incorre em erro</strong> ao propor a criação de um componente curricular autônomo e isolado em substituição à disciplina de História do Brasil. A legislação educacional brasileira e os pareceres normativos do CNE rejeitam o insulamento disciplinar, prescrevendo a inserção orgânica e interdisciplinar das temáticas raciais em todas as áreas do conhecimento. Portanto, a alternativa correta é a <strong>(C)</strong>.`
+            },
+            {
+                id: 2,
+                tag: "Parecer CNE/CP nº 03/2004 e Resolução CNE/CP nº 01/2004",
+                statement: "Considere os princípios orientadores estabelecidos pelo Parecer CNE/CP nº 03/2004 e pela Resolução CNE/CP nº 01/2004 para a Educação das Relações Étnico-Raciais. Relacione os princípios apresentados na Coluna 1 com as suas respectivas caracterizações na Coluna 2.",
+                columnData: {
+                    col1: [
+                        "1. Consciência Política e Histórica da Diversidade",
+                        "2. Fortalecimento de Identidades e de Direitos",
+                        "3. Ações Educativas de Combate ao Racismo e a Discriminações"
+                    ],
+                    col2: [
+                        "( ) Exige o desmantelamento de estereótipos, preconceitos e processos de invisibilização de negros e indígenas nos materiais pedagógicos, nas práticas de ensino e no cotidiano das instituições escolares.",
+                        "( ) Conduz ao conhecimento crítico e à recuperação da memória histórica, ao reconhecimento das contribuições fundamentais dos negros e indígenas e à desconstrução do mito da democracia racial na formação da sociedade.",
+                        "( ) Visa ao estímulo do autoreconhecimento, da autoestima e do pertencimento étnico-racial, garantindo o direito de negros e indígenas a afirmarem sua humanidade, cultura e história com igualdade e altivez."
+                    ]
+                },
+                prompt: "A ordem correta de preenchimento dos parênteses, de cima para baixo, é",
+                options: {
+                    A: "(A) 3 – 1 – 2.",
+                    B: "(B) 1 – 2 – 3.",
+                    C: "(C) 2 – 3 – 1.",
+                    D: "(D) 3 – 2 – 1.",
+                    E: "(E) 1 – 3 – 2."
+                },
+                correct: "A",
+                resolutionTitle: "Resolução da Questão 02",
+                resolution: `As Diretrizes Curriculares Nacionais para a Educação das Relações Étnico-Raciais e para o Ensino de História e Cultura Afro-Brasileira e Africana, instituídas pela Resolução CNE/CP nº 01/2004 e fundamentadas pelo Parecer CNE/CP nº 03/2004, fixam três princípios pedagógicos e sociopolíticos fundamentais.<br><br>
+                O princípio de <strong>Ações Educativas de Combate ao Racismo e a Discriminações (3)</strong> corresponde diretamente ao primeiro parêntese. Este princípio postula a neutralização ativa de estereótipos, preconceitos e processos de invisibilização arraigados no cotidiano escolar e nos manuais didáticos, demandando postura proativa dos educadores.<br><br>
+                O princípio de <strong>Consciência Política e Histórica da Diversidade (1)</strong> associa-se ao segundo parêntese. Ele atua na desconstrução da ideologia do branqueamento e do mito da democracia racial, promovendo o entendimento de que a pluralidade étnica e cultural brasileira deve ser compreendida criticamente a partir do reconhecimento das contribuições dos povos escravizados e originários.<br><br>
+                O princípio do <strong>Fortalecimento de Identidades e de Direitos (2)</strong> alinha-se ao terceiro parêntese. O seu objetivo central reside em valorizar o pertencimento étnico-racial de estudantes negros e indígenas, estimulando a autoestima e assegurando o exercício pleno da cidadania ativa. A ordem de preenchimento é 3 – 1 – 2, confirmando a alternativa <strong>(A)</strong>.`
+            },
+            {
+                id: 3,
+                tag: "Educação Escolar Quilombola (Resolução CNE/CEB nº 08/2012)",
+                statement: "Considere as afirmações abaixo referentes às Diretrizes Curriculares Nacionais para a Educação Escolar Quilombola na Educação Básica (Resolução CNE/CEB nº 08/2012) e ao marco legal correlato das comunidades remanescentes de quilombos.",
+                items: [
+                    "I - A Educação Escolar Quilombola exige uma pedagogia própria, fundamentada no território como matriz educadora, valorizando a memória ancestral, a oralidade, a sabedoria tradicional e as formas próprias de organização socioeconômica das comunidades.",
+                    "II - A oferta da Educação Escolar Quilombola restringe-se exclusivamente às unidades escolares situadas geograficamente dentro de territórios quilombolas que já possuem a titulação definitiva expedida pelo INCRA.",
+                    "III - Os sistemas de ensino devem assegurar que a organização do calendário escolar respeite a sazonalidade, o trabalho agrícola, as festividades, os rituais e as manifestações culturais específicas de cada comunidade quilombola.",
+                    "IV - A formação de professores para a Educação Escolar Quilombola deve ser específica e continuada, promovida pelos sistemas de ensino, incentivando a atuação de docentes oriundos das próprias comunidades."
+                ],
+                prompt: "Quais estão corretas?",
+                options: {
+                    A: "(A) Apenas I e II.",
+                    B: "(B) Apenas III e IV.",
+                    C: "(C) Apenas I, III e IV.",
+                    D: "(D) Apenas II e IV.",
+                    E: "(E) I, II, III e IV."
+                },
+                correct: "C",
+                resolutionTitle: "Resolução da Questão 03",
+                resolution: `A Educação Escolar Quilombola é regulamentada pela Resolução CNE/CEB nº 08/2012, constituindo-se como modalidade da Educação Básica respaldada pela garantia constitutional dos direitos territoriais e culturais das comunidades remanescentes de quilombos.<br><br>
+                A <strong>afirmativa I está correta</strong> ao destacar que a pedagogia quilombola utiliza o território como matriz educativa fundamental, articulando ancestralidade, oralidade e saberes tradicionais às práticas escolares formais. A <strong>afirmativa III está correta</strong>, pois a legislação exige que os sistemas de ensino ofereçam flexibilidade calendárica, adaptando as atividades pedagógicas à sazonalidade econômica e cultural dos territórios. A <strong>afirmativa IV fundamenta-se</strong> na necessidade de formação docente continuada e específica, encorajando a atuação de professores locais identificados com as dinâmicas socioculturais comunitárias.<br><br>
+                A <strong>afirmativa II está incorreta</strong>. A garantia da Educação Escolar Quilombola não fica condicionada à conclusão do processo administrativo de titulação fundiária do território pelo INCRA. Estende-se a todas as escolas situadas em comunidades autoidentificadas e àquelas que acolhem estudantes oriundos dessas áreas, independentemente da fase de regularização fundiária. Assim, estão corretas I, III e IV, tornando correta a alternativa <strong>(C)</strong>.`
+            },
+            {
+                id: 4,
+                tag: "Sociologia da Educação e Conceitos Étnico-Raciais",
+                statement: "Considere os conceitos teóricos da Sociologia da Educação e dos Estudos das Relações Étnico-Raciais no contexto educacional brasileiro e analise as afirmativas abaixo.",
+                items: [
+                    "I - O conceito de \"branquitude\" refere-se à posição de privilégio estrutural, simbólico, econômico e político ocupada por sujeitos brancos nas relações de poder, frequentemente naturalizada como norma universal de humanidade e neutralidade cultural.",
+                    "II - O \"racismo institucional\" expressa-se na incapacidade ou recusa das instituições públicas e privadas de proverem um serviço adequado e equânime às pessoas em virtude de sua cor, cultura ou origem étnico-racial, manifestando-se no silenciamento e na alocação assimétrica de recursos e oportunidades.",
+                    "III - O \"silenciamento\" e a \"invisibilização\" da temática racial no ambiente escolar constituem procedimentos metodológicos recomendados para garantir a neutralidade científica e evitar conflitos interpessoais entre os alunos."
+                ],
+                prompt: "Quais estão corretas?",
+                options: {
+                    A: "(A) Apenas I.",
+                    B: "(B) Apenas II.",
+                    C: "(C) Apenas III.",
+                    D: "(D) Apenas I e II.",
+                    E: "(E) I, II e III."
+                },
+                correct: "D",
+                resolutionTitle: "Resolução da Questão 04",
+                resolution: `A sociologia da educação antirracista analisa os mecanismos estruturais e conceituais que perpetuam desigualdades nas redes de ensino.<br><br>
+                A <strong>afirmativa I fundamenta-se</strong> nas teorias críticas sobre a branquitude (Bento, 2002), as quais definem o grupo branco dominador como possuidor de privilégios não nomeados, cuja identidade é colocada como paradigma universal e neutro. A <strong>afirmativa II baseia-se</strong> na formulação de racismo institucional, que trata das falhas organizacionais no provimento de serviços e na distribuição equitativa de oportunidades e recursos, resultando em desvantagens para negros e indígenas.<br><br>
+                A <strong>afirmativa III incorre em erro crasso</strong> do ponto de vista pedagógico e sociológico. O silenciamento e a invisibilização da temática racial não produzem neutralidade científica nem eliminam conflitos; pelo contrário, consistem em instrumentos ideológicos que mantêm as hierarquias raciais e acentuam a marginalização de alunos negros e indígenas no espaço escolar. Logo, apenas I e II estão corretas. A alternativa correta é a <strong>(D)</strong>.`
+            },
+            {
+                id: 5,
+                tag: "Heteroidentificação e Políticas de Ações Afirmativas",
+                statement: "Em relação aos procedimentos de Heteroidentificação e às Políticas de Ações Afirmativas no âmbito das instituições públicas de ensino e concursos públicos, analise as seguintes afirmativas e marque V (verdadeiro) ou F (falso).",
+                items: [
+                    "( ) A heteroidentificação consiste em um procedimento complementar à autodeclaração do candidato prestada no momento da inscrição, destinado a confirmar a veracidade da opção pela reserva de vagas.",
+                    "( ) As comissões de heteroidentificação devem fundamentar suas decisões exclusivamente na análise do genótipo, da árvore genealógica e da ancestralidade do candidato, desconsiderando características físicas aparentes.",
+                    "( ) O procedimento de heteroidentificação deve respeitar os princípios da dignidade da pessoa humana, do contraditório e da ampla defesa, garantindo-se a existência de uma comissão recursal independente.",
+                    "( ) O critério de avaliação da comissão de heteroidentificação para a confirmação de candidatos negros (pretos e pardos) baseia-se estritamente no fenótipo do candidato verificado presencialmente ou por banca regulamentada."
+                ],
+                prompt: "A ordem correta de preenchimento dos parênteses, de cima para baixo, é",
+                options: {
+                    A: "(A) V – F – V – V.",
+                    B: "(B) V – V – F – F.",
+                    C: "(C) F – V – V – F.",
+                    D: "(D) F – F – V – V.",
+                    E: "(E) V – V – V – F."
+                },
+                correct: "A",
+                resolutionTitle: "Resolução da Questão 05",
+                resolution: `A operacionalização das comissões de heteroidentificação em concursos e processos seletivos públicos visa resguardar a integridade do sistema de reservas de vagas instituído pela legislação de ações afirmativas.<br><br>
+                O <strong>primeiro item é verdadeiro (V)</strong>, pois a heteroidentificação atua como procedimento complementar à autodeclaração para confirmar visual e presencialmente o enquadramento do candidato na reserva de vagas.<br><br>
+                O <strong>segundo item é falso (F)</strong>. Em observância à tese vinculante do STF (ADC 41) e às normas federais disciplinadoras, é expressamente vedada a utilização de critérios baseados em genótipo, ascendência ou apresentação de documentos de ancestralidade.<br><br>
+                O <strong>terceiro item é verdadeiro (V)</strong>. O procedimento administrativo exige irrestrita observância dos princípios constitucionais do contraditório, ampla defesa e dignidade da pessoa humana, prevendo obrigatoriamente instância recursal composta por membros distintos da comissão inicial.<br><br>
+                O <strong>quarto item é verdadeiro (V)</strong>. O parâmetro exclusivo e determinante para validação pelas bancas de heteroidentificação é o fenótipo do candidato (características físicas visíveis, como cor da pele, traços faciais e textura do cabelo). A ordem de preenchimento é V – F – V – V, configurando a alternativa <strong>(A)</strong>.`
+            },
+            {
+                id: 6,
+                tag: "Projeto Político-Pedagógico (PPP) e Transversalidade",
+                statement: "Considere as afirmações abaixo sobre a operacionalização da Educação das Relações Étnico-Raciais nos Projetos Político-Pedagógicos (PPPs) e na organização curricular das instituições de ensino.",
+                items: [
+                    "I - A abordagem das relações étnico-raciais deve perpassar transversalmente as diversas disciplinas do currículo, integrando a formação de valores, atitudes e conhecimentos ao longo de toda a Educação Básica e do Ensino Superior.",
+                    "II - A promoção de uma educação antirracista requer a desconstrução de abordagens folclorizadas, reducionistas e pontuais, que confinam a contribuição de negros e indígenas exclusivamente a celebrações de datas comemorativas fixas no calendário.",
+                    "III - O Projeto Político-Pedagógico deve prever ações direcionadas à aquisição de materiais didáticos e paradidáticos que apresentem personagens negros e indígenas em posições de protagonismo, liderança e produção intelectual ou científica.",
+                    "IV - O cumprimento das Diretrizes Curriculares Nacionais para a Educação das Relações Étnico-Raciais exime a instituição da necessidade de articular ações de combate ao racismo com as famílias e a comunidade do entorno da escola."
+                ],
+                prompt: "Quais estão corretas?",
+                options: {
+                    A: "(A) Apenas I e IV.",
+                    B: "(B) Apenas II e III.",
+                    C: "(C) Apenas I, II e III.",
+                    D: "(D) Apenas II, III e IV.",
+                    E: "(E) I, II, III e IV."
+                },
+                correct: "C",
+                resolutionTitle: "Resolução da Questão 06",
+                resolution: `A inclusão efetiva da Educação das Relações Étnico-Raciais nos ambientes escolares exige reformulações profundas no Projeto Político-Pedagógico (PPP) e na rotina institucional.<br><br>
+                A <strong>afirmativa I está correta</strong>, pois prevê a transversalidade do tema em todas as disciplinas e etapas da escolarização. A <strong>afirmativa II está correta</strong> ao denunciar a prática reducionista que limita o trabalho sobre populações raciais a eventos folclóricos ou comemorações pontuais sem reflexão crítica permanente. A <strong>afirmativa III é correta</strong>, pois aponta a necessidade de inserção de materiais bibliográficos que apresentem atores negros e indígenas em posições de liderança e centralidade intelectual.<br><br>
+                A <strong>afirmativa IV está incorreta</strong>, visto que o Parecer CNE/CP nº 03/2004 preconiza que o trabalho de superação do racismo deve ultrapassar os muros da escola, exigindo colaboração estreita com a comunidade, movimentos sociais e famílias dos estudantes. Dessa forma, apenas as afirmativas I, II e III são corretas. A alternativa é a <strong>(C)</strong>.`
+            },
+            {
+                id: 7,
+                tag: "Dimensão Historiográfica e Agência Histórica",
+                statement: "Complete as lacunas do texto abaixo sobre a dimensão historiográfica prescrita pelo Parecer CNE/CP nº 03/2004 e pelas Diretrizes Curriculares Nacionais para a Educação das Relações Étnico-Raciais.",
+                quoteText: "O ensino de História da África e dos afrodescendentes no Brasil deve romper de forma definitiva com a perspectiva historiográfica eurocêntrica que reduz o continente africano a um lugar de mera __________. A abordagem curricular deve resgatar a complexidade das civilizações africanas pré-coloniais e reposicionar os negros no Brasil enquanto __________ da construção da sociedade nacional, desconstruindo a representação pacificada e passiva do sujeito escravizado.",
+                prompt: "Assinale a alternativa que preenche corretamente as lacunas do texto acima.",
+                options: {
+                    A: "(A) subserviência – vítimas indefesas",
+                    B: "(B) passividade e escravidão – sujeitos e agentes históricos",
+                    C: "(C) inferioridade biológica – coadjuvantes econômicos",
+                    D: "(D) estagnação cultural – elementos de aculturação europeia",
+                    E: "(E) dependência externa – mão de obra não qualificada"
+                },
+                correct: "B",
+                resolutionTitle: "Resolução da Questão 07",
+                resolution: `A reorganização dos conteúdos de História da África e da população negra no Brasil exige uma virada decolonial nos planos de ensino.<br><br>
+                A primeira lacuna deve ser preenchida por <strong>"passividade e escravidão"</strong>. A historiografia tradicional eurocêntrica subordinava o estudo da África à perspectiva da vitimização e do tráfico negreiro, ocultando a riqueza cultural, econômica e social das sociedades africanas anteriores à colonização.<br><br>
+                A segunda lacuna exige a expressão <strong>"sujeitos e agentes históricos"</strong>. As diretrizes curriculares nacionais impõem a reconceituação do negro no Brasil, retirando-o da posição passiva de mercadoria ou mão de obra servil e reposicionando-o como protagonista transformador que lutou ativamente contra a escravização e contribuiu decisivamente para a formação da nação. A alternativa correta é a <strong>(B)</strong>.`
+            },
+            {
+                id: 8,
+                tag: "Arcabouço Legiferante e Políticas Públicas",
+                statement: "Considere as afirmações abaixo a respeito do arcabouço normativo das Políticas Públicas de Promoção da Igualdade Racial na Educação Brasileira.",
+                items: [
+                    "I - A Lei nº 10.639/2003 incluiu no calendário escolar o dia 20 de novembro como \"Dia Nacional da Consciência Negra\", valorizando a figura de Zumbi dos Palmares e a luta da população negra.",
+                    "II - A Lei nº 11.645/2008 estendeu a obrigatoriedade do estudo da história e cultura aos povos indígenas, alterando o artigo 26-A da LDB.",
+                    "III - A Resolução CNE/CP nº 01/2004 estabelece que os sistemas de ensino e as instituições de ensino superior devem incluir nos seus planos de formação inicial e continuada de docentes a temática da Educação das Relações Étnico-Raciais.",
+                    "IV - O Plano Nacional de Educação (PNE - Lei nº 13.005/2014) veda a utilização de indicadores de raça/cor na avaliação de metas educacionais para evitar a segregação de dados no sistema estatístico oficial."
+                ],
+                prompt: "Quais estão corretas?",
+                options: {
+                    A: "(A) Apenas I e II.",
+                    B: "(B) Apenas III e IV.",
+                    C: "(C) Apenas I, II e III.",
+                    D: "(D) Apenas I, III e IV.",
+                    E: "(E) I, II, III e IV."
+                },
+                correct: "C",
+                resolutionTitle: "Resolução da Questão 08",
+                resolution: `O processo de construção das políticas de igualdade racial na educação é norteado por diplomas normativos interligados.<br><br>
+                A <strong>afirmativa I está correta</strong>: a Lei nº 10.639/2003 inseriu o dia 20 de novembro como Dia Nacional da Consciência Negra na LDB, resgatando a memória de Zumbi dos Palmares. A <strong>afirmativa II está correta</strong>: a Lei nº 11.645/2008 alterou novamente a LDB para incluir formalmente a obrigatoriedade da temática indígena. A <strong>afirmativa III está correta</strong>: a Resolução CNE/CP nº 01/2004 exige a inclusão obrigatória de disciplinas sobre relações étnico-raciais nos cursos de formação inicial e continuada de professores.<br><br>
+                A <strong>afirmativa IV está incorreta</strong>. O Plano Nacional de Educação (PNE - Lei nº 13.005/2014) prevê explicitamente o desmembramento de indicadores educacionais por raça/cor e localização geográfica como ferramenta imprescindível para mensurar a eficácia do combate às assimetrias raciais e garantir equidade na oferta de ensino. Estão corretas as afirmativas I, II e III, o que confirma a alternativa <strong>(C)</strong>.`
+            },
+            {
+                id: 9,
+                tag: "Interculturalidade Crítica e Epistemologia Decolonial",
+                statement: "Considere o fragmento abaixo sobre Educação Intercultural e Epistemologia Decolonial no contexto educacional brasileiro:",
+                quoteText: "“A interculturalidade crítica não se limita a reconhecer a coexistência pacífica de diferentes culturas na escola; ela questiona as assimetrias históricas de poder, as hierarquias epistemológicas e as matrizes coloniais que subordinam os saberes produzidos por povos negros e indígenas frente aos modelos euro-ocidentais.”",
+                prompt: "Com base nessa perspectiva, analise as afirmativas abaixo e preencha os parênteses com (V) para Verdadeiro e (F) para Falso.",
+                items: [
+                    "( ) A interculturalidade crítica concebe a escola como um espaço neutro de transmissão universal do conhecimento, imune a hegemonias culturais ou disputas de poder.",
+                    "( ) A abordagem decolonial defende a incorporação de matrizes epistêmicas afro-brasileiras, africanas e indígenas no centro da produção do conhecimento escolar, e não apenas como conteúdos acessórios ou periféricos.",
+                    "( ) A assimilação cultural das populações negras e indígenas ao padrão eurocêntrico constitui o objetivo central da pedagogia antirracista para garantir a igualdade formal de oportunidades.",
+                    "( ) O reconhecimento das filosofias, cosmologias, tecnologias e artes africanas e indígenas fortalece o pertencimento étnico-racial e desconstrói o eurocentrismo curricular."
+                ],
+                promptEnd: "A ordem correta de preenchimento dos parênteses, de cima para baixo, é",
+                options: {
+                    A: "(A) F – V – F – V.",
+                    B: "(B) V – F – V – F.",
+                    C: "(C) F – F – V – V.",
+                    D: "(D) V – V – F – F.",
+                    E: "(E) F – V – V – F."
+                },
+                correct: "A",
+                resolutionTitle: "Resolução da Questão 09",
+                resolution: `A interculturalidade crítica e as epistemologias decoloniais oferecem instrumental teórico para transformar as práticas pedagógicas coloniais.<br><br>
+                O <strong>primeiro item é falso (F)</strong>. A interculturalidade crítica contesta a ilusão de neutralidade escolar, evidenciando que os currículos vigentes são atravessados por relações de poder e hegemonias culturais de matriz ocidental.<br><br>
+                O <strong>segundo item é verdadeiro (V)</strong>. A virada decolonial defende o reposicionamento dos saberes africanos, afro-diaspóricos e indígenas, alocando-os no núcleo duro do conhecimento curricular e não apenas como conteúdos exóticos secundários.<br><br>
+                O <strong>terceiro item é falso (F)</strong>. A pedagogia antirracista combate as abordagens assimilacionistas, que buscam anular as identidades étnico-raciais para enquadrá-las em modelos culturais dominantes.<br><br>
+                O <strong>quarto item é verdadeiro (V)</strong>. O reconhecimento da pluralidade epistemológica fortalece o pertencimento étnico de estudantes negros e indígenas, promovendo uma formação verdadeiramente plural para todos os educandos. A sequência é F – V – F – V. A alternativa correta é a <strong>(A)</strong>.`
+            },
+            {
+                id: 10,
+                tag: "Determinantes Sociológicos do Fracasso Escolar",
+                statement: "Considere as afirmações abaixo sobre os determinantes sociológicos da produção do fracasso escolar e os estereótipos raciais no ambiente educacional.",
+                items: [
+                    "I - A expectativa docente rebaixada em relação ao desempenho de estudantes negros e indígenas opera como um mecanismo implícito que afeta negativamente o rendimento escolar e a permanência desses alunos na escola.",
+                    "II - A falta de representatividade positiva nos livros didáticos e a permanência de termos pejorativos no cotidiano escolar contribuem para o enfraquecimento do autoconceito e do sentimento de pertencimento de crianças e jovens negros e indígenas.",
+                    "III - As disparidades nos índices de retenção e evasão escolar entre estudantes brancos e negros devem ser interpretadas como reflexo direto de diferenças de capacidade cognitiva individual, e não como decorrência de racismo estrutural ou desigualdade interpessoal e institucional.",
+                    "IV - A implementação de práticas pedagógicas antirracistas atua na promoção do sucesso escolar universal, beneficiando não apenas os estudantes negros e indígenas, mas toda a comunidade escolar na construção de uma sociabilidade democrática."
+                ],
+                prompt: "Quais estão corretas?",
+                options: {
+                    A: "(A) Apenas I e III.",
+                    B: "(B) Apenas II e IV.",
+                    C: "(C) Apenas I, II e IV.",
+                    D: "(D) Apenas II, III e IV.",
+                    E: "(E) I, II, III e IV."
+                },
+                correct: "C",
+                resolutionTitle: "Resolução da Questão 10",
+                resolution: `Os determinantes sociológicos da produção do insucesso escolar de grupos marginalizados demonstram que o rendimento acadêmico está associado a fatores interpessoais e institucionais.<br><br>
+                A <strong>afirmativa I está correta</strong>, pois a baixa expectativa dos educadores quanto ao desempenho de estudantes negros funciona como um mecanismo velado de desmotivação (efeito pigmalião/profecia autorrealizadora), comprometendo a trajetória escolar do aluno. A <strong>afirmativa II está correta</strong> ao apontar que a carência de modelos positivos em livros didáticos e a convivência com ofensas raciais corroem a autoestima do educando. A <strong>afirmativa IV está correta</strong>, demonstrando que o ensino antirracista traz benefícios universais, qualificando o ambiente educacional para toda a comunidade.<br><br>
+                A <strong>afirmativa III é incorreta e inaceitável</strong> do ponto de vista científico e ético. Atribuir o fracasso ou o rendimento rebaixado de estudantes negros a supostas incapacidades cognitivas individuais configura racismo científico superado. As desigualdades educacionais decorrem da reprodução do racismo estrutural e institucional e da ausência de políticas públicas inclusivas. Estão corretas apenas I, II e IV, legitimando a alternativa <strong>(C)</strong>.`
+            }
+        ];
+
+        // App state
+        let userAnswers = {};
+        let currentMode = 'exam'; // 'exam' or 'study'
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let isFinished = false;
+
+        window.onload = function() {
+            startTimer();
+            renderNavigator();
+            renderQuestions();
+            updateProgress();
+        };
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (!isFinished) {
+                    timerSeconds++;
+                    const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                    const secs = String(timerSeconds % 60).padStart(2, '0');
+                    document.getElementById('timer').innerText = `${mins}:${secs}`;
+                }
+            }, 1000);
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            const examBtn = document.getElementById('modeExamBtn');
+            const studyBtn = document.getElementById('modeStudyBtn');
+
+            if (mode === 'exam') {
+                examBtn.className = 'px-3 py-1.5 rounded-md font-medium transition bg-white text-brand-primary shadow-sm';
+                studyBtn.className = 'px-3 py-1.5 rounded-md font-medium transition text-stone-600 hover:text-stone-900';
+            } else {
+                studyBtn.className = 'px-3 py-1.5 rounded-md font-medium transition bg-white text-brand-primary shadow-sm';
+                examBtn.className = 'px-3 py-1.5 rounded-md font-medium transition text-stone-600 hover:text-stone-900';
+            }
+
+            // Re-render questions to show/hide instant feedback according to mode
+            renderQuestions();
+        }
+
+        function renderNavigator() {
+            const nav = document.getElementById('navigatorPills');
+            nav.innerHTML = '';
+            questionsData.forEach((q, idx) => {
+                const button = document.createElement('button');
+                button.id = `pill-${idx}`;
+                button.onclick = () => scrollToQuestion(idx);
+                button.className = 'w-8 h-8 rounded-lg text-xs font-semibold flex items-center justify-center border transition bg-stone-50 border-stone-200 text-stone-600 hover:bg-stone-100';
+                button.innerText = String(idx + 1).padStart(2, '0');
+                nav.appendChild(button);
+            });
+        }
+
+        function scrollToQuestion(index) {
+            const el = document.getElementById(`q-card-${index}`);
+            if (el) {
+                const yOffset = -80; 
+                const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questionsData.forEach((q, qIndex) => {
+                const card = document.createElement('article');
+                card.id = `q-card-${qIndex}`;
+                card.className = 'bg-white border border-stone-200 rounded-2xl p-6 md:p-8 shadow-sm transition';
+
+                // Items list html
+                let itemsHtml = '';
+                if (q.items && q.items.length > 0) {
+                    itemsHtml = `
+                        <div class="my-4 space-y-2 bg-stone-50/80 p-4 rounded-xl border border-stone-100 text-stone-800 font-sans text-sm md:text-base leading-relaxed">
+                            ${q.items.map(item => `<p>${escapeHtml(item)}</p>`).join('')}
+                        </div>
+                    `;
+                }
+
+                // Matching columns html (if present in Q2)
+                let columnHtml = '';
+                if (q.columnData) {
+                    columnHtml = `
+                        <div class="grid md:grid-cols-2 gap-4 my-4 font-sans text-sm md:text-base">
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-200">
+                                <h4 class="font-bold text-xs uppercase tracking-wider text-stone-500 mb-2">Coluna 1</h4>
+                                <ul class="space-y-2 text-stone-800">
+                                    ${q.columnData.col1.map(c => `<li>${escapeHtml(c)}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-200">
+                                <h4 class="font-bold text-xs uppercase tracking-wider text-stone-500 mb-2">Coluna 2</h4>
+                                <ul class="space-y-2 text-stone-800">
+                                    ${q.columnData.col2.map(c => `<li>${escapeHtml(c)}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Quote text html (if present in Q7, Q9)
+                let quoteHtml = '';
+                if (q.quoteText) {
+                    quoteHtml = `
+                        <blockquote class="my-4 p-4 border-l-4 border-brand-primary bg-stone-50 italic text-stone-700 text-sm md:text-base leading-relaxed rounded-r-xl">
+                            ${escapeHtml(q.quoteText)}
+                        </blockquote>
+                    `;
+                }
+
+                // Options html
+                let optionsHtml = '<div class="space-y-3 mt-5">';
+                for (let key in q.options) {
+                    const optionText = q.options[key];
+                    const isSelected = userAnswers[qIndex] === key;
+                    const isCorrect = key === q.correct;
+                    
+                    let extraClass = 'border-stone-200 hover:border-stone-300 bg-white';
+                    
+                    if (isFinished || (currentMode === 'study' && userAnswers[qIndex])) {
+                        if (isCorrect) {
+                            extraClass = 'correct-answer border-emerald-500 font-medium';
+                        } else if (isSelected && !isCorrect) {
+                            extraClass = 'incorrect-answer border-red-400';
+                        }
+                    } else if (isSelected) {
+                        extraClass = 'border-brand-primary bg-brand-light font-medium text-brand-primary shadow-sm';
+                    }
+
+                    optionsHtml += `
+                        <div onclick="selectAnswer(${qIndex}, '${key}')" 
+                             class="option-card cursor-pointer p-4 rounded-xl border ${extraClass} flex items-start gap-3 text-sm md:text-base transition">
+                            <div class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full border flex items-center justify-center ${isSelected ? 'border-brand-primary bg-brand-primary text-white' : 'border-stone-300'}">
+                                ${isSelected ? '<i class="fa-solid fa-check text-xs"></i>' : ''}
+                            </div>
+                            <div class="flex-grow text-stone-800">
+                                ${escapeHtml(optionText)}
+                            </div>
+                        </div>
+                    `;
+                }
+                optionsHtml += '</div>';
+
+                // Resolution Box HTML (shown in study mode if answered OR when quiz is finished)
+                const showResolution = isFinished || (currentMode === 'study' && userAnswers[qIndex]);
+                let resolutionHtml = '';
+
+                if (showResolution) {
+                    const isUserCorrect = userAnswers[qIndex] === q.correct;
+                    resolutionHtml = `
+                        <div class="mt-6 pt-6 border-t border-stone-200 animate-fadeIn">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${isUserCorrect ? 'correct-badge' : 'incorrect-badge'}">
+                                    ${isUserCorrect ? '<i class="fa-solid fa-check mr-1"></i> Resposta Correta' : '<i class="fa-solid fa-xmark mr-1"></i> Resposta Incorreta'}
+                                </span>
+                                <span class="text-xs font-semibold text-stone-500">Gabarito: Alternativa (${q.correct})</span>
+                            </div>
+                            <div class="bg-amber-50/60 border border-amber-200/80 rounded-xl p-5 text-stone-800">
+                                <h4 class="font-bold text-amber-900 text-sm mb-2 flex items-center gap-2">
+                                    <i class="fa-solid fa-book-open text-amber-700"></i> ${q.resolutionTitle}
+                                </h4>
+                                <div class="text-sm md:text-base leading-relaxed text-stone-700 font-serif">
+                                    ${q.resolution}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <span class="text-xs font-bold text-brand-primary bg-brand-light px-3 py-1 rounded-full">
+                            Questão ${String(q.id).padStart(2, '0')}
+                        </span>
+                        <span class="text-xs text-stone-500 font-medium">
+                            ${q.tag}
+                        </span>
+                    </div>
+
+                    <div class="question-content text-stone-900 font-medium mb-2">
+                        ${escapeHtml(q.statement)}
+                    </div>
+
+                    ${quoteHtml}
+                    ${columnHtml}
+                    ${itemsHtml}
+
+                    <div class="text-sm md:text-base font-semibold text-stone-800 my-3">
+                        ${escapeHtml(q.prompt)}
+                    </div>
+
+                    ${q.promptEnd ? `<div class="text-sm md:text-base font-semibold text-stone-800 my-2">${escapeHtml(q.promptEnd)}</div>` : ''}
+
+                    ${optionsHtml}
+                    ${resolutionHtml}
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function selectAnswer(qIndex, key) {
+            if (isFinished) return; // Freeze selections when finished
+
+            userAnswers[qIndex] = key;
+            updateProgress();
+            renderQuestions();
+        }
+
+        function updateProgress() {
+            const total = questionsData.length;
+            const answeredCount = Object.keys(userAnswers).length;
+            const percent = (answeredCount / total) * 100;
+
+            document.getElementById('progressBar').style.width = `${percent}%`;
+            document.getElementById('statusSummary').innerText = `${answeredCount} de ${total} questões respondidas`;
+
+            // Update Navigator Pills style
+            questionsData.forEach((_, idx) => {
+                const pill = document.getElementById(`pill-${idx}`);
+                if (pill) {
+                    if (userAnswers[idx]) {
+                        pill.className = 'w-8 h-8 rounded-lg text-xs font-semibold flex items-center justify-center border transition bg-brand-primary border-brand-primary text-white shadow-sm';
+                    } else {
+                        pill.className = 'w-8 h-8 rounded-lg text-xs font-semibold flex items-center justify-center border transition bg-stone-50 border-stone-200 text-stone-600 hover:bg-stone-100';
+                    }
+                }
+            });
+        }
+
+        function finishQuiz() {
+            const total = questionsData.length;
+            const answeredCount = Object.keys(userAnswers).length;
+
+            if (answeredCount < total) {
+                const confirmFinish = window.confirm(`Você respondeu ${answeredCount} de ${total} questões. Deseja finalizar mesmo assim e ver o gabarito comentado?`);
+                if (!confirmFinish) return;
+            }
+
+            isFinished = true;
+            clearInterval(timerInterval);
+
+            // Calculate Score
+            let correctCount = 0;
+            questionsData.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const percentage = Math.round((correctCount / total) * 100);
+
+            // Display Results Section
+            const resultsSec = document.getElementById('resultsSection');
+            resultsSec.classList.remove('hidden');
+
+            document.getElementById('totalScoreText').innerText = `${correctCount}/${total}`;
+            document.getElementById('percentageText').innerText = `${percentage}%`;
+
+            const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+            const secs = String(timerSeconds % 60).padStart(2, '0');
+            document.getElementById('timeSpentText').innerText = `${mins}:${secs}`;
+
+            const badge = document.getElementById('scoreBadge');
+            const title = document.getElementById('resultTitle');
+            const subtitle = document.getElementById('resultSubtitle');
+
+            if (percentage >= 80) {
+                badge.className = 'w-20 h-20 rounded-full mx-auto flex items-center justify-center text-3xl font-black mb-4 bg-emerald-100 text-emerald-700 border-2 border-emerald-500';
+                badge.innerHTML = '<i class="fa-solid fa-trophy"></i>';
+                title.innerText = 'Excelente Desempenho!';
+                subtitle.innerText = 'Você demonstrou alto domínio sobre a legislação e diretrizes étnico-raciais da FAURGS.';
+            } else if (percentage >= 60) {
+                badge.className = 'w-20 h-20 rounded-full mx-auto flex items-center justify-center text-3xl font-black mb-4 bg-amber-100 text-amber-700 border-2 border-amber-500';
+                badge.innerHTML = '<i class="fa-solid fa-medal"></i>';
+                title.innerText = 'Bom Resultado!';
+                subtitle.innerText = 'Você possui boa base no conteúdo. Revise as resoluções comentadas para consolidar os pontos fracos.';
+            } else {
+                badge.className = 'w-20 h-20 rounded-full mx-auto flex items-center justify-center text-3xl font-black mb-4 bg-rose-100 text-rose-700 border-2 border-rose-500';
+                badge.innerHTML = '<i class="fa-solid fa-book-open"></i>';
+                title.innerText = 'Hora de Revisar!';
+                subtitle.innerText = 'Recomendamos a leitura atenta de todas as fundamentações comentadas abaixo para reforçar seus conhecimentos.';
+            }
+
+            // Hide Finish button, show reset
+            document.getElementById('finishBtn').classList.add('hidden');
+
+            // Render questions with complete answers & resolutions displayed
+            renderQuestions();
+
+            // Scroll smoothly to result summary
+            resultsSec.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            userAnswers = {};
+            isFinished = false;
+            timerSeconds = 0;
+            startTimer();
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('finishBtn').classList.remove('hidden');
+            updateProgress();
+            renderQuestions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Helper to escape special HTML characters for safely displaying content
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

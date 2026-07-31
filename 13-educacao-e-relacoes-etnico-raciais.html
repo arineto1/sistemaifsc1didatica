@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo ERER - Concurso Professor EBTT IFSC (Banca FAURGS)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b; /* Slate 800 for optimal contrast without visual fatigue */
+            line-height: 1.6;
+        }
+        /* Custom highlight styling */
+        mark.hl-yellow {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.hl-green {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.hl-red {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        mark.hl-blue {
+            background-color: #e0f2fe;
+            color: #075985;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 antialiased selection:bg-yellow-200 selection:text-yellow-900">
+
+    <div class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+
+        <!-- Top Header Badge -->
+        <header class="border-b border-slate-200 pb-6 mb-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300">
+                    Concurso Professor EBTT - IFSC
+                </span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                    Banca FAURGS
+                </span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Resumo de Memorização: <span class="text-slate-700">Educação e Relações Étnico-Raciais (ERER)</span>
+            </h1>
+            <p class="mt-2 text-sm sm:text-base text-slate-600">
+                Guia didático, técnico e esquemático de alta retenção para a prova objetiva.
+            </p>
+        </header>
+
+        <!-- Audio Player Block -->
+        <section class="mb-10 bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-slate-200 rounded-lg text-slate-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">Audioaula / Podcast de Revisão</h2>
+                        <p class="text-xs text-slate-500">Ouça o resumo completo em MP3 durante seus deslocamentos</p>
+                    </div>
+                </div>
+                <span class="text-xs font-mono bg-slate-200 text-slate-700 px-2.5 py-1 rounded font-medium hidden sm:inline-block">
+                    audio13.mp3
+                </span>
+            </div>
+            
+            <!-- Standard Audio Element -->
+            <audio controls class="w-full h-11 focus:outline-none rounded-lg border border-slate-300">
+                <source src="audio13.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            
+            <p class="mt-2 text-xs text-slate-500 italic">
+                * Para carregar o áudio, certifique-se de salvar o arquivo de áudio com o nome <code class="bg-slate-200 px-1 py-0.5 rounded text-slate-800 font-mono text-xs">audio13.mp3</code> no mesmo diretório desta página.
+            </p>
+        </section>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="space-y-12">
+
+            <!-- SECTION 1: Conceitos e Fundamentos Teóricos da ERER -->
+            <section class="border-l-4 border-slate-900 pl-4 sm:pl-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 text-white text-sm font-extrabold">1</span>
+                    Fundamentos Teóricos e Conceitos Sociológicos Essenciais
+                </h2>
+                
+                <div class="space-y-4 text-slate-700 text-sm sm:text-base leading-relaxed">
+                    <p class="text-slate-800 font-medium">
+                        Para as questões conceituais da FAURGS, o candidato precisa dominar as categorias sociológicas e epistemológicas que embasam a Educação e Relações Étnico-Raciais:
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-1">
+                                🔹 Desconstrução do Mito da Democracia Racial
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                Ideologia que sustentava a ilusão de uma convivência harmoniosa entre as raças no Brasil. A banca cobra a compreensão de que o mito encobre o <mark class="hl-red">racismo estrutural</mark> e desmobiliza a luta por direitos e compensações históricas.
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-1">
+                                🔹 Racismo Individual vs. Institucional vs. Estrutural
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                • <strong class="text-slate-900">Individual:</strong> Conduta subjetiva de preconceito.<br>
+                                • <strong class="text-slate-900">Institucional:</strong> Tratamento desfavorável pelas instituições.<br>
+                                • <mark class="hl-yellow">Estrutural (Silvio Almeida):</mark> O racismo é a regra, não a exceção; constitui as relações políticas, econômicas e jurídicas da sociedade.
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-1">
+                                🔹 Epistemocídio e Colonialidade do Saber
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                Processo de invisibilização, negação e destruição dos saberes, cosmologias e contribuições científicas e culturais não eurocêntricas (negros e indígenas). A ERER busca a <mark class="hl-green">justiça epistemológica</mark>.
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-1">
+                                🔹 Interculturalidade Crítica vs. Multiculturalismo Passivo
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                O multiculturalismo passivo apenas Tolera a diversidade sem alterar as estruturas de poder. A <mark class="hl-blue">Interculturalidade Crítica</mark> propõe a transformação das relações sociais e a reestruturação dos currículos escolares.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Vinculação com a EPT e IFSC -->
+                    <div class="bg-slate-100 border-l-4 border-slate-700 p-4 rounded-r-xl text-xs sm:text-sm text-slate-800">
+                        <strong class="text-slate-900 font-bold block mb-1">🎓 Vinculação Institucional IFSC e Educação Profissional Tecnológica (EPT):</strong>
+                        Na Rede Federal (IFSC), a ERER integra o princípio da <mark class="hl-green">Formação Omnilateral</mark> e a indissociabilidade entre ensino, pesquisa e extensão. O trabalho é compreendido como princípio educativo articulado com a ética, responsabilidade social e equidade de raça e gênero.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: Marcos Legais e Estatuto da Igualdade Racial -->
+            <section class="border-l-4 border-slate-900 pl-4 sm:pl-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 text-white text-sm font-extrabold">2</span>
+                    Marcos Legais, LDB e Glossário do Estatuto da Igualdade Racial
+                </h2>
+                
+                <div class="space-y-4 text-slate-700 text-sm sm:text-base leading-relaxed">
+                    <ul class="space-y-3">
+                        <li class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                            <strong class="text-slate-900 font-bold">Lei nº 9.394/1996 (LDB):</strong> Matriz da legislação educacional brasileira. Passou por alterações cruciais para a inclusão compulsória da pauta racial.
+                        </li>
+                        <li class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                            <strong class="text-slate-900 font-bold">Lei nº 10.639/2003:</strong> Alterou a LDB inserindo o <mark class="hl-yellow">Art. 26-A</mark> (<mark class="hl-green">obrigatoriedade da História e Cultura Afro-Brasileira</mark>) e o <mark class="hl-yellow">Art. 79-B</mark> (inclusão do dia 20 de novembro como <mark class="hl-blue">Dia Nacional da Consciência Negra</mark> no calendário escolar).
+                        </li>
+                        <li class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                            <strong class="text-slate-900 font-bold">Lei nº 11.645/2008:</strong> Reformulou o <mark class="hl-yellow">Art. 26-A</mark> da LDB para incluir expressamente a obrigatoriedade da <mark class="hl-green">História e Cultura Indígena</mark> ao lado da afro-brasileira.
+                        </li>
+                        <li class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                            <strong class="text-slate-900 font-bold">Resolução CNE/CP nº 1/2004:</strong> Fixa as Diretrizes Curriculares Nacionais para a ERER, fundamentada no Parecer CNE/CP nº 3/2004 (relatado pela Profa. <mark class="hl-blue">Petronilha Beatriz Gonçalves e Silva</mark>).
+                        </li>
+                        <li class="bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                            <strong class="text-slate-900 font-bold">Lei nº 12.288/2010 (Estatuto da Igualdade Racial):</strong> Define conceitos jurídicos essenciais para a prova de concurso EBTT.
+                        </li>
+                    </ul>
+
+                    <!-- Glossário do Estatuto da Igualdade Racial (Lei 12.288/2010) -->
+                    <div class="mt-6 border border-slate-200 rounded-xl p-5 bg-slate-50">
+                        <h3 class="text-base font-bold text-slate-900 mb-3 uppercase tracking-wide">
+                            ⚖️ Conceitos Jurídicos Fundamentais (Lei nº 12.288/2010 - Art. 1º, Parágrafo Único)
+                        </h3>
+                        <div class="space-y-3 text-xs sm:text-sm text-slate-800">
+                            <p>
+                                • <strong class="text-slate-900 font-bold">Discriminação Racial:</strong> Toda distinção, exclusão, restrição ou preferência baseada em raça, cor, descendência ou origem nacional ou étnica que tenha por objeto anular ou restringir o reconhecimento ou exercício de direitos.
+                            </p>
+                            <p>
+                                • <strong class="text-slate-900 font-bold">Desigualdade Racial:</strong> Toda situação injustificada de diferenciação de acesso e fruição de bens, serviços e oportunidades, nas esferas pública e privada.
+                            </p>
+                            <p>
+                                • <strong class="text-slate-900 font-bold">Políticas Públicas:</strong> Ações, iniciativas e programas adotados pelo Estado no cumprimento de suas atribuições institucionais.
+                            </p>
+                            <p>
+                                • <strong class="text-slate-900 font-bold">Ações Afirmativas:</strong> Programas e medidas especiais adotados pelo Estado e pela iniciativa privada para a correção das desigualdades raciais e a promoção da igualdade de oportunidades.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Detalhamento do Art. 26-A -->
+                    <div class="mt-6 bg-amber-50/50 border border-amber-200 rounded-xl p-5">
+                        <h3 class="text-base font-bold text-amber-950 mb-3 uppercase tracking-wide">
+                            📌 Detalhamento Obrigatório do Art. 26-A da LDB (Texto Literal de Prova)
+                        </h3>
+                        <div class="space-y-2 text-slate-800 text-sm">
+                            <p>
+                                • <strong class="text-amber-950">Abrangência Institucional:</strong> Estabelecimentos de ensino fundamental e de ensino médio, <mark class="hl-yellow">públicos e privados</mark>.
+                            </p>
+                            <p>
+                                • <strong class="text-amber-950">Forma de Oferta:</strong> Ministrados no âmbito de <mark class="hl-yellow">todo o currículo escolar</mark>, com especial destaque para <mark class="hl-green">Educação Artística, Literatura e História Brasileiras</mark>.
+                            </p>
+                            <p>
+                                • <strong class="text-amber-950">Conteúdos Compulsórios:</strong> História da África e dos Africanos; luta dos negros e povos indígenas no Brasil; cultura negra e indígena brasileira; resgate da contribuição dos grupos nas áreas social, econômica e política.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: A Tríade da Resolução CNE/CP nº 1/2004 -->
+            <section class="border-l-4 border-slate-900 pl-4 sm:pl-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 text-white text-sm font-extrabold">3</span>
+                    A Tríade da Resolução CNE/CP nº 1/2004
+                </h2>
+                
+                <p class="text-slate-700 text-sm sm:text-base mb-4">
+                    As Diretrizes Curriculares Nacionais sustentam-se sobre três eixos integrados e indissociáveis de políticas públicas e práticas pedagógicas:
+                </p>
+
+                <!-- Responsive Table 1 (No horizontal scroll) -->
+                <div class="w-full border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm mb-2">
+                    <table class="w-full text-left border-collapse table-fixed">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-900 text-xs sm:text-sm font-bold uppercase tracking-wider">
+                                <th class="p-3 sm:p-4 w-1/4 border-r border-slate-200 break-words">Eixo Diretor</th>
+                                <th class="p-3 sm:p-4 w-3/8 border-r border-slate-200 break-words">Conceito-Chave para Prova</th>
+                                <th class="p-3 sm:p-4 w-3/8 break-words">Ação Pedagógica Prática</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 font-bold text-slate-900 break-words align-top">
+                                    <mark class="hl-yellow">Reparação</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-700 break-words align-top">
+                                    Ressarcimento e compensação de danos históricos acumulados pelo racismo, discriminação e escravidão.
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-700 break-words align-top">
+                                    Ações afirmativas, reservas de vagas (cotas), alocação preferencial de recursos e investimento estrutural.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 font-bold text-slate-900 break-words align-top">
+                                    <mark class="hl-green">Reconhecimento</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-700 break-words align-top">
+                                    Combate à inferiorização estética, cultural e epistemológica do povo negro e indígena.
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-700 break-words align-top">
+                                    Valorização das matrizes de conhecimento não eurocêntricas e garantia da equidade no processo de aprendizagem.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 font-bold text-slate-900 break-words align-top">
+                                    <mark class="hl-blue">Valorização</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-700 break-words align-top">
+                                    Fortalecimento contínuo da identidade e do pertencimento étnico-racial dos discentes.
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-700 break-words align-top">
+                                    Garantia de acesso, permanência e sucesso escolar; criação de ambiente institucional seguro e acolhedor.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 4: Matriz Antipegadinha FAURGS -->
+            <section class="border-l-4 border-slate-900 pl-4 sm:pl-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 text-white text-sm font-extrabold">4</span>
+                    Matriz "Antipegadinha" FAURGS (Certo vs. Errado)
+                </h2>
+                
+                <p class="text-slate-700 text-sm sm:text-base mb-4">
+                    A banca FAURGS costuma usar ambiguidades conceituais e distorções da LDB para induzir o candidato ao erro. Decore as distinções exatas:
+                </p>
+
+                <!-- Responsive Table 2 (No horizontal scroll) -->
+                <div class="w-full border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                    <table class="w-full text-left border-collapse table-fixed">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-900 text-xs sm:text-sm font-bold uppercase tracking-wider">
+                                <th class="p-3 sm:p-4 w-1/2 border-r border-slate-200 break-words">Afirmativa Falsa (Pegadinha da FAURGS)</th>
+                                <th class="p-3 sm:p-4 w-1/2 break-words">Correção Técnica (Gabarito Oficial)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-800 break-words align-top">
+                                    <mark class="hl-red">"A Lei nº 10.639/03 criou uma disciplina curricular específica de Relações Étnico-Raciais."</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-800 break-words align-top">
+                                    <strong class="text-emerald-700 font-bold uppercase">ERRADO:</strong> O ensino é <mark class="hl-yellow">transversal</mark> e obrigatório em todo o currículo escolar.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-800 break-words align-top">
+                                    <mark class="hl-red">"As diretrizes de ERER aplicam-se exclusivamente à rede pública de ensino."</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-800 break-words align-top">
+                                    <strong class="text-emerald-700 font-bold uppercase">ERRADO:</strong> O Art. 26-A da LDB obriga instituições <mark class="hl-yellow">públicas e privadas</mark>.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-800 break-words align-top">
+                                    <mark class="hl-red">"A Lei nº 10.639/03 tornou obrigatório o estudo da cultura indígena na LDB."</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-800 break-words align-top">
+                                    <strong class="text-emerald-700 font-bold uppercase">ERRADO:</strong> A temática indígena foi incluída pela <mark class="hl-yellow">Lei nº 11.645/2008</mark>.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-800 break-words align-top">
+                                    <mark class="hl-red">"Atividades pontuais em datas comemorativas cumprem plenamente a obrigação legal."</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-800 break-words align-top">
+                                    <strong class="text-emerald-700 font-bold uppercase">ERRADO:</strong> A ERER deve ser <mark class="hl-yellow">contínua, permanente e integrada ao PPP</mark>.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-800 break-words align-top">
+                                    <mark class="hl-red">"Ações afirmativas e reservas de vagas violam o princípio de igualdade da CF/88."</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-800 break-words align-top">
+                                    <strong class="text-emerald-700 font-bold uppercase">ERRADO:</strong> Buscam a <mark class="hl-yellow">igualdade material</mark> e a reparação histórica justa.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-800 break-words align-top">
+                                    <mark class="hl-red">"A responsabilidade da temática é exclusiva das disciplinas de História e Artes."</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-800 break-words align-top">
+                                    <strong class="text-emerald-700 font-bold uppercase">ERRADO:</strong> É responsabilidade de <mark class="hl-yellow">todos os docentes</mark>, incluindo exatas e tecnologia.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-800 break-words align-top">
+                                    <mark class="hl-red">"Cursos superiores de tecnologia e bacharelados estão isentos das diretrizes de ERER."</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-800 break-words align-top">
+                                    <strong class="text-emerald-700 font-bold uppercase">ERRADO:</strong> As diretrizes da Res. CNE 1/2004 orientam a formação em <mark class="hl-yellow">todos os níveis da educação nacional</mark>.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 sm:p-4 border-r border-slate-200 text-slate-800 break-words align-top">
+                                    <mark class="hl-red">"Multiculturalismo e Interculturalidade possuem o mesmo significado pedagógico nas diretrizes."</mark>
+                                </td>
+                                <td class="p-3 sm:p-4 text-slate-800 break-words align-top">
+                                    <strong class="text-emerald-700 font-bold uppercase">ERRADO:</strong> As diretrizes preconizam a <mark class="hl-yellow">interculturalidade crítica</mark>, de caráter emancipatório e estrutural.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 5: Transversalidade no Ensino de Informática na EPT -->
+            <section class="border-l-4 border-slate-900 pl-4 sm:pl-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 text-white text-sm font-extrabold">5</span>
+                    Transversalidade no Ensino de Informática na EPT (Pontos de Aplicação)
+                </h2>
+                
+                <p class="text-slate-700 text-sm sm:text-base mb-4">
+                    Para defender a ERER na prova objetiva e na prova didática no IFSC (Área de Informática), utilize as conexões diretas entre computação e relações étnico-raciais:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-slate-800"></span>
+                            1. Algoritmos, IA e Viés de Dados
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            • <strong class="text-slate-900">Foco:</strong> Viés algorítmico e racismo algorítmico em sistemas de reconhecimento facial, filtragem automatizada e crédito.<br>
+                            • <strong class="text-slate-900">Fundamentação:</strong> Demonstrar que a tecnologia não é neutra e reflete bases de dados historicamente viciadas.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-slate-800"></span>
+                            2. Engenharia de Software e Banco de Dados
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            • <strong class="text-slate-900">Foco:</strong> Modelagem inclusiva, acessibilidade cultural e superação de nomenclaturas discriminatórias na TI (substituição de <em>master/slave</em> por <em>main/replica</em>; <em>blacklist/whitelist</em> por <em>denylist/allowlist</em>).<br>
+                            • <strong class="text-slate-900">Fundamentação:</strong> Garantir representatividade e equidade no design de sistemas de informação.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-slate-800"></span>
+                            3. Redes e Sociedade da Informação
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            • <strong class="text-slate-900">Foco:</strong> Exclusão digital e assimetrias de conectividade em territórios quilombolas, indígenas e periféricos.<br>
+                            • <strong class="text-slate-900">Fundamentação:</strong> Promover a democratização do acesso às TICs na EPT através de projetos de extensão tecnológica inclusiva.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-slate-800"></span>
+                            4. História da Computação e Etnogeometria
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            • <strong class="text-slate-900">Foco:</strong> Resgate de pioneiros negros/indígenas (Gladys West - GPS, Mark Dean - PC IBM, Clarence Ellis - Sistemas Colaborativos) e etnomatemática/etnogeometria aplicada a fractais africanos.<br>
+                            • <strong class="text-slate-900">Fundamentação:</strong> Desconstrução da narrativa puramente eurocêntrica da ciência da computação.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: Checklist de Memorização Final -->
+            <section class="border-l-4 border-slate-900 pl-4 sm:pl-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 text-white text-sm font-extrabold">6</span>
+                    Checklist de Memorização Final (12 Afirmações para Gabaritar)
+                </h2>
+
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                    <ol class="space-y-3 text-xs sm:text-sm text-slate-800">
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">01</span>
+                            <span>O artigo 26-A da LDB abrange o ensino fundamental e médio, em estabelecimentos da <mark class="hl-yellow">rede pública e privada</mark>.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">02</span>
+                            <span>A Lei 10.639/03 trata da matriz afro-brasileira; a <mark class="hl-yellow">Lei 11.645/08</mark> incluiu expressamente a matriz indígena.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">03</span>
+                            <span>O Dia Nacional da Consciência Negra (20 de novembro) foi incluído na LDB pelo <mark class="hl-yellow">Art. 79-B</mark>.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">04</span>
+                            <span>A ERER <mark class="hl-yellow">não é disciplina isolada</mark>, mas uma temática <mark class="hl-green">transversal</mark> integrada a todo o currículo.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">05</span>
+                            <span>Educação Artística, Literatura e História são áreas prioritárias, mas <mark class="hl-yellow">não exclusivas</mark>.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">06</span>
+                            <span>A Resolução CNE/CP 1/2004 fundamenta-se no Parecer CNE/CP 3/2004, relatado por <mark class="hl-blue">Petronilha Beatriz Gonçalves e Silva</mark>.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">07</span>
+                            <span>A tríade da Resolução 1/2004 é constituída pelos eixos: <mark class="hl-yellow">Reparação</mark>, <mark class="hl-green">Reconhecimento</mark> e <mark class="hl-blue">Valorização</mark>.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">08</span>
+                            <span>O mito da democracia racial deve ser ativamente combatido por ocultar o <mark class="hl-yellow">racismo estrutural</mark>.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">09</span>
+                            <span>Práticas pontuais e comemorações esporádicas (<mark class="hl-red">"festivismo"</mark>) não cumprem os preceitos da ERER.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">10</span>
+                            <span>Na EPT/IFSC, a ERER vincula-se à <mark class="hl-green">formação omnilateral</mark> e à responsabilidade social e ética da tecnologia.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">11</span>
+                            <span>O <mark class="hl-yellow">Estatuto da Igualdade Racial (Lei 12.288/2010)</mark> estabelece as definições legais de discriminação, desigualdade e ações afirmativas.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="font-mono font-bold text-slate-900 shrink-0 bg-slate-200 px-2 py-0.5 rounded text-xs">12</span>
+                            <span>O racismo na tecnologia manifesta-se no <mark class="hl-yellow">viés algorítmico</mark>, devendo ser abordado em disciplinas técnicas de exatas e computação.</span>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- BOTTOM NAVIGATION BUTTON -->
+        <footer class="mt-14 pt-8 border-t border-slate-200 flex flex-col items-center justify-center space-y-4 text-center">
+            <p class="text-sm text-slate-600">
+                Pronto para fixar o conteúdo com exercícios práticos?
+            </p>
+            
+            <a href="questoes13.html" 
+               class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold text-base rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2">
+                <span>Ir para Banco de Questões</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+            </a>
+
+            <p class="text-xs text-slate-600 font-mono pt-2">
+                IFSC EBTT • Banca FAURGS • Educação e Relações Étnico-Raciais
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
