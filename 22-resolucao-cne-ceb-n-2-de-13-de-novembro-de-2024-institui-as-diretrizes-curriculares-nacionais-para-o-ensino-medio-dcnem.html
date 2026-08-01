@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo DCNEM Resolução 2/2024 | Concurso IFSC FAURGS</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b; /* Dark slate text for comfortable reading */
+        }
+
+        /* Stylized highlighting marker effect */
+        .grifo {
+            background-color: #fef08a; /* Soft warm yellow */
+            color: #854d0e;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            border-bottom: 2px solid #eab308;
+        }
+
+        .grifo-verde {
+            background-color: #dcfce7; /* Soft green */
+            color: #166534;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            border-bottom: 2px solid #22c55e;
+        }
+
+        .grifo-azul {
+            background-color: #dbeafe; /* Soft blue */
+            color: #1e40af;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            border-bottom: 2px solid #3b82f6;
+        }
+
+        /* Custom Range Input Styling for Audio Player */
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-screen flex flex-col antialiased">
+
+    <!-- TOP HEADER -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-0.5 rounded border border-blue-200">
+                        IFSC - Banca FAURGS
+                    </span>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded border border-emerald-200">
+                        EBTT Informática / Legislação
+                    </span>
+                </div>
+                <h1 class="text-xl md:text-2xl font-extrabold text-slate-900 mt-1">
+                    Resumo Completo DCNEM: Resolução CNE/CEB nº 2/2024
+                </h1>
+                <p class="text-xs md:text-sm text-slate-600">
+                    Guia Definitivo, Exaustivo e Técnico de Memorização para Prova Objetiva
+                </p>
+            </div>
+
+            <a href="questoes.html" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                <span>Ir para Questões</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full space-y-8">
+
+        <!-- AUDIO PLAYER CARD -->
+        <section class="bg-slate-50 border border-slate-300 rounded-xl p-4 md:p-6 shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-200">
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-blue-600 text-white rounded-lg shadow-sm">
+                        <i data-lucide="headphones" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">Audioaula de Véspera / Memorização</h2>
+                        <p class="text-xs text-slate-600">Ouça o resumo integral em áudio durante suas revisões</p>
+                    </div>
+                </div>
+
+                <!-- Input to configure MP3 file name -->
+                <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-slate-300 text-xs">
+                    <i data-lucide="file-audio" class="w-4 h-4 text-slate-500"></i>
+                    <label for="audioFileName" class="text-slate-600 font-medium hidden sm:inline">Arquivo MP3:</label>
+                    <input type="text" id="audioFileName" value="audio22.mp3" placeholder="nome-do-arquivo.mp3" 
+                           class="bg-transparent border-none text-slate-800 font-semibold focus:outline-none w-36 md:w-48 text-xs"
+                           title="Digite aqui o nome do seu arquivo MP3">
+                    <button id="updateAudioBtn" class="text-blue-600 hover:text-blue-800 font-bold text-xs underline">
+                        Carregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hidden native audio element -->
+            <audio id="audioSource" preload="metadata">
+                <source id="audioSrc" src="audio22.mp3" type="audio/mpeg">
+                Seu navegador não suporta o reprodutor de áudio.
+            </audio>
+
+            <!-- Custom Controls -->
+            <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                    <!-- Play/Pause Button -->
+                    <button id="playPauseBtn" class="w-12 h-12 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-full flex items-center justify-center shadow transition-all focus:outline-none">
+                        <i data-lucide="play" id="playIcon" class="w-6 h-6 fill-current ml-0.5"></i>
+                        <i data-lucide="pause" id="pauseIcon" class="w-6 h-6 fill-current hidden"></i>
+                    </button>
+
+                    <!-- Time & Progress Bar -->
+                    <div class="flex-1 space-y-1">
+                        <div class="flex justify-between text-xs font-semibold text-slate-600">
+                            <span id="currentTime">00:00</span>
+                            <span id="durationTime">00:00</span>
+                        </div>
+                        <input type="range" id="progressBar" value="0" min="0" step="0.1" 
+                               class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                    </div>
+                </div>
+
+                <!-- Secondary Controls: Speed & Volume -->
+                <div class="flex items-center justify-between pt-2 text-xs text-slate-600">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="volume-2" class="w-4 h-4 text-slate-500"></i>
+                        <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="1" class="w-20 sm:w-28 h-1.5 bg-slate-200 rounded appearance-none cursor-pointer">
+                    </div>
+
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-medium text-slate-500">Velocidade:</span>
+                        <button id="speedBtn" class="px-2 py-1 bg-white border border-slate-300 hover:bg-slate-100 rounded font-bold text-slate-700 shadow-sm transition">
+                            1.0x
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: CONTEXTO E FUNDAMENTAÇÃO LEGAL -->
+        <section class="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-2 border-b border-slate-200">
+                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-lg">1</div>
+                <h2 class="text-xl font-bold text-slate-900">Contexto Normativo e Fundamentos das DCNEM (Res. CNE/CEB nº 2/2024)</h2>
+            </div>
+
+            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                A <span class="font-bold text-slate-900">Resolução CNE/CEB nº 2, de 13 de novembro de 2024</span>, consolida e atualiza as <span class="grifo">Diretrizes Curriculares Nacionais para o Ensino Médio (DCNEM)</span>. Essa norma é o resultado direto da aprovação da <span class="font-bold text-slate-900">Lei nº 14.945/2024</span>, que reformulou a estrutura do Ensino Médio e alterou a LDB (Lei nº 9.394/1996) para corrigir distorções da reforma anterior (Lei 13.415/2017).
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                    <div class="font-bold text-blue-900 text-sm mb-1">Aplicações no IFSC (Rede Federal)</div>
+                    <p class="text-xs text-slate-600 leading-normal">
+                        Aplica-se obrigatoriamente a todas as instituições públicas de Ensino Médio, com destaque para a <span class="grifo-azul">Rede Federal de Educação Profissional, Científica e Tecnológica (EPT)</span> na oferta de cursos técnicos integrados.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                    <div class="font-bold text-blue-900 text-sm mb-1">Trabalho como Princípio Educativo</div>
+                    <p class="text-xs text-slate-600 leading-normal">
+                        Supera a dicotomia histórico-social entre ensino propedêutico (acadêmico) e instrumental (manual). O trabalho é compreendido como ontológico e elemento de <span class="grifo">emancipação humana</span>.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                    <div class="font-bold text-blue-900 text-sm mb-1">Pesquisa como Princípio Pedagógico</div>
+                    <p class="text-xs text-slate-600 leading-normal">
+                        A postura investigativa é colocada como eixo gerador de conhecimento de forma a estimular o pensamento crítico, a inovação e o espírito científico nos alunos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: CARGA HORÁRIA E ESTRUTURA METRICA -->
+        <section class="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-2 border-b border-slate-200">
+                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-lg">2</div>
+                <h2 class="text-xl font-bold text-slate-900">Quadro-Resumo das Cargas Horárias (Ponto Crítico de Prova)</h2>
+            </div>
+
+            <p class="text-sm text-slate-600 mb-4">
+                A fixação da carga horária é o tópico mais propenso a pegadinhas de números pela banca <span class="font-bold text-slate-900">FAURGS</span>. Decore estes parâmetros:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                    <div class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1">Carga Horária Total Mínima</div>
+                    <div class="text-2xl font-black text-slate-900 mb-1"><span class="grifo">Mínimo 3.000h</span></div>
+                    <p class="text-xs text-slate-600">Distribuídas ao longo de 3 anos letivos no Ensino Médio regular (mínimo de 200 dias letivos/ano).</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                    <div class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1">FGB — Ensino Médio Regular</div>
+                    <div class="text-2xl font-black text-slate-900 mb-1"><span class="grifo">Mínimo 2.400h</span></div>
+                    <p class="text-xs text-slate-600">Formação Geral Básica obrigatória para ofertas com itinerários propedêuticos/acadêmicos.</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                    <div class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1">FGB — Itinerário Técnico (IFTP)</div>
+                    <div class="text-2xl font-black text-slate-900 mb-1"><span class="grifo-verde">Mínimo 2.100h</span></div>
+                    <p class="text-xs text-slate-600">Exceção legal específica quando o estudante realiza habilitação profissional técnica.</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                    <div class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1">Regra das 300h de Articulação</div>
+                    <div class="text-xl font-bold text-slate-900 mb-1"><span class="grifo-azul">Até 300 horas</span></div>
+                    <p class="text-xs text-slate-600">Da FGB podem ser destinadas ao aprofundamento das áreas do conhecimento conexas ao curso técnico (não reduz a carga total do curso!).</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                    <div class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1">Itinerários Acadêmicos (IFA)</div>
+                    <div class="text-xl font-bold text-slate-900 mb-1"><span class="grifo">Mínimo 600h</span></div>
+                    <p class="text-xs text-slate-600">Para itinerários de aprofundamento em áreas do conhecimento (complementando as 2.400h da FGB).</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                    <div class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1">EJA Integrada à EPT</div>
+                    <div class="text-sm font-bold text-slate-900 space-y-1">
+                        <div>• Qualificação FIC: <span class="grifo">Mínimo 1.200h</span></div>
+                        <div>• Habilitação Técnica: <span class="grifo">Mínimo 2.400h</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: FGB E COMPONENTES CURRICULARES -->
+        <section class="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-2 border-b border-slate-200">
+                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-lg">3</div>
+                <h2 class="text-xl font-bold text-slate-900">Estrutura da Formação Geral Básica (FGB) e Componentes</h2>
+            </div>
+
+            <p class="text-sm text-slate-600 mb-4">
+                A FGB é obrigatória a todos os estudantes e está organizada nas <span class="font-bold text-slate-900">4 Áreas do Conhecimento da BNCC</span>:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Area 1 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                    <div class="font-bold text-base text-blue-900 mb-2 flex items-center gap-2">
+                        <i data-lucide="book-open" class="w-5 h-5 text-blue-600"></i>
+                        1. Linguagens e suas Tecnologias
+                    </div>
+                    <ul class="text-sm space-y-2 text-slate-700">
+                        <li>• <span class="font-semibold">Língua Portuguesa</span> (obrigatória nos 3 anos do Ensino Médio), Língua Inglesa, Artes e Educação Física.</li>
+                        <li class="bg-amber-50 border-l-4 border-amber-400 p-2.5 text-xs text-amber-900 font-medium rounded-r">
+                            <strong>Atenção FAURGS:</strong> A <span class="grifo">Língua Inglesa é OBRIGATÓRIA</span>. A Língua Espanhola tem oferta <span class="grifo">FACULTATIVA / FOMENTO</span> pelas redes de ensino, não sendo componente obrigatório nacional da FGB.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Area 2 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                    <div class="font-bold text-base text-blue-900 mb-2 flex items-center gap-2">
+                        <i data-lucide="calculator" class="w-5 h-5 text-blue-600"></i>
+                        2. Matemática e suas Tecnologias
+                    </div>
+                    <ul class="text-sm space-y-2 text-slate-700">
+                        <li>• Componente Curricular: <span class="font-bold">Matemática</span>.</li>
+                        <li class="bg-blue-50 border-l-4 border-blue-400 p-2.5 text-xs text-blue-900 font-medium rounded-r">
+                            <strong>Obrigatoriedade Trienal:</strong> Assim como Língua Portuguesa, o ensino de Matemática deve estar presente em <span class="grifo-azul">TODOS OS TRÊS ANOS</span> do Ensino Médio.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Area 3 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                    <div class="font-bold text-base text-blue-900 mb-2 flex items-center gap-2">
+                        <i data-lucide="flask-conical" class="w-5 h-5 text-blue-600"></i>
+                        3. Ciências da Natureza e suas Tecnologias
+                    </div>
+                    <ul class="text-sm space-y-1 text-slate-700">
+                        <li>• Biologia, Física e Química.</li>
+                        <li class="text-xs text-slate-600 mt-2">Garante contextualização interdisciplinar e aplicação científica em projetos.</li>
+                    </ul>
+                </div>
+
+                <!-- Area 4 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                    <div class="font-bold text-base text-blue-900 mb-2 flex items-center gap-2">
+                        <i data-lucide="globe" class="w-5 h-5 text-blue-600"></i>
+                        4. Ciências Humanas e Sociais Aplicadas
+                    </div>
+                    <ul class="text-sm space-y-2 text-slate-700">
+                        <li>• História, Geografia, Filosofia e Sociologia.</li>
+                        <li class="bg-amber-50 border-l-4 border-amber-400 p-2.5 text-xs text-amber-900 font-medium rounded-r">
+                            <strong>Garantia Explícita:</strong> A Resolução 2/2024 assegura expressamente os estudos e práticas de <span class="grifo">Filosofia e Sociologia</span> nas matrizes curriculares de forma obrigatória.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: EIXOS ESTRUTURANTES DOS ITINERÁRIOS -->
+        <section class="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-2 border-b border-slate-200">
+                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-lg">4</div>
+                <h2 class="text-xl font-bold text-slate-900">Os 4 Eixos Estruturantes dos Itinerários Formativos</h2>
+            </div>
+
+            <p class="text-sm text-slate-600 mb-4">
+                Todo e qualquer itinerário formativo (seja de Aprofundamento Acadêmico - IFA, seja de Formação Técnica e Profissional - IFTP) deve ser organizado a partir de pelo menos um dos seguintes eixos pedagógicos:
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="border border-slate-200 p-4 rounded-lg bg-slate-50">
+                    <div class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                        1. Investigação Científica
+                    </div>
+                    <p class="text-xs text-slate-600">Foco no uso do método científico, formulação e teste de hipóteses, testes de laboratório, produção e rigor acadêmico.</p>
+                </div>
+
+                <div class="border border-slate-200 p-4 rounded-lg bg-slate-50">
+                    <div class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                        2. Processos Criativos
+                    </div>
+                    <p class="text-xs text-slate-600">Foco na idealização, prototipagem, design de soluções, produção artística e criação de produtos e tecnologias.</p>
+                </div>
+
+                <div class="border border-slate-200 p-4 rounded-lg bg-slate-50">
+                    <div class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
+                        3. Mediação e Intervenção Sociocultural
+                    </div>
+                    <p class="text-xs text-slate-600">Foco na mediação de conflitos, direitos humanos, desenvolvimento sustentável e atuação comunitária e socioambiental.</p>
+                </div>
+
+                <div class="border border-slate-200 p-4 rounded-lg bg-slate-50">
+                    <div class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+                        4. Mundo do Trabalho e Transformação Social
+                    </div>
+                    <p class="text-xs text-slate-600">Foco no empreendedorismo ético, inovação no setor produtivo, direitos trabalhistas e impacto socioeconômico.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CONCEITOS-CHAVE E DIRETRIZES OPERACIONAIS -->
+        <section class="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-2 border-b border-slate-200">
+                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-lg">5</div>
+                <h2 class="text-xl font-bold text-slate-900">Conceitos-Chave e Diretrizes Operacionais Obrigatórias</h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="border-l-4 border-amber-500 bg-slate-50 p-3.5 rounded-r">
+                    <h3 class="font-bold text-slate-900 text-base">Projeto de Vida</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 mt-1">
+                        É uma dimensão curricular <span class="grifo">TRANSVERSAL E CONTÍNUA</span> dedicada a orientar o estudante no desenvolvimento pessoal, cidadão e profissional. <span class="grifo">NÃO É UMA DISCIPLINA ISOLADA</span> com finalidade de retenção/reprovação tradicional.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-emerald-600 bg-slate-50 p-3.5 rounded-r">
+                    <h3 class="font-bold text-slate-900 text-base">Princípio da Presencialidade</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 mt-1">
+                        O Ensino Médio é predominantemente <span class="grifo-verde">PRESENCIAL</span>. Atividades mediadas por tecnologia (EaD/ensino remoto) são admitidas apenas em <span class="grifo">SITUAÇÕES EXCEPCIONAIS E REGULAMENTADAS</span> (ex.: atendimento a populações ribeirinhas, itinerantes ou emergências de saúde/clima).
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-purple-600 bg-slate-50 p-3.5 rounded-r">
+                    <h3 class="font-bold text-slate-900 text-base">Notório Saber</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 mt-1">
+                        A admissão de profissionais com Notório Saber é restrita <span class="grifo">EXCLUSIVAMENTE AO ITINERÁRIO TÉCNICO (IFTP)</span> e condicionada à <span class="grifo">AUSÊNCIA DE DOCENTES LICENCIADOS</span> habilitados na área específica. É sumariamente vedado na FGB e nos itinerários acadêmicos.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-blue-600 bg-slate-50 p-3.5 rounded-r">
+                    <h3 class="font-bold text-slate-900 text-base">Práticas Profissionais e Estágio Supervisionado</h3>
+                    <p class="text-xs sm:text-sm text-slate-700 mt-1">
+                        No itinerário técnico (IFTP), as vivências em ambiente de trabalho podem assumir formatos flexíveis: estágios, atividades em laboratórios, oficinas, projetos integradores, empresas simuladas e pesquisa aplicada.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: TABELA ANTIPEGADINHA FAURGS -->
+        <section class="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-2 border-b border-slate-200">
+                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-lg">6</div>
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">Tabela Antipegadinha FAURGS (Exame de Véspera)</h2>
+                    <p class="text-xs text-slate-600">Configurada com quebra de linha dinâmica (zero scroll horizontal)</p>
+                </div>
+            </div>
+
+            <!-- RESPONSIVE TABLE WRAPPER (NO HORIZONTAL SCROLL) -->
+            <div class="w-full overflow-hidden border border-slate-200 rounded-lg">
+                <table class="w-full table-fixed text-left border-collapse">
+                    <colgroup>
+                        <col class="w-1/4 sm:w-1/4">
+                        <col class="w-3/8 sm:w-3/8">
+                        <col class="w-3/8 sm:w-3/8">
+                    </colgroup>
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-900 text-xs sm:text-sm font-extrabold border-b border-slate-300">
+                            <th class="p-2.5 md:p-3.5 break-words">Tópico Normativo</th>
+                            <th class="p-2.5 md:p-3.5 break-words text-red-700 bg-red-50/50">Armadilha da Banca (FAURGS)</th>
+                            <th class="p-2.5 md:p-3.5 break-words text-emerald-800 bg-emerald-50/50">Regra Legal Correta (Res. 2/2024)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-xs sm:text-sm">
+                        <!-- Row 1 -->
+                        <tr class="hover:bg-slate-50/80">
+                            <td class="p-2.5 md:p-3.5 font-bold text-slate-900 break-words">Carga da FGB</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-700 break-words">Afirmar que a FGB é sempre de 2.400 horas sem exceções.</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-800 break-words">Na Formação Técnica (IFTP), a carga da FGB reduz para o mínimo de <span class="grifo-verde">2.100 horas</span>.</td>
+                        </tr>
+
+                        <!-- Row 2 -->
+                        <tr class="hover:bg-slate-50/80 bg-slate-50/30">
+                            <td class="p-2.5 md:p-3.5 font-bold text-slate-900 break-words">Regra das 300h</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-700 break-words">Alegar que as 300h de articulação diminuem o total do curso para 2.700h.</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-800 break-words">A carga total do curso permanece obrigatoriamente no <span class="grifo">mínimo de 3.000 horas</span>.</td>
+                        </tr>
+
+                        <!-- Row 3 -->
+                        <tr class="hover:bg-slate-50/80">
+                            <td class="p-2.5 md:p-3.5 font-bold text-slate-900 break-words">Língua Estrangeira</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-700 break-words">Apresentar o Espanhol como idioma obrigatório na FGB em todo o país.</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-800 break-words">Apenas o <span class="grifo">Inglês é obrigatório</span> na FGB; o Espanhol é facultativo/fomento.</td>
+                        </tr>
+
+                        <!-- Row 4 -->
+                        <tr class="hover:bg-slate-50/80 bg-slate-50/30">
+                            <td class="p-2.5 md:p-3.5 font-bold text-slate-900 break-words">Ensino a Distância</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-700 break-words">Sugerir que a FGB regular pode ser cursada em até 20% ou 40% em EaD sem restrições.</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-800 break-words">A regra é a <span class="grifo">presencialidade</span>; EaD é exceção regulamentada e justificada.</td>
+                        </tr>
+
+                        <!-- Row 5 -->
+                        <tr class="hover:bg-slate-50/80">
+                            <td class="p-2.5 md:p-3.5 font-bold text-slate-900 break-words">Projeto de Vida</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-700 break-words">Definir Projeto de Vida como matéria comum passível de aprovação/reprovação.</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-800 break-words">Trata-se de uma <span class="grifo">dimensão transversal e contínua</span> sem notas eliminatórias.</td>
+                        </tr>
+
+                        <!-- Row 6 -->
+                        <tr class="hover:bg-slate-50/80 bg-slate-50/30">
+                            <td class="p-2.5 md:p-3.5 font-bold text-slate-900 break-words">Notório Saber</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-700 break-words">Permitir Notório Saber na FGB ou em áreas propedêuticas da BNCC.</td>
+                            <td class="p-2.5 md:p-3.5 text-slate-800 break-words">Admitido <span class="grifo">APENAS no itinerário técnico (IFTP)</span> quando comprovada a ausência de licenciados.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 7: ESTRATÉGIA DE PROVA PARA DOCENTE EBTT -->
+        <section class="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-2 border-b border-slate-200">
+                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-lg">7</div>
+                <h2 class="text-xl font-bold text-slate-900">Estratégias de Resolução para Concurso de Professor do IFSC</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-700">
+                <div class="bg-blue-50/50 border border-blue-200 p-4 rounded-lg">
+                    <div class="font-bold text-blue-900 text-base mb-1.5 flex items-center gap-2">
+                        <i data-lucide="check-square" class="w-4 h-4 text-blue-600"></i>
+                        Atenção aos Termos Absolutos
+                    </div>
+                    <p class="leading-relaxed">
+                        Em questões sobre Legislação Pedagógica da FAURGS, palavras como "exclusivamente", "sempre" ou "em todos os casos" costumam indicar alternativas incorretas, exceto no caso do ensino presencial e na obrigatoriedade trienal de Português/Matemática.
+                    </p>
+                </div>
+
+                <div class="bg-blue-50/50 border border-blue-200 p-4 rounded-lg">
+                    <div class="font-bold text-blue-900 text-base mb-1.5 flex items-center gap-2">
+                        <i data-lucide="award" class="w-4 h-4 text-blue-600"></i>
+                        Especificidade da EPT nos Institutos Federais
+                    </div>
+                    <p class="leading-relaxed">
+                        Lembre-se de que no IFSC a oferta prioritária é o Ensino Médio Técnico Integrado. Portanto, atente para o limite de <span class="font-semibold text-slate-900">2.100h de FGB</span> e a integração dos cursos técnicos no âmbito da EPT.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTTOM ACTION BUTTON SECTION -->
+        <section class="bg-blue-50 border border-blue-200 rounded-xl p-6 text-center space-y-4 shadow-sm my-8">
+            <div class="inline-flex items-center justify-center p-3 bg-blue-600 text-white rounded-full">
+                <i data-lucide="check-circle" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900">
+                Pronto para testar seus conhecimentos?
+            </h3>
+            <p class="text-sm text-slate-600 max-w-xl mx-auto">
+                Acesse a página de questões de fixação desenhadas conforme o padrão da banca FAURGS para testar sua retenção de conteúdo.
+            </p>
+            <div>
+                <a href="questoes22.html" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-base px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all active:scale-95">
+                    <i data-lucide="help-circle" class="w-5 h-5"></i>
+                    <span>Acessar Questões de Fixação</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-100 border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-5xl mx-auto px-4">
+            <p>Material Estudo Completo EBTT — IFSC | Banca FAURGS</p>
+            <p class="mt-1">Resolução CNE/CEB nº 2, de 13 de novembro de 2024 (DCNEM)</p>
+        </div>
+    </footer>
+
+    <!-- AUDIO PLAYER SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Lucide icons
+            lucide.createIcons();
+
+            const audio = document.getElementById('audioSource');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            const progressBar = document.getElementById('progressBar');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationTimeEl = document.getElementById('durationTime');
+            const volumeControl = document.getElementById('volumeControl');
+            const speedBtn = document.getElementById('speedBtn');
+            const audioFileNameInput = document.getElementById('audioFileName');
+            const updateAudioBtn = document.getElementById('updateAudioBtn');
+
+            // Format seconds into MM:SS
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return "00:00";
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+
+            // Play / Pause Toggle
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play().then(() => {
+                        playIcon.classList.add('hidden');
+                        pauseIcon.classList.remove('hidden');
+                    }).catch(e => {
+                        console.warn("Playback prevented or audio file not found:", e);
+                        alert("Não foi possível reproduzir o áudio. Verifique se o arquivo MP3 está na mesma pasta e com o nome correto.");
+                    });
+                } else {
+                    audio.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                }
+            });
+
+            // Update Progress Bar & Time
+            audio.addEventListener('timeupdate', () => {
+                if (!isNaN(audio.duration)) {
+                    progressBar.max = audio.duration;
+                    progressBar.value = audio.currentTime;
+                    currentTimeEl.textContent = formatTime(audio.currentTime);
+                }
+            });
+
+            // Metadata Loaded
+            audio.addEventListener('loadedmetadata', () => {
+                durationTimeEl.textContent = formatTime(audio.duration);
+                progressBar.max = audio.duration;
+            });
+
+            // Seek Position
+            progressBar.addEventListener('input', () => {
+                audio.currentTime = progressBar.value;
+            });
+
+            // Volume Control
+            volumeControl.addEventListener('input', (e) => {
+                audio.volume = e.target.value;
+            });
+
+            // Playback Speed Toggle (1x -> 1.25x -> 1.5x -> 2x -> 1x)
+            const speeds = [1.0, 1.25, 1.5, 2.0];
+            let speedIndex = 0;
+
+            speedBtn.addEventListener('click', () => {
+                speedIndex = (speedIndex + 1) % speeds.length;
+                const newSpeed = speeds[speedIndex];
+                audio.playbackRate = newSpeed;
+                speedBtn.textContent = `${newSpeed.toFixed(1)}x`;
+            });
+
+            // Update Audio File Source
+            function updateAudioSource() {
+                const fileName = audioFileNameInput.value.trim();
+                if (fileName) {
+                    const audioSrc = document.getElementById('audioSrc');
+                    audioSrc.src = fileName;
+                    audio.load();
+                    audio.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                    currentTimeEl.textContent = "00:00";
+                    durationTimeEl.textContent = "00:00";
+                }
+            }
+
+            updateAudioBtn.addEventListener('click', updateAudioSource);
+            audioFileNameInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    updateAudioSource();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
