@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-[#fbfbfa]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS: Ensino, Pesquisa e Extensão na EPT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        warmbg: '#fcfbf9',
+                        cardbg: '#ffffff',
+                        paper: '#f6f5f1',
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            800: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #faf9f6;
+            color: #262626;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .serif-text {
+            font-family: 'Merriweather', Georgia, serif;
+        }
+        .option-card {
+            transition: all 0.15s ease-in-out;
+        }
+        .option-card:hover:not(.disabled) {
+            border-color: #3b82f6;
+            background-color: #f0f7ff;
+        }
+        .custom-radio {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            outline: none;
+            transition: all 0.15s ease-in-out;
+        }
+        .custom-radio:checked {
+            border-color: #2563eb;
+            background-color: #2563eb;
+            box-shadow: inset 0 0 0 3px #ffffff;
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col justify-between text-neutral-800">
+
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    F
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold text-stone-800 leading-tight">Simulado FAURGS</h1>
+                    <p class="text-xs text-stone-500 font-medium">Articulação entre Ensino, Pesquisa e Extensão na EPT</p>
+                </div>
+            </div>
+
+            <!-- Header Status -->
+            <div class="flex items-center gap-4 text-xs sm:text-sm font-medium">
+                <div class="bg-stone-100 text-stone-700 px-3 py-1.5 rounded-lg border border-stone-200">
+                    Respondidas: <span id="answered-count" class="font-bold text-blue-700">0</span>/10
+                </div>
+                <button id="top-submit-btn" onclick="submitQuiz()" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-1.5 rounded-lg font-semibold shadow-sm transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check">
+                    <span>Finalizar</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-stone-200 h-1.5">
+            <div id="progress-bar" class="bg-blue-600 h-1.5 w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 flex-grow">
+        
+        <!-- Instructions Box (Shown before submission) -->
+        <div id="intro-card" class="bg-white rounded-2xl p-6 border border-stone-200/80 shadow-sm mb-8">
+            <h2 class="text-lg font-bold text-stone-800 mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap text-blue-700"></i>
+                Instruções do Simulado
+            </h2>
+            <p class="text-stone-600 text-sm sm:text-base leading-relaxed mb-4">
+                Este simulado contém exatamente as 10 questões originais elaboradas no estilo da banca <strong>FAURGS</strong> sobre o tema <em>Articulação entre Ensino, Pesquisa e Extensão na Educação Profissional e Tecnológica</em>.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm">
+                <div class="bg-stone-50 border border-stone-200 p-3 rounded-xl flex items-center gap-3">
+                    <i class="fa-regular fa-clock text-blue-600 text-lg"></i>
+                    <div>
+                        <span class="block font-semibold text-stone-700">Sem limite de tempo</span>
+                        <span class="text-stone-500">Leia no seu próprio ritmo</span>
+                    </div>
+                </div>
+                <div class="bg-stone-50 border border-stone-200 p-3 rounded-xl flex items-center gap-3">
+                    <i class="fa-regular fa-eye text-blue-600 text-lg"></i>
+                    <div>
+                        <span class="block font-semibold text-stone-700">Fundo descansado</span>
+                        <span class="text-stone-500">Tipografia de alta legibilidade</span>
+                    </div>
+                </div>
+                <div class="bg-stone-50 border border-stone-200 p-3 rounded-xl flex items-center gap-3">
+                    <i class="fa-solid fa-book-open text-blue-600 text-lg"></i>
+                    <div>
+                        <span class="block font-semibold text-stone-700">Resoluções completas</span>
+                        <span class="text-stone-500">Gabarito comentado ao finalizar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Score & Result Dashboard (Hidden until submission) -->
+        <div id="result-dashboard" class="hidden bg-white rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-md mb-8">
+            <div class="text-center pb-6 border-b border-stone-200">
+                <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
+                    Resultado Final
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-800 mb-2">
+                    Você acertou <span id="score-text" class="text-blue-700">0</span> de 10 questões!
+                </h2>
+                <p id="feedback-message" class="text-stone-600 text-sm sm:text-base font-medium max-w-xl mx-auto">
+                    Confira abaixo a resolução comentada de cada uma das questões.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 text-center">
+                <div class="bg-stone-50 p-4 rounded-xl border border-stone-200">
+                    <span class="text-xs font-semibold text-stone-500 uppercase tracking-wider block mb-1">Taxa de Acerto</span>
+                    <span id="score-percentage" class="text-xl sm:text-2xl font-bold text-stone-800">0%</span>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200">
+                    <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider block mb-1">Acertos</span>
+                    <span id="score-correct" class="text-xl sm:text-2xl font-bold text-emerald-700">0</span>
+                </div>
+                <div class="bg-rose-50 p-4 rounded-xl border border-rose-200">
+                    <span class="text-xs font-semibold text-rose-600 uppercase tracking-wider block mb-1">Erros</span>
+                    <span id="score-incorrect" class="text-xl sm:text-2xl font-bold text-rose-700">0</span>
+                </div>
+                <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+                    <span class="text-xs font-semibold text-amber-600 uppercase tracking-wider block mb-1">Em branco</span>
+                    <span id="score-blank" class="text-xl sm:text-2xl font-bold text-amber-700">0</span>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-center">
+                <button onclick="resetQuiz()" class="bg-stone-800 hover:bg-stone-900 text-white font-semibold px-6 py-2.5 rounded-xl shadow transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right">
+                    Refazer Simulado
+                </button>
+            </div>
+        </div>
+
+        <form id="quiz-form" onsubmit="event.preventDefault(); submitQuiz();">
+            <div id="questions-container" class="space-y-8">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Bottom Action Bar -->
+            <div class="mt-10 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-stone-200 shadow-sm">
+                <div class="text-sm text-stone-600 text-center sm:text-left">
+                    Verifique se você respondeu a todas as 10 questões antes de enviar.
+                </div>
+                <button type="button" id="bottom-submit-btn" onclick="submitQuiz()" class="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white text-base font-bold px-8 py-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-check-double">
+                    Finalizar e Ver Gabarito
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-stone-200 py-6 text-center text-xs text-stone-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>Simulado Preparatório para Concursos — Questões no estilo da Banca FAURGS</p>
+            <p class="mt-1">Ensino, Pesquisa e Extensão na Educação Profissional e Tecnológica (EPT)</p>
+        </div>
+    </footer>
+
+    <script>
+        // Full Question Bank - Exact content from document
+        const quizData = [
+            {
+                id: 1,
+                title: "Questão 01",
+                statement: "Considere as seguintes afirmações sobre a fundamentação legal e conceitual da indissociabilidade entre ensino, pesquisa e extensão na Educação Profissional e Tecnológica (EPT) no âmbito da Rede Federal de Educação Profissional, Científica e Tecnológica.<br><br>" +
+                           "<strong>I</strong> - A Lei nº 11.892/2008 institui a Rede Federal e qualifica os Institutos Federais como instituições de educação superior, básica e profissional, pluricurriculares e multicampi, cuja organização didático-pedagógica fundamenta-se obrigatoriamente na indissociabilidade entre ensino, pesquisa e extensão.<br>" +
+                           "<strong>II</strong> - No contexto da EPT, a extensão deve ser compreendida como uma atividade estritamente assistencialista e hierarquicamente subordinada ao ensino formal, tendo como finalidade exclusiva a prestação de serviços mercadológicos e o treinamento operacional de mão de obra.<br>" +
+                           "<strong>III</strong> - A pesquisa na EPT assume a dupla dimensão de princípio pedagógico e princípio científico, articulando o aprendizado em sala de aula e nos laboratórios à investigação aplicada e à solução de demandas socioeconômicas e culturais regionais.",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e III." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: "<strong>Gabarito: C</strong><br><br>" +
+                            "A análise das assertivas fundamenta-se na legislação e na literatura de sustentação da Educação Profissional e Tecnológica no Brasil:<br><br>" +
+                            "• <strong>Assertiva I (Correta):</strong> A Lei nº 11.892/2008, no seu artigo 1º e nos incisos do artigo 6º, define a criação e as finalidades da Rede Federal de EPT, estabelecendo os Institutos Federais como autarquias pluricurriculares e multicampi vinculadas ao Ministério da Educação. O diploma legal estabelece que a atuação institucional em todos os níveis e modalidades pauta-se pelo princípio constitucional da indissociabilidade entre ensino, pesquisa e extensão.<br>" +
+                            "• <strong>Assertiva II (Incorreta):</strong> No paradigma conceitual da EPT crítica e emancipatória, a extensão não se resume ao assistencialismo nem se reduz à prestação mercantil de serviços. Conforme as diretrizes norteadoras da extensão na Rede Federal, ela é concebida como um processo acadêmico dialógico que integra o ensino e a pesquisa, conectando a instituição às demandas reais da sociedade para promover a cidadania e a inclusão social.<br>" +
+                            "• <strong>Assertiva III (Correta):</strong> A pesquisa na EPT diferencia-se da vertente exclusivamente acadêmica ou abstrata ao assumir um caráter duplamente estratégico: atua como princípio pedagógico no processo de ensino-aprendizagem (fomentando a postura investigativa dos estudantes) e como princípio científico voltado à pesquisa aplicada, à inovação e ao desenvolvimento local e regional sustentável.<br><br>" +
+                            "Com base no julgamento dos itens, estão corretas as afirmações I e III (Alternativa C)."
+            },
+            {
+                id: 2,
+                title: "Questão 02",
+                statement: "Assinale com V (verdadeiro) ou F (falso) as afirmações abaixo referentes ao trabalho como princípio educativo, à formação omnilateral e à integração curricular na Educação Profissional e Tecnológica.<br><br>" +
+                           "( &nbsp; ) A articulação entre ensino, pesquisa e extensão visa a superar a histórica dualidade estrutural da educação brasileira, eliminando a divisão entre o \"fazer\" focado no adestramento técnico e o \"pensar\" focado na formação propedêutica das elites.<br>" +
+                           "( &nbsp; ) A adoção da pesquisa como princípio pedagógico no Ensino Médio Integrado restringe-se ao preenchimento de relatórios padronizados de laboratório, sendo vedado o envolvimento dos discentes na investigação científica de problemas da realidade social local.<br>" +
+                           "( &nbsp; ) A extensão na EPT configura-se como um processo educativo, cultural e científico dialógico que viabiliza a interpenetração entre o conhecimento acadêmico e os saberes da comunidade.<br>" +
+                           "( &nbsp; ) O Projeto Pedagógico do Curso (PPC) deve promover a flexibilização curricular por meio de projetos integradores e componentes interdisciplinares que articulem as disciplinas de base geral às ações de pesquisa aplicada e extensão.",
+                options: [
+                    { letter: "A", text: "V – F – V – V." },
+                    { letter: "B", text: "V – V – F – F." },
+                    { letter: "C", text: "F – V – V – F." },
+                    { letter: "D", text: "V – F – F – V." },
+                    { letter: "E", text: "F – F – V – V." }
+                ],
+                correct: "A",
+                resolution: "<strong>Gabarito: A</strong><br><br>" +
+                            "A análise do preenchimento das afirmações pauta-se nos referenciais da formação omnilateral na EPT:<br><br>" +
+                            "• <strong>Primeira afirmação (Verdadeira):</strong> A literatura da EPT aponta que o ensino integrado e a indissociabilidade visam a superar a histórica dualidade educacional brasileira, responsável por separar a formação técnica e instrumental destinada às classes trabalhadoras da formação propedêutica e científica voltada às elites. A articulação do tripé acadêmico reúne o \"pensar\" e o \"fazer\" no processo de formação integral.<br>" +
+                            "• <strong>Segunda afirmação (Falsa):</strong> A pesquisa enquanto princípio pedagógico no Ensino Médio Integrado não se limita à mera reprodução de protocolos burocráticos ou relatórios fechados de laboratório. O seu objetivo é proporcionar ao estudante a oportunidade de problematizar a realidade, produzir conhecimento e buscar soluções para demandas sociais e técnicas.<br>" +
+                            "• <strong>Terceira afirmação (Verdadeira):</strong> A extensão é compreendida conceitualmente como uma via de mão dupla que propicia a troca contínua entre o conhecimento acadêmico gerado na instituição e os saberes empíricos e culturais presentes na comunidade.<br>" +
+                            "• <strong>Quarta afirmação (Verdadeira):</strong> A estruturação das matrizes curriculares nos Projetos Pedagógicos de Curso (PPCs) da EPT orienta-se pela flexibilização e pela interdisciplinaridade, fazendo uso de ferramentas como projetos integradores para aproximar as disciplinas de formação geral e técnica com as ações de pesquisa e extensão.<br><br>" +
+                            "A sequência correta de preenchimento é V – F – V – V (Alternativa A)."
+            },
+            {
+                id: 3,
+                title: "Questão 03",
+                statement: "Assinale a alternativa que preenche, correta e respectivamente, as lacunas do texto abaixo sobre as dimensões do tripé acadêmico na EPT.<br><br>" +
+                           "<em>\"A indissociabilidade entre ensino, pesquisa e extensão constitui o eixo estruturante do projeto pedagógico da Educação Profissional e Tecnológica. A dimensão da __________ viabiliza a troca de saberes e a democratização do conhecimento acadêmico junto à sociedade, enquanto a __________ impulsiona a produção de novos conhecimentos e metodologias por meio da investigação __________, resultando no desenvolvimento regional e na formação __________ do estudante.\"</em>",
+                options: [
+                    { letter: "A", text: "pesquisa – extensão – teórica – parcial" },
+                    { letter: "B", text: "extensão – pesquisa – aplicada – integral" },
+                    { letter: "C", text: "extensão – pesquisa – abstrata – tecnocrática" },
+                    { letter: "D", text: "pesquisa – pós-graduação – corporativa – funcional" },
+                    { letter: "E", text: "monitoria – extensão – especulativa – fragmentada" }
+                ],
+                correct: "B",
+                resolution: "<strong>Gabarito: B</strong><br><br>" +
+                            "O preenchimento adequado das lacunas requer o domínio das definições e interconexões das três dimensões acadêmicas no ambiente pedagógico da EPT:<br><br>" +
+                            "• A <strong>extensão</strong> atua como o vetor institucional encarregado de promover a troca e a devolução social dos conhecimentos produzidos, aproximando a escola da sociedade.<br>" +
+                            "• A <strong>pesquisa</strong> constitui a dimensão responsável pela investigação metódica, pela inovação tecnológica e pela solução de problemas concretos por meio de investigações de natureza essencialmente <strong>aplicada</strong>.<br>" +
+                            "• A integração indissociável dessas dimensões com a atividade de ensino assegura ao estudante uma formação <strong>integral</strong> (omnilateral), em contraposição às abordagens reducionistas e puramente instrumentalizadoras.<br><br>" +
+                            "A ordem exata e coerente dos termos é extensão – pesquisa – aplicada – integral (Alternativa B)."
+            },
+            {
+                id: 4,
+                title: "Questão 04",
+                statement: "Considere as seguintes afirmações sobre metodologias integradoras e os Núcleos de Estudos na prática pedagógica da EPT.<br><br>" +
+                           "<strong>I</strong> - Os projetos integradores constituem arranjos metodológicos interdisciplinares que conectam a fundamentação teórica, a investigação científica e a intervenção comunitária, efetivando a indissociabilidade no cotidiano escolar.<br>" +
+                           "<strong>II</strong> - A atuação de estruturas institucionais como os Núcleos de Estudos em Agroecologia e Produção Orgânica (NEAs) exemplifica a indissociabilidade ao articular o saber popular (extensão), a experimentação técnico-científica (pesquisa) e a inovação curricular (ensino).<br>" +
+                           "<strong>III</strong> - A participação dos estudantes em projetos de extensão e pesquisa aplicada substitui, de forma integral, a obrigação de cumprimento dos componentes curriculares da base nacional comum previstos na LDB.",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas I e II." },
+                    { letter: "C", text: "Apenas I e III." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "B",
+                resolution: "<strong>Gabarito: B</strong><br><br>" +
+                            "• <strong>Assertiva I (Correta):</strong> Os projetos integradores configuram-se como estratégias pedagógicas e metodológicas articuladoras. Eles unem diferentes áreas do conhecimento para investigar e intervir sobre um problema prático, tornando tangível a integração entre o ensino da sala de aula, a postura investigativa (pesquisa) e o impacto na comunidade (extensão).<br>" +
+                            "• <strong>Assertiva II (Correta):</strong> As experiências desenvolvidas por intermédio dos Núcleos de Estudos em Agroecologia e Produção Orgânica (NEAs) e núcleos de acessibilidade demonstram a concretização da indissociabilidade. Nesses espaços, a pesquisa acadêmica encontra respaldo na experiência comunitária e nos saberes populares dos agricultores locais, gerando inovações tecnológicas e realimentando a estrutura curricular do ensino técnico e superior.<br>" +
+                            "• <strong>Assertiva III (Incorreta):</strong> A realização de projetos de extensão e pesquisa enriquece a trajetória formativa do educando, mas não revoga nem substitui o cumprimento da base nacional comum curricular garantida pela LDB. A articulação do tripé fortalece e ressignifica os conteúdos acadêmicos, sem excluir a formação geral científica e humanística.<br><br>" +
+                            "Estão corretas apenas as afirmações I e II (Alternativa B)."
+            },
+            {
+                id: 5,
+                title: "Questão 05",
+                statement: "Em relação às diretrizes institucionais da Rede Federal e ao uso de abordagens de ensino-aprendizagem orientadas pela articulação entre investigação e prática social, assinale a alternativa CORRETA.",
+                options: [
+                    { letter: "A", text: "Os Institutos Federais devem restringir sua atuação à oferta de treinamentos operacionais de curta duração, sendo-lhes vedada a oferta de cursos de graduação e a execução de projetos de pesquisa acadêmica." },
+                    { letter: "B", text: "O princípio da indissociabilidade orienta que o ensino de nível médio técnico, a graduação e a pós-graduação mantenham-se articulados a projetos de pesquisa aplicada e de extensão tecnológica voltados aos problemas reais da sociedade." },
+                    { letter: "C", text: "As pesquisas aplicadas desenvolvidas na EPT devem atender exclusivamente a demandas corporativas multinacionais, desconsiderando os arranjos produtivos e culturais locais." },
+                    { letter: "D", text: "As atividades extensionistas devem se limitar a eventos comemorativos e extracurriculares, sem vínculo com os objetivos de aprendizagem do itinerário formativo dos cursos técnicos." },
+                    { letter: "E", text: "A legislação aplicável à EPT veda a aplicação de abordagens como a Aprendizagem Baseada em Projetos e o Design Thinking na formulação de atividades investigativas e extensionistas." }
+                ],
+                correct: "B",
+                resolution: "<strong>Gabarito: B</strong><br><br>" +
+                            "• <strong>Alternativa A (Incorreta):</strong> A Lei nº 11.892/2008 assegura a pluricurricularidade dos Institutos Federais, autorizando expressamente a oferta de cursos de formação inicial e continuada, técnicos de nível médio, licenciaturas, bacharelados, engenharias, tecnologia e pós-graduação <em>lato</em> e <em>stricto sensu</em>.<br>" +
+                            "• <strong>Alternativa B (Correta):</strong> Conforme os parâmetros legais da Rede Federal e as diretrizes curriculares da EPT, o princípio da indissociabilidade exige que os diferentes níveis de ensino mantenham-se permanentemente integrados com ações de extensão e de pesquisa aplicada voltadas às demandas sociais e regionais.<br>" +
+                            "• <strong>Alternativa C (Incorreta):</strong> A missão institucional fixada em lei determina que a produção científica e tecnológica na EPT priorize o desenvolvimento local, regional e a consolidação dos Arranjos Produtivos, Sociais e Culturais Locais (APLs).<br>" +
+                            "• <strong>Alternativa D (Incorreta):</strong> As atividades extensionistas integram a matriz curricular dos cursos técnicos e superiores da EPT, devendo estar conectadas aos perfil do egresso e às competências do itinerário formativo.<br>" +
+                            "• <strong>Alternativa E (Incorreta):</strong> O uso de metodologias ativas — tais como a Aprendizagem Baseada em Projetos, a Aprendizagem Baseada em Problemas e o <em>Design Thinking</em> — é estimulado no ensino técnico e tecnológico para operacionalizar de forma colaborativa a articulação entre investigação técnica e intervenção extensionista.<br><br>" +
+                            "Portanto, a alternativa B é a única correta."
+            },
+            {
+                id: 6,
+                title: "Questão 06",
+                statement: "Considere as seguintes afirmações sobre a Teoria da Aprendizagem Significativa de David Ausubel e a sua aplicabilidade na práxis investigativa e extensionista da EPT.<br><br>" +
+                           "<strong>I</strong> - Os conhecimentos prévios e o repertório socio-cultural trazidos pelos estudantes do seu meio comunitário atuam como subsunçores essenciais na construção de novos significados durante as atividades de extensão e pesquisa desenvolvidas na EPT.<br>" +
+                           "<strong>II</strong> - A aprendizagem significativa contrapõe-se à memorização mecânica ao utilizar a pesquisa como princípio pedagógico, integrando os saberes técnicos à formação omnilateral e ao pensamento crítico do educando.<br>" +
+                           "<strong>III</strong> - A diferenciação progressiva e a reconciliação integrativa na estrutura cognitiva ocorrem de modo isolado da prática social, tornando irrelevante o envolvimento dos discentes em problemas reais da comunidade.",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e II." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                resolution: "<strong>Gabarito: C</strong><br><br>" +
+                            "• <strong>Assertiva I (Correta):</strong> Na Teoria da Aprendizagem Significativa formulada por David Ausubel, a construção de novos significados depende da ancoragem das novas informações em conceitos pré-existentes na mente do aprendiz (os subsunçores). Na EPT, os saberes trazidos pela vivência comunitária, pelo trabalho prévio e pelas interações sociais funcionam como subsunçores facilitadores no desenvolvimento de pesquisas e ações de extensão.<br>" +
+                            "• <strong>Assertiva II (Correta):</strong> Ao utilizar a pesquisa como princípio pedagógico, a EPT estimula a reelaboração consciente de conceitos em oposição ao aprendizado puramente mecânico e decorativo, integrando a fundamentação científica à formação reflexiva e ao exercício da cidadania.<br>" +
+                            "• <strong>Assertiva III (Incorreta):</strong> Ausubel enfatiza que as dinâmicas de diferenciação progressiva e reconciliação integrativa ocorrem quando o estudante reorganiza sua estrutura cognitiva ao confrontar a teoria com novas situações de aprendizagem. O contato com a prática social por meio de projetos de extensão e pesquisas aplicadas favorece diretamente essa reorganização cognitiva.<br><br>" +
+                            "Estão corretas as afirmações I e II (Alternativa C)."
+            },
+            {
+                id: 7,
+                title: "Questão 07",
+                statement: "Assinale com V (verdadeiro) ou F (falso) as afirmações abaixo a respeito da gestão, financiamento e suporte operacional à pesquisa aplicada e à extensão na Educação Profissional e Tecnológica.<br><br>" +
+                           "( &nbsp; ) A captação de recursos e a gestão administrativo-financeira de projetos de pesquisa e extensão na EPT podem contar com o apoio de Fundações de Apoio credenciadas, como a Fundação de Apoio da Universidade Federal do Rio Grande do Sul (FAURGS).<br>" +
+                           "( &nbsp; ) O relacionamento de parcerias entre instituições públicas de EPT e Fundações de Apoio anula a autonomia didático-científica e desfigura os objetivos pedagógicos do tripé acadêmico.<br>" +
+                           "( &nbsp; ) Os Núcleos de Inovação Tecnológica (NIT) funcionam como instâncias estratégicas para viabilizar o alinhamento das pesquisas institucionais às demandas de inovação e extensão da comunidade e do setor produtivo local.<br>" +
+                           "( &nbsp; ) A legislação reguladora da Rede Federal veda formalmente a assinatura de acordos de cooperação com cooperativas, empresas públicas, organizações não governamentais e prefeituras municipais para o desenvolvimento de ações extensionistas.",
+                options: [
+                    { letter: "A", text: "V – F – V – F." },
+                    { letter: "B", text: "F – V – F – V." },
+                    { letter: "C", text: "V – V – F – F." },
+                    { letter: "D", text: "F – F – V – V." },
+                    { letter: "E", text: "V – F – F – V." }
+                ],
+                correct: "A",
+                resolution: "<strong>Gabarito: A</strong><br><br>" +
+                            "• <strong>Primeira afirmação (Verdadeira):</strong> Nos termos do arcabouço normativo que rege as Instituições Federais de Ensino (Lei nº 8.958/1994) e do histórico institucional de cooperação regional, o apoio operacional de Fundações de Apoio credenciadas (como a FAURGS) possibilita gerir a captação de recursos e a execução financeira de projetos científicos, tecnológicos e extensionistas.<br>" +
+                            "• <strong>Segunda afirmação (Falsa):</strong> A atuação administrativa e financeira das Fundações de Apoio apoia a realização material dos projetos, ocorrendo sob a supervisão da instituição de ensino. Essa relação de cooperação preserva e garante a autonomia didático-científica e a soberania pedagógica da instituição pública.<br>" +
+                            "• <strong>Terceira afirmação (Verdadeira):</strong> Os Núcleos de Inovação Tecnológica (NIT) foram criados em atendimento à Lei de Inovação (Lei nº 10.973/2004) para gerir as políticas institucionais de proteção ao conhecimento intelectual e fomentar a transferência de tecnologia desenvolvida nos laboratórios de pesquisa para a sociedade.<br>" +
+                            "• <strong>Quarta afirmação (Falsa):</strong> As diretrizes da EPT estimulam formalmente o estabelecimento de convênios e parcerias estratégicas com prefeituras, cooperativas locais, empresas públicas e privadas e organizações da sociedade civil para ampliar o alcance social da extensão e da pesquisa.<br><br>" +
+                            "A sequência correta de preenchimento é V – F – V – F (Alternativa A)."
+            },
+            {
+                id: 8,
+                title: "Questão 08",
+                statement: "Assinale a alternativa que indica CORRETAMENTE o objetivo emancipatório da articulação entre ensino, pesquisa e extensão na consolidação do perfil do egresso da Educação Profissional e Tecnológica.",
+                options: [
+                    { letter: "A", text: "Propiciar o adestramento estritamente comportamental dos estudantes para assegurar adaptação passiva às flutuações e exigências eustáticas do mercado financeiro." },
+                    { letter: "B", text: "Formar um cidadão-trabalhador qualificado, autônomo e crítico, detentor de domínio científico sobre os processos produtivos e capaz de atuar conscientemente na transformação socioeconômica e cultural de seu meio." },
+                    { letter: "C", text: "Garantir uma instrução meramente propedêutica baseada no memoritarismo conceitual desvinculado das inovações tecnológicas contemporâneas." },
+                    { letter: "D", text: "Fragmentar o saber escolar em campos isolados de conhecimento, impedindo o diálogo entre o ensino das ciências básicas e o estudo das tecnologias aplicadas." },
+                    { letter: "E", text: "Suprimir as disciplinas de ciências humanas e sociais da matriz curricular em benefício de um tecnicismo operacional precoce." }
+                ],
+                correct: "B",
+                resolution: "<strong>Gabarito: B</strong><br><br>" +
+                            "• <strong>Alternativa A (Incorreta):</strong> O adestramento de mão de obra reflete a visão reducionista da educação técnica tradicional, renegada pelo projeto político-pedagógico emancipatório da EPT.<br>" +
+                            "• <strong>Alternativa B (Correta):</strong> A articulação indissociável entre o ensino regular, a investigação científica e a ação extensionista visa a garantir a formação omnilateral. Sob esse princípio, busca-se formar um cidadão-trabalhador qualificado do ponto de vista técnico e tecnológico, dotado de postura crítica e autônoma perante a sociedade, capaz de intervir e colaborar para o desenvolvimento de sua região.<br>" +
+                            "• <strong>Alternativa C (Incorreta):</strong> A EPT rejeita o ensino meramente propedêutico e desvinculado dos avanços tecnológicos e da realidade do trabalho.<br>" +
+                            "• <strong>Alternativa D (Incorreta):</strong> A finalidade pedagógica da indissociabilidade é integrar os conhecimentos, superando a fragmentação disciplinar por meio da interdisciplinaridade e da contextualização.<br>" +
+                            "• <strong>Alternativa E (Incorreta):</strong> A legislação que rege os Institutos Federais exige a oferta de no mínimo 50% das suas vagas para o ensino médio técnico integrado, assegurando o espaço da formação geral e humanística do educando.<br><br>" +
+                            "A alternativa correta é a B."
+            },
+            {
+                id: 9,
+                title: "Questão 09",
+                statement: "Considere as seguintes afirmações sobre a organização dos itinerários formativos, a flexibilização curricular e a certificação de saberes no âmbito da EPT.<br><br>" +
+                           "<strong>I</strong> - A flexibilização da matriz curricular orienta-se pela autonomia de escolha formativa do estudante, pela articulação entre teoria e prática por meio de projetos integradores e pela participação em atividades complementares de pesquisa e extensão.<br>" +
+                           "<strong>II</strong> - A estruturação dos itinerários formativos exige o mapeamento contínuo das oportunidades de profissionalização no mundo do trabalho, articulando a estrutura sócio-ocupacional aos fundamentos científico-tecnológicos da produção.<br>" +
+                           "<strong>III</strong> - Os programas institucionais de certificação de saberes e aproveitamento de estudos permitem reconhecer e validar as competências e conhecimentos profissionais previamente adquiridos pelos trabalhadores em sua trajetória de vida e trabalho.",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e III." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correct: "E",
+                resolution: "<strong>Gabarito: E</strong><br><br>" +
+                            "• <strong>Assertiva I (Correta):</strong> A flexibilização da matriz curricular favorece a autonomia do educando ao possibilitar a escolha de caminhos formativos, a realização de projetos integradores de conteúdo e o aproveitamento acadêmico da participação em projetos de pesquisa e programas de extensão.<br>" +
+                            "• <strong>Assertiva II (Correta):</strong> De acordo com a regulamentação do Conselho Nacional de Educação e a diretriz dos Institutos Federais, a montagem dos itinerários formativos exige a análise das reais demandas sócio-ocupacionais da região, articulando a técnica com os fundamentos científicos do processo produtivo.<br>" +
+                            "• <strong>Assertiva III (Correta):</strong> O Artigo 41 da LDB autoriza e regulamenta o processo de Certificação de Saberes Profissionais na EPT. Por meio desse mecanismo institucional, os saberes e competências prontas, desenvolvidos pelos trabalhadores ao longo de sua trajetória profissional e comunitária, podem ser avaliados, reconhecidos e certificados para continuidade de estudos.<br><br>" +
+                            "Todas as afirmações I, II e III estão corretas (Alternativa E)."
+            },
+            {
+                id: 10,
+                title: "Questão 10",
+                statement: "Assinale a alternativa que preenche, correta e respectivamente, as lacunas do texto abaixo quanto à ação docente necessária para a consolidação da indissociabilidade na EPT.<br><br>" +
+                           "<em>\"A efetivação da articulação entre ensino, pesquisa e extensão exige a superação do perfil docente meramente transmissor e a consolidação do professor-__________. Ao transformar a sala de aula e os laboratórios institucionais em ambientes de __________, o docente aproxima os estudantes da realidade social e devolve os conhecimentos produzidos para a comunidade por meio do desenvolvimento __________.\"</em>",
+                options: [
+                    { letter: "A", text: "instrutor – repetibilidade – corporativo" },
+                    { letter: "B", text: "pesquisador – investigação – regional" },
+                    { letter: "C", text: "repassador – memorização – restrito" },
+                    { letter: "D", text: "gestor – adestramento – individual" },
+                    { letter: "E", text: "tutor – reprodução – fabril" }
+                ],
+                correct: "B",
+                resolution: "<strong>Gabarito: B</strong><br><br>" +
+                            "O alinhamento conceitual do texto referente à práxis docente na EPT constrói-se da seguinte forma:<br><br>" +
+                            "• A superação do paradigma tradicional de repasse passivo de conteúdos exige a afirmação do <strong>professor-pesquisador</strong>. Este docente assume uma postura investigativa perante a própria prática e perante a disciplina, estimulando a autoria e a descoberta por parte do estudante.<br>" +
+                            "• A sala de aula e os laboratórios institucionais convertem-se em espaços de <strong>investigação</strong> científica e tecnológica contínua.<br>" +
+                            "• O objetivo final da integração do ensino investigativo à extensão é devolver os resultados pedagógicos e científicos para a sociedade por meio da promoção do desenvolvimento <strong>regional</strong> e social inclusivo.<br><br>" +
+                            "As lacunas são preenchidas correta e respectivamente por pesquisador – investigação – regional (Alternativa B)."
+            }
+        ];
+
+        // State variables
+        let userAnswers = {};
+        let isSubmitted = false;
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q, index) => {
+                const questionNum = index + 1;
+                const card = document.createElement('div');
+                card.id = `q-card-${q.id}`;
+                card.className = "bg-white rounded-2xl p-6 sm:p-8 border border-stone-200/90 shadow-sm transition-all";
+
+                let html = `
+                    <div class="flex items-center justify-between gap-4 mb-4 pb-3 border-b border-stone-100">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-lg text-sm border border-blue-100">
+                                ${q.title}
+                            </span>
+                            <span class="text-xs text-stone-400 font-medium">Banca FAURGS</span>
+                        </div>
+                        <div id="badge-q-${q.id}" class="hidden"></div>
+                    </div>
+
+                    <div class="serif-text text-stone-800 text-base sm:text-lg leading-relaxed mb-6">
+                        ${q.statement}
+                    </div>
+
+                    <div class="space-y-3">
+                `;
+
+                q.options.forEach(opt => {
+                    const optionId = `q${q.id}_opt_${opt.letter}`;
+                    const isChecked = userAnswers[q.id] === opt.letter;
+
+                    html += `
+                        <label id="label_${optionId}" for="${optionId}" 
+                               class="option-card flex items-start gap-4 p-4 rounded-xl border border-stone-200 cursor-pointer bg-white select-none">
+                            <input type="radio" 
+                                   id="${optionId}" 
+                                   name="question_${q.id}" 
+                                   value="${opt.letter}" 
+                                   class="custom-radio mt-0.5 shrink-0"
+                                   ${isChecked ? 'checked' : ''}
+                                   onchange="selectOption(${q.id}, '${opt.letter}')">
+                            <div class="flex-grow text-sm sm:text-base text-stone-700 leading-snug">
+                                <span class="font-bold text-stone-900 mr-1 font-sans">(${opt.letter})</span> ${opt.text}
+                            </div>
+                        </label>
+                    `;
+                });
+
+                html += `</div>`;
+
+                // Resolution Box Container (Hidden by default, shown on submit)
+                html += `
+                    <div id="resolution-q-${q.id}" class="hidden mt-6 pt-6 border-t border-stone-200">
+                        <div class="bg-stone-50 rounded-xl p-5 border border-stone-200 text-stone-800 text-sm sm:text-base leading-relaxed">
+                            <div class="flex items-center gap-2 font-bold text-blue-900 mb-3 text-base font-sans">
+                                <i class="fa-solid fa-book-bookmark text-blue-700"></i>
+                                Resolução Comentada
+                            </div>
+                            <div class="serif-text text-stone-700">
+                                ${q.resolution}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+        }
+
+        // Handle user selection
+        function selectOption(questionId, letter) {
+            if (isSubmitted) return;
+            userAnswers[questionId] = letter;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById('answered-count').innerText = answeredCount;
+            
+            const percentage = (answeredCount / quizData.length) * 100;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        function submitQuiz() {
+            if (isSubmitted) {
+                // Scroll to top dashboard if already submitted
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            isSubmitted = true;
+            let correctScore = 0;
+            let incorrectScore = 0;
+            let blankScore = 0;
+
+            quizData.forEach(q => {
+                const userChoice = userAnswers[q.id];
+                const card = document.getElementById(`q-card-${q.id}`);
+                const badge = document.getElementById(`badge-q-${q.id}`);
+                const resolutionBox = document.getElementById(`resolution-q-${q.id}`);
+
+                badge.classList.remove('hidden');
+
+                if (!userChoice) {
+                    blankScore++;
+                    badge.className = "bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-amber-200";
+                    badge.innerHTML = `<i class="fa-solid fa-circle-minus text-amber-600"></i> Em branco`;
+                } else if (userChoice === q.correct) {
+                    correctScore++;
+                    badge.className = "bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-emerald-200";
+                    badge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Acertou`;
+                } else {
+                    incorrectScore++;
+                    badge.className = "bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-rose-200";
+                    badge.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i> Errou (Sua opção: ${userChoice})`;
+                }
+
+                // Highlight correct and wrong options
+                q.options.forEach(opt => {
+                    const label = document.getElementById(`label_q${q.id}_opt_${opt.letter}`);
+                    const radio = document.getElementById(`q${q.id}_opt_${opt.letter}`);
+                    
+                    radio.disabled = true;
+                    label.classList.add('disabled');
+                    label.classList.remove('cursor-pointer');
+
+                    if (opt.letter === q.correct) {
+                        label.className = "option-card flex items-start gap-4 p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50/70 text-emerald-900 select-none font-medium";
+                    } else if (userChoice === opt.letter && userChoice !== q.correct) {
+                        label.className = "option-card flex items-start gap-4 p-4 rounded-xl border-2 border-rose-400 bg-rose-50/70 text-rose-900 select-none";
+                    } else {
+                        label.className = "option-card flex items-start gap-4 p-4 rounded-xl border border-stone-200 opacity-60 bg-stone-50 select-none";
+                    }
+                });
+
+                // Display resolution directly underneath each question
+                resolutionBox.classList.remove('hidden');
+            });
+
+            // Update Result Dashboard
+            document.getElementById('score-text').innerText = correctScore;
+            document.getElementById('score-correct').innerText = correctScore;
+            document.getElementById('score-incorrect').innerText = incorrectScore;
+            document.getElementById('score-blank').innerText = blankScore;
+            
+            const pct = Math.round((correctScore / quizData.length) * 100);
+            document.getElementById('score-percentage').innerText = `${pct}%`;
+
+            let msg = "";
+            if (pct >= 80) {
+                msg = "Excelente desempenho! Você possui um forte domínio dos conceitos de indissociabilidade na EPT e da legislação correspondente.";
+            } else if (pct >= 50) {
+                msg = "Bom trabalho! Revisando as resoluções comentadas abaixo você fixará perfeitamente os tópicos da FAURGS.";
+            } else {
+                msg = "Vale a pena revisar a legislação (Lei 11.892/2008) e as diretrizes pedagógicas da EPT acompanhando as resoluções abaixo.";
+            }
+            document.getElementById('feedback-message').innerText = msg;
+
+            // Hide intro and show results dashboard
+            document.getElementById('intro-card').classList.add('hidden');
+            document.getElementById('result-dashboard').classList.remove('hidden');
+
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Reset Quiz State
+        function resetQuiz() {
+            userAnswers = {};
+            isSubmitted = false;
+            
+            document.getElementById('intro-card').classList.remove('hidden');
+            document.getElementById('result-dashboard').classList.add('hidden');
+            
+            updateProgress();
+            renderQuestions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            renderQuestions();
+            updateProgress();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Mapeamento e Memorização: LDB na EPT (IFSC / FAURGS)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+        }
+        
+        /* Grifados e Destaques */
+        .highlight-yellow {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        
+        .highlight-green {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        
+        .highlight-red {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        .highlight-blue {
+            background-color: #e0f2fe;
+            color: #075985;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        /* Garantir zero scroll horizontal em tabelas */
+        .table-container {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            white-space: normal !important;
+        }
+
+        /* Estilização suave de reprodutor de áudio */
+        audio::-webkit-media-controls-panel {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 antialiased min-h-screen pb-16">
+
+    <!-- Top Header Navigation -->
+    <header class="border-b border-slate-200 bg-white sticky top-0 z-30 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <span class="bg-emerald-100 text-emerald-800 p-2 rounded-lg font-bold text-xl">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </span>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 leading-tight">LDB na EPT &bull; Concurso EBTT IFSC</h1>
+                    <p class="text-xs text-slate-500 font-medium">Foco de Memorização &amp; Banca FAURGS</p>
+                </div>
+            </div>
+            
+            <a href="questoes.html" class="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-5 py-2.5 rounded-lg transition-all text-sm shadow-sm w-full md:w-auto">
+                <span>Ir para Questões</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 space-y-10">
+
+        <!-- Reprodutor de Áudio MP3 -->
+        <section class="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div class="flex items-center gap-2 text-slate-800 font-bold">
+                    <i class="fa-solid fa-circle-play text-emerald-600 text-xl"></i>
+                    <h2>Aulas em Áudio &bull; Player Explicativo</h2>
+                </div>
+                <span class="text-xs bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full font-medium">
+                    Configure seu MP3
+                </span>
+            </div>
+
+            <!-- Campo de entrada do nome do arquivo MP3 -->
+            <div class="mb-4">
+                <label for="audioFileName" class="block text-xs font-semibold text-slate-600 mb-1">
+                    Nome do Arquivo MP3 (na mesma pasta):
+                </label>
+                <div class="flex gap-2">
+                    <input 
+                        type="text" 
+                        id="audioFileName" 
+                        value="audio19.mp3" 
+                        placeholder="Ex: audio19.mp3 ou resumo.mp3" 
+                        class="w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 text-slate-800"
+                    >
+                    <button 
+                        onclick="updateAudioSource()" 
+                        class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors shrink-0"
+                    >
+                        Carregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Player de Áudio HTML5 -->
+            <audio id="mainAudioPlayer" controls class="w-full rounded-lg border border-slate-200 bg-white shadow-inner">
+                <source id="audioSource" src="audio19.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            <p id="audioStatus" class="text-xs text-slate-500 mt-2 italic">
+                Arquivo de áudio atual: <span class="font-mono text-slate-700 font-bold" id="currentFileName">audio19.mp3</span>
+            </p>
+        </section>
+
+        <!-- TITLE BLOCK -->
+        <div class="border-b border-slate-200 pb-6">
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+                Documento Completo na Íntegra
+            </span>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-3 leading-snug">
+                Resumo de Mapeamento e Memorização: LDB na EPT para Concurso EBTT (IFSC / FAURGS)
+            </h1>
+        </div>
+
+        <!-- SEÇÃO 1: NÚCLEO CONCEITUAL -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-3">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-sm">1</span>
+                <h2 class="text-xl font-bold text-slate-900">Núcleo Conceitual e Natureza Jurídica (Ponto Crítico)</h2>
+            </div>
+
+            <div class="space-y-3 pl-2 md:pl-11">
+                <!-- Composição dos Níveis Escolares -->
+                <div class="p-4 bg-slate-50 border-l-4 border-slate-800 rounded-r-lg space-y-2">
+                    <h3 class="font-bold text-slate-900">
+                        Composição dos Níveis Escolares (Art. 21)
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed text-sm">
+                        A Educação Escolar Brasileira é formada por <span class="highlight-red">APENAS DOIS NÍVEIS</span>:
+                    </p>
+                    <ol class="list-decimal list-inside text-sm space-y-1 text-slate-700 pl-2">
+                        <li>
+                            <span class="highlight-yellow">Educação Básica</span>: composta por <span class="font-semibold text-slate-900">Educação Infantil</span> + <span class="font-semibold text-slate-900">Ensino Fundamental</span> + <span class="font-semibold text-slate-900">Ensino Médio</span>.
+                        </li>
+                        <li>
+                            <span class="highlight-yellow">Educação Superior</span>: composta por Graduação, Pós-graduação e Extensão.
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- A Natureza da EPT -->
+                <div class="p-4 bg-slate-50 border-l-4 border-emerald-600 rounded-r-lg space-y-2">
+                    <h3 class="font-bold text-slate-900">
+                        A Natureza da EPT
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed text-sm">
+                        A Educação Profissional e Tecnológica <span class="highlight-red">NÃO é um nível</span> educacional e <span class="highlight-red">NEM uma quarta etapa</span> da Educação Básica. Trata-se estritamente de uma <span class="highlight-green">MODALIDADE EDUCACIONAL TRANSVERSAL</span> que se integra aos níveis e etapas da educação nacional.
+                    </p>
+                </div>
+
+                <!-- Princípios da LDB Vinculados à EPT -->
+                <div class="p-4 bg-slate-50 border-l-4 border-blue-600 rounded-r-lg space-y-2">
+                    <h3 class="font-bold text-slate-900">
+                        Princípios Constitucionais e Legais Ligados ao Trabalho (Art. 3º)
+                    </h3>
+                    <ul class="list-disc list-inside text-sm text-slate-700 space-y-1 pl-1">
+                        <li><strong class="text-slate-900">Inciso X:</strong> Valorização da <span class="highlight-blue">experiência extraescolar</span> (base para a certificação de saberes no trabalho).</li>
+                        <li><strong class="text-slate-900">Inciso XI:</strong> Vinculação entre a <span class="highlight-yellow">educação escolar, o trabalho e as práticas sociais</span>.</li>
+                        <li><strong class="text-slate-900">Inciso XII:</strong> Garantia do direito à educação e à <span class="highlight-green">aprendizagem ao longo da vida</span> (lifelong learning).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: ESQUELETO NORMATIVO -->
+        <section class="space-y-6">
+            <div class="flex items-center gap-3">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-sm">2</span>
+                <h2 class="text-xl font-bold text-slate-900">Esqueleto Normativo: Artigos Fundamentais para Decorações de Prova</h2>
+            </div>
+
+            <!-- Subseção A: Seção IV-A -->
+            <div class="space-y-4 pl-2 md:pl-11">
+                <h3 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2">
+                    A. Seção IV-A: Educação Profissional Técnica de Nível Médio (Arts. 36-A a 36-D)
+                </h3>
+
+                <!-- Fluxograma / Diagrama Visual -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 md:p-6 space-y-4">
+                    <h4 class="text-xs font-bold tracking-wider uppercase text-slate-500">Esquema das Formas de Organização</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Card Articulada -->
+                        <div class="bg-white p-4 rounded-lg border border-slate-300 space-y-3">
+                            <span class="font-bold text-slate-900 block border-b border-slate-200 pb-1 text-base">
+                                FORMA ARTICULADA
+                            </span>
+                            
+                            <div class="space-y-2 text-xs">
+                                <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg">
+                                    <p class="font-bold text-emerald-900">1. INTEGRADA</p>
+                                    <p class="text-slate-700 mt-1">&bull; Mesma Instituição de Ensino</p>
+                                    <p class="text-slate-700">&bull; <span class="highlight-yellow">Matrícula ÚNICA</span></p>
+                                    <p class="text-slate-500 italic mt-1">(Exige Ensino Fundamental Completo)</p>
+                                </div>
+
+                                <div class="bg-blue-50 border border-blue-200 p-2.5 rounded-lg">
+                                    <p class="font-bold text-blue-900">2. CONCOMITANTE</p>
+                                    <p class="text-slate-700 mt-1">&bull; <span class="highlight-yellow">Matrículas DISTINTAS</span></p>
+                                    <p class="text-slate-700">&bull; Mesma instituição OU instituições distintas</p>
+                                    <p class="text-slate-700">&bull; Instituições distintas com <span class="highlight-green">Convênio de Intercomplementaridade</span> e <span class="highlight-green">Projeto Pedagógico Unificado</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Subsequente -->
+                        <div class="bg-white p-4 rounded-lg border border-slate-300 space-y-3">
+                            <span class="font-bold text-slate-900 block border-b border-slate-200 pb-1 text-base">
+                                FORMA SUBSEQUENTE
+                            </span>
+                            <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-xs space-y-2">
+                                <p class="text-slate-800 font-semibold">&bull; Destinada exclusivamente para quem <span class="highlight-yellow">JÁ CONCLUIU</span> o Ensino Médio.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalhamento dos Artigos -->
+                <ul class="space-y-3 text-sm text-slate-700">
+                    <li class="bg-white p-3 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900">Art. 36-A:</strong> O Ensino Médio pode preparar para profissões técnicas <span class="highlight-blue">sem prejuízo da formação geral básica</span>.
+                    </li>
+                    <li class="bg-white p-3 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900">Art. 36-B:</strong> A EPT de Nível Médio desenvolve-se nas formas <span class="highlight-yellow">Articulada</span> e <span class="highlight-yellow">Subsequente</span>.
+                    </li>
+                    <li class="bg-white p-3 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900">Art. 36-C (Formas da Articulada):</strong>
+                        <ul class="list-disc pl-5 mt-2 space-y-1">
+                            <li><strong class="text-slate-800">Integrada:</strong> Destinada a quem concluiu o Ensino Fundamental. Ocorre na <span class="font-semibold text-slate-900">mesma instituição de ensino</span> com <span class="highlight-yellow">MATRÍCULA ÚNICA</span>.</li>
+                            <li><strong class="text-slate-800">Concomitante:</strong> Destinada a quem ingressa ou já cursa o Ensino Médio. Exige <span class="highlight-yellow">MATRÍCULAS DISTINTAS</span> e ocorre: (a) na mesma escola; (b) em escolas distintas; ou (c) em escolas distintas com <span class="highlight-green">convênio de intercomplementaridade</span> e <span class="highlight-green">projeto pedagógico unificado</span>.</li>
+                        </ul>
+                    </li>
+                    <li class="bg-white p-3 rounded-lg border border-slate-200">
+                        <strong class="text-slate-900">Art. 36-D:</strong> Conclusão de curso com aproveitamento gera diplomação com validade nacional e permite o prosseguimento na Educação Superior.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Subseção B: Capítulo III -->
+            <div class="space-y-4 pl-2 md:pl-11">
+                <h3 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2">
+                    B. Capítulo III: Da Educação Profissional e Tecnológica (Arts. 37, 39 a 42-B, 61)
+                </h3>
+
+                <!-- Tabela de Artigos sem Scroll Horizontal -->
+                <div class="table-container border border-slate-300 rounded-lg overflow-hidden bg-white">
+                    <table class="text-xs md:text-sm">
+                        <thead class="bg-slate-900 text-white">
+                            <tr>
+                                <th class="p-3 text-left w-2/12 border-b border-slate-800 font-semibold">Artigo</th>
+                                <th class="p-3 text-left w-3/12 border-b border-slate-800 font-semibold">Foco da Norma</th>
+                                <th class="p-3 text-left w-7/12 border-b border-slate-800 font-semibold">Regra Chave para Memorizar</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-800">
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 align-top bg-slate-50">Art. 37, § 3º</td>
+                                <td class="p-3 align-top font-semibold text-slate-800">EJA e EPT (PROEJA)</td>
+                                <td class="p-3 align-top">
+                                    A Educação de Jovens e Adultos (EJA) deve ser articulada, <span class="highlight-green">PREFERENCIALMENTE</span>, com a Educação Profissional.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 align-top bg-slate-50">Art. 39</td>
+                                <td class="p-3 align-top font-semibold text-slate-800">Escopo e Cursos da EPT</td>
+                                <td class="p-3 align-top space-y-1">
+                                    A EPT organiza-se em <span class="highlight-yellow">eixos tecnológicos</span>.<br>
+                                    <strong>Três Níveis de Cursos:</strong><br>
+                                    I - <span class="font-semibold">FIC / Qualificação Profissional</span><br>
+                                    II - <span class="font-semibold">Educação Profissional Técnica de Nível Médio</span><br>
+                                    III - <span class="font-semibold">Tecnológica de Graduação e Pós-Graduação</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 align-top bg-slate-50">Art. 40</td>
+                                <td class="p-3 align-top font-semibold text-slate-800">Articulação</td>
+                                <td class="p-3 align-top">
+                                    Desenvolvida em articulação com o ensino regular ou educação continuada, em escolas especializadas ou <span class="highlight-green">no ambiente de trabalho</span>.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 align-top bg-slate-50">Art. 41</td>
+                                <td class="p-3 align-top font-semibold text-slate-800">Certificação de Saberes</td>
+                                <td class="p-3 align-top">
+                                    Conhecimentos adquiridos na EPT, <span class="highlight-yellow">inclusive no trabalho</span>, podem ser avaliados e certificados para aproveitamento de estudos (Rede CERTIFIC).
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 align-top bg-slate-50">Art. 42</td>
+                                <td class="p-3 align-top font-semibold text-slate-800">Cursos Comunitários / FIC</td>
+                                <td class="p-3 align-top">
+                                    Cursos de formação inicial e continuada abertos à comunidade. Requisito: <span class="highlight-green">capacidade de aproveitamento</span> (<span class="highlight-red">NÃO exige nível formal específico prévio</span>).
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 align-top bg-slate-50">Art. 42-A <br><span class="text-xs text-slate-500 font-normal">(Lei 14.645/23)</span></td>
+                                <td class="p-3 align-top font-semibold text-slate-800">Integração Curricular</td>
+                                <td class="p-3 align-top">
+                                    Princípio da <span class="highlight-blue">integração curricular por eixos tecnológicos</span>, permitindo itinerários formativos contínuos e verticalizados.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 align-top bg-slate-50">Art. 42-B <br><span class="text-xs text-slate-500 font-normal">(Lei 14.645/23)</span></td>
+                                <td class="p-3 align-top font-semibold text-slate-800">Avaliação de Qualidade</td>
+                                <td class="p-3 align-top">
+                                    A qualidade da EPT é aferida (pelo <span class="font-bold text-slate-900">SINAEPT</span>) medindo fluxo, rendimento, <span class="highlight-yellow">inserção do egresso no mercado</span> e aderência ao contexto produtivo local.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 align-top bg-slate-50">Art. 61, Inciso V</td>
+                                <td class="p-3 align-top font-semibold text-slate-800">Magistério e Notório Saber</td>
+                                <td class="p-3 align-top">
+                                    Permite a atuação de profissionais com <span class="highlight-yellow">notório saber</span> reconhecido pelos sistemas de ensino para ministrar conteúdos da formação técnica e profissional.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: MATRIZ ANTIPEGADINHA FAURGS -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-3">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-sm">3</span>
+                <h2 class="text-xl font-bold text-slate-900">Matriz Antipegadinha da FAURGS (Alertas de Voto Certo)</h2>
+            </div>
+
+            <p class="text-xs text-slate-600 pl-2 md:pl-11">
+                Atenção redobrada a estas pegadinhas frequentes em provas de carreiras EBTT elaboradas pela FAURGS:
+            </p>
+
+            <!-- Tabela Antipegadinha sem Scroll Horizontal -->
+            <div class="pl-2 md:pl-11">
+                <div class="table-container border border-slate-300 rounded-lg overflow-hidden bg-white">
+                    <table class="text-xs md:text-sm">
+                        <thead class="bg-red-900 text-white">
+                            <tr>
+                                <th class="p-3 text-left w-5/12 border-b border-red-950 font-semibold">O que a FAURGS afirma na alternativa (Pegadinha)</th>
+                                <th class="p-3 text-left w-5/12 border-b border-red-950 font-semibold">O que a LDB realmente determina (Gabarito)</th>
+                                <th class="p-3 text-left w-2/12 border-b border-red-950 font-semibold">Dispositivo Legal</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-800">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 align-top text-red-900 font-medium">
+                                    <i class="fa-solid fa-xmark text-red-600 mr-1"></i> "A Educação Profissional constitui a quarta etapa da Educação Básica."
+                                </td>
+                                <td class="p-3 align-top text-slate-900">
+                                    <i class="fa-solid fa-check text-emerald-600 mr-1"></i> A Educação Básica tem <span class="highlight-green">apenas 3 etapas</span> (Infantil, Fundamental e Médio). EPT é modalidade.
+                                </td>
+                                <td class="p-3 align-top font-bold text-slate-700 bg-slate-50">Art. 21</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 align-top text-red-900 font-medium">
+                                    <i class="fa-solid fa-xmark text-red-600 mr-1"></i> "A EJA deve ser articulada obrigatoriamente e exclusivamente com a EPT."
+                                </td>
+                                <td class="p-3 align-top text-slate-900">
+                                    <i class="fa-solid fa-check text-emerald-600 mr-1"></i> A articulação da EJA com a Educação Profissional ocorre <span class="highlight-yellow">PREFERENCIALMENTE</span>.
+                                </td>
+                                <td class="p-3 align-top font-bold text-slate-700 bg-slate-50">Art. 37, § 3º</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 align-top text-red-900 font-medium">
+                                    <i class="fa-solid fa-xmark text-red-600 mr-1"></i> "A modalidade técnica integrada exige matrículas paralelas e distintas."
+                                </td>
+                                <td class="p-3 align-top text-slate-900">
+                                    <i class="fa-solid fa-check text-emerald-600 mr-1"></i> A forma Integrada exige estritamente <span class="highlight-yellow">MATRÍCULA ÚNICA</span> na mesma instituição.
+                                </td>
+                                <td class="p-3 align-top font-bold text-slate-700 bg-slate-50">Art. 36-C, I</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 align-top text-red-900 font-medium">
+                                    <i class="fa-solid fa-xmark text-red-600 mr-1"></i> "Cursos concomitantes por convênio exigem projetos pedagógicos independentes."
+                                </td>
+                                <td class="p-3 align-top text-slate-900">
+                                    <i class="fa-solid fa-check text-emerald-600 mr-1"></i> A concomitância por convênio exige <span class="highlight-green">PROJETO PEDAGÓGICO UNIFICADO</span>.
+                                </td>
+                                <td class="p-3 align-top font-bold text-slate-700 bg-slate-50">Art. 36-C, II, 'c'</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 align-top text-red-900 font-medium">
+                                    <i class="fa-solid fa-xmark text-red-600 mr-1"></i> "Cursos de extensão e FIC exigem diploma prévio do Ensino Fundamental."
+                                </td>
+                                <td class="p-3 align-top text-slate-900">
+                                    <i class="fa-solid fa-check text-emerald-600 mr-1"></i> A matrícula em cursos FIC exige apenas <span class="highlight-green">capacidade de aproveitamento</span>.
+                                </td>
+                                <td class="p-3 align-top font-bold text-slate-700 bg-slate-50">Art. 42</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 align-top text-red-900 font-medium">
+                                    <i class="fa-solid fa-xmark text-red-600 mr-1"></i> "Profissionais com Notório Saber podem ministrar qualquer disciplina da Formação Geral Básica."
+                                </td>
+                                <td class="p-3 align-top text-slate-900">
+                                    <i class="fa-solid fa-check text-emerald-600 mr-1"></i> Notório saber aplica-se <span class="highlight-yellow">exclusivamente a conteúdos da formação técnica e profissional</span>.
+                                </td>
+                                <td class="p-3 align-top font-bold text-slate-700 bg-slate-50">Art. 61, V</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 align-top text-red-900 font-medium">
+                                    <i class="fa-solid fa-xmark text-red-600 mr-1"></i> "Certificação de saberes aplica-se apenas a disciplinas cursadas em escolas formais."
+                                </td>
+                                <td class="p-3 align-top text-slate-900">
+                                    <i class="fa-solid fa-check text-emerald-600 mr-1"></i> Certifica-se a experiência prática obtida <span class="highlight-yellow">inclusive no exercício do trabalho</span>.
+                                </td>
+                                <td class="p-3 align-top font-bold text-slate-700 bg-slate-50">Art. 41</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: CHECKLIST RÁPIDO -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-3">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-sm">4</span>
+                <h2 class="text-xl font-bold text-slate-900">Checklist Rápido de Véspera de Prova</h2>
+            </div>
+
+            <div class="pl-2 md:pl-11 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Card Checklist 1 -->
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-2">
+                    <div class="flex items-center gap-2 text-slate-900 font-bold text-sm border-b border-slate-200 pb-2">
+                        <i class="fa-solid fa-id-card text-slate-700"></i>
+                        <h3>1. Vínculo de Matrícula</h3>
+                    </div>
+                    <ul class="text-xs space-y-2 text-slate-700 pt-1">
+                        <li>&bull; <strong class="text-slate-900">Integrada:</strong> Matrícula <span class="highlight-yellow">ÚNICA</span>.</li>
+                        <li>&bull; <strong class="text-slate-900">Concomitante:</strong> Matrículas <span class="highlight-yellow">DISTINTAS</span>.</li>
+                    </ul>
+                </div>
+
+                <!-- Card Checklist 2 -->
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-2">
+                    <div class="flex items-center gap-2 text-slate-900 font-bold text-sm border-b border-slate-200 pb-2">
+                        <i class="fa-solid fa-user-graduate text-slate-700"></i>
+                        <h3>2. Educação de Jovens e Adultos (EJA)</h3>
+                    </div>
+                    <p class="text-xs text-slate-700 leading-relaxed pt-1">
+                        A EJA deve articular-se, <span class="highlight-green">PREFERENCIALMENTE</span>, com a Educação Profissional.
+                    </p>
+                </div>
+
+                <!-- Card Checklist 3 -->
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-2">
+                    <div class="flex items-center gap-2 text-slate-900 font-bold text-sm border-b border-slate-200 pb-2">
+                        <i class="fa-solid fa-chart-line text-slate-700"></i>
+                        <h3>3. Flexibilidade &amp; Verticalização</h3>
+                    </div>
+                    <ul class="text-xs space-y-2 text-slate-700 pt-1">
+                        <li>&bull; Organização por <span class="highlight-blue">eixos tecnológicos</span> viabiliza a verticalização do ensino (do FIC ao Doutorado Profissional).</li>
+                        <li>&bull; A avaliação de qualidade institucional obrigatoriamente acompanha a <span class="highlight-yellow">inserção do aluno no mundo do trabalho</span>.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: QUADRO COMPARATIVO RESUMIDO -->
+        <section class="space-y-4">
+            <div class="flex items-center gap-3">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-sm">5</span>
+                <h2 class="text-xl font-bold text-slate-900">Quadro Comparativo Integrado das Formas de EPT</h2>
+            </div>
+
+            <div class="pl-2 md:pl-11">
+                <div class="table-container border border-slate-300 rounded-lg overflow-hidden bg-white">
+                    <table class="text-xs md:text-sm">
+                        <thead class="bg-slate-800 text-white">
+                            <tr>
+                                <th class="p-3 text-left w-3/12 font-semibold border-b border-slate-700">Forma / Modalidade</th>
+                                <th class="p-3 text-left w-3/12 font-semibold border-b border-slate-700">Requisito de Ingresso</th>
+                                <th class="p-3 text-left w-3/12 font-semibold border-b border-slate-700">Tipo de Matrícula</th>
+                                <th class="p-3 text-left w-3/12 font-semibold border-b border-slate-700">Instituição de Ensino</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-800">
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 bg-slate-50">Técnico Integrado</td>
+                                <td class="p-3">Ensino Fundamental Completo</td>
+                                <td class="p-3"><span class="highlight-yellow">Única</span></td>
+                                <td class="p-3">Mesma instituição</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 bg-slate-50">Técnico Concomitante</td>
+                                <td class="p-3">Ingressando ou Cursando o Ensino Médio</td>
+                                <td class="p-3"><span class="highlight-yellow">Distintas</span></td>
+                                <td class="p-3">Mesma escola OU escolas distintas (com ou sem convênio)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 bg-slate-50">Técnico Subsequente</td>
+                                <td class="p-3">Ensino Médio Concluído</td>
+                                <td class="p-3">Única (Curso Técnico)</td>
+                                <td class="p-3">Instituição de EPT</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-900 bg-slate-50">Cursos FIC / Extensão</td>
+                                <td class="p-3"><span class="highlight-green">Capacidade de aproveitamento</span></td>
+                                <td class="p-3">Livre / Específica</td>
+                                <td class="p-3">Comunidade / Instituição EPT</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botão Final para Questões -->
+        <div class="pt-8 border-t border-slate-200 text-center space-y-3">
+            <p class="text-sm font-medium text-slate-600">
+                Pronto para testar seus conhecimentos e fixar o conteúdo?
+            </p>
+            <div>
+                <a 
+                    href="questoes19.html" 
+                    class="inline-flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-base px-8 py-4 rounded-xl shadow-md transition-all hover:scale-[1.01]"
+                >
+                    <span>Ir para o Módulo de Questões</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JavaScript para manipular o Reprodutor de Áudio -->
+    <script>
+        function updateAudioSource() {
+            const fileNameInput = document.getElementById('audioFileName');
+            const audioPlayer = document.getElementById('mainAudioPlayer');
+            const audioSource = document.getElementById('audioSource');
+            const currentFileName = document.getElementById('currentFileName');
+
+            let fileName = fileNameInput.value.trim();
+            if (!fileName) {
+                fileName = 'audio19.mp3';
+                fileNameInput.value = fileName;
+            }
+
+            audioSource.src = fileName;
+            currentFileName.textContent = fileName;
+            
+            // Recarrega o player de áudio com a nova fonte
+            audioPlayer.load();
+        }
+    </script>
+</body>
+</html>

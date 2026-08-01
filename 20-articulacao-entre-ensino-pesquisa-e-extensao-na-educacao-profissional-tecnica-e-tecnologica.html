@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Memorização: Articulação EPTT - IFSC / FAURGS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Readex Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #1e293b;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+        }
+
+        /* Estilo de Grifo (Highlighter Effect) */
+        mark.grifo {
+            background-color: #fef08a; /* Amarelo suave */
+            color: #854d0e;
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        mark.grifo-verde {
+            background-color: #dcfce7;
+            color: #14532d;
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        mark.grifo-vermelho {
+            background-color: #fee2e2;
+            color: #7f1d1d;
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+
+        /* Garantir que tabelas quebrem linhas e não gerem scroll horizontal */
+        table {
+            width: 100% !important;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        /* Custom Audio Player Controls */
+        audio::-webkit-media-controls-panel {
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-full flex flex-col justify-between antialiased selection:bg-amber-200 selection:text-amber-900">
+
+    <!-- Top Bar Container -->
+    <header class="border-b border-slate-200 bg-white sticky top-0 z-30 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">
+                    IF
+                </div>
+                <div>
+                    <h1 class="text-xs font-bold uppercase tracking-wider text-emerald-800">Concurso IFSC / EBTT</h1>
+                    <p class="text-xs text-slate-500 font-medium">Banca FAURGS • Guia de Memorização</p>
+                </div>
+            </div>
+            
+            <a href="#questoes-btn" class="text-xs font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-md transition flex items-center gap-1.5">
+                <i class="fa-solid fa-graduation-cap">="text-xs"></i> Ir para Questões
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- Header Documento -->
+        <div class="mb-8 border-b border-slate-200 pb-6">
+            <span class="inline-block bg-amber-100 text-amber-900 text-xs font-bold px-2.5 py-1 rounded-full mb-3 uppercase tracking-wide">
+                <i class="fa-solid fa-bolt mr-1"></i> Foco total na Prova Objetiva
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight mb-2">
+                Guia de Memorização: Articulação entre Ensino, Pesquisa e Extensão na EPTT
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base">
+                Análise sintética dos conceitos, legislação, pegadinhas e gatilhos de gabarito para a banca <strong class="text-slate-900 font-semibold">FAURGS</strong>.
+            </p>
+        </div>
+
+        <!-- REPRODUTOR DE ÁUDIO MP3 INTEGRADO -->
+        <section class="mb-10 bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2 text-slate-800 font-bold text-sm sm:text-base">
+                    <i class="fa-solid fa-circle-play text-emerald-600 text-lg"></i>
+                    <h2>Reprodutor de Áudio da Aula (MP3)</h2>
+                </div>
+                <span class="text-xs bg-slate-200 text-slate-700 font-semibold px-2 py-0.5 rounded">Estudo em Áudio</span>
+            </div>
+            
+            <p class="text-xs text-slate-600 mb-3">
+                Ouça a explicação deste resumo durante sua rotina. Insira ou confirme abaixo o nome do arquivo MP3 presente na mesma pasta.
+            </p>
+
+            <!-- Control Box do Arquivo de Áudio -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-3 bg-white p-2 rounded-lg border border-slate-200">
+                <label for="audioFileName" class="text-xs font-semibold text-slate-600 sm:pl-2 whitespace-nowrap">
+                    Arquivo MP3:
+                </label>
+                <input type="text" id="audioFileName" value="audio20.mp3" placeholder="ex: resumo.mp3" class="text-xs font-mono bg-slate-50 border border-slate-300 text-slate-800 rounded px-2.5 py-1.5 flex-grow focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <button onclick="updateAudioSource()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded transition flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-arrows-rotate text-[10px]"></i> Carregar
+                </button>
+            </div>
+
+            <!-- Audio Player Standard Control -->
+            <audio id="audioPlayer" controls class="w-full">
+                <source id="audioSource" src="audio20.mp3" type="audio/mpeg">
+                Seu navegador não suporta a reprodução de áudio HTML5.
+            </audio>
+            
+            <div id="audioStatus" class="mt-2 text-[11px] text-slate-500 flex items-center justify-between">
+                <span>Status: <strong id="statusText" class="text-emerald-700">Pronto para tocar</strong></span>
+                <span class="font-mono text-slate-400" id="currentFileName">audio20.mp3</span>
+            </div>
+        </section>
+
+
+        <!-- SEÇÃO 1 -->
+        <section class="mb-10">
+            <div class="flex items-center gap-2 border-b border-slate-200 pb-2 mb-4">
+                <span class="w-7 h-7 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">1</span>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Núcleo Conceitual e Matriz Teórica do Tripé Institucional</h2>
+            </div>
+
+            <!-- Subseção: Os Três Pilares -->
+            <div class="mb-6">
+                <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-shapes text-emerald-600 text-sm"></i> Os Três Pilares da Indissociabilidade
+                </h3>
+                <ul class="space-y-3 pl-2">
+                    <li class="border-l-4 border-emerald-500 pl-3 py-1 bg-slate-50/50 rounded-r text-xs">
+                        <strong class="text-slate-900 font-bold">Ensino:</strong> 
+                        Práxis pedagógica fundamentada na <mark class="grifo">investigação e na reflexão crítica</mark>, superando a mera transmissão passiva de conteúdos acadêmicos ou operacionais.
+                    </li>
+                    <li class="border-l-4 border-blue-500 pl-3 py-1 bg-slate-50/50 rounded-r text-xs">
+                        <strong class="text-slate-900 font-bold">Pesquisa Aplicada:</strong> 
+                        Princípio pedagógico e científico voltado à produção de conhecimento, inovação tecnológica e <mark class="grifo">resolução de problemas concretos</mark> do entorno social e dos <mark class="grifo">Arranjos Produtivos, Sociais e Culturais Locais (APLs)</mark>.
+                    </li>
+                    <li class="border-l-4 border-purple-500 pl-3 py-1 bg-slate-50/50 rounded-r text-xs">
+                        <strong class="text-slate-900 font-bold">Extensão Dialógica:</strong> 
+                        Processo educativo, cultural e científico estruturado na <mark class="grifo">interação dialógica</mark> (troca bidirecional de saberes) entre o IFSC e a sociedade, recusando estritamente práticas assistencialistas ou mercadológicas.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Subseção: Referenciais Teóricos e Conceitos Fundamentais -->
+            <div class="mb-6">
+                <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open-reader text-emerald-600 text-sm"></i> Base Teórica Recorrente na FAURGS (Frigotto, Saviani, Ciavatta, Ramos)
+                </h3>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-3.5 space-y-2.5 text-xs">
+                    <p class="text-slate-700">
+                        <strong class="text-slate-900 font-semibold">Gaudêncio Frigotto e Maria Ciavatta:</strong> Fundamentam a crítica ao tecnicismo e defendem o <mark class="grifo">Ensino Médio Integrado (EMI)</mark> como síntese entre ciência, trabalho e cultura. A articulação do tripé é o motor contra o adestramento reprodutor de mão de obra barata.
+                    </p>
+                    <p class="text-slate-700">
+                        <strong class="text-slate-900 font-semibold">Dermeval Saviani:</strong> Aborda a <mark class="grifo">Politecnia</mark> e o trabalho como princípio educativo, sustentando que o trabalhador deve compreender as bases científicas de todas as ferramentas e processos tecnológicos do seu tempo.
+                    </p>
+                    <p class="text-slate-700">
+                        <strong class="text-slate-900 font-semibold">Marise Ramos:</strong> Sistematiza a integração curricular e o papel dos <mark class="grifo">Projetos Integradores</mark> como ferramenta para operacionalizar o ensino articulado à pesquisa e à extensão.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Subseção: As Quatro Categorias Pedagógicas Centrais -->
+            <div>
+                <h3 class="text-md font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-emerald-600 text-sm"></i> As Quatro Categorias Pedagógicas Centrais
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="p-3.5 border border-slate-200 rounded-lg bg-white shadow-xs">
+                        <h4 class="font-bold text-sm text-slate-900 mb-1">
+                            <i class="fa-solid fa-briefcase text-slate-500 mr-1"></i> Trabalho como Princípio Educativo
+                        </h4>
+                        <p class="text-xs text-slate-700">
+                            O trabalho em seu <mark class="grifo">sentido ontológico</mark> (produção da existência humana e domínio das bases científicas do processo produtivo), e <mark class="grifo-vermelho">NÃO como mero adestramento</mark> para as exigências imediatas do mercado.
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 border border-slate-200 rounded-lg bg-white shadow-xs">
+                        <h4 class="font-bold text-sm text-slate-900 mb-1">
+                            <i class="fa-solid fa-magnifying-glass text-slate-500 mr-1"></i> Pesquisa como Princípio Pedagógico
+                        </h4>
+                        <p class="text-xs text-slate-700">
+                            Atitude metodológica <mark class="grifo">transversal de reconstrução reflexiva do conhecimento</mark> presente em todos os níveis e modalidades (da formação inicial e técnica até a pós-graduação).
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 border border-slate-200 rounded-lg bg-white shadow-xs">
+                        <h4 class="font-bold text-sm text-slate-900 mb-1">
+                            <i class="fa-solid fa-user-graduate text-slate-500 mr-1"></i> Formação Omnilateral (Integral)
+                        </h4>
+                        <p class="text-xs text-slate-700">
+                            Desenvolvimento pleno e multidimensional do estudante (<mark class="grifo">físico, científico, ético, cultural e político</mark>), superando a historicidade da separação entre ensino técnico-manual e propedêutico.
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 border border-slate-200 rounded-lg bg-white shadow-xs">
+                        <h4 class="font-bold text-sm text-slate-900 mb-1">
+                            <i class="fa-solid fa-arrows-up-to-line text-slate-500 mr-1"></i> Verticalização do Ensino
+                        </h4>
+                        <p class="text-xs text-slate-700">
+                            Oferta integrada e contínua de itinerários formativos <mark class="grifo">desde os cursos FIC e técnicos até o doutorado</mark> no mesmo eixo tecnológico, otimizando infraestrutura e laboratórios do tripé acadêmico.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SEÇÃO 2 -->
+        <section class="mb-10">
+            <div class="flex items-center gap-2 border-b border-slate-200 pb-2 mb-4">
+                <span class="w-7 h-7 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">2</span>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Quadro Sinóptico do Arcabouço Legislativo Exigido em Prova</h2>
+            </div>
+            
+            <p class="text-xs text-slate-600 mb-3">
+                Dispositivos legais estratégicos e diretrizes nacionais cobrados de forma literal ou doutrinária pela FAURGS:
+            </p>
+
+            <!-- TABELA RESPONSIVA SEM SCROLL HORIZONTAL -->
+            <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-900 border-b border-slate-200 font-bold">
+                            <th class="p-2.5 text-left w-[22%] sm:w-[20%]">Normativo</th>
+                            <th class="p-2.5 text-left w-[38%] sm:w-[35%]">Ponto Focal de Cobrança</th>
+                            <th class="p-2.5 text-left w-[40%] sm:w-[45%]">Dispositivo e Conceito-Chave</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="p-2.5 font-bold text-slate-900">CF/88</td>
+                            <td class="p-2.5 text-slate-700">Origem constitucional do tripé universitário e autárquico.</td>
+                            <td class="p-2.5 text-slate-800">
+                                <mark class="grifo">Art. 207</mark>: Princípio da <mark class="grifo">indissociabilidade</mark> entre ensino, pesquisa e extensão.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="p-2.5 font-bold text-slate-900">LDB<br><span class="text-[10px] text-slate-500 font-normal">(Lei 9.394/96)</span></td>
+                            <td class="p-2.5 text-slate-700">Finalidades da Educação Superior e organização da EPT.</td>
+                            <td class="p-2.5 text-slate-800">
+                                <mark class="grifo">Art. 43</mark>: Estímulo à criação cultural, desenvolvimento científico e extensão. <br><mark class="grifo">Arts. 39 a 42</mark>: Abrangência da EPT nos diversos níveis.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="p-2.5 font-bold text-slate-900">Lei nº 11.892/2008</td>
+                            <td class="p-2.5 text-slate-700">Lei de Criação dos Institutos Federais (Rede Federal EPCT).</td>
+                            <td class="p-2.5 text-slate-800">
+                                <mark class="grifo">Arts. 2º, 6º, 7º e 8º</mark>: Natureza pluricurricular, dever de pesquisa aplicada e extensão ligadas aos <mark class="grifo">APLs</mark> e meta de <mark class="grifo">50% de vagas na EPTNM</mark> e <mark class="grifo">20% na licenciatura</mark>.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="p-2.5 font-bold text-slate-900">Res. CNE/CES nº 7/2018</td>
+                            <td class="p-2.5 text-slate-700">Diretrizes para a Curricularização da Extensão.</td>
+                            <td class="p-2.5 text-slate-800">
+                                Obrigatoriedade de no mínimo <mark class="grifo">10% do total da carga horária curricular</mark> dos cursos de graduação direcionados para atividades extensionistas integradas ao ensino.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="p-2.5 font-bold text-slate-900">PNE<br><span class="text-[10px] text-slate-500 font-normal">(Lei 13.005/2014)</span></td>
+                            <td class="p-2.5 text-slate-700">Plano Nacional de Educação e Metas de Extensão.</td>
+                            <td class="p-2.5 text-slate-800">
+                                <mark class="grifo">Meta 12.7</mark>: Assegurar no mínimo 10% do total de créditos curriculares exigidos para a graduação em programas e projetos de extensão universitária.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="p-2.5 font-bold text-slate-900">Res. CNE/CP nº 1/2021</td>
+                            <td class="p-2.5 text-slate-700">Diretrizes Curriculares Nacionais Gerais para a EPT.</td>
+                            <td class="p-2.5 text-slate-800">
+                                Consolida a indissociabilidade entre teoria e prática, flexibilidade curricular, empreendedorismo social, desenvolvimento territorial e a pesquisa como recurso pedagógico central.
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="p-2.5 font-bold text-slate-900">Decreto nº 5.154/2004</td>
+                            <td class="p-2.5 text-slate-700">Regulamentação dos artigos da LDB pertinentes à EPT.</td>
+                            <td class="p-2.5 text-slate-800">
+                                <mark class="grifo">Art. 2º</mark>: Integração entre educação geral e formação profissional; trabalho como princípio educativo e articulação teoria-prática.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+        <!-- SEÇÃO 3 -->
+        <section class="mb-10">
+            <div class="flex items-center gap-2 border-b border-slate-200 pb-2 mb-4">
+                <span class="w-7 h-7 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">3</span>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Checklist Antipegadinha Completo da Banca FAURGS</h2>
+            </div>
+
+            <p class="text-xs text-slate-600 mb-4">
+                Principais armadilhas conceituais e contrapontos de gabarito formulados pela banca FAURGS em provas EBTT:
+            </p>
+
+            <div class="space-y-4">
+
+                <!-- Pegadinha 1 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white shadow-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pegadinha 1
+                        </span>
+                        <span class="text-[11px] font-semibold text-slate-500">Conceito de Extensão Dialógica</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-slate-700">
+                            <mark class="grifo-vermelho">Armadilha da Banca:</mark> 
+                            Tratar a extensão como mera prestação de serviços cobrados, consultoria privada comercial, doação caritativa ou transmissão unidirecional de conhecimento para a comunidade.
+                        </p>
+                        <p class="text-slate-800">
+                            <mark class="grifo-verde">Gabarito Correto:</mark> 
+                            A extensão é uma <mark class="grifo">via de mão dupla</mark> baseada na <mark class="grifo">interação dialógica</mark>, na qual a comunidade também ensina e transforma a matriz curricular da instituição.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pegadinha 2 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white shadow-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pegadinha 2
+                        </span>
+                        <span class="text-[11px] font-semibold text-slate-500">Abrangência da Indissociabilidade</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-slate-700">
+                            <mark class="grifo-vermelho">Armadilha da Banca:</mark> 
+                            Afirmar que a pesquisa e a extensão se restringem aos cursos de nível superior (Graduação e Pós-Graduação), sendo meramente opcionais no Ensino Técnico.
+                        </p>
+                        <p class="text-slate-800">
+                            <mark class="grifo-verde">Gabarito Correto:</mark> 
+                            A articulação entre ensino, pesquisa e extensão é <mark class="grifo">obrigatória e estruturante em todos os níveis, formas e modalidades</mark> de ensino nos Institutos Federais (inclusive no Ensino Médio Integrado e FIC).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pegadinha 3 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white shadow-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pegadinha 3
+                        </span>
+                        <span class="text-[11px] font-semibold text-slate-500">Hierarquia entre as Dimensões</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-slate-700">
+                            <mark class="grifo-vermelho">Armadilha da Banca:</mark> 
+                            Apresentar o ensino de sala de aula como atividade-fim prioritária da carreira docente EBTT, relegando a pesquisa e a extensão a tarefas acessórias ou secundárias.
+                        </p>
+                        <p class="text-slate-800">
+                            <mark class="grifo-verde">Gabarito Correto:</mark> 
+                            Existe <mark class="grifo">equivalência ontológica, interdependência e isonomia pedagógica</mark> entre os três pilares; nenhum sobressai em detrimento dos outros.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pegadinha 4 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white shadow-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pegadinha 4
+                        </span>
+                        <span class="text-[11px] font-semibold text-slate-500">Concepção de Trabalho</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-slate-700">
+                            <mark class="grifo-vermelho">Armadilha da Banca:</mark> 
+                            Conectar o trabalho como princípio educativo ao adestramento instrumental, treino imediato para postos de trabalho fabris/corporativos e adequação mecânica às demandas patronais.
+                        </p>
+                        <p class="text-slate-800">
+                            <mark class="grifo-verde">Gabarito Correto:</mark> 
+                            O trabalho é compreendido em seu <mark class="grifo">sentido ontológico e emancipatório</mark>, focado na compreensão das bases científicas, tecnológicas e históricas da produção da vida social.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pegadinha 5 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white shadow-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pegadinha 5
+                        </span>
+                        <span class="text-[11px] font-semibold text-slate-500">Estágio Supervisionado vs. Extensão</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-slate-700">
+                            <mark class="grifo-vermelho">Armadilha da Banca:</mark> 
+                            Afirmar que o cumprimento do estágio curricular obrigatório pelo aluno satisfaz automaticamente a exigência constitucional de extensão universitária/institucional.
+                        </p>
+                        <p class="text-slate-800">
+                            <mark class="grifo-verde">Gabarito Correto:</mark> 
+                            O estágio é ato educativo escolar supervisionado no ambiente de trabalho; a extensão exige <mark class="grifo">projeto dialógico e ação comunitária ou socialmente estruturada</mark> institucionalmente.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pegadinha 6 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white shadow-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pegadinha 6
+                        </span>
+                        <span class="text-[11px] font-semibold text-slate-500">Natureza da Pesquisa na EPTT</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-slate-700">
+                            <mark class="grifo-vermelho">Armadilha da Banca:</mark> 
+                            Exigir que a pesquisa nos Institutos Federais seja exclusivamente "ciência pura" (pesquisa básica teórica de alto custo) desvinculada das demandas locais.
+                        </p>
+                        <p class="text-slate-800">
+                            <mark class="grifo-verde">Gabarito Correto:</mark> 
+                            Foco prioritário em <mark class="grifo">Pesquisa Aplicada e Inovação Tecnológica</mark>, gerando soluções práticas e transferência de conhecimento para os APLs do território de abrangência do campus.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pegadinha 7 -->
+                <div class="border border-slate-200 rounded-lg p-4 bg-white shadow-xs">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Pegadinha 7
+                        </span>
+                        <span class="text-[11px] font-semibold text-slate-500">Percentual da Curricularização da Extensão</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-slate-700">
+                            <mark class="grifo-vermelho">Armadilha da Banca:</mark> 
+                            Indicar que a extensão deve compor 20% do currículo de nível técnico ou que é totalmente opcional nas matrizes de graduação dos IFs.
+                        </p>
+                        <p class="text-slate-800">
+                            <mark class="grifo-verde">Gabarito Correto:</mark> 
+                            A norma obriga o limite mínimo de <mark class="grifo">10% da carga horária curricular total dos cursos de graduação</mark> para atividades de extensão (Res. CNE/CES 7/2018 e PNE Meta 12.7).
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- SEÇÃO 4 (NOVA) -->
+        <section class="mb-10">
+            <div class="flex items-center gap-2 border-b border-slate-200 pb-2 mb-4">
+                <span class="w-7 h-7 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">4</span>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Materialização do Tripé na Prática Pedagógica do IFSC</h2>
+            </div>
+
+            <p class="text-xs text-slate-600 mb-4">
+                Como a articulação entre ensino, pesquisa e extensão se expressa nos instrumentos institucionais e na rotina docente:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="p-3 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <h3 class="font-bold text-xs text-slate-900 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-file-contract text-emerald-600"></i> PDI e PPCs
+                    </h3>
+                    <p class="text-xs text-slate-700">
+                        O <mark class="grifo">Plano de Desenvolvimento Institucional (PDI)</mark> e o <mark class="grifo">Projeto Pedagógico de Curso (PPC)</mark> devem garantir explicitamente metodologias de ensino integradas a projetos de extensão comunitária e de iniciação científica/tecnológica.
+                    </p>
+                </div>
+
+                <div class="p-3 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <h3 class="font-bold text-xs text-slate-900 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-diagram-project text-blue-600"></i> Projetos Integradores
+                    </h3>
+                    <p class="text-xs text-slate-700">
+                        Dispositivos curriculares interdisciplinares onde o aluno investiga um problema real da comunidade (pesquisa), constrói uma solução (ensino) e a devolve à sociedade (extensão).
+                    </p>
+                </div>
+
+                <div class="p-3 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <h3 class="font-bold text-xs text-slate-900 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i> NITs e Incubadoras
+                    </h3>
+                    <p class="text-xs text-slate-700">
+                        Os <mark class="grifo">Núcleos de Inovação Tecnológica (NITs)</mark> e incubadoras dos IFs canalizam a produção acadêmica (ensino/pesquisa) para transferência de tecnologia social e empresarial (extensão).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SEÇÃO 5 -->
+        <section class="mb-12">
+            <div class="flex items-center gap-2 border-b border-slate-200 pb-2 mb-4">
+                <span class="w-7 h-7 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">5</span>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Glossário "Gatilho de Gabarito" e Tabela Certo vs. Errado</h2>
+            </div>
+
+            <!-- Tabela Certo x Errado FAURGS -->
+            <div class="border border-slate-200 rounded-lg overflow-hidden bg-white mb-6">
+                <div class="bg-slate-100 p-2.5 border-b border-slate-200 font-bold text-xs text-slate-900">
+                    <i class="fa-solid fa-balance-scale mr-1 text-slate-700"></i> Matriz de Julgamento Rápido de Assertivas (FAURGS)
+                </div>
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 font-bold text-slate-700">
+                            <th class="p-2 text-left w-1/2 text-rose-800">Termo / Ideia Incorreta na Prova</th>
+                            <th class="p-2 text-left w-1/2 text-emerald-800">Termo / Ideia Correta no Gabarito</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-2 text-slate-700 bg-rose-50/30">Treinamento operacional para o mercado</td>
+                            <td class="p-2 text-slate-800 bg-emerald-50/30 font-semibold">Formação Omnilateral e Sentido Ontológico do Trabalho</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 text-slate-700 bg-rose-50/30">Prestação de serviços / Cursos de extensão pagos</td>
+                            <td class="p-2 text-slate-800 bg-emerald-50/30 font-semibold">Interação Dialógica e Troca Bidirecional de Saberes</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 text-slate-700 bg-rose-50/30">Pesquisa exclusiva para pós-graduação</td>
+                            <td class="p-2 text-slate-800 bg-emerald-50/30 font-semibold">Pesquisa como Princípio Pedagógico em todos os níveis</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 text-slate-700 bg-rose-50/30">Prática isolada do conteúdo teórico</td>
+                            <td class="p-2 text-slate-800 bg-emerald-50/30 font-semibold">Práxis Pedagógica e Indissociabilidade Teoria-Prática</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 text-slate-700 bg-rose-50/30">Ensino como única função fim do professor EBTT</td>
+                            <td class="p-2 text-slate-800 bg-emerald-50/30 font-semibold">Equivalência e Indissociabilidade do Tripé Acadêmico</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Glossário em Lista -->
+            <dl class="grid grid-cols-1 gap-3">
+                
+                <div class="p-3.5 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <dt class="font-bold text-xs sm:text-sm text-slate-900 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-key text-amber-600 text-xs"></i> 
+                        Arranjos Produtivos, Sociais e Culturais Locais (APLs)
+                    </dt>
+                    <dd class="text-xs text-slate-700 pl-5">
+                        Agrupamentos territoriais de agentes econômicos, políticos e sociais. Foco prioritário da <mark class="grifo">pesquisa aplicada e da extensão</mark> nos Institutos Federais.
+                    </dd>
+                </div>
+
+                <div class="p-3.5 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <dt class="font-bold text-xs sm:text-sm text-slate-900 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-key text-amber-600 text-xs"></i> 
+                        Curricularização da Extensão
+                    </dt>
+                    <dd class="text-xs text-slate-700 pl-5">
+                        Incorpoação de no <mark class="grifo">mínimo 10% da carga horária curricular</mark> dos cursos de graduação em programas e projetos de extensão comunitária e social.
+                    </dd>
+                </div>
+
+                <div class="p-3.5 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <dt class="font-bold text-xs sm:text-sm text-slate-900 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-key text-amber-600 text-xs"></i> 
+                        Politecnia
+                    </dt>
+                    <dd class="text-xs text-slate-700 pl-5">
+                        Dominância dos <mark class="grifo">fundamentos científicos e tecnológicos universais</mark> que sustentam os processos produtivos modernos, em contraposição ao adestramento de tarefas repetitivas.
+                    </dd>
+                </div>
+
+                <div class="p-3.5 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <dt class="font-bold text-xs sm:text-sm text-slate-900 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-key text-amber-600 text-xs"></i> 
+                        Práxis Pedagógica
+                    </dt>
+                    <dd class="text-xs text-slate-700 pl-5">
+                        Ação reflexiva e transformadora baseada na <mark class="grifo">unidade indissociável entre teoria e prática</mark>, gerando novos saberes.
+                    </dd>
+                </div>
+
+                <div class="p-3.5 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <dt class="font-bold text-xs sm:text-sm text-slate-900 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-key text-amber-600 text-xs"></i> 
+                        Interação Dialógica
+                    </dt>
+                    <dd class="text-xs text-slate-700 pl-5">
+                        Conceito de extensão como <mark class="grifo">diálogo bidirecional</mark> e escuta ativa entre o Instituto Federal e os setores da sociedade civil.
+                    </dd>
+                </div>
+
+            </dl>
+        </section>
+
+        <!-- ÁREA DE NAVEGAÇÃO PARA QUESTÕES -->
+        <section id="questoes-btn" class="pt-6 border-t border-slate-200 text-center mb-6">
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 shadow-xs max-w-xl mx-auto">
+                <h3 class="text-base font-bold text-slate-900 mb-1">Pronto para testar seus conhecimentos?</h3>
+                <p class="text-xs text-slate-600 mb-5">
+                    Acesse o bloco de questões e fixe os conceitos estudados neste resumo de memorização.
+                </p>
+                
+                <a href="questoes20.html" class="inline-flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-6 py-3.5 rounded-lg shadow-sm transition-all hover:shadow duration-150 transform active:scale-[0.99] w-full sm:w-auto">
+                    <span>Ir para as Questões</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-6 bg-slate-50 text-center text-xs text-slate-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>© Concurso IFSC EBTT • Professor de Informática (FAURGS)</p>
+            <p class="mt-1 text-[11px] text-slate-400">Material de estudo focado na articulação Ensino, Pesquisa e Extensão.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Função para atualizar dinamicamente a fonte do arquivo MP3
+        function updateAudioSource() {
+            const fileNameInput = document.getElementById('audioFileName');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const audioSource = document.getElementById('audioSource');
+            const statusText = document.getElementById('statusText');
+            const currentFileName = document.getElementById('currentFileName');
+
+            let newFileName = fileNameInput.value.trim();
+
+            if (!newFileName) {
+                newFileName = 'audio20.mp3';
+                fileNameInput.value = newFileName;
+            }
+
+            // Atualizar o elemento source
+            audioSource.src = newFileName;
+            currentFileName.textContent = newFileName;
+
+            // Recarregar o player de áudio
+            audioPlayer.load();
+
+            statusText.textContent = 'Arquivo atualizado: ' + newFileName;
+            statusText.className = 'text-emerald-700 font-semibold';
+        }
+
+        // Adicionar tratamento para verificar carregamento do áudio
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const statusText = document.getElementById('statusText');
+
+            audioPlayer.onerror = function() {
+                statusText.textContent = 'Aviso: Certifique-se de que o arquivo MP3 está na mesma pasta!';
+                statusText.className = 'text-amber-700 font-semibold';
+            };
+
+            audioPlayer.oncanplay = function() {
+                statusText.textContent = 'Pronto para reproduzir';
+                statusText.className = 'text-emerald-700 font-semibold';
+            };
+        });
+    </script>
+</body>
+</html>
