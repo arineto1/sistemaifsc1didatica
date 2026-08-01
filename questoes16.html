@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS - Política Nacional de Educação Digital (PNED)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            800: '#1e3a8a',
+                            900: '#172554',
+                        },
+                        paper: {
+                            bg: '#fbfbf9',
+                            card: '#ffffff',
+                            border: '#e8e6df',
+                            text: '#24292f',
+                            muted: '#57606a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        serif: ['Georgia', 'Cambria', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f7f6f2;
+            color: #24292f;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .reading-container {
+            max-width: 860px;
+        }
+
+        .question-card {
+            background: #ffffff;
+            border: 1px solid #e5e3da;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .option-label {
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+
+        .option-label:hover:not(.disabled) {
+            background-color: #f3f2eb;
+            border-color: #cbd5e1;
+        }
+
+        .option-input:checked + .option-box {
+            border-color: #1d4ed8;
+            background-color: #eff6ff;
+        }
+
+        /* Custom scrollbar for better reading feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f0ea;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .badge-correct {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .badge-incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-16">
+
+    <!-- Top Header -->
+    <header class="sticky top-0 z-30 bg-[#f8f7f2]/95 backdrop-blur border-b border-[#e5e3da] px-4 py-3">
+        <div class="reading-container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-brand-800 text-white text-xs font-bold px-2.5 py-1 rounded tracking-wider uppercase">FAURGS</span>
+                <h1 class="text-sm md:text-base font-semibold text-gray-800 truncate">PNED - Lei nº 14.533/2023</h1>
+            </div>
+            <div id="header-progress" class="text-xs font-medium text-gray-600 bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
+                Respondidas: <span id="answered-count" class="font-bold text-brand-700">0</span>/10
+            </div>
+        </div>
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 h-1.5 mt-3 rounded-full overflow-hidden reading-container mx-auto">
+            <div id="progress-bar-inner" class="bg-brand-600 h-full w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="reading-container mx-auto px-4 pt-8">
+
+        <!-- Banner Intro -->
+        <div class="bg-white rounded-xl p-6 md:p-8 mb-8 border border-[#e5e3da] shadow-sm">
+            <div class="border-b border-gray-100 pb-4 mb-4">
+                <span class="text-xs font-semibold text-brand-700 uppercase tracking-wider">Simulado de Legislação Educacional</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mt-1">Política Nacional de Educação Digital</h2>
+                <p class="text-sm text-gray-500 mt-1">Questões inéditas elaboradas no estilo tradicional da banca <strong>FAURGS</strong> com gabarito e resoluções completas.</p>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-4 text-xs text-gray-600 bg-[#faf9f5] p-4 rounded-lg border border-[#eee9df]">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>10 Questões de Múltipla Escolha (A-E)</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C20.832 18.477 19.247 18 17.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span>Resoluções Detalhadas inclusas no final</span>
+                </div>
+            </div>
+        </div>
+
+        <form id="quiz-form">
+            <div id="questions-container" class="space-y-8">
+                <!-- Questions will be dynamically populated here -->
+            </div>
+
+            <!-- Submit Button Area -->
+            <div class="mt-10 p-6 bg-white rounded-xl border border-[#e5e3da] text-center shadow-sm">
+                <p class="text-sm text-gray-600 mb-4">Revise suas respostas antes de finalizar o simulado. As resoluções completas serão reveladas abaixo após o envio.</p>
+                <button type="button" id="submit-btn" onclick="submitQuiz()" class="w-full md:w-auto px-8 py-3.5 bg-brand-700 hover:bg-brand-800 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-base">
+                    Finalizar Simulado e Ver Resoluções
+                </button>
+            </div>
+        </form>
+
+        <!-- Results Summary Section (Hidden initially) -->
+        <section id="results-section" class="hidden mt-12 bg-white rounded-xl p-6 md:p-8 border border-gray-200 shadow-md">
+            <div class="text-center pb-6 border-b border-gray-200">
+                <span class="text-xs font-bold text-brand-700 uppercase tracking-widest">Resultado do Simulado</span>
+                <h2 class="text-3xl font-extrabold text-gray-900 mt-1">Sua Pontuação Final</h2>
+                <div class="mt-6 flex justify-center items-center gap-6">
+                    <div class="text-center px-4 py-2 bg-gray-50 rounded-lg border border-gray-100">
+                        <span class="block text-3xl font-black text-brand-700" id="score-text">0 / 10</span>
+                        <span class="text-xs text-gray-500 font-medium uppercase">Acertos</span>
+                    </div>
+                    <div class="text-center px-4 py-2 bg-gray-50 rounded-lg border border-gray-100">
+                        <span class="block text-3xl font-black text-gray-800" id="percentage-text">0%</span>
+                        <span class="text-xs text-gray-500 font-medium uppercase">Aproveitamento</span>
+                    </div>
+                </div>
+                <p id="feedback-message" class="mt-4 text-sm font-medium text-gray-700"></p>
+                <button onclick="resetQuiz()" class="mt-6 inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    Refazer Simulado
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const questionsData = [
+            {
+                id: 1,
+                title: "Questão 01",
+                statement: "Considere as seguintes afirmações em relação aos eixos estruturantes e aos objetivos da Política Nacional de Educação Digital (PNED), instituída pela Lei nº 14.533/2023:",
+                items: [
+                    "I. O eixo da Inclusão Digital visa garantir o acesso, a conscientização e a capacitação em recursos e ferramentas digitais para toda a população, priorizando o atendimento aos grupos socialmente vulneráveis.",
+                    "II. A Educação Digital Escolar busca inserir a educação digital nos ambientes escolares em todos os níveis e modalidades, promovendo o letramento midiático, o pensamento computacional e o ensino de programação e robótica.",
+                    "III. O eixo de Capacitação e Especialização Digital foca na preparação da população em idade ativa para o mercado de trabalho, estabelecendo articulação com dados do Cadastro Geral de Empregados e Desempregados (Caged) para identificação de demandas ocupacionais.",
+                    "IV. O eixo de Pesquisa e Desenvolvimento (P&D) em TICs visa ao fomento da inovação, incentivo à ciência aberta e criação de tecnologias assistivas e acessíveis de baixo custo."
+                ],
+                questionText: "Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I e II." },
+                    { letter: "B", text: "Apenas III e IV." },
+                    { letter: "C", text: "Apenas I, II e III." },
+                    { letter: "D", text: "Apenas II, III e IV." },
+                    { letter: "E", text: "I, II, III e IV." }
+                ],
+                correctAnswer: "E",
+                reference: "Art. 1º, § 2º, incisos I a IV da Lei nº 14.533/2023",
+                resolution: "A questão aborda a estrutura da Política Nacional de Educação Digital (PNED), disciplinada no Artigo 1º, § 2º, da Lei nº 14.533/2023. A norma organiza a política pública em quatro eixos norteadores:<br><br>" +
+                    "• <strong>Inclusão Digital (Eixo I):</strong> Objetiva assegurar a toda a população o acesso a recursos digitais, promovendo o treinamento de competências e priorizando os cidadãos em situação de vulnerabilidade social.<br>" +
+                    "• <strong>Educação Digital Escolar (Eixo II):</strong> Garante a inserção de recursos e linguagens tecnológicas nos estabelecimentos escolares de educação básica e superior, abrangendo letramento midiático, pensamento computacional, programação e robótica.<br>" +
+                    "• <strong>Capacitação e Especialização Digital (Eixo III):</strong> Desenvolve competências voltadas à empregabilidade e qualificação profissional em TICs, articulando-se com o Caged para monitorar demandas do mercado de trabalho.<br>" +
+                    "• <strong>Pesquisa e Desenvolvimento em TICs (Eixo IV):</strong> Estimula a inovação, a ciência aberta, a infraestrutura compartilhada e o desenvolvimento de tecnologias acessíveis e de baixo custo.<br><br>" +
+                    "Como todas as afirmativas descrevem com exatidão os eixos contidos nos incisos I, II, III e IV do § 2º do Art. 1º, a alternativa correta é a <strong>(E)</strong>."
+            },
+            {
+                id: 2,
+                title: "Questão 02",
+                statement: "A Lei nº 14.533/2023 alterou expressamente a Lei de Diretrizes e Bases da Educação Nacional (LDB – Lei nº 9.394/1996), incorporando novas obrigações ao Poder Público e alterando diretrizes curriculares. Com base no texto legal atualizado, considere as seguintes afirmativas:",
+                items: [
+                    "I. O artigo 4º da LDB passou a incluir como dever do Estado a garantia de conectividade à internet em alta velocidade em todas as instituições públicas de educação básica e superior para uso pedagógico.",
+                    "II. O parágrafo 11 do artigo 26 da LDB estabelece que a educação digital, com foco no letramento digital e no ensino de computação, programação e robótica, é componente curricular do ensino fundamental e do ensino médio.",
+                    "III. As relações entre o ensino e a aprendizagem digital devem prever técnicas e recursos digitais que fortaleçam os papéis de docência e aprendizagem do professor e do aluno, criando espaços coletivos de mútuo desenvolvimento."
+                ],
+                questionText: "Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e III." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correctAnswer: "E",
+                reference: "Art. 4º, XII e parágrafo único; Art. 26, § 11 da LDB (Lei nº 9.394/1996)",
+                resolution: "A Lei nº 14.533/2023 promoveu alterações na Lei de Diretrizes e Bases da Educação Nacional (LDB - Lei nº 9.394/1996):<br><br>" +
+                    "• <strong>Afirmativa I:</strong> O Artigo 7º da Lei nº 14.533/2023 alterou o Artigo 4º da LDB para incluir o inciso XII, que estabelece como dever do Estado com a educação escolar pública a garantia de conectividade de alta velocidade para fins pedagógicos em todas as instituições públicas de educação básica e superior.<br>" +
+                    "• <strong>Afirmativa II:</strong> O mesmo dispositivo alterou o Artigo 26 da LDB, acrescentando o § 11. Embora inicialmente vetado, o trecho foi promulgado pelo Congresso Nacional em 22 de dezembro de 2023, consagrando que a educação digital — focada no letramento digital, computação, programação e robótica — integra a estrutura curricular do ensino fundamental e do ensino médio.<br>" +
+                    "• <strong>Afirmativa III:</strong> O parágrafo único acrescentado ao Artigo 4º da LDB explicita que a aprendizagem digital deve empregar técnicas e ferramentas que fortaleçam o papel pedagógico de professores e estudantes, construindo espaços coletivos de desenvolvimento.<br><br>" +
+                    "As três afirmativas refletem com precisão as alterações vigentes da LDB, confirmando o gabarito na alternativa <strong>(E)</strong>."
+            },
+            {
+                id: 3,
+                title: "Questão 03",
+                statement: "No âmbito do eixo da Educação Digital Escolar (Art. 3º da Lei nº 14.533/2023), a legislação estrutura cinco áreas fundamentais de aprendizagem e desenvolvimento pedagógico. Associe os conceitos listados na Coluna 1 às suas respectivas descrições dispostas na Coluna 2.<br><br>" +
+                    "<strong>Coluna 1</strong><br>" +
+                    "(1) Pensamento Computacional<br>" +
+                    "(2) Mundo Digital<br>" +
+                    "(3) Cultura Digital<br>" +
+                    "(4) Direitos Digitais<br>" +
+                    "(5) Tecnologia Assistiva<br><br>" +
+                    "<strong>Coluna 2</strong><br>" +
+                    "( &nbsp; ) Aprendizado sobre o funcionamento de hardware, software, redes de computadores e a arquitetura geral do ambiente de internet.<br>" +
+                    "( &nbsp; ) Capacidade de compreender, modelar, resolver e automatizar problemas e soluções de forma metódica e sistemática por meio de algoritmos e lógica.<br>" +
+                    "( &nbsp; ) Atuação consciente, ética, responsável e democrática no ambiente digital, compreendendo os impactos e avanços da revolução tecnológica na sociedade.<br>" +
+                    "( &nbsp; ) Utilização de produtos, recursos, metodologias e estratégias para promover a funcionalidade e a inclusão de estudantes com deficiência ou mobilidade reduzida.<br>" +
+                    "( &nbsp; ) Conscientização sobre o uso seguro das redes, proteção de dados pessoais nos termos da Lei Geral de Proteção de Dados Pessoais (LGPD) e salvaguarda de populações vulneráveis.",
+                questionText: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é:",
+                options: [
+                    { letter: "A", text: "2 – 1 – 3 – 5 – 4." },
+                    { letter: "B", text: "1 – 2 – 4 – 3 – 5." },
+                    { letter: "C", text: "3 – 1 – 2 – 5 – 4." },
+                    { letter: "D", text: "2 – 3 – 1 – 4 – 5." },
+                    { letter: "E", text: "5 – 2 – 3 – 1 – 4." }
+                ],
+                correctAnswer: "A",
+                reference: "Art. 3º, caput, incisos I a V da Lei nº 14.533/2023",
+                resolution: "O Artigo 3º da Lei nº 14.533/2023 define as áreas de abrangência do eixo de Educação Digital Escolar:<br><br>" +
+                    "• <strong>Mundo Digital (2):</strong> Compreende o aprendizado sobre hardware, softwares, redes e a arquitetura da internet, inserindo-se no inciso II.<br>" +
+                    "• <strong>Pensamento Computacional (1):</strong> Definido no inciso I como a capacidade de compreender, analisar, modelar, resolver e automatizar problemas por meio de algoritmos e pensamento metódico.<br>" +
+                    "• <strong>Cultura Digital (3):</strong> Trata da atuação consciente, ética, crítica e democrática no ambiente virtual, conforme estabelece o inciso III.<br>" +
+                    "• <strong>Tecnologia Assistiva (5):</strong> Refere-se ao uso de recursos e estratégias para garantir acessibilidade e inclusão de estudantes com deficiência ou mobilidade reduzida (inciso V).<br>" +
+                    "• <strong>Direitos Digitais (4):</strong> Envolve a conscientização sobre segurança na rede, proteção de dados pessoais (LGPD) e salvaguarda de grupos vulneráveis (inciso IV).<br><br>" +
+                    "A ordem de preenchimento dos parênteses é <strong>2 – 1 – 3 – 5 – 4</strong>, correspondendo à alternativa <strong>(A)</strong>."
+            },
+            {
+                id: 4,
+                title: "Questão 04",
+                statement: "Conforme disposto no Art. 4º da Lei nº 14.533/2023, o eixo de Capacitação e Especialização Digital prevê estratégias voltadas para a inserção profissional e a formação continuada em Tecnologias da Informação e Comunicação (TICs). Em seu parágrafo 2º, o diploma legal estabelece a definição jurídica do termo <em>bootcamps</em>.",
+                questionText: "Assinale a alternativa que expressa corretamente a definição legal de bootcamps contida na referida legislação:",
+                options: [
+                    { letter: "A", text: "Cursos superiores de bacharelado em engenharia de software com duração mínima de quatro anos, ministrados exclusivamente por universidades públicas federais." },
+                    { letter: "B", text: "Programas de imersão de curta duração em técnicas e linguagens computacionais com tamanho de turma limitado, priorizando o aprendizado prático e a experimentação tecnológica." },
+                    { letter: "C", text: "Plataformas governamentais autoinstrucionais de longa duração voltadas ao treinamento compulsório de servidores públicos federais ocupantes de cargos comissionados." },
+                    { letter: "D", text: "Exames de certificação teórica internacional aplicados por empresas estrangeiras, sem exigência de atividades práticas ou laboratoriais." },
+                    { letter: "E", text: "Estágios obrigatórios não remunerados desenvolvidos em empresas de grande porte para estudantes do ensino médio técnico." }
+                ],
+                correctAnswer: "B",
+                reference: "Art. 4º, § 2º da Lei nº 14.533/2023",
+                resolution: "O Artigo 4º da Lei nº 14.533/2023 trata da Capacitação e Especialização Digital. Para fins de alinhamento conceitual sobre metodologias ativas e formação profissional rápida, o § 2º traz o conceito formal de <em>bootcamps</em>:<br><br>" +
+                    "• <strong>Art. 4º, § 2º:</strong> <em>\"Consideram-se bootcamps os programas de imersão de curta duração em técnicas e linguagens computacionais com tamanho de turma limitado, priorizando o aprendizado prático e a experimentação tecnológica.\"</em><br><br>" +
+                    "As demais opções apresentam proposições incorretas ou alheias ao texto normativo:<br>" +
+                    "- A opção (A) descreve cursos de graduação regular.<br>" +
+                    "- A opção (C) menciona capacitações governamentais compulsórias de longa duração.<br>" +
+                    "- A opção (D) resume a exames teóricos sem prática.<br>" +
+                    "- A opção (E) refere-se a estágios da Lei nº 11.788/2008.<br><br>" +
+                    "A alternativa correta é a <strong>(B)</strong>."
+            },
+            {
+                id: 5,
+                title: "Questão 05",
+                statement: "Sobre as fontes de financiamento para a implementação das ações, projetos e programas da Política Nacional de Educação Digital (PNED), nos termos do Art. 11 da Lei nº 14.533/2023, analise as afirmativas abaixo e assinale V para as Verdadeiras e F para as Falsas:<br><br>" +
+                    "( &nbsp; ) Dotações orçamentárias da União, dos Estados, do Distrito Federal e dos Municípios constituem fonte de recursos da PNED.<br>" +
+                    "( &nbsp; ) Doações públicas ou privadas podem ser utilizadas para o financiamento das ações e projetos desenvolvidos no âmbito da PNED.<br>" +
+                    "( &nbsp; ) Os recursos do Fundo de Universalização dos Serviços de Telecomunicações (FUST) constituem fonte de recursos para a PNED a partir de 1º de janeiro de 2025.<br>" +
+                    "( &nbsp; ) Recursos provenientes do Fundo para o Desenvolvimento Tecnológico das Telecomunicações (FUNTTEL) integram o rol legal de fontes financiadoras.",
+                questionText: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é:",
+                options: [
+                    { letter: "A", text: "V – V – V – V." },
+                    { letter: "B", text: "V – F – V – F." },
+                    { letter: "C", text: "F – V – F – V." },
+                    { letter: "D", text: "V – V – F – F." },
+                    { letter: "E", text: "F – F – V – V." }
+                ],
+                correctAnswer: "A",
+                reference: "Art. 11, incisos I a IV da Lei nº 14.533/2023",
+                resolution: "A questão aborda o arcabouço de financiamento da PNED previsto no Artigo 11 da Lei nº 14.533/2023:<br><br>" +
+                    "• <strong>1ª Afirmativa (Verdadeira):</strong> O inciso I do Art. 11 prevê dotações orçamentárias da União, dos Estados, do Distrito Federal e dos Municípios.<br>" +
+                    "• <strong>2ª Afirmativa (Verdadeira):</strong> O inciso II autoriza o recebimento de doações públicas ou privadas.<br>" +
+                    "• <strong>3ª Afirmativa (Verdadeira):</strong> O inciso III inclui expressamente os recursos do Fundo de Universalização dos Serviços de Telecomunicações (FUST), com marco temporal fixado a partir de <strong>1º de janeiro de 2025</strong>.<br>" +
+                    "• <strong>4ª Afirmativa (Verdadeira):</strong> O inciso IV prevê a utilização de recursos provenientes do Fundo para o Desenvolvimento Tecnológico das Telecomunicações (FUNTTEL).<br><br>" +
+                    "Todas as afirmativas são verdadeiras (V – V – V – V), resultando na escolha da alternativa <strong>(A)</strong>."
+            },
+            {
+                id: 6,
+                title: "Questão 06",
+                statement: "O Art. 5º da Lei nº 14.533/2023 regulamenta o Eixo IV – Pesquisa e Desenvolvimento (P&D) em TICs, fixando diretrizes para a produção científica, inovação e compartilhamento de conhecimento no ecossistema educacional.",
+                questionText: "Em relação às estratégias prioritárias desse eixo, assinale a alternativa INCORRETA:",
+                options: [
+                    { letter: "A", text: "A PNED incentiva a ciência aberta, fundamentada no compartilhamento livre, colaborativo, sustentável e transparente de dados, recursos e conhecimentos científicos." },
+                    { letter: "B", text: "É diretriz expressa da PNED o estímulo ao armazenamento, à disseminação e ao reuso de conteúdos científicos digitais prioritariamente em língua estrangeira, sendo vedada a publicação de acervos em língua portuguesa para evitar duplicidade bibliográfica." },
+                    { letter: "C", text: "É prevista a promoção de parcerias internacionais do Brasil com centros de ciência e tecnologia para o surgimento e desenvolvimento de TICs acessíveis de baixo custo." },
+                    { letter: "D", text: "A lei assegura o compartilhamento de recursos e infraestruturas digitais entre Instituições Científicas, Tecnológicas e de Inovação (ICTs)." },
+                    { letter: "E", text: "Soluções tecnológicas desenvolvidas no âmbito da PNED sujeitam-se aos mecanismos de fomento, incentivo e proteção previstos na Lei de Inovação (Lei nº 10.973/2004)." }
+                ],
+                correctAnswer: "B",
+                reference: "Art. 5º, § 1º, inciso V da Lei nº 14.533/2023",
+                resolution: "O Artigo 5º da Lei nº 14.533/2023 disciplina o eixo de Pesquisa e Desenvolvimento (P&D) em TICs.<br><br>" +
+                    "• <strong>Análise da Alternativa (B) - INCORRETA:</strong> O inciso V do § 1º do Artigo 5º estabelece como estratégia o <em>\"incentivo ao armazenamento, à disseminação e ao reuso de conteúdos científicos digitais <strong>em língua portuguesa</strong>\"</em>. A assertiva (B) altera o sentido da norma ao afirmar que o incentivo seria prioritariamente para publicações em língua estrangeira e que haveria vedação ao uso da língua portuguesa.<br>" +
+                    "• <strong>Análise das demais alternativas (CORRETAS):</strong> As alternativas (A), (C), (D) e (E) espelham com precisão o incentivo à ciência aberta (inciso III), parcerias internacionais para tecnologias acessíveis (inciso II), compartilhamento de infraestrutura entre ICTs (inciso IV) e submissão dos resultados à Lei de Inovação (Art. 5º, § 2º).<br><br>" +
+                    "A alternativa incorreta é a <strong>(B)</strong>."
+            },
+            {
+                id: 7,
+                title: "Questão 07",
+                statement: "A Lei nº 14.533/2023 alterou o artigo 1º da Lei nº 9.448/1997, atribuindo uma nova competência institucional ao Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP).",
+                questionText: "Assinale a alternativa que apresenta de forma exata essa nova incumbência atribuída ao INEP pelo texto legal:",
+                options: [
+                    { letter: "A", text: "Credenciar e autorizar o funcionamento pedagógico de empresas de tecnologia educacional privadas, bem como fiscalizar o cumprimento das metas orçamentárias municipais." },
+                    { letter: "B", text: "Propor instrumentos de avaliação, diagnóstico e recenseamento estatístico do letramento e da educação digital nas instituições de educação básica e superior." },
+                    { letter: "C", text: "Comprar e distribuir equipamentos de informática e chips de conectividade móvel diretamente aos docentes da rede pública de ensino." },
+                    { letter: "D", text: "Desenvolver com exclusividade os currículos disciplinares de ciência da computação para as redes estaduais e municipais de ensino." },
+                    { letter: "E", text: "Gerir e fiscalizar a arrecadação e a distribuição dos recursos do Fundo de Universalização dos Serviços de Telecomunicações (FUST)." }
+                ],
+                correctAnswer: "B",
+                reference: "Art. 8º da Lei nº 14.533/2023 (Art. 1º, X da Lei nº 9.448/1997)",
+                resolution: "O Artigo 8º da Lei nº 14.533/2023 altera a Lei nº 9.448/1997, que rege as competências institucionais do INEP.<br><br>" +
+                    "• <strong>Art. 1º, Inciso X da Lei nº 9.448/1997 (inserido pelo Art. 8º da Lei nº 14.533/2023):</strong> Atribui ao INEP a função de <em>\"propor instrumentos de avaliação, diagnóstico e recenseamento estatístico do letramento e da educação digital nas instituições de educação básica e superior\"</em>.<br>" +
+                    "• <strong>Análise dos distratores:</strong> O texto legal não atribuiu ao INEP funções de compra de conectividade e hardware (C), credenciamento de empresas privadas (A), elaboração exclusiva de matrizes curriculares estaduais (D) ou gestão financeira do FUST (E).<br><br>" +
+                    "A alternativa que reflete o comando legal é a <strong>(B)</strong>."
+            },
+            {
+                id: 8,
+                title: "Questão 08",
+                statement: "Considere as seguintes afirmações a respeito das diretrizes de articulação institucional da Política Nacional de Educação Digital (PNED) e de sua relação com políticas preexistentes e entidades da sociedade civil:",
+                items: [
+                    "I. A PNED funciona como uma instância de articulação federativa e intersetorial, não substituindo políticas públicas já existentes de governos estaduais, distrital ou municipais voltadas à educação digital e conectividade.",
+                    "II. As ações desenvolvidas no âmbito do eixo de Educação Digital Escolar devem manter consonância com a Base Nacional Comum Curricular (BNCC) e demais diretrizes curriculares nacionais.",
+                    "III. É expressamente vedado aos órgãos e entidades públicas federais, estaduais e municipais firmar convênios, acordos de cooperação ou parcerias com entidades privadas para a consecução dos objetivos da PNED."
+                ],
+                questionText: "Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas III." },
+                    { letter: "C", text: "Apenas I e II." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correctAnswer: "C",
+                reference: "Art. 1º, § 3º; Art. 3º, § 2º; e Art. 11, parágrafo único da Lei nº 14.533/2023",
+                resolution: "A questão analisa o modelo de cooperação federativa e de governança da PNED:<br><br>" +
+                    "• <strong>Afirmativa I (Correta):</strong> O Artigo 1º, § 3º, explicita que a PNED funciona como instância de articulação e convergência, preservando as políticas públicas de educação digital já desenvolvidas por Estados, Distrito Federal e Municípios.<br>" +
+                    "• <strong>Afirmativa II (Correta):</strong> O Artigo 3º, § 2º, estabelece que as ações de educação digital escolar devem observar o alinhamento com a Base Nacional Comum Curricular (BNCC).<br>" +
+                    "• <strong>Afirmativa III (Incorreta):</strong> O parágrafo único do Artigo 11 expressamente autoriza que órgãos e entidades públicas firmem convênios, acordos de cooperação, termos de execução descentralizada e parcerias com entidades <strong>privadas</strong> para a consecução dos objetivos da política.<br><br>" +
+                    "Apenas as afirmativas I e II estão corretas, indicando a alternativa <strong>(C)</strong>."
+            },
+            {
+                id: 9,
+                title: "Questão 09",
+                statement: "O Artigo 6º da Lei nº 14.533/2023 estabelece que constitui dever do Poder Público implementar eixos habilitadores para viabilizar a execução plena da PNED nas redes de ensino.",
+                questionText: "Com base nos incisos do Artigo 6º, assinale a alternativa que NÃO corresponde a uma diretriz habilitadora prevista na legislação:",
+                options: [
+                    { letter: "A", text: "Desenvolvimento de projetos de ensino inovadores que estimulem as competências digitais nas redes e escolas públicas." },
+                    { letter: "B", text: "Qualificação digital dos dirigentes e gestores escolares das instituições de educação pública." },
+                    { letter: "C", text: "Programas de competências em liderança escolar, capacitados para definir planos digitais e motivar a inovação pedagógica." },
+                    { letter: "D", text: "Aplicação imediata de sanções financeiras e descredenciamento sumário de instituições públicas que não atingirem a digitalização integral em seis meses." },
+                    { letter: "E", text: "Estabelecimento de metas concretas e mensuráveis aplicáveis ao ensino público e privado para cada eixo do Artigo 1º." }
+                ],
+                correctAnswer: "D",
+                reference: "Art. 6º, incisos I a VI da Lei nº 14.533/2023",
+                resolution: "O Artigo 6º da Lei nº 14.533/2023 especifica as diretrizes dos chamados \"eixos habilitadores\", indispensáveis para assegurar a execução da PNED:<br><br>" +
+                    "• <strong>Análise da Alternativa (D) - INCORRETA:</strong> O Artigo 6º prevê diretrizes de planejamento, formação e avaliação pedagógica (conectividade, formação de dirigentes, projetos inovadores e metas mensuráveis). Não há previsão legislativa de sanções financeiras ou cancelamento de credenciamento escolar por prazos de digitalização.<br>" +
+                    "• <strong>Análise das demais opções (PREVISTAS NO ART. 6º):</strong><br>" +
+                    "- (A) Corresponde ao inciso II.<br>" +
+                    "- (B) Corresponde ao inciso IV.<br>" +
+                    "- (C) Corresponde ao inciso III.<br>" +
+                    "- (E) Corresponde ao inciso VI.<br><br>" +
+                    "A alternativa que NÃO integra os eixos habilitadores é a <strong>(D)</strong>."
+            },
+            {
+                id: 10,
+                title: "Questão 10",
+                statement: "No que tange ao processo legislativo da Lei nº 14.533/2023, analise as assertivas sobre os dispositivos que sofreram veto presidencial inicial e a posterior deliberação do Congresso Nacional:",
+                items: [
+                    "I. O Poder Executivo vetou originalmente a inclusão do parágrafo 11 ao artigo 26 da LDB, o qual previa a educação digital como componente curricular do ensino fundamental e do ensino médio.",
+                    "II. O Congresso Nacional derrubou o veto relativo ao § 11 do artigo 26 da LDB, resultando na sua promulgação formal em dezembro de 2023 e consolidando a educação digital como componente curricular da educação básica.",
+                    "III. Os vetos apostos aos artigos 9º (priorização de bootcamps na Lei do FIES) e 10 (alteração da Lei do Livro) também foram derrubados, entrando em vigor plenamente juntamente com o texto da LDB."
+                ],
+                questionText: "Quais estão corretas?",
+                options: [
+                    { letter: "A", text: "Apenas I." },
+                    { letter: "B", text: "Apenas II." },
+                    { letter: "C", text: "Apenas I e II." },
+                    { letter: "D", text: "Apenas II e III." },
+                    { letter: "E", text: "I, II e III." }
+                ],
+                correctAnswer: "C",
+                reference: "Art. 7º da Lei nº 14.533/2023 e Mensagem de Veto Presidencial nº 32/2023",
+                resolution: "A questão resgata o histórico do processo legislativo da Lei nº 14.533/2023 e as deliberações sobre vetos presenciais:<br><br>" +
+                    "• <strong>Afirmativa I (Correta):</strong> Na promulgação inicial (11 de janeiro de 2023), o Poder Executivo apostou veto ao parágrafo 11 do Art. 26 da LDB (introduzido pelo Art. 7º da lei), que versava sobre a obrigatoriedade da educação digital como componente curricular.<br>" +
+                    "• <strong>Afirmativa II (Correta):</strong> O Congresso Nacional apreciou e rejeitou o veto aposto ao § 11 do Art. 26 da LDB, resultando na sua promulgação formal em sessão de 22 de dezembro de 2023, restabelecendo o ensino de computação, programação e robótica na educação básica.<br>" +
+                    "• <strong>Afirmativa III (Incorreta):</strong> Os vetos apostos aos Artigos 9º (prioridade de <em>bootcamps</em> no FIES) e 10 (alteração no conceito de livro digital) foram mantidos pelo Congresso Nacional, permanecendo fora do ordenamento.<br><br>" +
+                    "Estão corretas apenas as afirmativas I e II, ratificando a alternativa <strong>(C)</strong>."
+            }
+        ];
+
+        let userAnswers = {};
+        let isSubmitted = false;
+
+        // Render questions on page load
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            questionsData.forEach((q) => {
+                const card = document.createElement('article');
+                card.id = `question-card-${q.id}`;
+                card.className = 'question-card rounded-xl p-6 md:p-8 relative';
+
+                let itemsHTML = '';
+                if (q.items && q.items.length > 0) {
+                    itemsHTML = `<div class="my-4 space-y-2 pl-2 border-l-2 border-gray-200 text-sm md:text-base text-gray-800 leading-relaxed font-sans">
+                        ${q.items.map(item => `<p>${item}</p>`).join('')}
+                    </div>`;
+                }
+
+                let optionsHTML = q.options.map(opt => `
+                    <label id="label-q${q.id}-${opt.letter}" class="option-label flex items-start p-3.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition-colors">
+                        <input type="radio" name="q${q.id}" value="${opt.letter}" onchange="selectOption(${q.id}, '${opt.letter}')" class="option-input mt-1 h-4 w-4 text-brand-600 focus:ring-brand-500 border-gray-300">
+                        <div class="ml-3 text-sm md:text-base text-gray-800 leading-normal flex-1">
+                            <span class="font-bold mr-1">${opt.letter})</span> ${opt.text}
+                        </div>
+                    </label>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">${q.title}</span>
+                        <span id="badge-q${q.id}" class="hidden text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"></span>
+                    </div>
+                    <div class="text-sm md:text-base text-gray-900 leading-relaxed font-normal mb-3">
+                        ${q.statement}
+                    </div>
+                    ${itemsHTML}
+                    <p class="font-semibold text-gray-900 text-sm md:text-base mt-4 mb-4">${q.questionText}</p>
+                    
+                    <div class="space-y-2.5 mb-6">
+                        ${optionsHTML}
+                    </div>
+
+                    <!-- Resolution Section (Hidden until submitted) -->
+                    <div id="resolution-q${q.id}" class="hidden mt-6 pt-6 border-t border-gray-200 bg-[#fbfaf7] p-5 rounded-lg border border-[#e9e6dc]">
+                        <div class="flex items-center space-x-2 text-brand-800 font-bold text-sm mb-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Gabarito Comentado e Fundamentação Legal</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-3 font-medium">Dispositivo Legal: <em>${q.reference}</em></p>
+                        <div class="text-sm text-gray-800 leading-relaxed font-normal space-y-2">
+                            ${q.resolution}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(questionId, letter) {
+            if (isSubmitted) return;
+
+            userAnswers[questionId] = letter;
+            
+            // Update counter UI
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById('answered-count').innerText = answeredCount;
+            
+            const progressPercent = (answeredCount / questionsData.length) * 100;
+            document.getElementById('progress-bar-inner').style.width = `${progressPercent}%`;
+        }
+
+        function submitQuiz() {
+            if (isSubmitted) return;
+
+            const total = questionsData.length;
+            const answered = Object.keys(userAnswers).length;
+
+            if (answered < total) {
+                const confirmSubmit = window.confirm(`Você respondeu ${answered} de ${total} questões. Deseja finalizar mesmo assim?`);
+                if (!confirmSubmit) return;
+            }
+
+            isSubmitted = true;
+            let score = 0;
+
+            // Lock inputs and show corrections
+            questionsData.forEach(q => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = userChoice === q.correctAnswer;
+                if (isCorrect) score++;
+
+                const badge = document.getElementById(`badge-q${q.id}`);
+                badge.classList.remove('hidden');
+
+                if (isCorrect) {
+                    badge.innerText = 'Correta';
+                    badge.className = 'text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider badge-correct';
+                } else {
+                    badge.innerText = 'Incorreta / Não Respondida';
+                    badge.className = 'text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider badge-incorrect';
+                }
+
+                // Highlight options
+                q.options.forEach(opt => {
+                    const label = document.getElementById(`label-q${q.id}-${opt.letter}`);
+                    const input = label.querySelector('input');
+                    input.disabled = true;
+                    label.classList.add('disabled');
+
+                    if (opt.letter === q.correctAnswer) {
+                        label.classList.remove('bg-white', 'hover:bg-gray-50');
+                        label.classList.add('bg-green-50', 'border-green-400', 'text-green-900', 'font-medium');
+                    } else if (opt.letter === userChoice && !isCorrect) {
+                        label.classList.remove('bg-white', 'hover:bg-gray-50');
+                        label.classList.add('bg-red-50', 'border-red-300', 'text-red-900', 'line-through');
+                    }
+                });
+
+                // Show resolution
+                const resBlock = document.getElementById(`resolution-q${q.id}`);
+                resBlock.classList.remove('hidden');
+            });
+
+            // Disable submit button
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Simulado Finalizado';
+            submitBtn.className = 'w-full md:w-auto px-8 py-3.5 bg-gray-400 text-white font-semibold rounded-lg cursor-not-allowed opacity-80';
+
+            // Show results panel
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.classList.remove('hidden');
+            
+            document.getElementById('score-text').innerText = `${score} / ${total}`;
+            const percentage = Math.round((score / total) * 100);
+            document.getElementById('percentage-text').innerText = `${percentage}%`;
+
+            let feedback = "";
+            if (percentage === 100) feedback = "Excelente! Você demonstrou domínio absoluto da Lei nº 14.533/2023 e do estilo de cobrança da banca FAURGS.";
+            else if (percentage >= 80) feedback = "Ótimo desempenho! Seu nível de conhecimento sobre a PNED está elevado para a prova.";
+            else if (percentage >= 60) feedback = "Bom resultado! Revise os gabaritos e pontos da LDB para consolidar o conteúdo.";
+            else feedback = "Continue praticando! Leia com atenção os comentários e dispositivos de referência ao final de cada questão.";
+
+            document.getElementById('feedback-message').innerText = feedback;
+
+            // Scroll smoothly to results summary
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetQuiz() {
+            userAnswers = {};
+            isSubmitted = false;
+
+            document.getElementById('answered-count').innerText = '0';
+            document.getElementById('progress-bar-inner').style.width = '0%';
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'Finalizar Simulado e Ver Resoluções';
+            submitBtn.className = 'w-full md:w-auto px-8 py-3.5 bg-brand-700 hover:bg-brand-800 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-base';
+
+            document.getElementById('results-section').classList.add('hidden');
+
+            renderQuestions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            renderQuestions();
+        };
+    </script>
+</body>
+</html>

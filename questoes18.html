@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS - PNE 2026-2036 (Lei nº 15.388/2026)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for long-form reading comfort -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        paper: '#FAF8F5',
+                        'paper-card': '#FFFFFF',
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            800: '#1e3a8a',
+                            900: '#0f172a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #1E293B;
+            -webkit-font-smoothing: antialiased;
+        }
+        .reading-text {
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+            letter-spacing: -0.003em;
+        }
+        .option-label {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-label:hover {
+            border-color: #3b82f6;
+            background-color: #f8fafc;
+        }
+        input[type="radio"]:checked + .option-content {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            box-shadow: 0 0 0 1px #2563eb;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-blue-200">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-stone-800 text-amber-300 text-xs font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">FAURGS</span>
+                    <span class="text-xs font-semibold text-stone-500 uppercase tracking-wider">Legislação Educacional</span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-bold text-stone-900 mt-1">Plano Nacional de Educação (2026–2036)</h1>
+            </div>
+            <!-- Progress Pill -->
+            <div id="progress-container" class="flex items-center gap-3 bg-stone-100 px-4 py-2 rounded-full border border-stone-200">
+                <span class="text-xs font-bold text-stone-600 uppercase">Respondidas:</span>
+                <span id="progress-text" class="text-sm font-extrabold text-blue-700">0 / 10</span>
+                <div class="w-20 bg-stone-300 h-2 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 py-8">
+        
+        <!-- Welcome Card -->
+        <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm mb-8">
+            <h2 class="text-lg font-bold text-stone-900 mb-2 flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Instruções do Simulado
+            </h2>
+            <p class="reading-text text-stone-700 text-sm">
+                Este simulado contém <strong>10 questões inéditas elaboradas no estilo da banca FAURGS</strong> sobre a <strong>Lei nº 15.388/2026 (PNE 2026–2036)</strong>. Marque uma opção para cada questão. Ao concluir, clique em <strong>"Finalizar e Ver Resultado"</strong> para conferir seu desempenho, nota detalhada e a resolução explicada de cada item na mesma página.
+            </p>
+        </div>
+
+        <form id="quiz-form" onsubmit="return false;">
+            
+            <div id="questions-wrapper" class="space-y-8">
+                <!-- Questions injected dynamically by JavaScript for clean state management -->
+            </div>
+
+            <div class="mt-10 mb-16 flex flex-col sm:flex-row items-center justify-between gap-4 bg-stone-100 p-6 rounded-2xl border border-stone-200">
+                <div>
+                    <p class="text-stone-800 font-bold">Pronto para conferir o gabarito?</p>
+                    <p class="text-xs text-stone-600 mt-0.5">Certifique-se de responder todas as 10 questões para obter uma avaliação completa.</p>
+                </div>
+                <button type="button" id="btn-submit" onclick="submitQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-xl shadow-md transition-all transform active:scale-95 flex items-center justify-center gap-2 text-base">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Finalizar e Ver Resultado
+                </button>
+            </div>
+        </form>
+
+        <!-- Results Section (Hidden initially) -->
+        <section id="results-section" class="hidden scroll-mt-24">
+            
+            <!-- Overall Score Banner -->
+            <div id="score-card" class="p-6 sm:p-8 rounded-2xl border shadow-md mb-8 transition-all">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+                    <div>
+                        <span id="score-badge" class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Desempenho</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900">Resultado do Simulado</h2>
+                        <p id="score-message" class="text-stone-700 text-sm mt-1">Confira seu número de acertos e analise a resolução detalhada abaixo.</p>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur px-8 py-4 rounded-xl border border-stone-200 text-center min-w-[180px]">
+                        <p class="text-xs font-bold text-stone-500 uppercase">Pontuação Final</p>
+                        <p id="score-text" class="text-4xl font-extrabold text-stone-900 my-1">0 / 10</p>
+                        <p id="score-percent" class="text-sm font-semibold text-blue-600">0% de acertos</p>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="mt-6 pt-6 border-t border-stone-200/60 flex flex-wrap gap-3 justify-center md:justify-start">
+                    <button onclick="resetQuiz()" class="px-5 py-2.5 bg-stone-800 hover:bg-stone-900 text-white text-sm font-semibold rounded-lg shadow transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        Refazer Simulado
+                    </button>
+                    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-5 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-800 text-sm font-semibold rounded-lg transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                        Voltar ao Topo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="flex items-center justify-between mb-6 pb-2 border-b border-stone-300">
+                <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Gabarito e Resoluções Comentadas
+                </h3>
+            </div>
+
+            <div id="resolutions-container" class="space-y-8">
+                <!-- Resolutions injected dynamically -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-stone-200 mt-20 py-8 text-center text-xs text-stone-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="font-semibold text-stone-700">Simulado de Legislação Educacional — PNE 2026–2036 (Lei nº 15.388/2026)</p>
+            <p class="mt-1 text-stone-500">Desenvolvido em estilo FAURGS com foco em leitura, acessibilidade e estudo de alto rendimento.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Full Question Data Bank matching the exact text from document
+        const quizData = [
+            {
+                id: 1,
+                title: "Questão 01",
+                topic: "Estrutura Geral e Diretrizes do PNE",
+                statement: "A Lei nº 15.388, de 14 de abril de 2026, aprovou o Plano Nacional de Educação (PNE) para o decênio 2026–2036. A estrutura normativa do novo PNE reorganiza a gestão da política educacional brasileira em eixos estratégicos e compromissos federativos.<br><br>A respeito da estrutura geral e das diretrizes do PNE 2026–2036, analise as assertivas a seguir:",
+                items: [
+                    "I. O Plano Nacional de Educação reúne, em sua estrutura legal, 19 objetivos gerais, 73 metas quantitativas e 372 estratégias operacionais, cobrindo da educação infantil à pós-graduação.",
+                    "II. O texto da Lei nº 15.388/2026 consolida uma mudança paradigmática em relação ao plano anterior ao deslocar o foco exclusivo da ampliação do acesso para uma concepção integrada que articula acesso, permanência, conclusão, aprendizagem efetiva e equidade.",
+                    "III. Por se tratar de uma lei federal, a responsabilidade pelo cumprimento e financiamento integral das metas estipuladas no PNE recai exclusivamente sobre a União, eximindo Estados, Distrito Federal e Municípios de metas suplementares."
+                ],
+                prompt: "Quais estão corretas?",
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas III." },
+                    { key: "C", text: "Apenas I e II." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                legalRef: "Estrutura quantitativa (19 objetivos, 73 metas, 372 estratégias) e articulação federativa.",
+                resolution: "<strong>Gabarito: (C)</strong><br><br>A análise das assertivas fundamenta-se nos preceitos normativos da Lei nº 15.388/2026.<br><br>• <strong>Assertiva I está CORRETA:</strong> O Plano Nacional de Educação para o decênio 2026–2036 é formalmente composto por 19 objetivos estratégicos, 73 metas de desempenho e 372 estratégias operacionais. Essa estrutura engloba integralmente todos os níveis, etapas e modalidades da educação nacional.<br><br>• <strong>Assertiva II está CORRETA:</strong> Destaca a mudança de viés conceitual promovida pelo novo PNE. Diferentemente do plano decenal anterior (2014–2024), focado prioritariamente na expansão quantitativa das vagas e do acesso, a Lei nº 15.388/2026 organiza o planejamento educacional a partir da cadeia integrada de acesso com permanência, permanência com conclusão na idade adequada, e conclusão com aprendizagem efetiva e equidade.<br><br>• <strong>Assertiva III está INCORRETA:</strong> Viola o princípio constitucional do regime de colaboração federativa regido pelo Artigo 211 da Constituição Federal e reproduzido no PNE. A Lei nº 15.388/2026 estabelece diretrizes e metas de observância obrigatória para a União, Estados, Distrito Federal e Municípios, exigindo a adequação coercitiva dos respetivos planos decenais subnacionais.<br><br>Portanto, estando corretas apenas as assertivas I e II, confirma-se a opção (C)."
+            },
+            {
+                id: 2,
+                title: "Questão 02",
+                topic: "Adequação dos Planos Decenais Subnacionais",
+                statement: "A execução descentralizada do Plano Nacional de Educação exige o alinhamento das políticas educacionais locais por meio da elaboração ou adequação dos planos decenais de educação nos entes subnacionais.<br><br>Considerando as disposições da Lei nº 15.388/2026 e os prazos estabelecidos para a pactuação federativa, assinale a alternativa que apresenta, correta e respectivamente, o prazo legal limite, contado da publicação do PNE, para a aprovação do Plano Estadual de Educação (PEE) / Plano Distrital de Educação (PDE) e do Plano Municipal de Educação (PME).",
+                items: [],
+                prompt: "",
+                options: [
+                    { key: "A", text: "6 meses para o PEE/PDE e 12 meses para o PME." },
+                    { key: "B", text: "12 meses para o PEE/PDE e 15 meses para o PME." },
+                    { key: "C", text: "12 meses para o PEE/PDE e 24 meses para o PME." },
+                    { key: "D", text: "15 meses para o PEE/PDE e 18 meses para o PME." },
+                    { key: "E", text: "18 meses para o PEE/PDE e 36 meses para o PME." }
+                ],
+                correct: "B",
+                legalRef: "Prazos legais para aprovação do PEE/PDE (12 meses) e PME (15 meses) — Art. 34 / Anexo III.",
+                resolution: "<strong>Gabarito: (B)</strong><br><br>A governança federativa do PNE e os prazos de adequação legislativa dos entes subnacionais estão disciplinados no Artigo 34 e no Anexo III da Lei nº 15.388/2026.<br><br>O diploma legal determina que, a contar da data de sua publicação oficial (ocorrida em 15 de abril de 2026), os Estados e o Distrito Federal dispõem do prazo improrrogável de até <strong>12 meses</strong> para a aprovação dos seus Planos Estaduais de Educação (PEE) e Plano Distrital de Educação (PDE). Por sua vez, aos Municípios é concedido o prazo de até <strong>15 meses</strong> para a aprovação dos seus Planos Municipais de Educação (PME).<br><br>Esse escalonamento temporal assegura que a pactuação bipartite estadual sirva de subsidiação prévia ao planejamento municipal local.<br><br>Portanto, a sequência correta de 12 meses e 15 meses é identificada exclusivamente na alternativa (B)."
+            },
+            {
+                id: 3,
+                title: "Questão 03",
+                topic: "Metas da Educação Infantil",
+                statement: "Preencha as lacunas do texto abaixo no que se refere às metas de atendimento da Educação Infantil fixadas pela Lei nº 15.388/2026 para o decênio 2026–2036.<br><br><em>O PNE 2026–2036 estabelece o compromisso de ________________ da pré-escola para crianças de 4 e 5 anos de idade já nos primeiros anos de vigência da lei. No tocante à oferta para a faixa etária de 0 a 3 anos em creches, a meta nacional determina a ampliação da oferta de forma a atender, no mínimo, ______ das crianças dessa etapa até o final do decênio.</em><br><br>Assinale a alternativa que preenche correta e respectivamente las lacunas acima.",
+                items: [],
+                prompt: "",
+                options: [
+                    { key: "A", text: "expansão progressiva até 80% — 50%" },
+                    { key: "B", text: "universalização — 60%" },
+                    { key: "C", text: "universalização — 80%" },
+                    { key: "D", text: "ampliação facultativa de 90% — 45%" },
+                    { key: "E", text: "garantia de 70% de matrículas — 100%" }
+                ],
+                correct: "B",
+                legalRef: "Educação Infantil: universalização da pré-escola e 60% em creches.",
+                resolution: "<strong>Gabarito: (B)</strong><br><br>A regulação do atendimento na Educação Infantil estabelecida pela Lei nº 15.388/2026 distingue o caráter jurídico da pré-escola e das creches.<br><br>• <strong>Pré-escola (4 e 5 anos):</strong> Compõe a etapa da educação básica obrigatória e gratuita, de sorte que o PNE impõe a obrigação de sua <strong>universalização</strong> (atendimento de 100% da demanda) já nos primeiros anos de vigência do diploma legal.<br><br>• <strong>Creches (0 a 3 anos):</strong> Embora o atendimento seja facultativo para as famílias, a obrigação do Estado é de expansão continuada da oferta pública. A meta quantitativa fixada no PNE para o final do decênio (2036) é o atendimento de, no mínimo, <strong>60%</strong> da população dessa faixa etária.<br><br>Assim, o preenchimento exato das lacunas corresponde a 'universalização' e '60%', fundamentando a alternativa (B)."
+            },
+            {
+                id: 4,
+                title: "Questão 04",
+                topic: "Alfabetização no Ensino Fundamental",
+                statement: "A alfabetização na idade certa constitui um dos pilares essenciais do PNE (Lei nº 15.388/2026), figurando com metas intermediárias e finais específicas.<br><br>Sobre os parâmetros e temporalidades estipulados no PNE para a alfabetização das crianças no ensino fundamental, analise as afirmativas a seguir:",
+                items: [
+                    "I. O plano fixa como meta intermediária a garantia de que, no mínimo, 80% das crianças estejam plenamente alfabetizadas ao final do 2º ano do ensino fundamental até o 5º ano de vigência da Lei nº 15.388/2026.",
+                    "II. A universalização (100%) da alfabetização das crianças ao final do 2º ano do ensino fundamental constitui meta compulsória a ser alcançada até o final do decênio (2036).",
+                    "III. A mensuração dos níveis de alfabetização foi desvinculada de avaliações externas de larga escala, ficando restrita à avaliação formativa interna praticada por cada docente em sala de aula."
+                ],
+                prompt: "Quais estão corretas?",
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas III." },
+                    { key: "C", text: "Apenas I e II." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "C",
+                legalRef: "Alfabetização no 2º ano do EF: meta intermediária de 80% e final de 100%.",
+                resolution: "<strong>Gabarito: (C)</strong><br><br>A apreciação das regras relativas ao processo de alfabetização sob a vigência da Lei nº 15.388/2026 demonstra a procedência das duas primeiras assertivas e a incorreção da terceira.<br><br>• <strong>Assertiva I está CORRETA:</strong> O PNE estabelece um marco temporário intermediário no 5º ano de vigência do plano (2031), determinando que pelo menos 80% das crianças estejam plenamente alfabetizadas ao final do 2º ano do Ensino Fundamental.<br><br>• <strong>Assertiva II está CORRETA:</strong> Indica a meta final decenal de erradicar o analfabetismo infantil escolar, exigindo a universalização (100%) da alfabetização até o término do 2º ano do Ensino Fundamental ao final do decênio em 2036.<br><br>• <strong>Assertiva III está INCORRETA:</strong> O texto do PNE vincula diretamente o monitoramento e a verificação do cumprimento das metas de alfabetização a avaliações externas padronizadas de larga escala coordenadas pelo Inep, rechaçando o isolamento da avaliação interna das redes.<br><br>Dessa forma, estando corretas apenas I e II, confirma-se o gabarito na alternativa (C)."
+            },
+            {
+                id: 5,
+                title: "Questão 05",
+                topic: "Educação Integral em Tempo Integral",
+                statement: "No que tange à Educação Integral em Tempo Integral, a Lei nº 15.388/2026 introduziu avanços no conceito pedagógico e estabeleceu metas quantitativas progressivas para as redes públicas de educação básica.<br><br>Considere as proposições abaixo sobre a disciplina da Educação em Tempo Integral no PNE:",
+                items: [
+                    "I. O tempo integral deixa de ser tratado apenas como uma mera ampliação da jornada horária diária, passando a ser compreendido legalmente como uma política curricular de desenvolvimento humano pleno.",
+                    "II. Até o término do decênio (2036), o PNE determina que pelo menos 65% das escolas públicas da educação básica ofereçam ensino em tempo integral.",
+                    "III. O percentual mínimo de alunos da educação básica a serem atendidos na modalidade de tempo integral ao final da vigência do plano (2036) é de 50%."
+                ],
+                prompt: "Quais estão corretas?",
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas I e II." },
+                    { key: "C", text: "Apenas I e III." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "E",
+                legalRef: "Tempo integral como política curricular: 65% das escolas e 50% dos alunos até 2036.",
+                resolution: "<strong>Gabarito: (E)</strong><br><br>Todas as assertivas expressam os preceitos pedagógicos e normativos contidos na Lei nº 15.388/2026 a respeito da Educação Integral em Tempo Integral.<br><br>• <strong>Assertiva I está CORRETA:</strong> Reflete o avanço teórico trazido pelo novo PNE, que supera a visão puramente cronológica de extensão de horas diárias e institui a Educação em Tempo Integral como uma política de reestruturação curricular integradora.<br><br>• <strong>Assertiva II está CORRETA:</strong> Refere-se à meta física institucional, que exige a oferta de tempo integral em no mínimo 65% das escolas públicas de educação básica até o término do decênio (2036).<br><br>• <strong>Assertiva III está CORRETA:</strong> Reflete a meta de alcance discente, estabelecendo o atendimento de pelo menos 50% de todos os estudantes matriculados na educação básica pública nessa modalidade educacional até 2036.<br><br>Estando corretas todas as afirmativas, a alternativa (E) é a resposta correta."
+            },
+            {
+                id: 6,
+                title: "Questão 06",
+                topic: "Financiamento Público da Educação (PIB)",
+                statement: "O financiamento da educação pública é um elemento indispensável para viabilizar os padrões de qualidade e equidade estabelecidos pela Lei nº 15.388/2026.<br><br>Assinale a alternativa que descreve corretamente a meta de investimento público em educação pública, mensurada como proporção do Produto Interno Bruto (PIB) brasileiro, conforme fixado no novo PNE.",
+                items: [],
+                prompt: "",
+                options: [
+                    { key: "A", text: "Elevação para 6,0% do PIB no 3º ano de vigência e para 8,0% do PIB ao final do plano." },
+                    { key: "B", text: "Elevação para 7,0% do PIB no 5º ano de vigência e para 9,0% do PIB ao final do plano." },
+                    { key: "C", text: "Elevação para 7,5% do PIB no 7º ano de vigência e para 10,0% do PIB ao final do plano (2036)." },
+                    { key: "D", text: "Elevação para 8,5% do PIB no 4º ano de vigência e para 12,0% do PIB ao final do plano." },
+                    { key: "E", text: "Manutenção de 5,5% do PIB durante toda a vigência do plano, destinando recursos excedentes apenas à educação superior." }
+                ],
+                correct: "C",
+                legalRef: "Financiamento público da educação: 7,5% do PIB no 7º ano e 10,0% do PIB no 10º ano.",
+                resolution: "<strong>Gabarito: (C)</strong><br><br>O financiamento público da educação no PNE (2026–2036) vincula-se ao Produto Interno Bruto (PIB) nacional por meio de metas progressivas e escalonadas no tempo.<br><br>A trajetória de expansão financeira determinada pela Lei nº 15.388/2026 exige a ampliação dos recursos públicos aplicados na educação pública (que partem de um patamar histórico de cerca de 5,5% do PIB) para alcançar:<br>1. A meta intermediária de <strong>7,5% do PIB no 7º ano de vigência</strong> do plano.<br>2. A meta final compulsória de <strong>10,0% do PIB ao final do decênio em 2036</strong>.<br><br>Nenhuma outra alternativa reflete com exatidão esses dois marcos normativos do financiamento educacional, justificando a escolha da alternativa (C)."
+            },
+            {
+                id: 7,
+                title: "Questão 07",
+                topic: "Infraestrutura Escolar Básica",
+                statement: "A garantia de padrões mínimos de qualidade da infraestrutura escolar é tratada como condição prévia e indispensável para a equidade da aprendizagem na Lei nº 15.388/2026.<br><br>De acordo com as metas estipuladas no PNE (2026–2036), a obrigatoriedade de assegurar condições mínimas de funcionamento — tais como suprimento de água potável, saneamento básico, energia elétrica e adequação física — em 100% das escolas públicas de educação básica do país deve ser cumprida no prazo de até o",
+                items: [],
+                prompt: "",
+                options: [
+                    { key: "A", text: "1º ano de vigência do plano (2027)." },
+                    { key: "B", text: "3º ano de vigência do plano (2029)." },
+                    { key: "C", text: "5º ano de vigência do plano (2031)." },
+                    { key: "D", text: "7º ano de vigência do plano (2033)." },
+                    { key: "E", text: "10º ano de vigência do plano (2036)." }
+                ],
+                correct: "B",
+                legalRef: "Infraestrutura escolar básica: 100% das escolas em até 3 anos de vigência (2029).",
+                resolution: "<strong>Gabarito: (B)</strong><br><br>A Lei nº 15.388/2026 estabeleceu o compromisso de erradicar as precariedades estruturais das unidades de ensino do país por meio de um Programa Nacional focado em condições mínimas de funcionamento.<br><br>Por considerar que o saneamento, a água potável, a energia e a infraestrutura predial adequada constituem pré-requisitos operacionais básicos para a permanência e a aprendizagem, o PNE determinou que 100% das escolas públicas brasileiras devem atender a esses requisitos mínimos no prazo emergencial de até o <strong>3º ano de vigência da lei (2029)</strong>.<br><br>Dessa forma, a alternativa correta é a (B)."
+            },
+            {
+                id: 8,
+                title: "Questão 08",
+                topic: "Educação Superior e Pós-Graduação",
+                statement: "Os Objetivos 14, 15 e 16 do PNE (Lei nº 15.388/2026) tratam especificamente das metas para a Educação Superior e a Pós-Graduação no Brasil.<br><br>Sobre esses objetivos, analise as afirmativas a seguir:",
+                items: [
+                    "I. O Objetivo 14 estabelece como meta para 2036 que 40% da população jovem na faixa etária de 18 a 24 anos esteja cursando ou já tenha concluído o ensino superior.",
+                    "II. O Objetivo 15 determina que, no âmbito da educação superior, 70% do corpo docente em exercício atue em regime de tempo integral.",
+                    "III. O Objetivo 16 prevê a elevação dos índices da pós-graduação stricto sensu, fixando como meta a formação anual de 60 mestres e 20 doutores por grupo de 100 mil habitantes até o final do decênio."
+                ],
+                prompt: "Quais estão corretas?",
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas II." },
+                    { key: "C", text: "Apenas I e III." },
+                    { key: "D", text: "Apenas II e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "E",
+                legalRef: "Educação Superior e Pós-Graduação: Objetivos 14 (40%), 15 (70%) e 16 (60 mestres/20 doutores).",
+                resolution: "<strong>Gabarito: (E)</strong><br><br>Os Objetivos 14, 15 e 16 da Lei nº 15.388/2026 balizam as metas nacionais para a Educação Superior e a Pós-Graduação.<br><br>• <strong>Assertiva I está CORRETA:</strong> Descreve o Objetivo 14, que estipula a elevação da taxa bruta e líquida de escolarização do ensino superior, definindo que 40% da população jovem de 18 a 24 anos de idade deve ter cursado ou estar cursando a graduação até 2036.<br><br>• <strong>Assertiva II está CORRETA:</strong> Em relação ao Objetivo 15, exige, para assegurar a qualidade do ensino e da pesquisa universitária, a presença de 70% do corpo docente em regime de tempo integral nas instituições de ensino superior.<br><br>• <strong>Assertiva III está CORRETA:</strong> Referente ao Objetivo 16, traça as metas para a pós-graduação stricto sensu, fixando a taxa de titulação anual de 60 mestres e 20 doutores por grupo de 100 mil habitantes ao final da vigência do plano.<br><br>Em virtude da correção de todas as afirmativas, o gabarito é a alternativa (E)."
+            },
+            {
+                id: 9,
+                title: "Questão 09",
+                topic: "Governança e Monitoramento pelo Inep",
+                statement: "A governança e o acompanhamento da execução do PNE envolvem a atuação articulada de instâncias federativas e o monitoramento contínuo promovido pelo Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (Inep).<br><br>Em relação aos prazos e mecanismos institucionais definidos na Lei nº 15.388/2026 para governança e monitoramento, analise as seguintes assertivas:",
+                items: [
+                    "I. A formalização da instância tripartite (composta por União, Estados, DF e Municípios) por ato do Ministério da Educação (MEC) e das instâncias bipartites estaduais deve ocorrer no prazo de até 120 dias a contar da publicação do plano.",
+                    "II. O Inep publicará os relatórios oficiais de monitoramento do PNE a cada dois anos, sendo a primeira publicação referente aos exercícios de 2025 e 2026 prevista para ocorrer em até 18 meses do início da vigência da lei.",
+                    "III. O Inep dispõe do prazo de 180 dias contados da publicação da lei para estabelecer os indicadores e as projeções das metas discriminadas por ente federativo."
+                ],
+                prompt: "Quais estão corretas?",
+                options: [
+                    { key: "A", text: "Apenas I." },
+                    { key: "B", text: "Apenas I e II." },
+                    { key: "C", text: "Apenas II e III." },
+                    { key: "D", text: "Apenas I e III." },
+                    { key: "E", text: "I, II e III." }
+                ],
+                correct: "E",
+                legalRef: "Governança e monitoramento: prazos de 120 dias, 180 dias e 18 meses (Inep).",
+                resolution: "<strong>Gabarito: (E)</strong><br><br>A governança, a coordenação federativa e a fiscalização do PNE regem-se por prazos estritos expressos na Lei nº 15.388/2026.<br><br>• <strong>Assertiva I está CORRETA:</strong> Retrata o disposto nos Artigos 31 e 32, que assinalam o prazo de até 120 dias para a publicação do ato ministerial do MEC formalizando a instância tripartite nacional e para a constituição das instâncias bipartites estaduais.<br><br>• <strong>Assertiva II está CORRETA:</strong> Fundamenta-se no Artigo 30, o qual determina a periodicidade bianual dos relatórios de monitoramento do Inep, fixando o prazo de até 18 meses a contar da vigência da lei para a primeira publicação relativa ao biênio 2025–2026.<br><br>• <strong>Assertiva III está CORRETA:</strong> Ampara-se no Artigo 28, que determina ao Inep o prazo de 180 dias contados da publicação da lei para definir a metodologia, os indicadores e as projeções individualizadas de metas por ente federado.<br><br>Sendo plenamente verdadeiras as três assertivas, a opção correta é a (E)."
+            },
+            {
+                id: 10,
+                title: "Questão 10",
+                topic: "Conceito de Equidade Educacional",
+                statement: "A equidade configura-se como o eixo estruturante transversal de toda a Lei nº 15.388/2026.<br><br>Tendo em vista a concepção teórica e jurídica de equidade e qualidade adotada pelo PNE 2026–2036, assinale a alternativa <strong>INCORRETA</strong>.",
+                items: [],
+                prompt: "",
+                options: [
+                    { key: "A", text: "A equidade orienta a alocação prioritária de recursos técnicos e financeiros a redes e territórios vulnerabilizados, visando à redução das assimetrias educacionais rurais, urbanas, de gênero, raciais e socioeconômicas." },
+                    { key: "B", text: "O princípio da equidade é plenamente satisfeito quando um sistema público de ensino alcança metas médias estatísticas satisfatórias, ainda que subsistam disparidades profundas de desempenho entre subgrupos vulneráveis e não vulneráveis." },
+                    { key: "C", text: "Os planos estaduais, distrital e municipais devem obrigatoriamente fundamentar-se em diagnósticos locais consistentes que identifiquem desigualdades territoriais para a repactuação de metas com equidade." },
+                    { key: "D", text: "As modalidades da Educação do Campo, Indígena, Quilombola e Especial na perspectiva inclusiva ganham centralidade no PNE 2026–2036 como vetores indissociáveis da garantia do direito à educação." },
+                    { key: "E", text: "A equidade no PNE pressupõe a implementação de políticas de ação afirmativa e de permanência ativa, articulando o ingresso escolar à conclusão da educação básica na idade adequada com aprendizagem efetiva." }
+                ],
+                correct: "B",
+                legalRef: "Conceito de equidade versus simples médias estatísticas.",
+                resolution: "<strong>Gabarito: (B)</strong><br><br>A questão exige a marcação da alternativa <strong>INCORRETA</strong> no tocante ao conceito de equidade no PNE (2026–2036).<br><br>A <strong>Alternativa (B) é categoricamente INCORRETA</strong> porque colide com o núcleo do conceito pedagógico e sociológico do novo PNE. O PNE nega que o alcance de 'médias estatísticas globais' seja indicador suficiente de sucesso educacional, uma vez que médias agregadas frequentemente disfarçam a exclusão e o baixo rendimento de grupos historicamente vulnerabilizados. A equidade exige o acompanhamento das trajetórias escolares dos subgrupos e a redução real das desigualdades internas.<br><br>As alternativas A, C, D e E traçam com exatidão a aplicação prática do princípio da equidade legal no financiamento, no diagnóstico regional, no fortalecimento das modalidades de ensino e nas políticas de permanência ativa.<br><br>Portanto, por ser a única afirmação falsa, a alternativa (B) configura o gabarito da questão."
+            }
+        ];
+
+        // Track user choices
+        let userAnswers = {};
+
+        // Render questions on DOM load
+        function renderQuestions() {
+            const container = document.getElementById('questions-wrapper');
+            container.innerHTML = '';
+
+            quizData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.className = 'bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-sm transition-all hover:border-stone-300';
+                qCard.id = `question-card-${q.id}`;
+
+                let itemsHTML = '';
+                if (q.items && q.items.length > 0) {
+                    itemsHTML = `<div class="my-4 space-y-2 bg-stone-50 p-4 rounded-xl border border-stone-200/80 font-serif text-sm leading-relaxed text-stone-800">
+                        ${q.items.map(item => `<p>${item}</p>`).join('')}
+                    </div>`;
+                }
+
+                let promptHTML = '';
+                if (q.prompt) {
+                    promptHTML = `<p class="font-bold text-stone-900 my-3 text-sm">${q.prompt}</p>`;
+                }
+
+                let optionsHTML = q.options.map(opt => {
+                    return `
+                    <label class="option-label flex items-start gap-3 p-3.5 rounded-xl border border-stone-200 cursor-pointer relative">
+                        <input type="radio" name="q_${q.id}" value="${opt.key}" onchange="selectOption(${q.id}, '${opt.key}')" class="hidden">
+                        <div class="option-content w-full flex items-center justify-between">
+                            <div class="flex items-start gap-3">
+                                <span class="font-bold text-sm text-stone-800 bg-stone-100 rounded-lg w-7 h-7 flex items-center justify-center border border-stone-300 flex-shrink-0">${opt.key}</span>
+                                <span class="text-stone-800 text-sm font-medium pt-0.5 leading-snug">${opt.text}</span>
+                            </div>
+                        </div>
+                    </label>
+                    `;
+                }).join('');
+
+                qCard.innerHTML = `
+                    <div class="flex items-center justify-between pb-3 border-b border-stone-100 mb-4">
+                        <span class="text-xs font-extrabold text-blue-700 uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-md border border-blue-100">${q.title}</span>
+                        <span class="text-xs text-stone-500 font-medium">${q.topic}</span>
+                    </div>
+                    <div class="reading-text text-stone-900 text-sm sm:text-base leading-relaxed mb-3">
+                        ${q.statement}
+                    </div>
+                    ${itemsHTML}
+                    ${promptHTML}
+                    <div class="space-y-2.5 mt-4">
+                        ${optionsHTML}
+                    </div>
+                `;
+
+                container.appendChild(qCard);
+            });
+        }
+
+        // Handle Radio Option Selection
+        function selectOption(questionId, selectedKey) {
+            userAnswers[questionId] = selectedKey;
+            updateProgress();
+        }
+
+        // Update Header Progress Bar
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = quizData.length;
+            document.getElementById('progress-text').innerText = `${answeredCount} / ${total}`;
+            const percent = (answeredCount / total) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+        }
+
+        // Submit Quiz and calculate performance
+        function submitQuiz() {
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < quizData.length) {
+                const confirmSubmit = confirm(`Você respondeu ${answeredCount} de ${quizData.length} questões. Deseja finalizar mesmo assim e ver as resoluções?`);
+                if (!confirmSubmit) return;
+            }
+
+            let correctCount = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const percent = Math.round((correctCount / quizData.length) * 100);
+
+            // Hide questions form submit bar or scroll smooth
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.classList.remove('hidden');
+
+            // Style score card
+            const scoreCard = document.getElementById('score-card');
+            const scoreBadge = document.getElementById('score-badge');
+            const scoreMessage = document.getElementById('score-message');
+
+            if (percent >= 80) {
+                scoreCard.className = "p-6 sm:p-8 rounded-2xl border shadow-md mb-8 bg-emerald-50 border-emerald-200";
+                scoreBadge.className = "inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 bg-emerald-100 text-emerald-800";
+                scoreMessage.innerText = "Excelente desempenho! Você demonstrou domínio consistente da Lei nº 15.388/2026 e do padrão FAURGS.";
+            } else if (percent >= 60) {
+                scoreCard.className = "p-6 sm:p-8 rounded-2xl border shadow-md mb-8 bg-amber-50 border-amber-200";
+                scoreBadge.className = "inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 bg-amber-100 text-amber-800";
+                scoreMessage.innerText = "Bom resultado! Revise os pontos comentados abaixo para consolidar os detalhes da nova legislação.";
+            } else {
+                scoreCard.className = "p-6 sm:p-8 rounded-2xl border shadow-md mb-8 bg-rose-50 border-rose-200";
+                scoreBadge.className = "inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 bg-rose-100 text-rose-800";
+                scoreMessage.innerText = "Atenção necessária. Utilize as resoluções comentadas abaixo para estudar cada meta e prazo do PNE.";
+            }
+
+            document.getElementById('score-text').innerText = `${correctCount} / ${quizData.length}`;
+            document.getElementById('score-percent').innerText = `${percent}% de acertos`;
+
+            // Render detailed resolutions
+            renderResolutions();
+
+            // Smooth scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Render full detailed resolutions matching document exactly
+        function renderResolutions() {
+            const container = document.getElementById('resolutions-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q) => {
+                const userChoice = userAnswers[q.id] || "Não respondida";
+                const isCorrect = userChoice === q.correct;
+
+                const resCard = document.createElement('div');
+                resCard.className = `p-6 sm:p-8 rounded-2xl border ${isCorrect ? 'bg-white border-emerald-300' : 'bg-white border-rose-300'} shadow-sm space-y-4`;
+
+                const badgeStatus = isCorrect 
+                    ? `<span class="bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        ACERTOU
+                       </span>`
+                    : `<span class="bg-rose-100 text-rose-800 border border-rose-300 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        ERROU
+                       </span>`;
+
+                resCard.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="font-extrabold text-stone-900 text-lg">${q.title}</span>
+                            <span class="text-xs text-stone-500 font-medium">(${q.topic})</span>
+                        </div>
+                        ${badgeStatus}
+                    </div>
+
+                    <!-- User Choice vs Correct Answer -->
+                    <div class="flex flex-wrap items-center gap-4 text-sm bg-stone-50 p-3.5 rounded-xl border border-stone-200">
+                        <div>
+                            <span class="text-stone-500 font-medium">Sua Resposta:</span>
+                            <span class="font-extrabold ${isCorrect ? 'text-emerald-700' : 'text-rose-700'} ml-1">${userChoice}</span>
+                        </div>
+                        <div class="h-4 w-px bg-stone-300"></div>
+                        <div>
+                            <span class="text-stone-500 font-medium">Gabarito Oficial:</span>
+                            <span class="font-extrabold text-blue-800 ml-1">Alternativa (${q.correct})</span>
+                        </div>
+                    </div>
+
+                    <!-- Legal basis preview -->
+                    <p class="text-xs font-bold text-stone-600 uppercase tracking-wide">
+                        Objeto / Dispositivo Legal: <span class="text-stone-800 font-normal">${q.legalRef}</span>
+                    </p>
+
+                    <!-- Full Resolution -->
+                    <div class="mt-4 pt-4 border-t border-stone-200">
+                        <h4 class="text-sm font-bold text-stone-900 mb-2 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            Resolução Comentada e Fundamentação
+                        </h4>
+                        <div class="reading-text text-stone-800 text-sm leading-relaxed bg-stone-50/60 p-4 sm:p-5 rounded-xl border border-stone-200">
+                            ${q.resolution}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(resCard);
+            });
+        }
+
+        // Reset Quiz State
+        function resetQuiz() {
+            userAnswers = {};
+            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            updateProgress();
+            document.getElementById('results-section').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize on window load
+        window.onload = function() {
+            renderQuestions();
+            updateProgress();
+        };
+    </script>
+</body>
+</html>

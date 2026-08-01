@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-white">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Bordo - Lei nº 15.388/2026 (PNE 2026-2036)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b; /* Dark neutral text for high legibility */
+            background-color: #ffffff;
+        }
+        /* Custom highlighting styles */
+        .mark-highlight {
+            background-color: #fef08a; /* soft yellow */
+            color: #854d0e;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .mark-important {
+            background-color: #dbeafe; /* soft blue */
+            color: #1e40af;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .mark-key {
+            background-color: #dcfce7; /* soft green */
+            color: #166534;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        /* Table responsive formatting without horizontal scroll */
+        table {
+            width: 100% !important;
+            table-layout: auto;
+        }
+        th, td {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 antialiased min-h-full flex flex-col">
+
+    <header class="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-600 text-white p-2 rounded-lg font-bold text-lg leading-none">
+                    IFSC
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">Lei nº 15.388/2026 (PNE 2026–2036)</h1>
+                    <p class="text-xs text-slate-500 font-medium">Guia de Memorização | Concurso Docente EBTT / Banca FAURGS</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="#questoes" onclick="document.getElementById('btn-questoes').scrollIntoView({behavior: 'smooth'})" class="text-xs sm:text-sm font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-md transition-colors">
+                    <i class="fa-solid fa-graduation-cap mr-1">="</i> Ir para Questões
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-6 sm:py-8 flex-grow w-full space-y-8">
+
+        <!-- Audio Player Section -->
+        <section class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-headphones text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">Áudio da Aula / Resumo de Bordo</h2>
+                        <p class="text-xs text-slate-600">Escute os pontos essenciais do PNE enquanto revisa o texto abaixo</p>
+                    </div>
+                </div>
+                <div class="text-xs text-slate-500 bg-white border border-slate-200 px-2.5 py-1 rounded-md self-start sm:self-auto font-mono">
+                    <i class="fa-regular fa-file-audio mr-1 text-slate-400"></i>
+                    <span>Arquivo: </span>
+                    <input type="text" id="audio-filename" value="audio18.mp3" class="bg-transparent font-mono text-slate-800 font-semibold focus:outline-none focus:border-b focus:border-emerald-500 w-36" onchange="updateAudioSource(this.value)" title="Edite para alterar o nome do arquivo MP3">
+                </div>
+            </div>
+
+            <!-- HTML5 Native Audio Player styled neatly -->
+            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-inner">
+                <audio id="main-audio-player" class="w-full h-10 rounded focus:outline-none" controls preload="metadata">
+                    <source id="audio-source" src="audio18.mp3" type="audio/mpeg">
+                    Seu navegador não suporta o elemento de áudio HTML5.
+                </audio>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-2 flex items-center gap-1">
+                <i class="fa-solid fa-circle-info text-emerald-600"></i>
+                <span>Coloque o arquivo MP3 com o nome indicado no mesmo diretório/pasta desta página web para reproduzir.</span>
+            </p>
+        </section>
+
+        <section class="space-y-4">
+            <div class="border-l-4 border-emerald-600 pl-3 py-0.5">
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">1. Ficha Técnica da Norma e Arquitetura Legal</h2>
+                <p class="text-xs text-slate-500">Fundamentos, norma base e pilares essenciais do novo PNE</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm space-y-2">
+                    <div class="flex items-center text-emerald-700 font-semibold text-sm">
+                        <i class="fa-solid fa-gavel mr-2"></i> Dispositivo & Origem
+                    </div>
+                    <ul class="text-sm space-y-2 text-slate-700">
+                        <li>• <strong>Dispositivo Legal:</strong> <span class="mark-highlight">Lei nº 15.388, de 14 de abril de 2026</span> (publicada no DOU em 15/04/2026).</li>
+                        <li>• <strong>Origem Parlamentar:</strong> Fruto do Projeto de Lei nº 2.614/2024.</li>
+                        <li>• <strong>Fundamento Constitucional:</strong> <span class="mark-important">Artigo 214 da Constituição Federal de 1988</span>.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm space-y-2">
+                    <div class="flex items-center text-emerald-700 font-semibold text-sm">
+                        <i class="fa-solid fa-cubes mr-2"></i> Vigência e Estrutura Numérica
+                    </div>
+                    <ul class="text-sm space-y-2 text-slate-700">
+                        <li>• <strong>Vigência Temporal:</strong> Decenal (<span class="mark-highlight">15/04/2026 a 31/12/2036</span>).</li>
+                        <li>• <strong>Estrutura Exigida em Prova:</strong> <span class="mark-key">19 Objetivos, 73 Metas e 372 Estratégias</span> (Decore: 19-73-372).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-amber-50/60 border border-amber-200 p-4 rounded-xl text-slate-800 text-sm">
+                <p class="font-bold text-amber-900 mb-1 flex items-center">
+                    <i class="fa-solid fa-compass mr-2"></i> Eixos Estruturantes (Mudança de Paradigma)
+                </p>
+                <p class="text-slate-700">
+                    O novo plano foca prioritariamente em <span class="mark-highlight">Acesso com Permanência</span>, <span class="mark-highlight">Qualidade Ensino-Aprendizagem</span> e <span class="mark-highlight">Equidade Socioeducacional</span> — em substituição ao foco quase exclusivo em expansão quantitativa que marcou o PNE anterior.
+                </p>
+            </div>
+
+            <!-- Diretrizes Fundamentais (Art. 2º da Lei nº 15.388/2026) -->
+            <div class="bg-white border border-slate-200 p-4 sm:p-5 rounded-xl shadow-sm space-y-3">
+                <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2 flex items-center">
+                    <i class="fa-solid fa-list-check text-emerald-600 mr-2"></i>
+                    As 10 Diretrizes Nacionais Obrigatórias (Art. 2º da Lei)
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-700">
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>1. Erradicação do analfabetismo:</strong> Absoluto e funcional em todas as faixas etárias.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>2. Universalização do atendimento:</strong> Garantia de vaga na rede pública com busca ativa.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>3. Superação das desigualdades:</strong> Foco em equidade racial, socioeconômica e regional.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>4. Melhoria da qualidade:</strong> Foco em aprendizagem efetiva e formação integral.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>5. Formação para o trabalho e cidadania:</strong> Estreita ligação com a Educação Profissional (EPT).
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>6. Promoção científica e tecnológica:</strong> Estímulo à inovação, pesquisa e cultura digital.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>7. Financiamento vinculado ao PIB:</strong> Meta progressiva atingindo 10% do PIB no decêndio.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>8. Valorização dos profissionais:</strong> Piso salarial, carreira e condições dignas de trabalho.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>9. Gestão democrática:</strong> Meritocracia combinada com consulta à comunidade escolar.
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                        <strong>10. Sustentabilidade e Direitos Humanos:</strong> Inclusão, diversidade e consciência socioambiental.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <div class="border-l-4 border-emerald-600 pl-3 py-0.5">
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">3. Metas Numeradas de Alta Incidência ("Números Quentes")</h2>
+                <p class="text-xs text-slate-500">Valores percentuais e marcos temporais exatos com altíssima probabilidade de prova</p>
+            </div>
+
+            <!-- Subsection A -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm space-y-3">
+                <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2 flex items-center">
+                    <span class="w-6 h-6 rounded bg-emerald-600 text-white flex items-center justify-center text-xs mr-2 font-bold">A</span>
+                    Educação Infantil, Alfabetização e Tempo Integral
+                </h3>
+
+                <ul class="space-y-3 text-sm text-slate-700">
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Pré-escola (4 e 5 anos):</strong> <span class="mark-highlight">Universalização (100%)</span> já nos primeiros anos de vigência do plano.
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Creches (0 a 3 anos):</strong> Atendimento de, no mínimo, <span class="mark-key">60% desse público até 2036</span>, garantindo o atendimento integral de <span class="mark-highlight">100% da demanda manifesta</span>.
+                    </li>
+                    <li class="p-3 rounded-lg bg-emerald-50/50 border border-emerald-200 text-slate-900">
+                        • <strong class="text-emerald-900">Alfabetização (Marco Temporal Crítico):</strong> Verificação ao final do <span class="mark-highlight">2º ano do Ensino Fundamental</span> — <span class="mark-key">80% das crianças alfabetizadas até o 5º ano do plano (2031)</span> e <span class="mark-key">100% até o 10º ano (2036)</span>.
+                        <p class="text-xs text-amber-800 mt-1 font-semibold">⚠️ Atenção total: A regra antiga do PNE anterior previa o final do 3º ano. A norma atual fixa estritamente no 2º ano!</p>
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Educação em Tempo Integral:</strong> Oferta em <span class="mark-highlight">65% das escolas públicas</span> da educação básica para atender a <span class="mark-highlight">50% dos alunos</span> matriculados até 2036.
+                        <span class="block text-xs text-slate-600 mt-1 font-medium">(Meta intermediária no 5º ano: 50% das escolas e 35% dos alunos).</span>
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Infraestrutura Escolar Mínima:</strong> Garantia de água potável, saneamento e energia em <span class="mark-highlight">100% das escolas públicas até o 3º ano do plano (2029)</span>.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Subsection B -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm space-y-3">
+                <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2 flex items-center">
+                    <span class="w-6 h-6 rounded bg-emerald-600 text-white flex items-center justify-center text-xs mr-2 font-bold">B</span>
+                    Educação Superior, Pós-Graduação e Financiamento
+                </h3>
+
+                <ul class="space-y-3 text-sm text-slate-700">
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Graduação (18 a 24 anos):</strong> Meta de <span class="mark-important">40% dos jovens</span> dessa faixa etária cursando ou com curso superior concluído até 2036.
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Docentes da Educação Superior:</strong> Atuação de <span class="mark-highlight">70% dos professors em regime de tempo integral</span>.
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Pós-Graduação Stricto Sensu:</strong> Titulação anual de <span class="mark-key">60 mestres e 20 doutores por 100 mil habitantes</span>.
+                    </li>
+                    <li class="p-3 rounded-lg bg-amber-50/50 border border-amber-200">
+                        • <strong class="text-amber-900">Financiamento Público (PIB):</strong> Progressão dos investimentos para <span class="mark-highlight">7,5% do PIB no 7º ano (2033)</span> e, no mínimo, <span class="mark-highlight">10% do PIB no 10º ano de vigência (2036)</span>.
+                        <span class="block text-xs text-slate-700 mt-1">Adota obrigatoriamente o Custo Aluno Qualidade (CAQ, art. 211, § 7º CF) e destina recursos do petróleo/gás prioritariamente à infraestrutura da educação básica.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Subsection C: EPT, Conectividade e TICs (Foco IFSC / EBTT Informática) -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm space-y-3">
+                <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2 flex items-center text-emerald-800">
+                    <span class="w-6 h-6 rounded bg-emerald-600 text-white flex items-center justify-center text-xs mr-2 font-bold">C</span>
+                    Educação Profissional Tecnológica (EPT) & TICs / Conectividade (Foco IFSC)
+                </h3>
+
+                <ul class="space-y-3 text-sm text-slate-700">
+                    <li class="p-3 rounded-lg bg-emerald-50/40 border border-emerald-200">
+                        • <strong class="text-emerald-900">Expansão das Matrículas em EPT:</strong> Triplicar as matrículas da EPT do Ensino Médio, garantindo que pelo menos <span class="mark-key">50% do atendimento seja oferecido na forma integrada</span> ao Ensino Médio regular na Rede Pública.
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Conectividade de Alta Velocidade e TICs:</strong> Infraestrutura de internet de alta velocidade e laboratórios de tecnologia em <span class="mark-highlight">100% das unidades da Rede Federal (IFs) e escolas públicas até o 5º ano (2031)</span>.
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Letramento Digital e Inteligência Artificial:</strong> Inclusão de competências de pensamento computacional, IA ética e segurança da informação na formação continuada de <span class="mark-important">100% dos professores de Informática e áreas afins</span>.
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>EJA Integrada à EPT:</strong> Pelo menos <span class="mark-highlight">40% das matrículas de EJA</span> no Ensino Fundamental e Médio devem ser oferecidas de forma articulada com a formação profissional técnica.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Subsection D: Valorização Docente, Inclusão e Diversidade -->
+            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm space-y-3">
+                <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2 flex items-center">
+                    <span class="w-6 h-6 rounded bg-emerald-600 text-white flex items-center justify-center text-xs mr-2 font-bold">D</span>
+                    Valorização dos Profissionais da Educação e Inclusão Escolar
+                </h3>
+
+                <ul class="space-y-3 text-sm text-slate-700">
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Piso Salarial e Equiparação de Rendimento:</strong> Equiparação do rendimento médio dos profissionais do magistério público ao dos demais profissionais com escolaridade equivalente até o <span class="mark-highlight">6º ano de vigência do plano (2032)</span>.
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Formação Inicial e Licenciaturas:</strong> Garantia de que <span class="mark-key">100% dos professores da Educação Básica e EPT</span> possuam formação de nível superior obtida em curso de licenciatura na área em que atuam.
+                    </li>
+                    <li class="p-3 rounded-lg bg-slate-50 border border-slate-100">
+                        • <strong>Inclusão Escolar (PCD e Altas Habilidades):</strong> Atendimento Educacional Especializado (AEE) garantido prioritariamente em salas de recursos multifuncionais da <span class="mark-important">rede regular de ensino para 100% dos estudantes público-alvo</span>.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <div class="border-l-4 border-rose-500 pl-3 py-0.5">
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">4. Tabela Anti-Pegadinha FAURGS (Pontos Críticos de Acerto)</h2>
+                <p class="text-xs text-slate-500">Mapeamento direto das armadilhas da banca FAURGS para garantias de pontos na prova do IFSC</p>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <table class="w-full text-left text-xs sm:text-sm">
+                    <thead class="bg-slate-100 border-b border-slate-200 text-slate-900 font-bold uppercase tracking-wider">
+                        <tr>
+                            <th scope="col" class="py-3 px-2 sm:px-3 w-3/12 sm:w-3/12">Tema / Conceito</th>
+                            <th scope="col" class="py-3 px-2 sm:px-3 w-4/12 sm:w-4/12 text-rose-800 bg-rose-50/70">Armadilha Clássica FAURGS</th>
+                            <th scope="col" class="py-3 px-2 sm:px-3 w-5/12 sm:w-5/12 text-emerald-800 bg-emerald-50/70">Regra Legal Correta (Lei nº 15.388/2026)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-700">
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Inversão PEE vs. PME</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Afirmar que Municípios têm 12 meses e Estados 15 meses.</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">Estados/DF têm <span class="mark-important">12 meses</span>; Municípios têm <span class="mark-important">15 meses</span>.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Limite da Alfabetização</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Fixar a alfabetização obrigatória até o final do 3º ano do E.F.</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">Alfabetização deve ser garantida ao final do <span class="mark-highlight">2º ano</span> do Ensino Fundamental.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Percentual do PIB</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Situar a meta intermediária de 7,5% do PIB no 5º ano.</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">O patamar de 7,5% do PIB é exigido especificamente no <span class="mark-highlight">7º ano (2033)</span>.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Proporção Tempo Integral</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Inverter os percentuais para "50% das escolas e 65% dos alunos".</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">Exige a oferta em <span class="mark-key">65% das escolas públicas</span> para <span class="mark-key">50% dos alunos</span>.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Competência de Monitoramento</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Atribuir a publicação dos estudos bienais ao FNE ou CNE.</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">A publicação é atribuição exclusiva do <span class="mark-important">Inep</span> (bienal, até 31 de março).</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Concepção de Tempo Integral</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Tratar tempo integral como mera extensão de jornada horária.</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">Concebido como <span class="mark-highlight">política curricular integrada</span> de aprendizagem.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Papel da EPT no IFSC</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Tratar a Educação Profissional como alternativa residual ou técnica isolada.</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">EPT deve ser prioritariamente <span class="mark-key">integradora do percurso do Ensino Médio (mínimo 50% integrada)</span>.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Conectividade e TICs</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Conceder prazo até o final do decêndio (10º ano) para internet em 100% dos IFs.</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">100% de conectividade de alta velocidade exigida até o <span class="mark-highlight">5º ano do plano (2031)</span>.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Gestão Democrática</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Afirmar que diretores de unidades escolares/IFs devem ser exclusivamente indicados.</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">Exige combinação de <span class="mark-key">critérios técnicos de mérito e desempenho com participação da comunidade</span>.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="py-3 px-2 sm:px-3 font-bold text-slate-900">Equiparação Salarial Docente</td>
+                            <td class="py-3 px-2 sm:px-3 text-rose-900 bg-rose-50/30">Afirmar que a equiparação com outras carreiras de nível superior deve ocorrer no 1º ano.</td>
+                            <td class="py-3 px-2 sm:px-3 text-emerald-900 bg-emerald-50/30 font-medium">O prazo limite fixado em lei é até o <span class="mark-important">6º ano de vigência (2032)</span>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <div class="border-l-4 border-emerald-600 pl-3 py-0.5">
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">5. Check-list Sintético para Acessar Antes da Prova</h2>
+                <p class="text-xs text-slate-500">Marque os itens à medida que fixa o conteúdo na memória</p>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-6 space-y-3">
+                <div class="space-y-3">
+                    <label class="flex items-start gap-3 p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:border-emerald-300 transition-colors">
+                        <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                        <span class="text-sm text-slate-800">
+                            <strong>1. Código Estrutural Mnemônico:</strong> Lembrar da contagem exata <span class="mark-key">19-73-372</span> (19 Objetivos, 73 Metas, 372 Estratégias).
+                        </span>
+                    </label>
+
+                    <label class="flex items-start gap-3 p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:border-emerald-300 transition-colors">
+                        <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                        <span class="text-sm text-slate-800">
+                            <strong>2. Pactuação do SNE:</strong> Instância Tripartite (<span class="mark-highlight">Cite</span>, nível federal) e Instâncias Bipartites (<span class="mark-highlight">Cibes</span>, nível estadual/municipal).
+                        </span>
+                    </label>
+
+                    <label class="flex items-start gap-3 p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:border-emerald-300 transition-colors">
+                        <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                        <span class="text-sm text-slate-800">
+                            <strong>3. Quíntuplo de Fiscalização:</strong> MEC, CNE, Comissão de Educação da Câmara, Comissão de Educação e Cultura do Senado e FNE.
+                        </span>
+                    </label>
+
+                    <label class="flex items-start gap-3 p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:border-emerald-300 transition-colors">
+                        <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                        <span class="text-sm text-slate-800">
+                            <strong>4. Coleta e Fontes de Dados:</strong> O <span class="mark-important">Inep</span> monitora e publica os microdados; o <span class="mark-important">IBGE</span> presta suporte técnico complementar (dados sobre grupos vulneráveis, indígenas e quilombolas).
+                        </span>
+                    </label>
+
+                    <label class="flex items-start gap-3 p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:border-emerald-300 transition-colors">
+                        <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                        <span class="text-sm text-slate-800">
+                            <strong>5. EPT e Ensino Médio no IFSC:</strong> Triplicar matrículas da EPT e garantir <span class="mark-key">mínimo de 50% na forma integrada</span> ao Ensino Médio regular.
+                        </span>
+                    </label>
+
+                    <label class="flex items-start gap-3 p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:border-emerald-300 transition-colors">
+                        <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                        <span class="text-sm text-slate-800">
+                            <strong>6. Conectividade e Letramento Digital:</strong> Internet de alta velocidade em <span class="mark-highlight">100% das unidades do IFSC e escolas públicas até 2031 (5º ano)</span>.
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section id="questoes" class="pt-6 pb-10 text-center border-t border-slate-200">
+            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 sm:p-8 space-y-4 max-w-2xl mx-auto shadow-sm">
+                <div class="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto text-xl font-bold shadow-md">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl font-bold text-slate-900">Hora de Praticar a Teoria!</h3>
+                <p class="text-sm text-slate-600 max-w-md mx-auto">
+                    Acesse o módulo de questões para testar sua retenção nos pontos de cobrança da banca FAURGS.
+                </p>
+                <div>
+                    <a href="questoes18.html" id="btn-questoes" class="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-base rounded-xl shadow-lg hover:shadow-emerald-200 transition-all transform hover:-translate-y-0.5">
+                        <span>Praticar Questões</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-100 border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-5xl mx-auto px-4 space-y-1">
+            <p>Guia de Estudos Lei nº 15.388/2026 (PNE 2026–2036) — Concurso IFSC / Banca FAURGS</p>
+            <p>Desenvolvido para revisão rápida de alta eficácia.</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateAudioSource(newFilename) {
+            const player = document.getElementById('main-audio-player');
+            const source = document.getElementById('audio-source');
+            if (newFilename && newFilename.trim() !== '') {
+                source.src = newFilename.trim();
+                player.load();
+            }
+        }
+    </script>
+</body>
+</html>

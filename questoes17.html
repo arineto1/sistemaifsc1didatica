@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado FAURGS - Metodologias Ativas na EPT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#fdfbf7',
+                            100: '#f8f5ed',
+                            200: '#efe9da',
+                        },
+                        charcoal: {
+                            800: '#2c3539',
+                            900: '#1e252b',
+                        },
+                        accent: {
+                            blue: '#2563eb',
+                            green: '#16a34a',
+                            red: '#dc2626',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8f6f0;
+            color: #2c3238;
+            font-family: 'Inter', sans-serif;
+        }
+        .reading-text {
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+        }
+        .custom-radio:checked + label {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-16">
+
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 bg-[#f8f6f0]/95 backdrop-blur border-b border-stone-200 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="bg-stone-800 text-stone-100 text-xs font-bold px-2.5 py-1 rounded tracking-wider uppercase">Banca FAURGS</span>
+                <h1 class="text-sm md:text-base font-semibold text-stone-800 truncate">Metodologias Ativas na EPT</h1>
+            </div>
+            <div id="progress-badge" class="text-xs font-medium text-stone-600 bg-stone-200/60 px-3 py-1 rounded-full">
+                Respondidas: <span id="answered-count" class="font-bold text-stone-900">0</span>/10
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 pt-8">
+        <!-- Banner Intro -->
+        <section class="bg-white rounded-2xl p-6 md:p-8 border border-stone-200/80 shadow-sm mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-stone-900 mb-3 tracking-tight">
+                Simulado: Metodologias Ativas na Educação Profissional e Tecnológica
+            </h1>
+            <p class="reading-text text-stone-600 text-sm md:text-base mb-4">
+                Teste seus conhecimentos com questões no formato da banca <strong>FAURGS</strong>. Responda às 10 questões abaixo e, ao finalizar, receba seu resultado imediato acompanhado do gabarito e de todas as resoluções comentadas na mesma página.
+            </p>
+            <div class="flex items-center gap-4 text-xs md:text-sm text-stone-500 border-t border-stone-100 pt-4">
+                <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    10 Questões Inéditas/Adaptadas
+                </span>
+                <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Comentários detalhados
+                </span>
+            </div>
+        </section>
+
+        <!-- Quiz Form / Questions Container -->
+        <form id="quiz-form" onsubmit="submitQuiz(event)">
+            <div id="questions-container" class="space-y-8">
+                <!-- Questions will be injected dynamically by JS -->
+            </div>
+
+            <!-- Submit Button Bar -->
+            <div class="mt-10 mb-12 text-center" id="submit-section">
+                <button type="submit" id="btn-submit" class="w-full md:w-auto px-10 py-4 bg-stone-900 hover:bg-black text-white font-semibold rounded-xl shadow-md transition duration-200 text-lg flex items-center justify-center gap-2 mx-auto">
+                    <span>Finalizar e Ver Resultados</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </form>
+
+        <!-- Results & Resolution Section (Hidden initially) -->
+        <section id="results-section" class="hidden space-y-8 mb-16 scroll-mt-20">
+            <!-- Score Overview Card -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 border border-stone-200 shadow-md text-center">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-3 bg-blue-100 text-blue-800" id="result-badge">
+                    Resultado Final
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-stone-900 mb-2">
+                    Você acertou <span id="score-text" class="text-blue-600">0</span> de 10 questões
+                </h2>
+                <p id="feedback-message" class="text-stone-600 text-sm md:text-base max-w-lg mx-auto mb-6">
+                    Confira abaixo o desempenho detalhado e a resolução explicativa de cada questão.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="restartQuiz()" class="px-6 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 font-medium rounded-lg text-sm transition">
+                        Refazer Simulado
+                    </button>
+                    <a href="#resolutions-header" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm transition">
+                        Ir para as Resoluções
+                    </a>
+                </div>
+            </div>
+
+            <div id="resolutions-header" class="pt-6 border-t border-stone-300">
+                <h2 class="text-2xl font-bold text-stone-900 mb-2">Gabarito e Resoluções Detalhadas</h2>
+                <p class="text-stone-600 text-sm mb-6">Consulte a fundamentação pedagógica de cada item da prova para consolidar sua preparação.</p>
+            </div>
+
+            <!-- Detailed Resolutions Container -->
+            <div id="resolutions-container" class="space-y-8">
+                <!-- Resolutions injected via JS -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const questionsData = [
+            {
+                id: 1,
+                title: "Questão 01",
+                topic: "Conceito e Fundamentos das Metodologias Ativas na EPT",
+                stem: "Considere as seguintes afirmações sobre a incorporação das metodologias ativas na Educação Profissional, Técnica e Tecnológica (EPT).",
+                statements: [
+                    "I - A aprendizagem ativa reposiciona o espaço da sala de aula e dos laboratórios como ambientes de reconstrução de conhecimentos e resolução de problemas do mundo do trabalho, convertendo a postura passiva de memorização em um processo de investigação contínua e colaborativa.",
+                    "II - A adoção de metodologias ativas no ensino técnico prescinde da mediação pedagógica docente, uma vez que a autonomia do discente elimina a necessidade de planejamento prévio e de sistematização dos saberes pelo professor.",
+                    "III - Os modelos pedagógicos assentados em metodologias ativas articulam-se com a transdisciplinaridade, superando a fragmentação disciplinar tradicional e promovendo a integração entre a fundamentação científica e a prática profissional."
+                ],
+                questionText: "Quais estão corretas?",
+                options: [
+                    "(A) Apenas I.",
+                    "(B) Apenas II.",
+                    "(C) Apenas I e III.",
+                    "(D) Apenas II e III.",
+                    "(E) I, II e III."
+                ],
+                correct: 2, // C
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta: (C) Apenas I e III.</strong></p>
+                    <p class="mb-2"><strong>Análise das afirmações:</strong></p>
+                    <ul class="list-disc pl-5 space-y-1 mb-3">
+                        <li><strong>I. Correta:</strong> A literatura pedagógica sobre metodologias ativas demonstra que essas abordagens transformam a sala de aula e os ambientes de simulação prática em espaços de cocriação, investigação e resolução de desafios reais, superando o paradigma tradicional baseado unicamente na transmissão, memorização e repetição de conteúdos.</li>
+                        <li><strong>II. Incorreta:</strong> A adoção de metodologias ativas não elimina a necessidade da orientação e da mediação pedagógica docente. O planejamento intencional, a curadoria de materiais e o acompanhamento sistemático por parte do professor mantêm-se essenciais para garantir o rigor conceitual e o alcance dos objetivos de aprendizagem profissional.</li>
+                        <li><strong>III. Correta:</strong> As metodologias ativas proporcionam uma visão transdisciplinar do conhecimento, indo além das fronteiras estáticas das disciplinas isoladas para integrar saberes teóricos e práticos na resolução de problemas do contexto social e produtivo.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 2,
+                title: "Questão 02",
+                topic: "Sala de Aula Invertida (Flipped Classroom)",
+                stem: "Na Educação Profissional e Tecnológica, a aplicação do modelo da Sala de Aula Invertida (<em>Flipped Classroom</em>) exige a reestruturação da dinâmica do processo de ensino-aprendizagem.",
+                questionText: "Nesse modelo, a transferência de informações teóricas básicas e a introdução aos conceitos ocorrem ________ do espaço da aula presencial, reservando o tempo do encontro síncrono/presencial para a realização de ________ e resolução de problemas práticos. Esse arranjo exige do estudante uma postura de ________ na preparação prévia e consolidação das competências profissionais.<br><br>Assinale a alternativa que preenche, correta e respectivamente, as lacunas do trecho acima.",
+                options: [
+                    "(A) fora – atividades colaborativas – autoaprendizagem",
+                    "(B) dentro – aulas expositivas – recepção passiva",
+                    "(C) fora – exames teóricos – memorização",
+                    "(D) dentro – provas individuais – tutoria passiva",
+                    "(E) fora – palestras magistrais – alienação"
+                ],
+                correct: 0, // A
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta: (A) fora – atividades colaborativas – autoaprendizagem.</strong></p>
+                    <p class="mb-2">A Sala de Aula Invertida (<em>Flipped Classroom</em>), fundamentada na literatura de Bergmann e Sams (2012), reestrutura a organização temporal e espacial das atividades pedagógicas.</p>
+                    <p class="mb-2">A transferência de informações teóricas básicas e o estudo conceitual inicial são deslocados para <strong>fora</strong> da sala de aula, ocorrendo de forma prévia por meio do acesso a conteúdos digitais ou leituras recomendadas.</p>
+                    <p class="mb-2">O tempo de aula presencial passa a ser otimizado para <strong>atividades colaborativas</strong>, debates interativos, experimentos práticos e resolução de problemas sob a orientação direta do professor. Esse arranjo metodológico exige do estudante uma postura de <strong>autoaprendizagem</strong>, responsabilidade e engajamento ativo no estudo prévio.</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Questão 03",
+                topic: "Avaliação na Aprendizagem Baseada em Problemas (PBL)",
+                stem: "Considerando o processo de avaliação no âmbito da Aprendizagem Baseada em Problemas (<em>Problem-Based Learning</em> - PBL) aplicada aos cursos técnicos e tecnológicos, assinale a alternativa que melhor expressa esse processo avaliativo.",
+                options: [
+                    "(A) A avaliação na PBL centra-se exclusivamente na aplicação de exames escritos teóricos ao final do período letivo, sem considerar o acompanhamento do percurso de aprendizagem.",
+                    "(B) A avaliação na PBL é um processo contínuo e articulado ao desenvolvimento das atividades, no qual docentes e discentes identificam progressos, dificuldades e lacunas de aprendizagem de forma participativa e formativa.",
+                    "(C) Na PBL, a responsabilidade pela avaliação é prerrogativa estrita e exclusiva do professor, sendo dispensado qualquer tipo de feedback ou autoavaliação por parte dos estudantes.",
+                    "(D) O processo avaliativo na PBL negligencia o rigor conceitual das ciências básicas, limitando-se a aferir o cumprimento superficial de etapas mecânicas na entrega de relatórios.",
+                    "(E) A avaliação na PBL deve focar prioritariamente na punição dos erros cometidos pelos grupos durante a fase de formulação de hipóteses, estimulando a competitividade individual."
+                ],
+                correct: 1, // B
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta: (B) A avaliação na PBL é um processo contínuo...</strong></p>
+                    <p class="mb-2">A avaliação na Aprendizagem Baseada em Problemas (PBL) caracteriza-se como um processo contínuo, formativo e perfeitamente articulado ao desenvolvimento das etapas de investigação.</p>
+                    <p class="mb-2">Ao contrário dos exames somativos tradicionais aplicados unicamente ao término de um ciclo, a PBL emprega uma sistemática de acompanhamento na qual docente e discentes interagem para diagnosticar progressos, identificar dificuldades conceituais ou procedimentais e reorientar as estratégias de trabalho.</p>
+                    <ul class="list-disc pl-5 space-y-1 text-xs text-stone-600">
+                        <li><strong>A incorreta:</strong> nega o acompanhamento processual.</li>
+                        <li><strong>C incorreta:</strong> a PBL promove autoavaliação e coavaliação entre pares.</li>
+                        <li><strong>D incorreta:</strong> exige sólida articulação com o rigor conceitual da área.</li>
+                        <li><strong>E incorreta:</strong> o erro é dispositivo de aprendizagem, não punição.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 4,
+                title: "Questão 04",
+                topic: "Tipologia e Aplicação Didática das Metodologias Ativas",
+                stem: "Relacione as metodologias ativas apresentadas na Coluna 1 às suas respectivas características e contextos de aplicação didática na Educação Profissional descritos na Coluna 2.",
+                columns: {
+                    col1: [
+                        "1. Aprendizagem Baseada em Projetos (Project-Based Learning)",
+                        "2. Gamificação (Gamification)",
+                        "3. Instrução por Pares (Peer Instruction)",
+                        "4. Estudo de Caso"
+                    ],
+                    col2: [
+                        "( ) Utilização de dinâmicas, regras e sistemas de metas e desafios próprios dos jogos em ambientes educacionais para promover engajamento e motivação na solução de problemas técnicos.",
+                        "( ) Método em que o estudante realiza o estudo prévio de conceitos teóricos, responde a questões de checagem e debate em duplas/grupos de reflexão as alternativas divergentes para construção do consenso com a mediação docente.",
+                        "( ) Desenvolvimento de um plano de trabalho prático, integrativo e contextualizado que se estende ao longo de um período e culmina no desenvolvimento de um produto, serviço ou protótipo funcional voltado a atender demandas reais do setor produtivo ou da sociedade.",
+                        "( ) Análise minuciosa de uma situação contextualizada concreta, real ou simulada do âmbito profissional, que exige do discente o diagnóstico de problemas, o levantamento de hipóteses e a tomada de decisão fundamentada em normas e teorias da área."
+                    ]
+                },
+                questionText: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é",
+                options: [
+                    "(A) 2 – 3 – 1 – 4.",
+                    "(B) 1 – 2 – 4 – 3.",
+                    "(C) 3 – 1 – 4 – 2.",
+                    "(D) 2 – 4 – 1 – 3.",
+                    "(E) 4 – 3 – 2 – 1."
+                ],
+                correct: 0, // A
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta: (A) 2 – 3 – 1 – 4.</strong></p>
+                    <p class="mb-2">A associação correta entre as colunas é:</p>
+                    <ul class="list-disc pl-5 space-y-1 mb-2">
+                        <li><strong>(2) Gamificação:</strong> regras, metas e mecânica de jogos aplicadas para engajamento.</li>
+                        <li><strong>(3) Instrução por Pares:</strong> estudo prévio, testes conceituais e discussão em duplas para consenso.</li>
+                        <li><strong>(1) Aprendizagem Baseada em Projetos:</strong> plano prático longo que culmina em produto, serviço ou protótipo.</li>
+                        <li><strong>(4) Estudo de Caso:</strong> análise minuciosa de situação real/simulada para diagnóstico e tomada de decisão.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 5,
+                title: "Questão 05",
+                topic: "Trabalho como Princípio Educativo e Formação Integrada",
+                stem: "Considere as seguintes afirmações a respeito da articulação entre o trabalho como princípio educativo e o uso de metodologias ativas no ensino técnico e tecnológico.",
+                statements: [
+                    "I - O trabalho como princípio educativo pressupõe a compreensão da práxis humana e das bases científicas que fundamentam os processos produtivos, superando o adestramento estritamente operacional.",
+                    "II - A utilização de metodologias ativas favorece a formação integrada ao demandar que o estudante investigue criticamente os porquês tecnológicos e sociais das rotinas de trabalho, ao invés de apenas reproduzir sequências procedimentais.",
+                    "III - As metodologias ativas reduzem a dimensão reflexiva do processo pedagógico, na medida em que subordinam o currículo escolar à lógica mercadológica imediatista de formação rápida de mão de obra barata."
+                ],
+                questionText: "Quais estão corretas?",
+                options: [
+                    "(A) Apenas I.",
+                    "(B) Apenas III.",
+                    "(C) Apenas I e II.",
+                    "(D) Apenas II e III.",
+                    "(E) I, II e III."
+                ],
+                correct: 2, // C
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta: (C) Apenas I e II.</strong></p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>I. Correta:</strong> Na EPT, o trabalho como princípio educativo fundamenta a formação omnilateral do estudante, articulando ciência, tecnologia e cultura para além do adestramento manual.</li>
+                        <li><strong>II. Correta:</strong> As metodologias ativas convergem com a formação integrada ao mobilizar o estudante a investigar criticamente os determinantes sociais e científicos dos processos de trabalho.</li>
+                        <li><strong>III. Incorreta:</strong> As estratégias ativas ampliam a autonomia e a reflexão crítica, contrapondo-se à mera redução pragmática ou submissão passiva ao mercado.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 6,
+                title: "Questão 06",
+                topic: "Avaliação Formativa e Mediação Docente",
+                stem: "Assinale a afirmação INCORRETA em relação à prática pedagógica e avaliativa fundada em metodologias ativas na educação profissional.",
+                options: [
+                    "(A) A avaliação formativa assume caráter central no percurso metodológico ativo, visando ao acompanhamento do desenvolvimento de competências socioemocionais e técnicas.",
+                    "(B) A autoavaliação e a avaliação entre pares constituem dispositivos pedagógicos que fortalecem a metacognição, a reflexão sobre o próprio aprendizado e o sentimento de corresponsabilidade.",
+                    "(C) O papel do docente em metodologias ativas restringe-se à mera transmissão unidirecional de informações e à aplicação de testes normativos de memorização sem devolutiva ao discente.",
+                    "(D) A diversificação de instrumentos e evidências de aprendizagem permite diagnosticar com maior precisão o desempenho profissional do estudante.",
+                    "(E) O feedback contínuo fornecido pelo professor orienta o estudante na reestruturação de suas hipóteses de trabalho e no aprimoramento de condutas técnicas e éticas."
+                ],
+                correct: 2, // C
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta (INCORRETA solicitada): (C) O papel do docente...</strong></p>
+                    <p class="mb-2">As alternativas A, B, D e E trazem premissas verdadeiras: avaliação formativa central, autoavaliação fortalecendo a metacognição, instrumentos diversificados de evidência e feedback contínuo.</p>
+                    <p class="mb-2">A alternativa <strong>C está INCORRETA</strong> pois em propostas pedagógicas ativas o docente não é transmissor unidirecional nem foca em exames de memorização passiva. O professor atua como mediador, articulador do conhecimento e provocador de reflexões.</p>
+                `
+            },
+            {
+                id: 7,
+                title: "Questão 07",
+                topic: "Ensino Híbrido e Aprendizagem Personalizada",
+                stem: "Considere as seguintes afirmações acerca da aprendizagem personalizada e dos modelos de ensino híbrido na Educação Profissional e Tecnológica.",
+                statements: [
+                    "I - A aprendizagem personalizada pauta-se no reconhecimento de que os sujeitos possuem ritmos, trajetórias, saberes prévios e perfis de aprendizagem singulares, demandando a diversificação de trilhas didáticas e estratégias pedagógicas.",
+                    "II - O ensino híbrido resume-se ao repositório digital de videoaulas gravadas, sem alterar a lógica de ensino expositivo tradicional ou os arranjos espaciais da instituição de ensino.",
+                    "III - Modelos híbridos de rotação, tais como a rotação por estações e o laboratório rotacional, propiciam a combinação sustentável entre atividades individuais/virtuais e práticas experimentais colaborativas em laboratórios tecnológicos."
+                ],
+                questionText: "Quais estão corretas?",
+                options: [
+                    "(A) Apenas I.",
+                    "(B) Apenas II.",
+                    "(C) Apenas I e III.",
+                    "(D) Apenas II e III.",
+                    "(E) I, II e III."
+                ],
+                correct: 2, // C
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta: (C) Apenas I e III.</strong></p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>I. Correta:</strong> A aprendizagem personalizada (Bacich & Moran) reconhece a diversidade dos ritmos e trajetórias discentes, exigindo trilhas flexíveis.</li>
+                        <li><strong>II. Incorreta:</strong> O ensino híbrido não é mera disponibilização de videoaulas. Ele envolve integração intencional entre momentos presenciais e virtuais e reorganização do espaço pedagógico.</li>
+                        <li><strong>III. Correta:</strong> Os modelos de rotação (estações, laboratório rotacional) articulam estudo individual/digital e atividades colaborativas em laboratório.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 8,
+                title: "Questão 08",
+                topic: "Design Thinking e Inovação na Educação Tecnológica",
+                stem: "No contexto de formação profissional voltado ao empreendedorismo e à inovação tecnológica, a metodologia do <em>Design Thinking</em> é empregada como recurso pedagógico centrado no ser humano para a resolução de problemas complexos.",
+                questionText: "Esse processo estrutura-se em fases encadeadas que se iniciam pela ________ das necessidades dos usuários, passam pela ________ e tempestade de ideias para solução do problema, avançam para a confecção de ________ e findam com o teste e a validação das soluções desenvolvidas junto ao público-alvo.<br><br>Assinale a alternativa que preenche, correta e respectivamente, as lacunas do trecho acima.",
+                options: [
+                    "(A) empatia – ideação – protótipos",
+                    "(B) punição – memorização – teorias",
+                    "(C) padronização – cópia – relatórios",
+                    "(D) negação – exclusão – algoritmos",
+                    "(E) precificação – comercialização – exames"
+                ],
+                correct: 0, // A
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta: (A) empatia – ideação – protótipos.</strong></p>
+                    <p class="mb-2">O <em>Design Thinking</em> é uma abordagem humanocentrada de resolução de problemas e inovação composta por fases encadeadas:</p>
+                    <ol class="list-decimal pl-5 space-y-1">
+                        <li><strong>Empatia:</strong> imersão nas necessidades e realidades do usuário.</li>
+                        <li><strong>Ideação:</strong> tempestade de ideias e geração de propostas criativas.</li>
+                        <li><strong>Prototipagem:</strong> confecção de protótipos testáveis.</li>
+                        <li><strong>Teste:</strong> validação das soluções com os usuários reais.</li>
+                    </ol>
+                `
+            },
+            {
+                id: 9,
+                title: "Questão 09",
+                topic: "TICs e Tecnologias Educacionais na EPT",
+                stem: "Assinale V (verdadeiro) ou F (falso) para as afirmações a respeito da utilização das Tecnologias de Informação e Comunicação (TICs) como suporte às metodologias ativas na Educação Profissional.",
+                statements: [
+                    "( ) As TICs funcionam como catalisadoras das metodologias ativas ao permitirem simulações virtuais interativas de processos industriais, laboratoriais e de grande complexidade técnica.",
+                    "( ) A mera substituição do quadro-negro por recursos tecnológicos digitais garante por si só a superação da pedagogia tradicional e a postura ativa do estudante.",
+                    "( ) O uso integrado de TICs possibilita a constituição de redes colaborativas de aprendizagem, ampliando o acesso a acervos virtuais de dados, normas técnicas e softwares profissionais.",
+                    "( ) A inserção de ambientes virtuais de aprendizagem e ferramentas digitais elimina a relevância do planejamento e da mediação pedagógica do professor na condução da aula."
+                ],
+                questionText: "A sequência correta de preenchimento dos parênteses, de cima para baixo, é",
+                options: [
+                    "(A) V – F – V – F.",
+                    "(B) F – V – F – V.",
+                    "(C) V – V – F – F.",
+                    "(D) F – F – V – V.",
+                    "(E) V – F – F – V."
+                ],
+                correct: 0, // A
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta: (A) V – F – V – F.</strong></p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>1º Item (V):</strong> As TICs possibilitam simulações virtuais de alta fidelidade para laboratórios e indústria.</li>
+                        <li><strong>2º Item (F):</strong> Trocar o quadro por uma tela digital mantendo a aula expositiva passiva não altera a pedagogia tradicional.</li>
+                        <li><strong>3º Item (V):</strong> Ambientes digitais expandem a colaboração e o acesso a bases técnicas de conhecimento.</li>
+                        <li><strong>4º Item (F):</strong> Ferramentas digitais demandam ainda mais planejamento e mediação do docente para orientar a pesquisa.</li>
+                    </ul>
+                `
+            },
+            {
+                id: 10,
+                title: "Questão 10",
+                topic: "Projetos Integradores e Interdisciplinaridade na EPT",
+                stem: "Considere as seguintes afirmações sobre os Projetos Integradores (PI) como estratégia didático-metodológica na Educação Profissional Técnica de Nível Médio.",
+                statements: [
+                    "I - O Projeto Integrador constitui um eixo de articulação curricular interdisciplinar que toma como referência situações-problema reais do perfil profissional de conclusão do curso.",
+                    "II - Na execução dos Projetos Integradores, os estudantes assumem o protagonismo da pesquisa, da prototipagem e da tomada de decisão, articulando conhecimentos teóricos de diversas disciplinas para a concepção de uma solução técnica viável.",
+                    "III - O Projeto Integrador inviabiliza a consolidação de conhecimentos teóricos e científicos, reduzindo o currículo a uma prática recreativa desprovida de fundamentação rigorosa."
+                ],
+                questionText: "Quais estão corretas?",
+                options: [
+                    "(A) Apenas I.",
+                    "(B) Apenas II.",
+                    "(C) Apenas I e II.",
+                    "(D) Apenas II e III.",
+                    "(E) I, II e III."
+                ],
+                correct: 2, // C
+                resolution: `
+                    <p class="mb-2"><strong>Alternativa correta: (C) Apenas I e II.</strong></p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>I. Correta:</strong> O Projeto Integrador (PI) é eixo articulador interdisciplinar centrado no perfil de conclusão do profissional.</li>
+                        <li><strong>II. Correta:</strong> O estudante é o protagonista da pesquisa, prototipagem e solução técnica integrando saberes.</li>
+                        <li><strong>III. Incorreta:</strong> O PI não reduz o currículo a prática recreativa; pelo contrário, fortalece e exige rigor conceitual e científico na solução dos problemas.</li>
+                    </ul>
+                `
+            }
+        ];
+
+        const userAnswers = {};
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            questionsData.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.id = `q-card-${q.id}`;
+                card.className = "bg-white rounded-2xl p-6 md:p-8 border border-stone-200/90 shadow-sm transition-all";
+
+                let contentHtml = `
+                    <div class="flex items-center justify-between border-b border-stone-100 pb-3 mb-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-stone-100 text-stone-800 font-bold text-xs px-3 py-1 rounded-md">
+                                ${q.title}
+                            </span>
+                            <span class="text-xs text-stone-500 hidden sm:inline-block">• ${q.topic}</span>
+                        </div>
+                        <span class="text-xs font-semibold text-stone-400">Questão ${index + 1} de 10</span>
+                    </div>
+
+                    <p class="reading-text text-stone-800 text-base md:text-lg mb-4">${q.stem}</p>
+                `;
+
+                // Add statements if present
+                if (q.statements && q.statements.length > 0) {
+                    contentHtml += `<div class="bg-stone-50 rounded-xl p-4 md:p-5 mb-5 space-y-3 border border-stone-100/80">`;
+                    q.statements.forEach(stmt => {
+                        contentHtml += `<p class="reading-text text-stone-700 text-sm md:text-base">${stmt}</p>`;
+                    });
+                    contentHtml += `</div>`;
+                }
+
+                // Add columns if present
+                if (q.columns) {
+                    contentHtml += `
+                        <div class="grid md:grid-cols-2 gap-4 bg-stone-50 rounded-xl p-4 md:p-5 mb-5 border border-stone-100/80 text-sm">
+                            <div>
+                                <h4 class="font-bold text-stone-800 mb-2 border-b border-stone-200 pb-1">Coluna 1</h4>
+                                <ul class="space-y-2 text-stone-700">
+                                    ${q.columns.col1.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-stone-800 mb-2 border-b border-stone-200 pb-1">Coluna 2</h4>
+                                <ul class="space-y-2 text-stone-700">
+                                    ${q.columns.col2.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (q.questionText) {
+                    contentHtml += `<p class="reading-text text-stone-900 font-medium text-base mb-4">${q.questionText}</p>`;
+                }
+
+                // Options list
+                contentHtml += `<div class="space-y-3 mt-4">`;
+                q.options.forEach((opt, optIdx) => {
+                    contentHtml += `
+                        <div class="relative">
+                            <input type="radio" 
+                                   name="question-${q.id}" 
+                                   id="q${q.id}-opt${optIdx}" 
+                                   value="${optIdx}" 
+                                   class="custom-radio sr-only"
+                                   onchange="selectOption(${q.id}, ${optIdx})">
+                            <label for="q${q.id}-opt${optIdx}" 
+                                   id="label-q${q.id}-opt${optIdx}"
+                                   class="flex items-start p-4 rounded-xl border border-stone-200 hover:border-stone-300 bg-white cursor-pointer transition-all duration-150">
+                                <span class="text-sm md:text-base text-stone-800 reading-text leading-relaxed">${opt}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+                contentHtml += `</div>`;
+
+                card.innerHTML = contentHtml;
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qId, optionIdx) {
+            userAnswers[qId] = optionIdx;
+            
+            // Update counter badge
+            const count = Object.keys(userAnswers).length;
+            document.getElementById('answered-count').textContent = count;
+
+            // Highlight chosen label
+            const optionsCount = questionsData.find(q => q.id === qId).options.length;
+            for (let i = 0; i < optionsCount; i++) {
+                const label = document.getElementById(`label-q${qId}-opt${i}`);
+                if (i === optionIdx) {
+                    label.classList.add('border-blue-500', 'bg-blue-50/50', 'ring-2', 'ring-blue-400/20');
+                    label.classList.remove('border-stone-200');
+                } else {
+                    label.classList.remove('border-blue-500', 'bg-blue-50/50', 'ring-2', 'ring-blue-400/20');
+                    label.classList.add('border-stone-200');
+                }
+            }
+        }
+
+        function submitQuiz(event) {
+            event.preventDefault();
+
+            let score = 0;
+            const resContainer = document.getElementById('resolutions-container');
+            resContainer.innerHTML = '';
+
+            questionsData.forEach((q, index) => {
+                const selected = userAnswers[q.id];
+                const isCorrect = selected === q.correct;
+
+                if (isCorrect) score++;
+
+                // Lock inputs
+                const inputs = document.querySelectorAll(`input[name="question-${q.id}"]`);
+                inputs.forEach(input => input.disabled = true);
+
+                // Styling chosen options in the quiz
+                q.options.forEach((opt, optIdx) => {
+                    const label = document.getElementById(`label-q${q.id}-opt${optIdx}`);
+                    label.classList.remove('hover:border-stone-300', 'cursor-pointer');
+                    
+                    if (optIdx === q.correct) {
+                        label.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-medium');
+                    } else if (optIdx === selected && !isCorrect) {
+                        label.classList.add('border-red-400', 'bg-red-50', 'text-red-900');
+                    } else {
+                        label.classList.add('opacity-60');
+                    }
+                });
+
+                // Build detailed resolution item
+                const resCard = document.createElement('div');
+                resCard.className = `bg-white rounded-2xl p-6 md:p-8 border ${isCorrect ? 'border-emerald-200 bg-emerald-50/10' : 'border-stone-200'} shadow-sm`;
+
+                const userOptText = selected !== undefined ? q.options[selected] : "Não respondida";
+                const correctOptText = q.options[q.correct];
+
+                resCard.innerHTML = `
+                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                        <span class="font-bold text-sm ${isCorrect ? 'text-emerald-700' : 'text-stone-700'}">
+                            Questão ${index + 1} (${q.title})
+                        </span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">
+                            ${isCorrect ? '✓ Correta' : '✕ Incorreta / Não Respondida'}
+                        </span>
+                    </div>
+                    <p class="font-medium text-stone-900 text-sm mb-2">${q.stem}</p>
+                    <div class="grid sm:grid-cols-2 gap-2 text-xs md:text-sm mb-4">
+                        <div class="p-2.5 rounded-lg ${isCorrect ? 'bg-emerald-100/60 text-emerald-900' : 'bg-red-100/60 text-red-900'}">
+                            <strong>Sua resposta:</strong> ${userOptText}
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-emerald-100/60 text-emerald-900">
+                            <strong>Gabarito Oficial:</strong> ${correctOptText}
+                        </div>
+                    </div>
+                    <div class="reading-text text-sm text-stone-700 bg-stone-50 p-4 rounded-xl border border-stone-200/80 leading-relaxed">
+                        <h5 class="font-bold text-stone-900 mb-2 border-b border-stone-200 pb-1">Resolução Comentada:</h5>
+                        ${q.resolution}
+                    </div>
+                `;
+
+                resContainer.appendChild(resCard);
+            });
+
+            // Update score text
+            document.getElementById('score-text').textContent = score;
+            const percentage = (score / 10) * 100;
+            
+            const badge = document.getElementById('result-badge');
+            const msg = document.getElementById('feedback-message');
+
+            if (percentage >= 80) {
+                badge.className = "inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-3 bg-emerald-100 text-emerald-800";
+                msg.textContent = `Excelente desempenho! Você acertou ${percentage}% do simulado e demonstra domínio sobre a banca FAURGS e Metodologias Ativas na EPT.`;
+            } else if (percentage >= 50) {
+                badge.className = "inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-3 bg-amber-100 text-amber-800";
+                msg.textContent = `Bom resultado! Você acertou ${percentage}%. Aproveite as resoluções comentadas para revisar as lacunas conceituais.`;
+            } else {
+                badge.className = "inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-3 bg-red-100 text-red-800";
+                msg.textContent = `Você acertou ${percentage}%. É recomendável estudar atentamente cada resolução detalhada para fixar os conceitos.`;
+            }
+
+            // Hide submit button, show results
+            document.getElementById('submit-section').classList.add('hidden');
+            const resultsSec = document.getElementById('results-section');
+            resultsSec.classList.remove('hidden');
+
+            // Scroll to results section smoothly
+            resultsSec.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function restartQuiz() {
+            // Reset state
+            for (let member in userAnswers) delete userAnswers[member];
+            document.getElementById('answered-count').textContent = '0';
+            
+            // Re-render
+            renderQuestions();
+
+            document.getElementById('submit-section').classList.remove('hidden');
+            document.getElementById('results-section').classList.add('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize quiz on load
+        window.onload = function() {
+            renderQuestions();
+        };
+    </script>
+</body>
+</html>

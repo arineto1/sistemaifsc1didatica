@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodologias Ativas na EPT - Concurso IFSC (FAURGS)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1e293b; /* slate-800 */
+            background-color: #ffffff; /* Fundo totalmente branco */
+        }
+        /* Destaques e Grifos */
+        mark, .highlight {
+            background-color: #fef08a; /* yellow-200 */
+            color: #854d0e; /* yellow-900 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .highlight-blue {
+            background-color: #e0f2fe; /* sky-100 */
+            color: #0369a1; /* sky-700 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .highlight-green {
+            background-color: #dcfce7; /* green-100 */
+            color: #15803d; /* green-700 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .highlight-red {
+            background-color: #fee2e2; /* red-100 */
+            color: #b91c1c; /* red-700 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        .highlight-purple {
+            background-color: #f3e8ff; /* purple-100 */
+            color: #6b21a8; /* purple-800 */
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        /* Impressão otimizada */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            .page-container { border: none !important; box-shadow: none !important; padding: 0 !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white text-slate-800 antialiased pb-16">
+
+    <header class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm no-print">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-2">
+                <span class="inline-flex items-center justify-center px-2.5 py-1 rounded bg-emerald-700 text-white font-extrabold text-xs tracking-wider">IFSC</span>
+                <span class="text-xs md:text-sm font-bold text-slate-800">Metodologias Ativas na EPT | FAURGS</span>
+            </div>
+            
+            <!-- Quick Link Navigation -->
+            <nav class="flex flex-wrap justify-center items-center gap-3 text-xs font-semibold text-slate-700">
+                <a href="#nucleo" class="hover:text-emerald-700 transition-colors">1. Núcleo Teórico</a>
+                <a href="#autores" class="hover:text-emerald-700 transition-colors">2. Autores EPT</a>
+                <a href="#ausubel" class="hover:text-emerald-700 transition-colors">3. Ausubel</a>
+                <a href="#quadro" class="hover:text-emerald-700 transition-colors">4. Quadro Comparativo</a>
+                <a href="#peguinhas" class="hover:text-emerald-700 transition-colors">5. Anti-Peguinhas</a>
+                <a href="#informatica" class="hover:text-emerald-700 transition-colors">6. Informática IFSC</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8">
+
+        <!-- Audio Player Section -->
+        <section class="bg-white rounded-xl border border-slate-300 p-5 mb-8 shadow-xs">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                        </svg>
+                        Reprodutor de Áudio da Aula / Resumo Guiado
+                    </h2>
+                    <p class="text-xs text-slate-600 mt-1">Acompanhe a leitura e fixação auditiva digitando o nome ou caminho do seu arquivo local abaixo.</p>
+                </div>
+                
+                <!-- MP3 Audio Element -->
+                <div class="w-full md:w-auto flex flex-col gap-2">
+                    <audio id="audioPlayer" controls class="w-full md:w-80 h-10 rounded-lg">
+                        <source src="audio17.mp3" type="audio/mpeg">
+                        Seu navegador não suporta o elemento de áudio.
+                    </audio>
+
+                    <!-- User input to update filename dynamically -->
+                    <div class="flex items-center gap-2 text-xs text-slate-600">
+                        <label for="mp3Path" class="whitespace-nowrap font-bold text-slate-700">Arquivo MP3:</label>
+                        <input type="text" id="mp3Path" value="audio17.mp3" 
+                               onchange="document.getElementById('audioPlayer').src = this.value; document.getElementById('audioPlayer').load();"
+                               class="w-full px-2.5 py-1 text-xs border border-slate-300 rounded bg-white text-slate-800 focus:outline-none focus:ring-1 focus:ring-emerald-600" 
+                               placeholder="ex: resumo_faurgs.mp3">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Title Banner -->
+        <section class="bg-white rounded-xl border border-slate-300 p-6 md:p-8 mb-8 shadow-xs text-center md:text-left">
+            <div class="inline-block px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                Guia Definitivo Exaustivo de Memorização
+            </div>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                Metodologias Ativas na Educação Profissional e Tecnológica (EPT)
+            </h1>
+            <p class="text-slate-700 font-medium text-sm md:text-base mt-2">
+                Concurso Professor EBTT - Área Informática | Instituto Federal de Santa Catarina (IFSC) | Banca FAURGS
+            </p>
+        </section>
+
+        <!-- 1. NÚCLEO CONCEITUAL E TEÓRICO -->
+        <section id="nucleo" class="bg-white rounded-xl border border-slate-300 p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-extrabold text-slate-900 border-b border-slate-200 pb-3 mb-6 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-emerald-700 text-white inline-flex items-center justify-center text-sm font-bold">1</span>
+                Núcleo Conceitual e Inversão do Papel Pedagógico
+            </h2>
+
+            <div class="mb-6">
+                <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                    Na EPT, as metodologias ativas <mark class="highlight">não são meros recursos ou técnicas de animação</mark>. Tratam-se de uma postura epistemológica e pedagógica em que o estudante é colocado no centro do processo de aprendizagem, superando a mera recepção passiva e articulando saber teórico com a práxis social e produtiva.
+                </p>
+            </div>
+
+            <!-- Inversão do Papel Pedagógico -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="p-4 rounded-lg border border-red-300 bg-white">
+                    <h3 class="font-bold text-red-800 text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                        Modelo Tradicional (Bancário)
+                    </h3>
+                    <ul class="text-xs text-slate-700 space-y-2 leading-relaxed">
+                        <li>• Professor como <mark class="highlight-red">detentor único e transmissor central</mark> do conhecimento.</li>
+                        <li>• Aluno em postura de <mark class="highlight-red">espectador passivo, receptor e memorizador</mark>.</li>
+                        <li>• Avaliação focada na <mark class="highlight-red">reprodução mecânica</mark> e em exames somativos punitivos.</li>
+                        <li>• Separação estanque entre a <mark class="highlight-red">teoria abstrata e a prática de laboratório</mark>.</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 rounded-lg border border-emerald-300 bg-white">
+                    <h3 class="font-bold text-emerald-900 text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        Abordagem Ativa na EPT
+                    </h3>
+                    <ul class="text-xs text-slate-700 space-y-2 leading-relaxed">
+                        <li>• Aluno como <mark class="highlight-green">protagonista, agente crítico e investigador</mark>.</li>
+                        <li>• Professor como <mark class="highlight-green">mediador intencional, arquiteto de aprendizagem e provocador</mark>.</li>
+                        <li>• Avaliação <mark class="highlight-green">formativa, processual, contínua e metacognitiva</mark>.</li>
+                        <li>• Articulação permanente da <mark class="highlight-green">práxis pedagógica (Teoria + Prática)</mark>.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. BASES ONTOLÓGICAS E AUTORES DA EPT -->
+        <section id="autores" class="bg-white rounded-xl border border-slate-300 p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-extrabold text-slate-900 border-b border-slate-200 pb-3 mb-6 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-emerald-700 text-white inline-flex items-center justify-center text-sm font-bold">2</span>
+                Bases Ontológicas e Teóricos da EPT (Cobrança FAURGS)
+            </h2>
+
+            <p class="text-sm text-slate-700 mb-4 leading-relaxed">
+                As questões de concursos para institutos federais organizadas pela FAURGS costumam cobrar as bases conceituais descritas por autores de referência da EPT e amparadas pela Lei dos Institutos Federais (Lei 11.892/2008).
+            </p>
+
+            <div class="space-y-4">
+                <!-- Trabalho como Princípio Educativo -->
+                <div class="p-4 bg-white rounded-lg border border-slate-300">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1">
+                        1. Trabalho como Princípio Educativo (Frigotto, Ciavatta, Ramos)
+                    </h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">
+                        O trabalho é compreendido como <mark class="highlight">matriz pedagógica e ontológica</mark> de produção da existência humana. A meta das metodologias ativas é superar a histórica dicotomia entre o <mark class="highlight-red">trabalho manual (execução/adestramento)</mark> e o <mark class="highlight-red">trabalho intelectual (concepção/direção)</mark>, integrando saber e fazer.
+                    </p>
+                </div>
+
+                <!-- Formação Humana Integral -->
+                <div class="p-4 bg-white rounded-lg border border-slate-300">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1">
+                        2. Formação Humana Integral
+                    </h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">
+                        Busca a integração indissociável entre <mark class="highlight-blue">Ciência, Trabalho, Tecnologia e Cultura</mark>. A metodologia ativa na EPT não visa preparar o aluno de forma utilitarista apenas para atender aos interesses imediatos do mercado de trabalho, mas formá-lo como cidadão autônomo e emancipado.
+                    </p>
+                </div>
+
+                <!-- Omnilateralidade e Politecnia -->
+                <div class="p-4 bg-white rounded-lg border border-slate-300">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1">
+                        3. Educação Omnilateral & Politecnia (Saviani)
+                    </h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">
+                        <strong>Omnilateralidade:</strong> Desenvolvimento de <mark class="highlight">todas as dimensões e faculdades humanas</mark> (físicas, intelectuais, afetivas, estéticas, políticas).<br>
+                        <strong>Politecnia:</strong> Domínio dos <mark class="highlight-green">fundamentos científicos e tecnológicos</mark> que subjazem aos diferentes processos produtivos modernos, em oposição ao simples adestramento operacional.
+                    </p>
+                </div>
+
+                <!-- Práxis Pedagógica -->
+                <div class="p-4 bg-white rounded-lg border border-slate-300">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1">
+                        4. Práxis Pedagógica e Emancipação (Paulo Freire)
+                    </h3>
+                    <p class="text-xs text-slate-700 leading-relaxed">
+                        A aprendizagem ativa efetiva-se como <mark class="highlight-purple">práxis: Ação &rarr; Reflexão &rarr; Ação Transformadora</mark>. O ato educativo busca problematizar a realidade do educando para promover a conscientização crítica e a intervenção no meio social.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. TEORIA DA APRENDIZAGEM SIGNIFICATIVA (DAVID AUSUBEL) -->
+        <section id="ausubel" class="bg-white rounded-xl border border-slate-300 p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-extrabold text-slate-900 border-b border-slate-200 pb-3 mb-6 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-emerald-700 text-white inline-flex items-center justify-center text-sm font-bold">3</span>
+                Teoria da Aprendizagem Significativa (David Ausubel)
+            </h2>
+
+            <p class="text-sm text-slate-700 mb-4 leading-relaxed">
+                Ausubel é o referencial cognitivo mais cobrado pela FAURGS para fundamentar o uso de metodologias ativas, pois o aluno só constrói significados novos quando interage com sua estrutura prévia.
+            </p>
+
+            <div class="p-4 mb-5 bg-amber-50 rounded-lg border border-amber-300">
+                <h3 class="text-sm font-extrabold text-amber-950 uppercase tracking-wider mb-1">
+                    Conceito Fundamental de Prova: SUBSUNÇOR (Conhecimento Prévio)
+                </h3>
+                <p class="text-xs text-amber-900 leading-relaxed">
+                    O <strong>subsunçor</strong> (ou ideia-âncora) é uma estrutura cognitiva específica já existente na mente do aluno (conceitos, proposições, imagens) que serve de ponto de <mark class="highlight">"ancoragem"</mark> para a assimilação e atribuição de significados a novos conhecimentos.
+                </p>
+            </div>
+
+            <!-- Condições para Aprendizagem Significativa -->
+            <div class="mb-6">
+                <h3 class="font-bold text-slate-900 text-sm mb-2">Duas Condições Indispensáveis para Aprendizagem Significativa:</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="p-3 bg-slate-50 rounded border border-slate-300">
+                        <strong class="text-emerald-800 font-bold block mb-1">1. Material Potencialmente Significativo:</strong>
+                        O conteúdo de ensino deve ser logicamente estruturado, claro e ter relacionabilidade não arbitrária.
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded border border-slate-300">
+                        <strong class="text-emerald-800 font-bold block mb-1">2. Disposição do Aluno para Aprender:</strong>
+                        Predisposição afetiva e cognitiva do estudante para relacionar o novo material aos seus subsunçores.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tipos e Mecanismos de Assimilação Cognitiva -->
+            <h3 class="font-bold text-slate-900 text-sm mb-3">Mecanismos de Assimilação Cognitiva:</h3>
+            <div class="space-y-3 text-xs">
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-300">
+                    <strong class="text-slate-900 font-bold text-sm block mb-1">A) Aprendizagem Subordinada (Diferenciação Progressiva):</strong>
+                    O novo conceito conecta-se e submete-se hierarquicamente <mark class="highlight">abaixo de um subsunçor mais amplo</mark> já existente.
+                    <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div class="p-2 bg-white rounded border border-slate-200">
+                            <span class="font-bold text-emerald-800 block">Subordinada Derivativa:</span> O novo material é um exemplo direto ou ilustração pura do subsunçor.
+                        </div>
+                        <div class="p-2 bg-white rounded border border-slate-200">
+                            <span class="font-bold text-emerald-800 block">Subordinada Correlativa:</span> O novo material modifica, amplia, qualifica ou desdobra o subsunçor.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-300">
+                    <strong class="text-slate-900 font-bold text-sm block mb-1">B) Aprendizagem Superordenada (Reconciliação Integrativa):</strong>
+                    O estudante aprende conceitos específicos e, posteriormente, descobre/sintetiza um conceito mais <mark class="highlight-blue">abrangente, geral e inclusivo</mark> que os unifica e reorganiza a estrutura cognitiva.
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-300">
+                    <strong class="text-slate-900 font-bold text-sm block mb-1">C) Aprendizagem Combinatória:</strong>
+                    O novo conhecimento não é mais nem menos inclusivo do que os subsunçores existentes, estabelecendo uma <mark class="highlight">relação paralela e de comparação</mark>.
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-300">
+                    <strong class="text-slate-900 font-bold text-sm block mb-1">D) Organizadores Prévios:</strong>
+                    Materiais introdutórios apresentados em nível mais alto de abstração antes do conteúdo principal, com a função de <mark class="highlight-purple">fazer a ponte cognitiva</mark> entre o que o aluno já sabe e o que precisa aprender.
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. QUADRO COMPARATIVO COMPLETO E SEM SCROLL -->
+        <section id="quadro" class="bg-white rounded-xl border border-slate-300 p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-extrabold text-slate-900 border-b border-slate-200 pb-3 mb-2 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-emerald-700 text-white inline-flex items-center justify-center text-sm font-bold">4</span>
+                Quadro Comparativo Sistemático de Metodologias Ativas
+            </h2>
+            <p class="text-xs text-slate-600 mb-6">Tabela estruturada com dimensionamento fixo para ajuste integral à tela (sem necessidade de barra de rolagem horizontal).</p>
+
+            <!-- Table Container -->
+            <div class="w-full">
+                <table class="w-full table-fixed border-collapse text-left text-xs">
+                    <thead>
+                        <tr class="bg-slate-100 border-b-2 border-slate-300 text-slate-900">
+                            <th class="p-2 font-extrabold w-1/4">Metodologia</th>
+                            <th class="p-2 font-extrabold w-1/4">Gatilho / Foco Principal</th>
+                            <th class="p-2 font-extrabold w-1/4">Dinâmica Sequencial</th>
+                            <th class="p-2 font-extrabold w-1/4">Entregável / Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <!-- PBL / ABP -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 align-top font-bold text-slate-900 break-words">
+                                PBL / ABP<br>
+                                <span class="font-normal text-[11px] text-slate-600">(Problemas)</span>
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Problema <mark class="highlight">mal estruturado</mark> e autêntico que <mark class="highlight">antecede</mark> a teoria.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Grupo tutorial &rarr; Levantamento de hipóteses &rarr; Estudo autodirecionado &rarr; Resolução.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                <mark class="highlight-blue">Solução intelectual</mark>, diagnóstico, raciocínio clínico e metacognição.
+                            </td>
+                        </tr>
+
+                        <!-- ABProj -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 align-top font-bold text-slate-900 break-words">
+                                ABProj<br>
+                                <span class="font-normal text-[11px] text-slate-600">(Projetos)</span>
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Desafio complexo e real voltado para a <mark class="highlight">construção de um produto</mark>.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Planejamento &rarr; Execução prática &rarr; Testes &rarr; Refinamento contínuo.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                <mark class="highlight-green">Artefato tangível</mark>, protótipo funcional, produto físico/software.
+                            </td>
+                        </tr>
+
+                        <!-- Sala de Aula Invertida -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 align-top font-bold text-slate-900 break-words">
+                                Sala de Aula Invertida<br>
+                                <span class="font-normal text-[11px] text-slate-600">(Flipped Classroom)</span>
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Inversão do <mark class="highlight">tempo-espaço</mark> pedagógico tradicional.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                <strong>Pré-classe:</strong> Estudo assíncrono.<br>
+                                <strong>Intra-classe:</strong> Práticas, debates e mediação.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Aprofundamento conceitual de <mark class="highlight-blue">alta ordem cognitiva</mark> no presencial.
+                            </td>
+                        </tr>
+
+                        <!-- Arco de Maguerez -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 align-top font-bold text-slate-900 break-words">
+                                Arco de Maguerez<br>
+                                <span class="font-normal text-[11px] text-slate-600">(Problematização)</span>
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Problemática real orientada à <mark class="highlight">transformação social</mark> e práxis.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                1. Observação Realidade &rarr; 2. Pontos-Chave &rarr; 3. Teorização &rarr; 4. Hipóteses &rarr; 5. Aplicação.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                <mark class="highlight-green">Práxis transformadora</mark> e intervenção direta na comunidade.
+                            </td>
+                        </tr>
+
+                        <!-- Instrução por Pares -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 align-top font-bold text-slate-900 break-words">
+                                Peer Instruction<br>
+                                <span class="font-normal text-[11px] text-slate-600">(Instrução por Pares)</span>
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Avaliação formativa em tempo real com <mark class="highlight">debate entre pares</mark>.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Exposição curta &rarr; Teste de conceito &rarr; Debate em duplas (se 30-70%) &rarr; Re-votação.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Reestruturação cognitiva imediata e <mark class="highlight-blue">colaboração ativa</mark>.
+                            </td>
+                        </tr>
+
+                        <!-- TBL -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 align-top font-bold text-slate-900 break-words">
+                                TBL<br>
+                                <span class="font-normal text-[11px] text-slate-600">(Team-Based Learning)</span>
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Aprendizagem baseada em <mark class="highlight">equipes fixas</mark> ao longo do curso.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Leitura prévia &rarr; Teste Individual (RAT) &rarr; Teste em Equipe (gRAT) &rarr; Feedback &rarr; Aplicação.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Tomada de decisão em equipe, <mark class="highlight-purple">responsabilização mútuo-social</mark>.
+                            </td>
+                        </tr>
+
+                        <!-- Estudo de Caso -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-2 align-top font-bold text-slate-900 break-words">
+                                Estudo de Caso<br>
+                                <span class="font-normal text-[11px] text-slate-600">(Case Method)</span>
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Análise narrativa e profunda de um <mark class="highlight">cenário/situação histórica real</mark>.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Leitura do caso &rarr; Análise de variáveis &rarr; Discussão em grupo &rarr; Tomada de decisão.
+                            </td>
+                            <td class="p-2 align-top text-slate-700 break-words">
+                                Desenvolvimento do <mark class="highlight-blue">julgamento crítico</mark> e ponderação de dilemas.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 5. GUIA ANTI-PEGUINHA DA FAURGS (8 ARMADILHAS) -->
+        <section id="peguinhas" class="bg-white rounded-xl border border-slate-300 p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-extrabold text-slate-900 border-b border-slate-200 pb-3 mb-6 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-emerald-700 text-white inline-flex items-center justify-center text-sm font-bold">5</span>
+                Guia "Anti-Peguinha" da FAURGS (Decodificador de Questões EBTT)
+            </h2>
+
+            <div class="space-y-4">
+                <!-- Peguinha 1 -->
+                <div class="p-4 rounded-lg border border-slate-300 bg-white">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                        1. Peguinha da "Ausência Docente / Espontaneísmo"
+                    </h3>
+                    <p class="text-xs text-slate-700 mb-2">
+                        <strong class="text-red-700 font-bold">Armadilha da Banca:</strong> Afirmar que nas metodologias ativas o professor se torna dispensável, mero espectador ou que o ensino ocorre sem planejamento intencional.
+                    </p>
+                    <p class="text-xs text-slate-800 font-semibold bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <span class="text-emerald-800 font-bold uppercase tracking-wider text-[11px] block mb-0.5">&check; Gabarito Certo</span>
+                        O docente atua como <mark class="highlight-green">mediador intencional</mark>. O planejamento exige *maior* rigor, intencionalidade pedagógica e preparação prévia de cenários do que na aula tradicional.
+                    </p>
+                </div>
+
+                <!-- Peguinha 2 -->
+                <div class="p-4 rounded-lg border border-slate-300 bg-white">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                        2. Peguinha do "Entregável: PBL vs. ABProj"
+                    </h3>
+                    <p class="text-xs text-slate-700 mb-2">
+                        <strong class="text-red-700 font-bold">Armadilha da Banca:</strong> Confundir a Aprendizagem Baseada em Problemas (PBL) com a Aprendizagem Baseada em Projetos (ABProj), exigindo protótipo no PBL.
+                    </p>
+                    <p class="text-xs text-slate-800 font-semibold bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <span class="text-emerald-800 font-bold uppercase tracking-wider text-[11px] block mb-0.5">&check; Gabarito Certo</span>
+                        A produção de um <mark class="highlight-green">artefato tangível ou produto físico/software</mark> é marca da ABProj. O PBL foca no <mark class="highlight-green">processo de investigação intelectual</mark> e resolução do problema.
+                    </p>
+                </div>
+
+                <!-- Peguinha 3 -->
+                <div class="p-4 rounded-lg border border-slate-300 bg-white">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                        3. Peguinha do "Fetiche Tecnológico / Tecnocentrismo"
+                    </h3>
+                    <p class="text-xs text-slate-700 mb-2">
+                        <strong class="text-red-700 font-bold">Armadilha da Banca:</strong> Condicionar a existência de metodologias ativas ao uso obrigatório de tecnologias digitais de ponta ou softwares sofisticados.
+                    </p>
+                    <p class="text-xs text-slate-800 font-semibold bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <span class="text-emerald-800 font-bold uppercase tracking-wider text-[11px] block mb-0.5">&check; Gabarito Certo</span>
+                        A metodologia ativa é uma <mark class="highlight-green">postura pedagógica e mental</mark> de engajamento do estudante, sendo perfeitamente viável em ambientes desprovidos de recursos digitais de alta tecnologia.
+                    </p>
+                </div>
+
+                <!-- Peguinha 4 -->
+                <div class="p-4 rounded-lg border border-slate-300 bg-white">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                        4. Peguinha da "Prática pelo Fazer" em Ausubel
+                    </h3>
+                    <p class="text-xs text-slate-700 mb-2">
+                        <strong class="text-red-700 font-bold">Armadilha da Banca:</strong> Reduzir a Aprendizagem Significativa de Ausubel a qualquer atividade prática ou manipulação de objetos em laboratório.
+                    </p>
+                    <p class="text-xs text-slate-800 font-semibold bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <span class="text-emerald-800 font-bold uppercase tracking-wider text-[11px] block mb-0.5">&check; Gabarito Certo</span>
+                        Aprendizagem Significativa é um <mark class="highlight-green">processo cognitivo de ancoragem conceitual</mark> em subsunçores. Prática mecânica sem reflexão gera apenas aprendizagem memorística/repetitiva.
+                    </p>
+                </div>
+
+                <!-- Peguinha 5 -->
+                <div class="p-4 rounded-lg border border-slate-300 bg-white">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                        5. Peguinha da "Sala de Aula Invertida como EaD"
+                    </h3>
+                    <p class="text-xs text-slate-700 mb-2">
+                        <strong class="text-red-700 font-bold">Armadilha da Banca:</strong> Definir a Sala de Aula Invertida como a simples substituição do professor por videoaulas gravadas para cortar tempo presencial.
+                    </p>
+                    <p class="text-xs text-slate-800 font-semibold bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <span class="text-emerald-800 font-bold uppercase tracking-wider text-[11px] block mb-0.5">&check; Gabarito Certo</span>
+                        A inversão <mark class="highlight-green">potencializa o tempo presencial</mark>, liberando o momento de sala para mediação em atividades de alta complexidade cognitiva, debates e práticas colaborativas.
+                    </p>
+                </div>
+
+                <!-- Peguinha 6 -->
+                <div class="p-4 rounded-lg border border-slate-300 bg-white">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                        6. Peguinha da Avaliação Exclusivamente Somativa
+                    </h3>
+                    <p class="text-xs text-slate-700 mb-2">
+                        <strong class="text-red-700 font-bold">Armadilha da Banca:</strong> Manter a sistemática de avaliação estritamente somativa (prova pontual no final do ciclo) ao adotar metodologias ativas.
+                    </p>
+                    <p class="text-xs text-slate-800 font-semibold bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <span class="text-emerald-800 font-bold uppercase tracking-wider text-[11px] block mb-0.5">&check; Gabarito Certo</span>
+                        Metodologias ativas exigem <mark class="highlight-green">avaliação formativa, diagnóstica, processual e autoavaliação</mark>, acompanhando o desenvolvimento das competências e habilidades ao longo do processo.
+                    </p>
+                </div>
+
+                <!-- Peguinha 7 -->
+                <div class="p-4 rounded-lg border border-slate-300 bg-white">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                        7. Peguinha do "Ativismo Estéril / Atividades sem Fim Pedagógico"
+                    </h3>
+                    <p class="text-xs text-slate-700 mb-2">
+                        <strong class="text-red-700 font-bold">Armadilha da Banca:</strong> Confundir "aluno ativo" com simples movimentação física ou tarefas dinâmicas desprovidas de intencionalidade pedagógica.
+                    </p>
+                    <p class="text-xs text-slate-800 font-semibold bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <span class="text-emerald-800 font-bold uppercase tracking-wider text-[11px] block mb-0.5">&check; Gabarito Certo</span>
+                        A atitutde ativa principal é <mark class="highlight-green">cognitiva e reflexiva</mark> (metacognição, análise, síntese e crítica), e não mera agitação motora ou lúdica.
+                    </p>
+                </div>
+
+                <!-- Peguinha 8 -->
+                <div class="p-4 rounded-lg border border-slate-300 bg-white">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                        8. Peguinha do Laissez-Faire e Desestruturação Curricular
+                    </h3>
+                    <p class="text-xs text-slate-700 mb-2">
+                        <strong class="text-red-700 font-bold">Armadilha da Banca:</strong> Sugerir que o protagonismo estudantil implica que os estudantes decidem livremente o currículo sem diretrizes formais.
+                    </p>
+                    <p class="text-xs text-slate-800 font-semibold bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <span class="text-emerald-800 font-bold uppercase tracking-wider text-[11px] block mb-0.5">&check; Gabarito Certo</span>
+                        A autonomia do aluno é construída com <mark class="highlight-green">mediação e andaime pedagógico (scaffolding)</mark> do docente, respeitando os objetivos previstos no Projeto Pedagógico de Curso (PPC).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. APLICAÇÃO PRÁTICA NAS DISCIPLINAS DE INFORMÁTICA (IFSC) -->
+        <section id="informatica" class="bg-white rounded-xl border border-slate-300 p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-extrabold text-slate-900 border-b border-slate-200 pb-3 mb-6 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-emerald-700 text-white inline-flex items-center justify-center text-sm font-bold">6</span>
+                Aplicação Prática no Ensino de Informática EBTT (IFSC)
+            </h2>
+
+            <p class="text-sm text-slate-700 mb-4 leading-relaxed">
+                Mapeamento direto de como abordar as metodologias ativas no plano de aula e na prova de desempenho didático do IFSC para os eixos do concurso de Informática:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <!-- Programação e Algoritmos -->
+                <div class="p-4 bg-white rounded-lg border border-slate-300">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 text-emerald-900 border-b border-slate-200 pb-1">
+                        Algoritmos & Programação de Computadores
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed mb-2">
+                        • <strong>Peer Instruction (Instrução por Pares):</strong> Testes conceituais curtos sobre ponteiros, escopo de variáveis ou estruturas de repetição, seguidos de debate entre duplas de estudantes.
+                    </p>
+                    <p class="text-slate-700 leading-relaxed">
+                        • <strong>PBL:</strong> Apresentação de um código com falhas de lógica/desempenho para que os alunos diagnostiquem o bug e proponham a refatoração.
+                    </p>
+                </div>
+
+                <!-- Engenharia de Software -->
+                <div class="p-4 bg-white rounded-lg border border-slate-300">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 text-emerald-900 border-b border-slate-200 pb-1">
+                        Engenharia de Software & Sistemas Web
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed mb-2">
+                        • <strong>ABProj + Metodologias Ágeis:</strong> Desenvolvimento de um software real ao longo do semestre para atender a um setor do próprio IFSC ou comunidade externa, utilizando Scrum/Kanban.
+                    </p>
+                    <p class="text-slate-700 leading-relaxed">
+                        • Articulação com a <mark class="highlight-green">Formação Integral</mark> e atendimento de demandas sociais locais.
+                    </p>
+                </div>
+
+                <!-- Redes e Segurança -->
+                <div class="p-4 bg-white rounded-lg border border-slate-300">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 text-emerald-900 border-b border-slate-200 pb-1">
+                        Redes de Computadores & Segurança da Informação
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed mb-2">
+                        • <strong>PBL / Estudo de Caso:</strong> Simulação de um ataque cibernético ou queda de infraestrutura em uma empresa fictícia.
+                    </p>
+                    <p class="text-slate-700 leading-relaxed">
+                        • Os estudantes devem investigar os logs, identificar a vulnerabilidade e elaborar o plano de contingência e reconfiguração de firewall.
+                    </p>
+                </div>
+
+                <!-- Hardware, Robótica e IoT -->
+                <div class="p-4 bg-white rounded-lg border border-slate-300">
+                    <h3 class="font-bold text-slate-900 text-sm mb-1.5 text-emerald-900 border-b border-slate-200 pb-1">
+                        Hardware, IoT & Cultura Maker
+                    </h3>
+                    <p class="text-slate-700 leading-relaxed mb-2">
+                        • <strong>Arco de Maguerez + Prototipagem:</strong> Observação de um problema de automação agrícola local &rarr; Formulação de hipóteses &rarr; Construção de protótipo com Arduino/ESP32.
+                    </p>
+                    <p class="text-slate-700 leading-relaxed">
+                        • Conexão direta com o princípio constitucional de <mark class="highlight-blue">Indissociabilidade entre Ensino, Pesquisa e Extensão</mark>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. CHECKLIST MNEMÔNICO PARA RETA FINAL DE ESTUDOS -->
+        <section class="bg-emerald-50/60 rounded-xl border border-emerald-300 p-6 md:p-8 mb-10">
+            <h2 class="text-lg font-extrabold text-emerald-950 mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Checklist Mnemônico para Revisão na Véspera da Prova
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                <div class="p-3 bg-white rounded border border-emerald-200">
+                    <span class="font-extrabold text-emerald-900 block mb-1">Gatilho Ausubel:</span>
+                    Subsunçor = Estrutura Prévia / Âncora Cognitiva.
+                </div>
+                <div class="p-3 bg-white rounded border border-emerald-200">
+                    <span class="font-extrabold text-emerald-900 block mb-1">Gatilho PBL:</span>
+                    Problema Mal Estruturado &rarr; Processo Intelectual.
+                </div>
+                <div class="p-3 bg-white rounded border border-emerald-200">
+                    <span class="font-extrabold text-emerald-900 block mb-1">Gatilho ABProj:</span>
+                    Projeto &rarr; Artefato Tangível / Produto Final.
+                </div>
+                <div class="p-3 bg-white rounded border border-emerald-200">
+                    <span class="font-extrabold text-emerald-900 block mb-1">Gatilho Maguerez:</span>
+                    Problematização &rarr; Práxis / Transformação Social.
+                </div>
+                <div class="p-3 bg-white rounded border border-emerald-200">
+                    <span class="font-extrabold text-emerald-900 block mb-1">Gatilho Saviani:</span>
+                    Politecnia = Fundamentos Científicos do Trabalho.
+                </div>
+                <div class="p-3 bg-white rounded border border-emerald-200">
+                    <span class="font-extrabold text-emerald-900 block mb-1">Gatilho EPT:</span>
+                    Trabalho = Princípio Educativo e Matriz Ontológica.
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Area: Link to Questions Page -->
+        <div class="no-print bg-white rounded-xl border border-slate-300 p-6 md:p-8 text-center shadow-xs">
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Pronto para testar seus conhecimentos e fixar o conteúdo?</h3>
+            <p class="text-slate-600 text-sm mb-5">Acesse o banco de questões objetivas focadas no estilo de cobrança da Banca FAURGS.</p>
+            
+            <a href="questoes17.html" 
+               class="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm rounded-lg shadow-sm transition-all duration-200 transform hover:-translate-y-0.5">
+                <span>Ir para Questões de Fixação</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-5xl mx-auto px-4 mt-8 text-center text-xs text-slate-500 no-print">
+        <p>Material de Estudo Dirigido para o Concurso de Professor EBTT - Instituto Federal de Santa Catarina (IFSC) | Banca FAURGS</p>
+    </footer>
+
+</body>
+</html>
